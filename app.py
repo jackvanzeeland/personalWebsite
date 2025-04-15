@@ -16,7 +16,7 @@ projects = [
         'title': 'Wordle Algorithm Solver',
         'description': 'Built an algorithm that recommends the optimal next guess in Wordle based on previous outcomes, competing against my manual attempts. The algorithm outperformed or tied with me in 87% of games (46/53), showcasing its strategic efficiency.',
         'technologies': ['Python', 'Web Scraping', 'Regex'],
-        'github_link': 'https://github.com/yourusername/project1',
+        'github_link': None,
         'image': 'wordleMain.png',
         'page': 'wordle'
     },
@@ -24,7 +24,7 @@ projects = [
         'title': 'Budgeting Automation',
         'description': 'Developed an automation bot that scans an email account for bank statements, downloads the statement, and parses the data into an Excel sheet stored in Office 365. This tool streamlines budgeting across multiple bank accounts by tracking dates, purchase descriptions, and amounts in one central location.',
         'technologies': ['UiPath', 'Automation', 'Data Manipulation'],
-        'github_link': 'https://github.com/yourusername/project2',
+        'github_link': None,
         'image': 'budgetingMain.jpeg',
         'page': None
     },
@@ -32,15 +32,15 @@ projects = [
         'title': 'Basketball Linup Optimization',
         'description': 'Developed a process for a friend that is a basketball coach that analyzes basketball game data by tracking points scored and allowed for each lineup throughout the game. The tool then groups combinations of size 2, 3, 4, and 5 to identify the most effective lineups, helping optimize team performance.',
         'technologies': ['R Programming', 'Problem Solving', 'Data Manipulation'],
-        'github_link': 'https://github.com/yourusername/project3',
+        'github_link': None,
         'image': 'basketballMain.jpeg',
-        'page': 'basketball'
+        'page': None
     },
     {
         'title': 'Partner Matching',
         'description': 'Developed a Secret Santa partner-matching program in Python that ensures no one selects themselves and provides a private interface for users to view their match. This streamlined the process for holiday gift exchanges while maintaining confidentiality.',
         'technologies': ['Python', 'Problem Solving'],
-        'github_link': 'https://github.com/yourusername/project4',
+        'github_link': None, 
         'image': 'partnerMatchingMain.jpeg',
         'page': 'matching'
     },
@@ -48,15 +48,24 @@ projects = [
         'title': 'Super Bowl Competition',
         'description': 'Created a system for a Super Bowl prop bet competition, where participants ranked their confidence in 20 prop outcomes. The tool validated confidence values compared predictions to real results and calculated each participant\'s score to determine the winner.',
         'technologies': ['Python', 'Creative'],
-        'github_link': 'https://github.com/yourusername/project5',
+        'github_link': None,
         'image': 'superBowlMain.jpeg',
-        'page': 'superbowl'
+        'page': None
+    },
+    {
+        'title': 'Reddit Stories',
+        'description': 'Content creation for reddit stories',
+        'technologies': ['Python', 'YouTube', 'TikTok'],
+        'youtube_link': 'https://www.youtube.com/@redditStories_JVZ',
+        'tiktok_link': 'https://www.tiktok.com/@redditstories_jvz',
+        'image': 'redditStories.jpeg',
+        'page': None
     },
     {
         'title': 'Nebula - Personal Assistant',
         'description': 'IN PROGRESS',
         'technologies': ['Python', 'Generative AI'],
-        'github_link': 'https://github.com/yourusername/project6',
+        'github_link': None,
         'image': 'nebulaMain.jpg',
         'page': None
     }
