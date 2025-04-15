@@ -58,7 +58,7 @@ projects = [
         'technologies': ['Python', 'YouTube', 'TikTok'],
         'youtube_link': 'https://www.youtube.com/@redditStories_JVZ',
         'tiktok_link': 'https://www.tiktok.com/@redditstories_jvz',
-        'image': 'redditStories.jpeg',
+        'image': 'redditStoriesMain.jpeg',
         'page': None
     },
     {
