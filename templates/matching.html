@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Secret Santa Matching{% endblock %}
+
+{% block content %}
+<div class="secret-santa-container">
+    <header class="secret-santa-header">
+        <h1>🎅 Secret Santa Matching 🎄</h1>
+    </header>
+
+    <section class="secret-santa-instructions">
+        <h3>How it works:</h3>
+        <ol>
+            <li>Enter all participant names separated by commas</li>
+            <li>Click "Generate Secret Santa" to create the matches</li>
+            <li>Each person can then select their name to see who they're buying for</li>
+        </ol>
+    </section>
+
+    <section class="secret-santa-form-section">
+        <form method="POST" action="{{ url_for('matching') }}" id="names-form" class="secret-santa-form">
+            <div class="form-group">
+                <label for="names">Enter Names (comma separated):</label>
+                <input type="text" 
+                       id="names" 
+                       name="names" 
+                       value="{{ names|join(', ') if names else '' }}" 
+                       placeholder="e.g., John, Mary, Bob, Alice"
+                       required
+                       pattern="^[A-Za-z\s]+(,[A-Za-z\s]+)*$"
+                       title="Please enter names separated by commas"
+                       class="secret-santa-input">
+            </div>
+            <button type="submit" class="btn-generate">Generate Secret Santa</button>
+        </form>
+    </section>
+
+    {% if results %}
+        <section class="match-section">
+            <h2>Find Your Secret Santa Match</h2>
+            <form method="POST" action="{{ url_for('matching') }}" id="match-form" class="secret-santa-form">
+                <div class="form-group">
+                    <label for="person">Select your name:</label>
+                    <select name="person" id="person" class="secret-santa-select">
+                        <option value="">Choose your name</option>
+                        {% for name in results.keys()|sort %}
+                            <option value="{{ name }}" {% if name == selected_person %}selected{% endif %}>
+                                {{ name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn-show-match">Show My Match</button>
+                    <button type="button"  class="btn-hide-match" id="hideResults">Hide Results</button>
+                </div>
+            </form>
+
+            {% if selected_person and selected_person != "Choose your name" %}
+            <div class="match-result" id="matchResult">
+                <h3>Your Secret Santa Match</h3>
+                <p>{{ selected_person }}, you will be getting a gift for: <strong>{{ results[selected_person] }}</strong></p>
+            </div>
+            {% endif %}
+        </section>
+
+        {% if names %}
+        <form method="POST" action="{{ url_for('reset_list') }}" id="reset-form" class="reset-form">
+            <button type="submit" class="btn-clear" onclick="return confirm('Are you sure you want to clear all matches?')">
+                Clear List
+            </button>
+        </form>
+        {% endif %}
+    {% endif %}
+
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("Page loaded");
+
+        // Handle form submission for hiding results
+        document.getElementById("hideResults")?.addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent form submission to stop page reload
+            const matchResult = document.getElementById("matchResult");
+            if (matchResult) {
+                matchResult.style.display = matchResult.style.display === "none" ? "block" : "none";
+            }
+        });
+
+        // Ensure form validation before submission
+        document.getElementById('names-form')?.addEventListener('submit', function (e) {
+            const names = document.getElementById('names').value.split(',').map(n => n.trim());
+            if (names.length < 2) {
+                e.preventDefault();
+                console.log("Enter 2 names");
+                alert('Please enter at least 2 names');
+            }
+            if (new Set(names).size !== names.length) {
+                e.preventDefault();
+                alert('Please ensure all names are unique');
+            }
+        });
+    });
+</script>
+{% endblock %}

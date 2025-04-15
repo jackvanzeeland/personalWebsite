@@ -1,0 +1,66 @@
+<!-- templates/about.html -->
+{% extends "base.html" %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+<h1>About Me</h1>
+<div class="row">
+    <div class="col-md-8">
+        <p>I'm a driven student pursuing dual degrees in Data Science and Finance at UW-Madison, drawn to its exceptional employment rate and close-knit community. Passionate about numbers and creating value, I believe the intersection of Data Science and Finance presents a powerful opportunity for impact. With a strong academic background in relevant courses, including programming, modeling, analytics, finance, and accounting, I'm equipped to tackle complex challenges. Beyond academics, I aim to play a key role in the Data Science Club, honing my leadership skills. As graduation nears, I'm focused on securing a professional position as a data or financial analyst to drive data-informed decisions and propel businesses forward.</p>
+        
+        <h2>Skills</h2>
+        <div class="skills-grid">
+            <span class="skill-badge">UiPath</span>
+            <span class="skill-badge">VB.Net</span>
+            <span class="skill-badge">SQL</span>
+            <span class="skill-badge">Python</span>
+            <span class="skill-badge">R Programming</span>
+            <span class="skill-badge">Azure DevOps</span>
+            <span class="skill-badge">Excel</span>
+            <span class="skill-badge">Microsoft Copilot</span>
+            <span class="skill-badge">Data Analysis</span>
+            <span class="skill-badge">Generative AI</span>
+            <span class="skill-badge">HTML</span>
+            <span class="skill-badge">CSS</span>
+        </div>
+
+        <h2>Resume</h2>
+        <div class="resume-section mb-4">
+            <p>Download my complete resume to learn more about my experience and qualifications.</p>
+            <a href="{{ url_for('static', filename='files/resume.pdf') }}" 
+               class="btn btn-primary btn-lg" 
+               target="_blank"
+               onclick="trackResumeDownload()">
+                <i class="fas fa-download me-2"></i>Download Resume
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="profile-container">
+            <div class="profile-image-container">
+                <img src="{{ url_for('static', filename='images/profile.jpg') }}" 
+                     alt="Jack Van Zeeland Profile Picture" 
+                     class="profile-image img-fluid rounded">
+            </div>
+
+            <div class="contact-info">
+                <h2>Contact</h2>
+                <p><strong>Email:</strong> jack.vanzeeland@outlook.com</p>
+                <p><strong>Phone:</strong> (920) 883-0243</p>
+                <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/">Jack Van Zeeland</a></p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/jackvanzeeland">github.com/jackvanzeeland</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function trackResumeDownload() {
+    console.log("Resume download clicked");
+    // Implement tracking analytics event if needed
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Portfolio - Home{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">My Projects</h1>
+<div class="row">
+    {% for project in projects %}
+    <div class="col-md-6 col-lg-4 mb-4"> <!-- Two columns on medium screens, three on large screens -->
+        <div class="card h-100">
+            {% if project.image %}
+            <img src="{{ url_for('static', filename='images/' + project.image) }}" class="card-img-top" alt="{{ project.title }}">
+            {% endif %}
+            <div class="card-body">
+                <!-- Only the title and description are inside the anchor tag -->
+                {% if project.page %}
+                    <a class="clickable" href="{{ url_for(project.page) }}">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description }}</p>
+                    </a>
+                {% else %}
+                    <div>
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description }}</p>
+                    </div>
+                {% endif %}
+
+                <!-- Technologies badges (no hyperlink) -->
+                <div class="mb-2">
+                    {% for tech in project.technologies %}
+                    <span class="badge rounded-pill bg-dark text-white">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- GitHub and Live Demo buttons (no hyperlink) -->
+                <a href="{{ project.github_link }}" class="btn btn-primary text-white" target="_blank">GitHub</a>
+                {% if project.live_demo %}
+                <a href="{{ project.live_demo }}" class="btn btn-secondary text-white" target="_blank">Live Demo</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

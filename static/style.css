@@ -1,0 +1,365 @@
+/* ====== GENERAL LAYOUT ====== */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* ====== PROFILE SECTION ====== */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-image-container {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.profile-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.02);
+}
+
+/* ====== CONTACT INFO ====== */
+.contact-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.contact-info p {
+    margin: 5px 0;
+}
+
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* ====== SKILLS SECTION ====== */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.skill-badge {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ====== RESUME SECTION ====== */
+.resume-section {
+    background-color: #faf8f8;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.resume-section .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ====== BUTTONS & BADGES ====== */
+.btn {
+    margin-right: 0.5rem;
+}
+
+.badge {
+    font-size: 0.8rem;
+}
+
+/* ====== CARD IMAGE (For Other Sections) ====== */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* ====== RESPONSIVE DESIGN ====== */
+@media (max-width: 768px) {
+    .profile-image-container {
+        max-width: 300px;
+        margin: 0 auto 20px auto;
+    }
+
+    .contact-info {
+        width: 100%;
+    }
+}
+
+/* ====== CLICKABLE ELEMENTS ====== */
+.clickable {
+    display: block;
+    text-decoration: none; /* Remove underline from the entire clickable area */
+    color: inherit; /* Ensure text inherits color from the card body */
+}
+
+/* Ensure that the text (title and description) inside the clickable area does not show the link styles */
+.clickable h5,
+.clickable p {
+    color: inherit; /* Inherit color from parent, ensuring no blue link */
+    text-decoration: none; /* Remove the underline if any */
+}
+
+.clickable:hover h5,
+.clickable:hover p {
+    color: inherit; /* Prevent any color change on hover */
+}
+
+/* Prevent any color change on hover for the entire clickable area */
+.clickable:hover {
+    color: inherit; /* Prevent any color change on hover for the link */
+}
+
+/* Adjust the rest of the card content (tech badges, buttons) */
+.card-body .badge,
+.card-body .btn {
+    color: inherit; /* Ensure they are not affected by the link styles */
+}
+
+
+/* ====== WORDLE SECTION ====== */
+.wordle-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: auto;
+}
+
+.wordle-row {
+    height: 60px; /* Ensures each row is tall enough */
+}
+
+.wordle-box-green, 
+.wordle-box-yellow, 
+.wordle-box-grey {
+    color: white;
+    width: 30px;
+    height: 60px;
+    border: 1px solid rgb(0, 0, 0);
+    text-align: center;
+    font-weight: bold;
+    line-height: 60px; /* Centers the text vertically */
+    border-radius: 5px;
+    font-size: 40px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.wordle-box-green {
+    background-color: #4dd635;
+}
+
+.wordle-box-yellow {
+    background-color: #eef738;
+}
+
+.wordle-box-grey {
+    background-color: #c3c0c0;
+}
+
+
+/* Secret Santa Styles */
+.secret-santa-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.secret-santa-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.secret-santa-header h1 {
+    color: #c41e3a;
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.secret-santa-instructions {
+    background-color: #fff3e0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border-left: 5px solid #ff9800;
+}
+
+.secret-santa-instructions h3 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+.secret-santa-instructions ol {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.secret-santa-form-section {
+    margin-bottom: 2rem;
+}
+
+.secret-santa-form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.secret-santa-input,
+.secret-santa-select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn-generate,
+.btn-show-match {
+    background-color: #c41e3a;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-generate:hover,
+.btn-show-match:hover {
+    background-color: #a01830;
+}
+
+.btn-clear {
+    background-color: #95a5a6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-clear:hover {
+    background-color: #7f8c8d;
+}
+
+.match-section {
+    margin-top: 2rem;
+}
+
+.match-section h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.match-result {
+    background-color: #e8f5e9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border-left: 5px solid #4caf50;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.match-result h3 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    border-left: 5px solid #c62828;
+}
+
+.reset-form {
+    margin-top: 1.5rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .secret-santa-container {
+        margin: 1rem auto;
+    }
+
+    .secret-santa-header h1 {
+        font-size: 2rem;
+    }
+
+    .secret-santa-form {
+        padding: 1rem;
+    }
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Hide results button */
+.btn-hide-match {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-hide-match:hover {
+    background-color: #5a6268;
+}
