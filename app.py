@@ -54,8 +54,8 @@ projects = [
     },
     {
         'title': 'Reddit Stories',
-        'description': 'Content creation for reddit stories',
-        'technologies': ['Python', 'YouTube', 'TikTok'],
+        'description': 'A curated blend of the most engaging stories from Reddit’s top subreddits, paired with entertaining gameplay, AI-generated narration and subtitles, all set to calming background music for a relaxing and immersive experience.',
+        'technologies': ['Python', 'Social Media', 'Content Creation'],
         'image': 'redditStoriesMain.jpeg',
         'page': 'redditStories'
     },
