@@ -56,8 +56,7 @@ projects = [
         'title': 'Reddit Stories',
         'description': 'Content creation for reddit stories',
         'technologies': ['Python', 'YouTube', 'TikTok'],
-        'youtube_link': 'https://www.youtube.com/@redditStories_JVZ',
-        'tiktok_link': 'https://www.tiktok.com/@redditstories_jvz',
+        'webpage_link': 'https://jackvanzeeland.github.io/redditStoriesApp/index.html',
         'image': 'redditStoriesMain.jpeg',
         'page': None
     },
