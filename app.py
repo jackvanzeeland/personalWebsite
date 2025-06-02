@@ -56,9 +56,8 @@ projects = [
         'title': 'Reddit Stories',
         'description': 'Content creation for reddit stories',
         'technologies': ['Python', 'YouTube', 'TikTok'],
-        'webpage_link': 'https://jackvanzeeland.github.io/redditStoriesApp/index.html',
         'image': 'redditStoriesMain.jpeg',
-        'page': None
+        'page': 'redditStories'
     },
     {
         'title': 'Nebula - Personal Assistant',
@@ -190,6 +189,10 @@ def superbowl():
 @app.route('/project/nebula')
 def nebula():
     return render_template("nebula.html", now=datetime.now)
+
+@app.route('/project/redditStories')
+def redditStories():
+    return redirect("https://jackvanzeeland.github.io/redditStoriesApp/index.html")
 
 # Start Flask app
 if __name__ == '__main__':
