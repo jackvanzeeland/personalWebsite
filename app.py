@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for,session
+from flask import Flask, render_template, request, redirect, url_for,session, jsonify
 from datetime import datetime
 from scripts.wordle import plot_key_values
 import json
@@ -15,10 +15,11 @@ projects = [
     {
         'title': 'Wordle Algorithm Solver',
         'description': 'Built an algorithm that recommends the optimal next guess in Wordle based on previous outcomes, competing against my manual attempts. The algorithm outperformed or tied with me in 87% of games (46/53), showcasing its strategic efficiency.',
-        'technologies': ['Python', 'Web Scraping', 'Regex'],
+        'technologies': ['Python', 'Regex'],
         'github_link': None,
         'image': 'wordleMain.png',
-        'page': 'wordle'
+        'page': 'wordle',
+        'is_interactive': True
     },
     {
         'title': 'Budgeting Automation',
@@ -26,7 +27,8 @@ projects = [
         'technologies': ['UiPath', 'Automation', 'Data Manipulation'],
         'github_link': None,
         'image': 'budgetingMain.jpeg',
-        'page': None
+        'page': 'budget',
+        'is_interactive': False
     },
     {
         'title': 'Basketball Linup Optimization',
@@ -34,15 +36,17 @@ projects = [
         'technologies': ['R Programming', 'Problem Solving', 'Data Manipulation'],
         'github_link': None,
         'image': 'basketballMain.jpeg',
-        'page': None
+        'page': 'basketball',
+        'is_interactive': False
     },
     {
-        'title': 'Partner Matching',
+        'title': 'Secret Santa Matching',
         'description': 'Developed a Secret Santa partner-matching program in Python that ensures no one selects themselves and provides a private interface for users to view their match. This streamlined the process for holiday gift exchanges while maintaining confidentiality.',
         'technologies': ['Python', 'Problem Solving'],
         'github_link': None, 
         'image': 'partnerMatchingMain.jpeg',
-        'page': 'matching'
+        'page': 'matching',
+        'is_interactive': True
     },
     {
         'title': 'Super Bowl Competition',
@@ -50,16 +54,18 @@ projects = [
         'technologies': ['Python', 'Creative'],
         'github_link': None,
         'image': 'superBowlMain.jpeg',
-        'page': None
+        'page': 'superbowl',
+        'is_interactive': False
     },
     {
         'title': 'Reddit Stories',
-        'description': 'Content creation for reddit stories',
+        'description': 'Developed an automated social media bot in Python that retrieved top daily Reddit stories, converted them to speech, and paired the audio with engaging Minecraft speed-run footage. The system generated subtitles from the audio, compiled both full-length and short-form videos, and uploaded them automatically. The project gained over 20 subscribers and 50,000 views before decommissioning.',
         'technologies': ['Python', 'YouTube', 'TikTok'],
         'youtube_link': 'https://www.youtube.com/@redditStories_JVZ',
         'tiktok_link': 'https://www.tiktok.com/@redditstories_jvz',
         'image': 'redditStories.jpeg',
-        'page': None
+        'page': None,
+        'is_interactive': False
     },
     {
         'title': 'Nebula - Personal Assistant',
@@ -67,7 +73,17 @@ projects = [
         'technologies': ['Python', 'Generative AI'],
         'github_link': None,
         'image': 'nebulaMain.jpg',
-        'page': None
+        'page': None,
+        'is_interactive': False
+    },
+    {
+        'title': 'Run Genius',
+        'description': 'IN PROGRESS',
+        'technologies': ['Gemini CLI', 'SwiftUI', 'XCode'],
+        'github_link': None,
+        'image': 'runGenius.png',
+        'page': None,
+        'is_interactive': False
     }
 ]
 
@@ -122,71 +138,72 @@ def basketball():
 def matching():
     log_text("Navigate to Matching")
     error = None
-    selected_person = request.form.get('person', '')
     names = session.get('names', [])
     results = session.get('results', {})
+    # Ensure results is always a JSON-serializable dictionary
+    if not isinstance(results, dict):
+        results = {}
 
     if request.method == 'POST':
-        names_input = request.form.get('names', '')
-        if names_input:
-            names = [name.strip() for name in names_input.split(',')]
-            log_text(f"Projects.Matching - got names input {names}")
-            if len(names) < 2:
-                error = "Please enter at least 2 names"
-            elif len(set(names)) != len(names):
-                error = "Please ensure all names are unique"
-            else:
-                results = secret_santa(names)
-                # Store in session
-                session['names'] = names
-                session['results'] = results
-        
-        # Handle showing match
-        if 'person' in request.form:
-            selected_person = request.form.get('person')
+        try:
+            names_input = request.form.get('names', '')
+            if names_input:
+                names = [name.strip() for name in names_input.split(',')]
+                log_text(f"Projects.Matching - got names input {names}")
+                if len(names) < 2:
+                    error = "Please enter at least 2 names"
+                elif len(set(names)) != len(names):
+                    error = "Please ensure all names are unique"
+                else:
+                    log_text("Calling secret_santa function...")
+                    results = secret_santa(names)
+                    log_text(f"secret_santa returned: {results}")
+                    # Store in session
+                    session['names'] = names
+                    session['results'] = results
+            log_text("Attempting to jsonify response...")
+            response = jsonify(results=results, names=names, error=error)
+            log_text("jsonify call completed. Returning response.")
+            return response
+        except Exception as e:
+            import traceback
+            error_message = str(e)
+            if app.debug:
+                error_message += "\n" + traceback.format_exc()
+            app.logger.error(f"Error processing matching request: {e}")
+            return jsonify(error=error_message), 500
 
+    # For GET requests or if POST request was not AJAX and fell through
     return render_template(
         "matching.html", 
         names=names, 
         results=results, 
         error=error,
-        selected_person=selected_person,
         now=datetime.now
     )
 
-@app.route('/project/matching/show-match', methods=['POST'])
-def show_match():
-    log_text("Navigate to matching show match")
-    selected_person = request.form.get('person', '')
-    # Get data from session
-    names = session.get('names', [])
-    results = session.get('results', {})
-    
-    return render_template(
-        "matching.html",
-        names=names,
-        results=results,
-        selected_person=selected_person,
-        now=datetime.now
-    )
+
 
 @app.route('/project/matching/clear', methods=['POST'])
 def clear_results():
     log_text("Navigate to Matching-Clear")
     # Clear the session
-    selected_person = ""
     session.clear()
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify(success=True)
     return redirect(url_for('matching'))
 
 @app.route('/project/matching/reset', methods=['POST'])
 def reset_list():
     log_text("Navigate to Matching-Reset")
     session.clear()
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify(success=True)
     return redirect(url_for('matching'))
 
 @app.route('/project/superbowl')
 def superbowl():
-    return render_template("superbowl.html")
+    return render_template("superbowl.html", now=datetime.now)
 
 @app.route('/project/nebula')
 def nebula():

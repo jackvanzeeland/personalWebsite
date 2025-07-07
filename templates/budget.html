@@ -1,11 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blank Page</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Budgeting Automation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="text-center mb-4">Budgeting Automation</h1>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Project Overview</h5>
+                    <p class="card-text">
+                        This project automates the process of tracking personal expenses from multiple bank accounts. It uses UiPath to monitor a designated email inbox for new bank statements from various banks, including BMO and Chase.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">How It Works</h5>
+                    <p class="card-text">
+                        The automation is triggered when a new email with a bank statement arrives. The process can be broken down into the following steps:
+                    </p>
+                    <ol class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>1. Email Monitoring:</strong> The UiPath robot continuously monitors the inbox for emails containing bank statements.</li>
+                        <li class="list-group-item"><strong>2. Statement Download:</strong> When a relevant email is detected, the robot downloads the attached bank statement (PDF).</li>
+                        <li class="list-group-item"><strong>3. Data Extraction:</strong> The robot reads the PDF statement and extracts each transaction, including the date, description, and amount.</li>
+                        <li class="list-group-item"><strong>4. Excel Integration:</strong> The extracted data is then written to a centralized Excel file, creating a unified record of all transactions.</li>
+                        <li class="list-group-item"><strong>5. Manual Analysis:</strong> With all transactions in one place, I can easily perform manual data analysis on my spending habits.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Process Diagram</h5>
+                    <div class="text-center">
+                        <pre class="mermaid">
+                            graph TD
+                                A[Email Inbox] -->|Monitors for bank statements| B(UiPath Robot);
+                                B -->|Detects statement| C{Download Statement};
+                                C -->|Extracts data| D[Line by Line Reading];
+                                D -->|Uploads data| E[Excel File];
+                                E -->|For manual analysis| F(Spending Habits Analysis);
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Technologies Used</h5>
+                    <ul>
+                        <li><strong>UiPath:</strong> For the core automation and email monitoring.</li>
+                        <li><strong>Microsoft Excel:</strong> As the central data store for transactions.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

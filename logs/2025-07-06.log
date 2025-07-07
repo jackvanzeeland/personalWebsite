@@ -1,0 +1,594 @@
+16:58:52:477 - Navigate to Home
+16:59:07:825 - Navigate to Project.Wordle
+16:59:08:018 - Navigate to Project.Wordle
+16:59:11:796 - Navigate to Project.Wordle
+16:59:11:800 - Projects.Wordle - Retrieved Word jack
+16:59:11:800 - Projects.Wordle - load wordleGuesses.json
+16:59:15:897 - Navigate to Project.Wordle
+16:59:20:396 - Navigate to Home
+17:07:38:084 - Navigate to Home
+17:12:40:127 - Navigate to Home
+17:12:45:447 - Navigate to Project.Wordle
+17:14:16:839 - Navigate to Home
+17:15:26:038 - Navigate to Project.Wordle
+17:15:45:416 - Navigate to Project.Wordle
+17:16:53:403 - Navigate to Project.Wordle
+17:17:04:235 - Navigate to Project.Wordle
+17:17:04:237 - Projects.Wordle - Retrieved Word tacos
+17:17:04:237 - Projects.Wordle - load wordleGuesses.json
+17:17:05:034 - Projects.Wordle - Guesses: ['arose', 'iotas', 'tacos']
+17:17:05:035 - Projects.Wordle - load remaining.json
+17:17:05:775 - Projects.Wordle - Creating plot for tacos
+17:17:06:474 - Projects.Wordle - Plot saved as static/images/remaining.png
+17:17:33:507 - Navigate to Project.Wordle
+17:18:25:192 - Navigate to Home
+17:19:23:280 - Navigate to Home
+17:19:27:681 - Navigate to Matching
+17:20:06:141 - Navigate to Matching
+17:20:06:911 - Navigate to Matching
+17:20:08:732 - Navigate to Home
+17:20:32:040 - Navigate to Matching
+17:21:30:991 - Navigate to Matching
+17:21:47:961 - Navigate to Matching
+17:21:47:962 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted', '']
+17:21:47:962 - Project.Matching - Retrieving secret santa matches
+17:21:47:963 - Project.Matching - Retrieved matching
+17:21:52:315 - Navigate to Matching
+17:22:07:300 - Navigate to Matching
+17:24:37:864 - Navigate to Home
+17:26:34:331 - Navigate to Matching
+17:26:39:342 - Navigate to Matching
+17:26:39:343 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted', '']
+17:26:39:344 - Project.Matching - Retrieving secret santa matches
+17:26:39:344 - Project.Matching - Retrieved matching
+17:26:52:558 - Navigate to Matching
+17:26:52:559 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted', '']
+17:26:52:559 - Project.Matching - Retrieving secret santa matches
+17:26:52:559 - Project.Matching - Retrieved matching
+17:26:55:171 - Navigate to Matching
+17:26:55:173 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:26:55:173 - Project.Matching - Retrieving secret santa matches
+17:26:55:173 - Project.Matching - Retrieved matching
+17:27:02:808 - Navigate to Matching-Reset
+17:27:02:811 - Navigate to Matching
+17:27:17:331 - Navigate to Matching
+17:27:17:332 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:27:17:332 - Project.Matching - Retrieving secret santa matches
+17:27:17:333 - Project.Matching - Retrieved matching
+17:29:22:561 - Navigate to Matching
+17:29:22:564 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:29:22:564 - Project.Matching - Retrieving secret santa matches
+17:29:22:564 - Project.Matching - Retrieved matching
+17:29:23:663 - Navigate to Matching
+17:29:23:664 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:29:23:665 - Project.Matching - Retrieving secret santa matches
+17:29:23:665 - Project.Matching - Retrieved matching
+17:29:43:482 - Navigate to Matching
+17:29:43:486 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:29:43:487 - Project.Matching - Retrieving secret santa matches
+17:29:43:487 - Project.Matching - Retrieved matching
+17:30:08:126 - Navigate to Matching
+17:30:08:127 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:30:08:128 - Project.Matching - Retrieving secret santa matches
+17:30:08:128 - Project.Matching - Retrieved matching
+17:32:11:892 - Navigate to Matching
+17:32:11:896 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:32:11:896 - Project.Matching - Retrieving secret santa matches
+17:32:11:896 - Project.Matching - Retrieved matching
+17:32:24:115 - Navigate to Home
+17:32:29:212 - Navigate to Matching
+17:32:32:642 - Navigate to Matching
+17:33:10:059 - Navigate to Matching
+17:33:22:179 - Navigate to Matching
+17:34:27:549 - Navigate to Home
+17:34:30:878 - Navigate to Matching
+17:34:34:137 - Navigate to Matching
+17:36:53:684 - Navigate to Matching
+17:36:55:179 - Navigate to Matching
+17:38:00:624 - Navigate to Home
+17:38:07:083 - Navigate to Matching
+17:38:14:328 - Navigate to Matching
+17:39:18:584 - Navigate to Matching
+17:39:23:653 - Navigate to Home
+17:39:26:509 - Navigate to Matching
+17:42:54:956 - Navigate to Matching
+17:42:58:531 - Navigate to Matching
+17:42:58:533 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:42:58:533 - Project.Matching - Retrieving secret santa matches
+17:42:58:533 - Project.Matching - Retrieved matching
+17:43:00:779 - Navigate to Matching
+17:43:00:780 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:43:00:780 - Project.Matching - Retrieving secret santa matches
+17:43:00:781 - Project.Matching - Retrieved matching
+17:43:03:401 - Navigate to Matching
+17:43:03:402 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:43:03:403 - Project.Matching - Retrieving secret santa matches
+17:43:03:404 - Project.Matching - Retrieved matching
+17:43:10:403 - Navigate to Matching
+17:43:10:404 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:43:10:405 - Project.Matching - Retrieving secret santa matches
+17:43:10:405 - Project.Matching - Retrieved matching
+17:43:18:030 - Navigate to Matching
+17:43:18:032 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:43:18:032 - Project.Matching - Retrieving secret santa matches
+17:43:18:032 - Project.Matching - Retrieved matching
+17:49:28:647 - Navigate to Matching
+17:49:28:649 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:49:28:650 - Project.Matching - Retrieving secret santa matches
+17:49:28:650 - Project.Matching - Retrieved matching
+17:49:30:422 - Navigate to Matching
+17:49:30:425 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:49:30:425 - Project.Matching - Retrieving secret santa matches
+17:49:30:425 - Project.Matching - Retrieved matching
+17:49:34:205 - Navigate to Matching
+17:49:34:207 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:49:34:207 - Project.Matching - Retrieving secret santa matches
+17:49:34:207 - Project.Matching - Retrieved matching
+17:49:35:190 - Navigate to Home
+17:49:38:954 - Navigate to Matching
+17:49:41:120 - Navigate to Matching
+17:49:41:122 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:49:41:122 - Project.Matching - Retrieving secret santa matches
+17:49:41:123 - Project.Matching - Retrieved matching
+17:50:31:330 - Navigate to Matching
+17:50:31:332 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:50:31:332 - Project.Matching - Retrieving secret santa matches
+17:50:31:333 - Project.Matching - Retrieved matching
+17:52:46:929 - Navigate to Home
+17:52:49:412 - Navigate to Matching
+17:52:51:240 - Navigate to Matching
+17:52:51:242 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:52:51:242 - Project.Matching - Retrieving secret santa matches
+17:52:51:242 - Project.Matching - Retrieved matching
+17:52:53:928 - Navigate to Matching
+17:52:53:929 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:52:53:929 - Project.Matching - Retrieving secret santa matches
+17:52:53:930 - Project.Matching - Retrieved matching
+17:55:20:787 - Navigate to Matching
+17:55:20:788 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:55:20:788 - Project.Matching - Retrieving secret santa matches
+17:55:20:788 - Project.Matching - Retrieved matching
+17:55:22:911 - Navigate to Home
+17:55:25:677 - Navigate to Matching
+17:55:27:982 - Navigate to Matching
+17:55:27:983 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:55:27:984 - Project.Matching - Retrieving secret santa matches
+17:55:27:984 - Project.Matching - Retrieved matching
+17:55:50:946 - Navigate to Matching
+17:55:50:948 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:55:50:948 - Project.Matching - Retrieving secret santa matches
+17:55:50:948 - Project.Matching - Retrieved matching
+17:55:53:678 - Navigate to Matching
+17:55:53:681 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:55:53:682 - Project.Matching - Retrieving secret santa matches
+17:55:53:682 - Project.Matching - Retrieved matching
+17:57:14:329 - Navigate to Matching
+17:57:14:331 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:57:14:331 - Project.Matching - Retrieving secret santa matches
+17:57:14:331 - Project.Matching - Retrieved matching
+17:57:16:089 - Navigate to Home
+17:57:19:850 - Navigate to Matching
+17:57:21:973 - Navigate to Matching
+17:57:21:975 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:57:21:976 - Project.Matching - Retrieving secret santa matches
+17:57:21:976 - Project.Matching - Retrieved matching
+17:58:08:391 - Navigate to Matching
+17:58:08:393 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:58:08:393 - Project.Matching - Retrieving secret santa matches
+17:58:08:394 - Project.Matching - Retrieved matching
+17:58:10:840 - Navigate to Matching
+17:58:10:842 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:58:10:842 - Project.Matching - Retrieving secret santa matches
+17:58:10:842 - Project.Matching - Retrieved matching
+17:58:15:669 - Navigate to Matching
+17:58:15:670 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:58:15:670 - Project.Matching - Retrieving secret santa matches
+17:58:15:670 - Project.Matching - Retrieved matching
+17:58:17:328 - Navigate to Matching
+17:58:17:330 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:58:17:330 - Project.Matching - Retrieving secret santa matches
+17:58:17:331 - Project.Matching - Retrieved matching
+17:59:38:448 - Navigate to Matching
+17:59:38:449 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:59:38:453 - Project.Matching - Retrieving secret santa matches
+17:59:38:453 - Project.Matching - Retrieved matching
+17:59:43:894 - Navigate to Matching
+17:59:43:895 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+17:59:43:896 - Project.Matching - Retrieving secret santa matches
+17:59:43:896 - Project.Matching - Retrieved matching
+18:00:34:375 - Navigate to Home
+18:00:36:912 - Navigate to Matching
+18:00:39:413 - Navigate to Matching
+18:00:39:415 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:00:39:415 - Project.Matching - Retrieving secret santa matches
+18:00:39:415 - Project.Matching - Retrieved matching
+18:01:34:678 - Navigate to Matching
+18:01:34:679 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:01:34:679 - Project.Matching - Retrieving secret santa matches
+18:01:34:679 - Project.Matching - Retrieved matching
+18:01:37:085 - Navigate to Home
+18:01:39:412 - Navigate to Matching
+18:01:43:611 - Navigate to Matching
+18:01:43:612 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:01:43:613 - Project.Matching - Retrieving secret santa matches
+18:01:43:613 - Project.Matching - Retrieved matching
+18:02:05:485 - Navigate to Matching
+18:02:05:486 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:02:05:487 - Project.Matching - Retrieving secret santa matches
+18:02:05:487 - Project.Matching - Retrieved matching
+18:03:58:890 - Navigate to Matching
+18:03:58:891 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:03:58:892 - Project.Matching - Retrieving secret santa matches
+18:03:58:892 - Project.Matching - Retrieved matching
+18:04:06:019 - Navigate to Matching
+18:04:36:341 - Navigate to Matching
+18:04:53:832 - Navigate to Matching
+18:04:54:367 - Navigate to Matching
+18:04:54:621 - Navigate to Matching
+18:05:04:140 - Navigate to Home
+18:05:09:861 - Navigate to Matching
+18:06:10:723 - Navigate to Matching
+18:06:15:305 - Navigate to Matching
+18:06:15:307 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:06:15:308 - Project.Matching - Retrieving secret santa matches
+18:06:15:308 - Project.Matching - Retrieved matching
+18:06:19:594 - Navigate to Matching
+18:06:19:595 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:06:19:596 - Project.Matching - Retrieving secret santa matches
+18:06:19:596 - Project.Matching - Retrieved matching
+18:06:24:587 - Navigate to Matching
+18:06:29:316 - Navigate to Matching
+18:06:29:318 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted', 'Kevin']
+18:06:29:319 - Project.Matching - Retrieving secret santa matches
+18:06:29:319 - Project.Matching - Retrieved matching
+18:08:31:582 - Navigate to Matching
+18:08:33:085 - Navigate to Matching
+18:08:33:087 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:08:33:087 - Project.Matching - Retrieving secret santa matches
+18:08:33:088 - Project.Matching - Retrieved matching
+18:08:37:145 - Navigate to Home
+18:08:39:378 - Navigate to Matching
+18:08:46:442 - Navigate to Matching-Clear
+18:08:54:918 - Navigate to Matching
+18:08:54:921 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:08:54:922 - Project.Matching - Retrieving secret santa matches
+18:08:54:922 - Project.Matching - Retrieved matching
+18:09:27:112 - Navigate to Matching
+18:09:27:114 - Projects.Matching - got names input ['Jack', 'Kevin', 'Riley', 'Tavon']
+18:09:27:114 - Project.Matching - Retrieving secret santa matches
+18:09:27:114 - Project.Matching - Retrieved matching
+18:09:42:963 - Navigate to Matching
+18:09:42:965 - Projects.Matching - got names input ['Jack', 'Kevin', 'Riley', 'Tavon']
+18:09:42:966 - Project.Matching - Retrieving secret santa matches
+18:09:42:966 - Project.Matching - Retrieved matching
+18:11:08:126 - Navigate to Home
+18:11:18:394 - Navigate to Matching
+18:11:23:376 - Navigate to Matching
+18:11:23:378 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:11:23:378 - Calling secret_santa function...
+18:11:23:378 - Project.Matching - Retrieving secret santa matches
+18:11:23:379 - Project.Matching - Retrieved matching
+18:11:23:379 - secret_santa returned: {'Lily': 'Marshall', 'Ted': 'Jack', 'Jack': 'Lily', 'Marshall': 'Ted'}
+18:11:23:379 - Attempting to jsonify response...
+18:13:09:923 - Navigate to Home
+18:13:29:226 - Navigate to Matching
+18:13:38:191 - Navigate to Matching
+18:13:38:193 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:13:38:193 - Calling secret_santa function...
+18:13:38:194 - Project.Matching - Retrieving secret santa matches
+18:13:38:194 - Project.Matching - Retrieved matching
+18:13:38:195 - secret_santa returned: {'Ted': 'Marshall', 'Lily': 'Ted', 'Jack': 'Lily', 'Marshall': 'Jack'}
+18:13:38:195 - Attempting to jsonify response...
+18:14:28:291 - Navigate to Matching
+18:14:28:293 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:14:28:293 - Calling secret_santa function...
+18:14:28:294 - Project.Matching - Retrieving secret santa matches
+18:14:28:294 - Project.Matching - Retrieved matching
+18:14:28:294 - secret_santa returned: {'Jack': 'Lily', 'Lily': 'Ted', 'Ted': 'Marshall', 'Marshall': 'Jack'}
+18:14:28:294 - Attempting to jsonify response...
+18:15:38:071 - Navigate to Matching
+18:16:01:053 - Navigate to Matching
+18:16:01:057 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:16:01:057 - Calling secret_santa function...
+18:16:01:058 - Project.Matching - Retrieving secret santa matches
+18:16:01:058 - Project.Matching - Retrieved matching
+18:16:01:058 - secret_santa returned: {'Ted': 'Jack', 'Marshall': 'Lily', 'Jack': 'Marshall', 'Lily': 'Ted'}
+18:16:01:059 - Attempting to jsonify response...
+18:18:01:708 - Navigate to Matching
+18:18:04:023 - Navigate to Matching
+18:18:04:026 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:04:026 - Calling secret_santa function...
+18:18:04:026 - Project.Matching - Retrieving secret santa matches
+18:18:04:027 - Project.Matching - Retrieved matching
+18:18:04:027 - secret_santa returned: {'Ted': 'Lily', 'Lily': 'Ted', 'Jack': 'Marshall', 'Marshall': 'Jack'}
+18:18:04:027 - Attempting to jsonify response...
+18:18:05:410 - Navigate to Matching
+18:18:05:411 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:05:412 - Calling secret_santa function...
+18:18:05:412 - Project.Matching - Retrieving secret santa matches
+18:18:05:412 - Project.Matching - Retrieved matching
+18:18:05:412 - secret_santa returned: {'Ted': 'Jack', 'Jack': 'Lily', 'Lily': 'Marshall', 'Marshall': 'Ted'}
+18:18:05:413 - Attempting to jsonify response...
+18:18:06:841 - Navigate to Matching
+18:18:06:843 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:06:844 - Calling secret_santa function...
+18:18:06:844 - Project.Matching - Retrieving secret santa matches
+18:18:06:844 - Project.Matching - Retrieved matching
+18:18:06:844 - secret_santa returned: {'Ted': 'Jack', 'Jack': 'Ted', 'Marshall': 'Lily', 'Lily': 'Marshall'}
+18:18:06:844 - Attempting to jsonify response...
+18:18:08:252 - Navigate to Matching
+18:18:09:189 - Navigate to Matching
+18:18:09:191 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:09:191 - Calling secret_santa function...
+18:18:09:192 - Project.Matching - Retrieving secret santa matches
+18:18:09:192 - Project.Matching - Retrieved matching
+18:18:09:192 - secret_santa returned: {'Jack': 'Ted', 'Ted': 'Marshall', 'Lily': 'Jack', 'Marshall': 'Lily'}
+18:18:09:192 - Attempting to jsonify response...
+18:18:09:623 - Navigate to Matching
+18:18:09:626 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:09:626 - Calling secret_santa function...
+18:18:09:626 - Project.Matching - Retrieving secret santa matches
+18:18:09:627 - Project.Matching - Retrieved matching
+18:18:09:627 - secret_santa returned: {'Jack': 'Marshall', 'Marshall': 'Jack', 'Lily': 'Ted', 'Ted': 'Lily'}
+18:18:09:627 - Attempting to jsonify response...
+18:18:09:885 - Navigate to Matching
+18:18:09:886 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:09:887 - Calling secret_santa function...
+18:18:09:887 - Project.Matching - Retrieving secret santa matches
+18:18:09:887 - Project.Matching - Retrieved matching
+18:18:09:888 - secret_santa returned: {'Jack': 'Lily', 'Lily': 'Marshall', 'Ted': 'Jack', 'Marshall': 'Ted'}
+18:18:09:888 - Attempting to jsonify response...
+18:18:20:495 - Navigate to Matching
+18:18:20:497 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:20:498 - Calling secret_santa function...
+18:18:20:498 - Project.Matching - Retrieving secret santa matches
+18:18:20:498 - Project.Matching - Retrieved matching
+18:18:20:501 - secret_santa returned: {'Jack': 'Ted', 'Lily': 'Jack', 'Marshall': 'Lily', 'Ted': 'Marshall'}
+18:18:20:502 - Attempting to jsonify response...
+18:18:20:642 - Navigate to Matching
+18:18:20:644 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:20:644 - Calling secret_santa function...
+18:18:20:645 - Project.Matching - Retrieving secret santa matches
+18:18:20:645 - Project.Matching - Retrieved matching
+18:18:20:645 - secret_santa returned: {'Lily': 'Ted', 'Marshall': 'Lily', 'Jack': 'Marshall', 'Ted': 'Jack'}
+18:18:20:645 - Attempting to jsonify response...
+18:18:20:805 - Navigate to Matching
+18:18:20:806 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:20:807 - Calling secret_santa function...
+18:18:20:807 - Project.Matching - Retrieving secret santa matches
+18:18:20:807 - Project.Matching - Retrieved matching
+18:18:20:807 - secret_santa returned: {'Lily': 'Jack', 'Jack': 'Ted', 'Ted': 'Marshall', 'Marshall': 'Lily'}
+18:18:20:808 - Attempting to jsonify response...
+18:18:20:983 - Navigate to Matching
+18:18:20:985 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:20:985 - Calling secret_santa function...
+18:18:20:985 - Project.Matching - Retrieving secret santa matches
+18:18:20:985 - Project.Matching - Retrieved matching
+18:18:20:986 - secret_santa returned: {'Ted': 'Marshall', 'Marshall': 'Lily', 'Lily': 'Jack', 'Jack': 'Ted'}
+18:18:20:986 - Attempting to jsonify response...
+18:18:21:280 - Navigate to Matching
+18:18:21:282 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:21:282 - Calling secret_santa function...
+18:18:21:283 - Project.Matching - Retrieving secret santa matches
+18:18:21:283 - Project.Matching - Retrieved matching
+18:18:21:283 - secret_santa returned: {'Lily': 'Marshall', 'Jack': 'Lily', 'Marshall': 'Ted', 'Ted': 'Jack'}
+18:18:21:283 - Attempting to jsonify response...
+18:18:21:467 - Navigate to Matching
+18:18:21:469 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:21:469 - Calling secret_santa function...
+18:18:21:469 - Project.Matching - Retrieving secret santa matches
+18:18:21:469 - Project.Matching - Retrieved matching
+18:18:21:470 - secret_santa returned: {'Jack': 'Marshall', 'Lily': 'Ted', 'Ted': 'Lily', 'Marshall': 'Jack'}
+18:18:21:470 - Attempting to jsonify response...
+18:18:21:638 - Navigate to Matching
+18:18:21:641 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:18:21:641 - Calling secret_santa function...
+18:18:21:642 - Project.Matching - Retrieving secret santa matches
+18:18:21:642 - Project.Matching - Retrieved matching
+18:18:21:642 - secret_santa returned: {'Lily': 'Jack', 'Marshall': 'Ted', 'Ted': 'Marshall', 'Jack': 'Lily'}
+18:18:21:642 - Attempting to jsonify response...
+18:19:42:131 - Navigate to Matching
+18:19:42:134 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+18:19:42:135 - Calling secret_santa function...
+18:19:42:135 - Project.Matching - Retrieving secret santa matches
+18:19:42:135 - Project.Matching - Retrieved matching
+18:19:42:135 - secret_santa returned: {'Lily': 'Marshall', 'Jack': 'Lily', 'Ted': 'Jack', 'Marshall': 'Ted'}
+18:19:42:136 - Attempting to jsonify response...
+18:19:42:136 - jsonify call completed. Returning response.
+18:19:54:860 - Navigate to Matching
+18:19:54:862 - Projects.Matching - got names input ['Jack', 'Ryan', 'Tyler']
+18:19:54:862 - Calling secret_santa function...
+18:19:54:862 - Project.Matching - Retrieving secret santa matches
+18:19:54:863 - Project.Matching - Retrieved matching
+18:19:54:863 - secret_santa returned: {'Ryan': 'Jack', 'Tyler': 'Ryan', 'Jack': 'Tyler'}
+18:19:54:863 - Attempting to jsonify response...
+18:19:54:864 - jsonify call completed. Returning response.
+18:20:05:223 - Navigate to Matching-Clear
+18:20:22:225 - Navigate to Home
+18:21:18:129 - Navigate to Home
+18:22:47:929 - Navigate to Home
+18:24:46:846 - Navigate to Home
+18:27:51:200 - Navigate to Home
+18:29:15:744 - Navigate to Home
+18:30:03:724 - Navigate to Home
+18:30:13:210 - Navigate to Home
+18:30:15:306 - Navigate to About
+18:31:05:315 - Navigate to Home
+18:32:00:779 - Navigate to Home
+18:35:25:042 - Navigate to Home
+18:36:09:568 - Navigate to Home
+18:37:24:485 - Navigate to Home
+18:37:46:610 - Navigate to Matching
+18:38:02:007 - Navigate to Matching
+18:38:02:009 - Projects.Matching - got names input ['Jack', 'Lily', 'Ryan', 'Steven']
+18:38:02:009 - Calling secret_santa function...
+18:38:02:009 - Project.Matching - Retrieving secret santa matches
+18:38:02:010 - Project.Matching - Retrieved matching
+18:38:02:010 - secret_santa returned: {'Ryan': 'Jack', 'Jack': 'Ryan', 'Steven': 'Lily', 'Lily': 'Steven'}
+18:38:02:010 - Attempting to jsonify response...
+18:38:02:011 - jsonify call completed. Returning response.
+18:38:17:690 - Navigate to Matching
+18:38:22:399 - Navigate to Home
+18:38:23:022 - Navigate to About
+18:43:55:132 - Navigate to Home
+18:52:09:208 - Navigate to Home
+19:04:27:539 - Navigate to Home
+19:04:28:468 - Navigate to Home
+19:06:57:769 - Navigate to Home
+19:06:58:699 - Navigate to Home
+19:07:09:320 - Navigate to Home
+19:07:09:842 - Navigate to Home
+19:07:10:410 - Navigate to Home
+19:07:11:001 - Navigate to Home
+19:07:11:633 - Navigate to Home
+19:07:12:399 - Navigate to Home
+19:07:31:828 - Navigate to Home
+19:07:32:402 - Navigate to Home
+19:08:46:393 - Navigate to Home
+19:08:46:963 - Navigate to Home
+19:09:23:715 - Navigate to Home
+19:09:24:356 - Navigate to Home
+19:09:24:924 - Navigate to Home
+19:09:25:682 - Navigate to Home
+19:09:26:301 - Navigate to Home
+19:09:26:943 - Navigate to Home
+19:09:28:194 - Navigate to Home
+19:09:28:429 - Navigate to Home
+19:09:28:685 - Navigate to Home
+19:09:28:904 - Navigate to Home
+19:09:29:109 - Navigate to Home
+19:09:29:321 - Navigate to Home
+19:09:29:551 - Navigate to Home
+19:09:29:783 - Navigate to Home
+19:09:30:009 - Navigate to Home
+19:09:30:230 - Navigate to Home
+19:09:30:470 - Navigate to Home
+19:11:07:598 - Navigate to Home
+19:11:08:212 - Navigate to Home
+19:12:10:708 - Navigate to Home
+19:12:11:792 - Navigate to Home
+19:12:17:933 - Navigate to Home
+19:13:20:589 - Navigate to Home
+19:13:21:342 - Navigate to Home
+19:13:39:855 - Navigate to Home
+19:14:03:366 - Navigate to Home
+19:14:03:810 - Navigate to Home
+19:14:34:473 - Navigate to Home
+19:14:35:039 - Navigate to Home
+19:14:35:491 - Navigate to Home
+19:14:35:687 - Navigate to Home
+19:14:35:860 - Navigate to Home
+19:14:36:041 - Navigate to Home
+19:14:36:220 - Navigate to Home
+19:14:36:406 - Navigate to Home
+19:14:36:587 - Navigate to Home
+19:14:36:754 - Navigate to Home
+19:14:36:949 - Navigate to Home
+19:14:47:139 - Navigate to Home
+19:14:47:939 - Navigate to Home
+19:14:48:850 - Navigate to About
+19:14:49:859 - Navigate to Home
+19:17:11:637 - Navigate to Home
+19:17:26:169 - Navigate to Home
+19:17:26:859 - Navigate to Home
+19:18:15:457 - Navigate to Home
+19:18:16:176 - Navigate to Home
+19:20:58:130 - Navigate to Home
+19:25:34:672 - Navigate to Home
+19:26:55:722 - Navigate to Home
+19:27:07:255 - Navigate to Home
+19:27:08:171 - Navigate to Home
+19:27:18:720 - Navigate to Home
+19:27:19:709 - Navigate to Home
+19:27:28:126 - Navigate to Home
+19:27:28:957 - Navigate to Home
+19:27:29:745 - Navigate to Home
+19:27:41:357 - Navigate to Home
+19:27:41:997 - Navigate to Home
+19:28:03:231 - Navigate to Home
+19:28:03:809 - Navigate to Home
+19:28:04:369 - Navigate to Home
+19:28:44:943 - Navigate to Home
+19:28:45:723 - Navigate to Home
+19:29:15:905 - Navigate to Home
+19:30:50:760 - Navigate to Home
+19:30:56:065 - Navigate to Home
+19:31:16:534 - Navigate to Home
+19:33:06:419 - Navigate to Home
+19:33:16:966 - Navigate to Home
+19:33:55:970 - Navigate to Home
+19:33:57:288 - Navigate to Project.Wordle
+19:34:10:312 - Navigate to Matching
+19:37:38:391 - Navigate to Home
+19:39:28:515 - Navigate to Home
+19:40:59:955 - Navigate to Home
+19:42:01:472 - Navigate to Home
+19:42:46:251 - Navigate to Home
+19:42:48:403 - Navigate to Home
+19:43:06:467 - Navigate to Home
+19:43:07:493 - Navigate to Home
+19:43:43:431 - Navigate to Home
+19:44:22:678 - Navigate to Home
+19:44:23:362 - Navigate to Home
+19:44:24:267 - Navigate to Home
+19:44:29:659 - Navigate to Home
+19:45:42:170 - Navigate to Home
+19:45:53:250 - Navigate to Home
+19:46:18:119 - Navigate to Home
+19:47:01:604 - Navigate to Home
+19:50:36:179 - Navigate to Home
+19:50:42:141 - Navigate to Home
+19:50:44:963 - Navigate to Home
+19:51:03:908 - Navigate to Home
+19:51:39:649 - Navigate to Home
+19:54:18:888 - Navigate to Home
+19:55:12:678 - Navigate to Home
+19:55:29:482 - Navigate to About
+19:56:52:230 - Navigate to About
+19:56:53:176 - Navigate to About
+19:57:12:349 - Navigate to About
+19:57:12:877 - Navigate to About
+19:57:38:775 - Navigate to About
+19:57:39:549 - Navigate to About
+19:58:38:724 - Navigate to About
+19:58:39:483 - Navigate to About
+19:58:58:518 - Navigate to About
+19:58:59:290 - Navigate to About
+19:59:16:639 - Navigate to About
+19:59:17:180 - Navigate to About
+19:59:50:272 - Navigate to Home
+20:00:03:714 - Navigate to About
+20:00:07:420 - Navigate to Home
+20:00:40:055 - Navigate to Home
+20:00:40:207 - Navigate to Home
+20:00:40:446 - Navigate to Home
+20:00:40:666 - Navigate to Home
+20:00:40:856 - Navigate to Home
+20:00:41:026 - Navigate to Home
+20:00:41:214 - Navigate to Home
+20:00:46:478 - Navigate to Home
+20:01:05:999 - Navigate to Matching
+20:01:35:340 - Navigate to Home
+20:01:36:186 - Navigate to About
+20:01:58:905 - Navigate to Home
+20:02:54:221 - Navigate to Home
+20:03:28:183 - Navigate to Home
+20:03:51:208 - Navigate to Home
+20:05:02:197 - Navigate to About
+20:06:16:375 - Navigate to About
+20:08:00:975 - Navigate to About
+20:08:51:906 - Navigate to About
+20:09:58:924 - Navigate to About
+20:12:34:956 - Navigate to About
+20:13:40:250 - Navigate to About
+20:14:13:516 - Navigate to Home
+20:14:15:593 - Navigate to Home
+20:14:16:517 - Navigate to About
+20:14:29:261 - Navigate to Home
+20:14:30:759 - Navigate to About
+20:22:07:098 - Navigate to Home
+20:22:12:912 - Navigate to About
+20:22:26:290 - Navigate to About
+20:22:27:132 - Navigate to Home
+20:37:07:432 - Navigate to Home
+20:37:08:820 - Navigate to About

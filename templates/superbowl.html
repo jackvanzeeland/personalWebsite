@@ -1,11 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blank Page</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Super Bowl Competition{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="text-center mb-4">Super Bowl Competition</h1>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Project Overview</h5>
+                    <p class="card-text">
+                        This project involved creating a system for a Super Bowl prop bet competition. Participants ranked their confidence in 20 prop outcomes, and the tool validated their confidence values, compared predictions to real results, and calculated each participant's score to determine the winner.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">How It Works</h5>
+                    <p class="card-text">
+                        The system automates the scoring and validation of Super Bowl prop bets, ensuring fair and accurate results.
+                    </p>
+                    <div class="text-center">
+                        <pre class="mermaid">
+                            graph TD;
+                                A[Participant Submits Bets] --> B{Validate Confidence Values};
+                                B --> C{Compare Predictions to Actual Results};
+                                C --> D{Calculate Participant Score};
+                                D --> E[Determine Winner];
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Technologies Used</h5>
+                    <ul>
+                        <li><strong>Python:</strong> For data processing, validation, and score calculation.</li>
+                        <li><strong>Creative Problem Solving:</strong> To design the competition rules and scoring logic.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
