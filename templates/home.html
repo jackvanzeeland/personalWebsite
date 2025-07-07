@@ -36,6 +36,11 @@
                         <h5 class="card-title">{{ project.title }}</h5>
                         <p class="card-text">{{ project.description }}</p>
                     </a>
+                {% elif project.live_demo %}
+                    <a class="clickable" href="{{ project.live_demo }}" target="_blank">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description }}</p>
+                    </a>
                 {% elif project.youtube_link %}
                     <a class="clickable" href="{{ project.youtube_link }}" target="_blank">
                         <h5 class="card-title">{{ project.title }}</h5>
@@ -43,11 +48,6 @@
                     </a>
                 {% elif project.tiktok_link %}
                     <a class="clickable" href="{{ project.tiktok_link }}" target="_blank">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </a>
-                {% elif project.live_demo %}
-                    <a class="clickable" href="{{ project.live_demo }}" target="_blank">
                         <h5 class="card-title">{{ project.title }}</h5>
                         <p class="card-text">{{ project.description }}</p>
                     </a>
