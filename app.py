@@ -59,20 +59,13 @@ projects = [
     },
     {
         'title': 'Reddit Stories',
-<<<<<<< HEAD
         'description': 'Developed an automated social media bot in Python that retrieved top daily Reddit stories, converted them to speech, and paired the audio with engaging Minecraft speed-run footage. The system generated subtitles from the audio, compiled both full-length and short-form videos, and uploaded them automatically. The project gained over 20 subscribers and 50,000 views before decommissioning.',
         'technologies': ['Python', 'YouTube', 'TikTok'],
         'youtube_link': 'https://www.youtube.com/@redditStories_JVZ',
         'tiktok_link': 'https://www.tiktok.com/@redditstories_jvz',
         'image': 'redditStories.jpeg',
-        'page': None,
+        'page': 'redditStories',
         'is_interactive': False
-=======
-        'description': 'A curated blend of the most engaging stories from Reddit’s top subreddits, paired with entertaining gameplay, AI-generated narration and subtitles, all set to calming background music for a relaxing and immersive experience.',
-        'technologies': ['Python', 'Social Media', 'Content Creation'],
-        'image': 'redditStoriesMain.jpeg',
-        'page': 'redditStories'
->>>>>>> 8e3558842cf625771b52c34332b16eb45b5de672
     },
     {
         'title': 'Nebula - Personal Assistant',
