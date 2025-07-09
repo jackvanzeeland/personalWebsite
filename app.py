@@ -4,6 +4,7 @@ from scripts.wordle import plot_key_values
 import json
 from scripts.log import log_text
 from scripts.matching import secret_santa
+import os
 
 
 # Initialize the Flask app
@@ -98,6 +99,22 @@ def home():
 def about():
     log_text("Navigate to About")
     return render_template('about.html', now=datetime.now())
+
+@app.route('/meetJack')
+def meetJack():
+    log_text("Navigate to Meet Jack")
+    return render_template('meetJack.html', now=datetime.now())
+
+@app.route('/get_meet_jack_photos')
+def get_meet_jack_photos():
+    log_text("Fetching meetJack photos...")
+    photo_dir = os.path.join(app.static_folder, 'images', 'meetJackPhotos')
+    photos = []
+    if os.path.exists(photo_dir):
+        for filename in os.listdir(photo_dir):
+            if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+                photos.append(url_for('static', filename=f'images/meetJackPhotos/{filename}'))
+    return jsonify(photos=photos)
 
 
 

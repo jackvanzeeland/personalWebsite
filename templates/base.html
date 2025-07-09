@@ -7,6 +7,16 @@
     <!-- Meta Information -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="{{ url_for('static', filename='images/preview.png') }}">
+    <meta name="description" content="The portfolio of Jack Van Zeeland, a Business Automation Engineer.">
+    <meta property="og:title" content="Jack Van Zeeland's Portfolio">
+    <meta property="og:description" content="A showcase of projects and skills in automation, data analysis, and software development.">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jack Van Zeeland's Portfolio">
+    <meta name="twitter:description" content="A showcase of projects and skills in automation, data analysis, and software development.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/preview.png') }}">
 
     <!-- Page Title (can be overridden by child templates) -->
     <title>{% block title %}Your Portfolio{% endblock %}</title>
@@ -16,6 +26,7 @@
 
     <!-- Custom CSS (static) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
 </head>
 
 <body>
@@ -41,6 +52,10 @@
                     <!-- About Link -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <!-- About Link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('meetJack') }}">Meet Jack</a>
                     </li>
                 </ul>
             </div>
