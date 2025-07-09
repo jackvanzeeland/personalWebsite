@@ -128,7 +128,7 @@ def wordle():
 # Other project routes
 @app.route('/project/budget')
 def budget():
-    return render_template("budget.html", now=datetime.now)
+    return render_template("budget.html", now=datetime.now())
 
 @app.route('/project/basketball')
 def basketball():
@@ -193,13 +193,7 @@ def clear_results():
         return jsonify(success=True)
     return redirect(url_for('matching'))
 
-@app.route('/project/matching/reset', methods=['POST'])
-def reset_list():
-    log_text("Navigate to Matching-Reset")
-    session.clear()
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return jsonify(success=True)
-    return redirect(url_for('matching'))
+
 
 @app.route('/project/superbowl')
 def superbowl():
@@ -207,7 +201,7 @@ def superbowl():
 
 @app.route('/project/nebula')
 def nebula():
-    return render_template("nebula.html", now=datetime.now)
+    return render_template("nebula.html", now=datetime.now())
 
 @app.route('/project/redditStories')
 def redditStories():

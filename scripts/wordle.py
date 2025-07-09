@@ -43,6 +43,6 @@ def plot_key_values(key):
         # Save and close the figure
         plt.savefig("static/images/remaining.png", dpi=300, bbox_inches="tight")  # High-resolution save
         plt.close()  
-        log_text(f"Projects.Wordle - Plot saved as static/images/remaining.png")
+        log_text("Projects.Wordle - Plot saved as static/images/remaining.png")
     else:
         log_text(f"Projects.Wordle - Key '{key}' not found in data.")

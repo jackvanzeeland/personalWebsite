@@ -4,22 +4,22 @@ from scripts.log import log_text
 def partner_generator(partnersCT, list_of_names):
     for i in range(random.randint(100,1000)):
         random.shuffle(list_of_names)
-    if len(list_of_names)%partnersCT == 0:
+    if len(list_of_names) % partnersCT == 0:
         log_text("Partners are:")
         amount_of_groups = int(len(list_of_names)/partnersCT)
-        groups = {}
         for i in range(amount_of_groups):
-            for j in range(partnersCT):
-                log_text(i)
-                log_text(f"\t{list_of_names[partnersCT*i]} and {list_of_names[partnersCT*i+1]}")
+            partners = list_of_names[i*partnersCT : (i+1)*partnersCT]
+            log_text(f"\t{' and '.join(partners)}")
     else:
         log_text("Odd number of players :(\n")
         unlucky_player = list_of_names[random.randint(0, len(list_of_names)- 1)]
         list_of_names.pop(list_of_names.index(unlucky_player))
         log_text(f"{unlucky_player} has to sit out \n")
         log_text("Partners are:")
-        for i in range(int(len(list_of_names)/partnersCT)):
-            log_text(f"\t{list_of_names[partnersCT*i]} and {list_of_names[partnersCT*i+1]}")
+        amount_of_groups = int(len(list_of_names)/partnersCT)
+        for i in range(amount_of_groups):
+            partners = list_of_names[i*partnersCT : (i+1)*partnersCT]
+            log_text(f"\t{' and '.join(partners)}")
     log_text("Good Luck :)")
 
 
