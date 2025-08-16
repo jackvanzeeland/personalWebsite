@@ -542,9 +542,10 @@ body::before {
     border-left: 5px solid #c62828;
 }
 
-.reset-form {
-    margin-top: 1.5rem;
+#reset-journey-btn {
+  margin-top: 0;
 }
+
 
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -655,4 +656,9 @@ body::before {
 
 .progress-container {
     background-color: #eee;
+    cursor: pointer;
+}
+
+.progress-container:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
