@@ -5,13 +5,107 @@ import json
 from scripts.log import log_text
 from scripts.matching import secret_santa
 import os
+from dotenv import load_dotenv # Import load_dotenv
+from scripts.ai_projects import ai_projects # Import ai_projects
+
+load_dotenv() # Load environment variables from .env file
 
 
 # Initialize the Flask app
 app = Flask(__name__)
 app.secret_key = '5c4e3a2b1d0f9e8d7c6b5a4d3e2f1a0c' 
 
-# Sample project data
+# OpenAI Assistant Integration
+import openai
+import os
+import time
+
+@app.route('/ask_openai_assistant', methods=['POST'])
+def ask_openai_assistant():
+    data = request.get_json()
+    user_question = data.get('question', '')
+    thread_id = session.get('openai_thread_id')
+
+    if not user_question:
+        return jsonify({'answer': 'Please ask a question.'})
+
+    api_key = os.getenv('OPENAI_API_KEY')
+    assistant_id = os.getenv('OPENAI_ASSISTANT_ID')
+
+    if not api_key:
+        return jsonify({'answer': 'OpenAI API key not found. Please set the OPENAI_API_KEY environment variable.'})
+    if not assistant_id:
+        return jsonify({'answer': 'OpenAI Assistant ID not found. Please set the OPENAI_ASSISTANT_ID environment variable.'})
+
+    client = openai.OpenAI(api_key=api_key)
+
+    try:
+        # 1. Create a thread if one doesn't exist
+        if not thread_id:
+            thread = client.beta.threads.create()
+            session['openai_thread_id'] = thread.id
+            thread_id = thread.id
+            log_text(f"Created new OpenAI thread: {thread_id}")
+        else:
+            # Verify thread exists (optional, but good for robustness)
+            try:
+                client.beta.threads.retrieve(thread_id)
+            except openai.NotFoundError:
+                log_text(f"Existing thread {thread_id} not found, creating new one.")
+                thread = client.beta.threads.create()
+                session['openai_thread_id'] = thread.id
+                thread_id = thread.id
+
+        # 2. Add the user's message to the thread
+        client.beta.threads.messages.create(
+            thread_id=thread_id,
+            role="user",
+            content=user_question,
+        )
+        log_text(f"Added message to thread {thread_id}: {user_question}")
+
+        # 3. Run the assistant
+        run = client.beta.threads.runs.create(
+            thread_id=thread_id,
+            assistant_id=assistant_id,
+        )
+        log_text(f"Created run {run.id} for thread {thread_id}")
+
+        # 4. Poll for the run completion
+        while run.status != "completed":
+            time.sleep(0.5) # Wait for a short period before polling again
+            run = client.beta.threads.runs.retrieve(
+                thread_id=thread_id,
+                run_id=run.id
+            )
+            log_text(f"Run {run.id} status: {run.status}")
+            if run.status in ["failed", "cancelled", "expired"]:
+                log_text(f"Run {run.id} ended with status: {run.status}")
+                return jsonify({'answer': f'The assistant run failed with status: {run.status}'})
+
+        # 5. Retrieve the messages and extract the assistant's response
+        messages = client.beta.threads.messages.list(thread_id=thread_id, order="desc")
+        assistant_response = ""
+        for msg in messages.data:
+            if msg.role == "assistant":
+                for content_block in msg.content:
+                    if content_block.type == 'text':
+                        assistant_response = content_block.text.value
+                        break # Assuming the first text content block is the main response
+                if assistant_response: # Found the response, break outer loop
+                    break
+        
+        log_text(f"Assistant response for thread {thread_id}: {assistant_response[:50]}...")
+        return jsonify({'answer': assistant_response})
+
+    except openai.APIStatusError as e:
+        log_text(f"OpenAI API error: {e.status_code} - {e.response}")
+        return jsonify({'answer': f'An OpenAI API error occurred: {e.status_code}'})
+    except Exception as e:
+        log_text(f"An unexpected error occurred: {e}")
+        return jsonify({'answer': 'An unexpected error occurred. Please try again.'}) 
+
+ 
 projects = [
     {
         'title': 'Wordle Algorithm Solver',
@@ -69,6 +163,15 @@ projects = [
         'is_interactive': False
     },
     {
+        'title': 'AI Innovations Portal',
+        'description': 'A central hub for all AI-generated content and projects.',
+        'technologies': ['AI', 'Generative AI', 'HTML'],
+        'github_link': None,
+        'image': 'AI_Innovations.png', 
+        'page': 'ai_innovations_portal',
+        'is_interactive': False 
+    },
+    {
         'title': 'Nebula - Personal Assistant',
         'description': 'IN PROGRESS',
         'technologies': ['Python', 'Generative AI'],
@@ -100,20 +203,25 @@ def about():
     log_text("Navigate to About")
     return render_template('about.html', now=datetime.now())
 
-@app.route('/meetJack')
-def meetJack():
-    log_text("Navigate to Meet Jack")
-    return render_template('meetJack.html', now=datetime.now())
+@app.route('/beyondTheCode')
+def beyondTheCode():
+    log_text("Navigate to Beyond The Code")
+    return render_template('beyondTheCode.html', now=datetime.now())
+
+@app.route('/project/ai_innovations_portal')
+def ai_innovations_portal():
+    log_text("Navigate to AI Innovations Portal")
+    return render_template('ai_innovations_portal.html', ai_projects=ai_projects, now=datetime.now())
 
 @app.route('/get_meet_jack_photos')
 def get_meet_jack_photos():
-    log_text("Fetching meetJack photos...")
-    photo_dir = os.path.join(app.static_folder, 'images', 'meetJackPhotos')
+    log_text("Fetching beyondTheCode photos...")
+    photo_dir = os.path.join(app.static_folder, 'images', 'beyondTheCodePhotos')
     photos = []
     if os.path.exists(photo_dir):
         for filename in os.listdir(photo_dir):
             if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
-                photos.append(url_for('static', filename=f'images/meetJackPhotos/{filename}'))
+                photos.append(url_for('static', filename=f'images/beyondTheCodePhotos/{filename}'))
     return jsonify(photos=photos)
 
 
@@ -219,6 +327,10 @@ def superbowl():
 @app.route('/project/nebula')
 def nebula():
     return render_template("nebula.html", now=datetime.now())
+
+@app.route('/project/ai_innovations_portal/htmlGems')
+def htmlGems():
+    return render_template("ai-generated-htmlGems.html", now=datetime.now())
 
 @app.route('/project/redditStories')
 def redditStories():

@@ -17,34 +17,6 @@
         
         
 
-        <h2>Licenses & Certifications</h2>
-        <div class="certifications-grid">
-            <div class="certification-item">
-                <img src="{{ url_for('static', filename='images/uipath_logo.jpeg') }}" alt="UiPath Logo" class="certification-logo">
-                <p class="certification-title">UiPath Academy Automation Developer Associate Training</p>
-            </div>
-            <div class="certification-item">
-                <img src="{{ url_for('static', filename='images/microsoft_logo.png') }}" alt="Microsoft Logo" class="certification-logo">
-                <p class="certification-title">Microsoft Copilot for Productivity</p>
-            </div>
-            <div class="certification-item">
-                <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
-                <p class="certification-title">Introducing Robotic Process Automation</p>
-            </div>
-            <div class="certification-item">
-                <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
-                <p class="certification-title">Microsoft Power Automate: Advanced Business Automation</p>
-            </div>
-            <div class="certification-item">
-                <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
-                <p class="certification-title">Process Mining for Robotic Process Automation</p>
-            </div>
-            <div class="certification-item">
-                <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
-                <p class="certification-title">UiPath: Robotic Process Automation</p>
-            </div>
-        </div>
-
         <h2>Resume</h2>
         <div class="resume-section mb-4">
             <p>Download my complete resume to learn more about my experience and qualifications.</p>
@@ -54,6 +26,23 @@
                onclick="trackResumeDownload()">
                 <i class="fas fa-download me-2"></i>Download Resume
             </a>
+        </div>
+
+        <!-- AI Resume Assistant Section -->
+        <div class="ai-assistant-section mt-5">
+            <h2>AI Resume Assistant</h2>
+            <p>Ask a question about my resume in the chat below and get an instant answer from my AI assistant.</p>
+            <div id="chat-container" class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="chat-message bot-message">
+                        <p>Hello! Ask me anything about Jack's resume. For example: "What are his work experiences and give me details of each?"</p>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" class="form-control" placeholder="Type your question here...">
+                    <button id="send-btn" class="btn btn-primary">Send</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -72,6 +61,34 @@
                 <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/">Jack Van Zeeland</a></p>
                 <p><strong>GitHub:</strong> <a href="https://github.com/jackvanzeeland">github.com/jackvanzeeland</a></p>
             </div>
+            <h2>Licenses & Certifications</h2>
+            <div class="certifications-grid">
+                <div class="certification-item">
+                    <img src="{{ url_for('static', filename='images/uipath_logo.jpeg') }}" alt="UiPath Logo" class="certification-logo">
+                    <p class="certification-title">UiPath Academy Automation Developer Associate Training</p>
+                </div>
+                <div class="certification-item">
+                    <img src="{{ url_for('static', filename='images/microsoft_logo.png') }}" alt="Microsoft Logo" class="certification-logo">
+                    <p class="certification-title">Microsoft Copilot for Productivity</p>
+                </div>
+                <div class="certification-item">
+                    <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
+                    <p class="certification-title">Introducing Robotic Process Automation</p>
+                </div>
+                <div class="certification-item">
+                    <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
+                    <p class="certification-title">Microsoft Power Automate: Advanced Business Automation</p>
+                </div>
+                <div class="certification-item">
+                    <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
+                    <p class="certification-title">Process Mining for Robotic Process Automation</p>
+                </div>
+                <div class="certification-item">
+                    <img src="{{ url_for('static', filename='images/linkedin_logo.png') }}" alt="LinkedIn Logo" class="certification-logo">
+                    <p class="certification-title">UiPath: Robotic Process Automation</p>
+                </div>
+            </div>
+
             <h2>Skills</h2>
             <div class="skills-grid">
                 <span class="skill-badge">Agile Methodology</span>
@@ -98,4 +115,8 @@
     </div>
 </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/resume_chat.js') }}"></script>
 {% endblock %}

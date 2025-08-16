@@ -33,3 +33,305 @@
 00:59:42:725 - Fetching meetJack photos...
 00:59:45:731 - Navigate to Home
 01:00:03:177 - Navigate to Matching
+01:01:52:074 - Navigate to Home
+01:01:53:041 - Navigate to Meet Jack
+01:01:53:137 - Fetching meetJack photos...
+01:02:00:585 - Navigate to Meet Jack
+01:02:00:647 - Fetching meetJack photos...
+01:05:51:007 - Navigate to Meet Jack
+01:05:51:079 - Fetching meetJack photos...
+01:10:05:025 - Navigate to Meet Jack
+01:10:05:106 - Fetching meetJack photos...
+01:16:26:525 - Navigate to Meet Jack
+01:16:26:705 - Fetching meetJack photos...
+01:18:32:084 - Navigate to Meet Jack
+01:18:32:195 - Fetching meetJack photos...
+01:19:56:917 - Navigate to Meet Jack
+01:19:57:049 - Fetching meetJack photos...
+01:20:10:892 - Navigate to Meet Jack
+01:20:10:976 - Fetching meetJack photos...
+01:20:33:030 - Navigate to Meet Jack
+01:20:33:102 - Fetching meetJack photos...
+01:21:20:690 - Navigate to Meet Jack
+01:21:20:744 - Fetching meetJack photos...
+01:23:12:167 - Navigate to Meet Jack
+01:23:12:230 - Fetching meetJack photos...
+01:25:37:098 - Navigate to Meet Jack
+01:25:37:169 - Fetching meetJack photos...
+01:26:03:310 - Navigate to About
+01:26:04:027 - Navigate to Home
+01:26:08:834 - Navigate to About
+01:26:18:431 - Navigate to Meet Jack
+01:26:18:510 - Fetching meetJack photos...
+08:57:58:678 - Navigate to Home
+08:59:52:921 - Navigate to Home
+09:02:44:227 - Navigate to Meet Jack
+09:02:44:305 - Fetching meetJack photos...
+09:14:06:643 - Navigate to About
+09:14:07:410 - Navigate to About
+09:21:59:155 - Navigate to About
+09:22:13:256 - Resume Assistant - Q: What is his experience with Python - A: JACK VAN ZEELAND Chicago, IL   920.883.0243 | Jack...
+09:23:46:696 - Navigate to About
+09:24:45:937 - Resume Assistant - Q: What are some of the projects that jack has worked on? - A: JACK VAN ZEELAND Chicago, IL   920.883.0243 | Jack...
+09:24:58:995 - Navigate to About
+09:25:15:709 - Resume Assistant - Q: What is that - A: I'm sorry, I couldn't understand your question. Pl...
+09:25:27:581 - Resume Assistant - Q: What work experiences does Jack have? - A: JACK VAN ZEELAND Chicago, IL   920.883.0243 | Jack...
+09:26:29:496 - Navigate to About
+09:26:39:275 - Resume Assistant - Q: What is his experience with Python? - A: JACK VAN ZEELAND Chicago, IL   920.883.0243 | Jack...
+09:28:50:090 - Navigate to About
+09:29:00:137 - Resume Assistant - Q: What is his experience with Python - A: JACK VAN ZEELAND Chicago, IL   920.883.0243 | Jack...
+09:30:34:035 - Navigate to About
+09:30:46:690 - Resume Assistant - Q: What is his experience with Python? - A: JACK VAN ZEELAND Chicago, IL   920.883.0243 | Jack...
+09:32:30:550 - Navigate to About
+09:32:50:338 - Resume Assistant - Q: What is his experience with Python? - A: EXPERIENCE...
+09:43:27:340 - Navigate to About
+09:43:36:919 - Resume Assistant - Q: What is his experience with Python? - A: Experience: Business Automation Engineer at Echo G...
+09:43:49:995 - Resume Assistant - Q: Python - A: Project: Reddit Stories (Python). Automated Reddit...
+09:45:54:150 - Navigate to About
+09:46:04:903 - Resume Assistant - Q: What is his experience with Python? - A: I couldn't find a specific answer to that in the r...
+09:46:56:392 - Resume Assistant - Q: Where is Jack located? - A: I couldn't find a specific answer to that in the r...
+09:47:17:269 - Navigate to About
+09:47:24:217 - Resume Assistant - Q: Where is Jack located - A: I couldn't find a specific answer to that in the r...
+09:47:38:771 - Resume Assistant - Q: Where is Jack's location? - A: Here's what I found:
+
+- Location: Chicago, IL
+...
+09:47:49:504 - Resume Assistant - Q: What is his experience with python - A: Here's what I found:
+
+- Skill (Languages And Tools...
+09:49:34:526 - Navigate to About
+09:49:46:233 - Resume Assistant - Q: What is his python knowledge? - A: I couldn't find a specific answer to that in the r...
+09:50:03:591 - Resume Assistant - Q: What is his python knowledge - A: Here's what I found:
+
+- Skill (Languages And Tools...
+09:50:27:097 - Resume Assistant - Q: What is his python knowledge - A: Here's what I found:
+
+- Skill (Languages And Tools...
+10:33:24:784 - Navigate to About
+10:37:28:873 - Navigate to About
+10:38:18:710 - Navigate to About
+10:47:41:535 - Navigate to About
+10:47:51:473 - Created new OpenAI thread: thread_d6blFJ8IFyb8b4qXKFIdXjZ7
+10:47:51:774 - Added message to thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: What is his experience with Python?
+10:47:52:917 - Created run run_xxolCCmyyngO7zoLnq9Sp0dZ for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7
+10:47:54:194 - Run run_xxolCCmyyngO7zoLnq9Sp0dZ status: in_progress
+10:47:54:943 - Run run_xxolCCmyyngO7zoLnq9Sp0dZ status: in_progress
+10:48:04:470 - Run run_xxolCCmyyngO7zoLnq9Sp0dZ status: completed
+10:48:05:041 - Assistant response for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: Based on the resume, Jack Van Zeeland has experien...
+10:48:41:126 - Added message to thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: What is his education?
+10:48:42:423 - Created run run_pczzxgwz8mqEUpxjryfsAdM2 for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7
+10:48:43:233 - Run run_pczzxgwz8mqEUpxjryfsAdM2 status: in_progress
+10:48:44:303 - Run run_pczzxgwz8mqEUpxjryfsAdM2 status: in_progress
+10:48:46:348 - Run run_pczzxgwz8mqEUpxjryfsAdM2 status: in_progress
+10:48:47:146 - Run run_pczzxgwz8mqEUpxjryfsAdM2 status: completed
+10:48:47:315 - Assistant response for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: Jack Van Zeeland is pursuing a dual degree in BS D...
+10:50:57:544 - Navigate to About
+10:52:55:666 - Navigate to About
+10:53:08:808 - Navigate to About
+10:53:17:261 - Navigate to About
+10:55:06:919 - Navigate to About
+10:55:22:596 - Navigate to Home
+10:55:32:670 - Navigate to Meet Jack
+10:55:32:736 - Fetching meetJack photos...
+10:55:40:074 - Navigate to About
+10:55:45:144 - Navigate to Meet Jack
+10:55:45:223 - Fetching meetJack photos...
+10:56:01:750 - Navigate to Meet Jack
+10:56:01:829 - Fetching meetJack photos...
+10:56:10:439 - Navigate to About
+10:56:52:780 - Navigate to About
+10:56:56:047 - Navigate to Meet Jack
+10:56:56:117 - Fetching meetJack photos...
+10:56:58:695 - Navigate to Home
+10:57:58:740 - Navigate to Project.Wordle
+10:58:04:708 - Navigate to About
+10:58:21:104 - Navigate to About
+10:58:22:332 - Navigate to Home
+10:58:23:464 - Navigate to Home
+10:58:36:745 - Navigate to About
+10:58:38:331 - Navigate to About
+10:58:54:073 - Navigate to About
+10:58:54:717 - Navigate to About
+10:59:56:314 - Navigate to About
+10:59:57:237 - Navigate to Home
+11:00:02:754 - Navigate to Project.Wordle
+11:00:06:068 - Navigate to Home
+11:00:12:854 - Navigate to Meet Jack
+11:00:12:938 - Fetching meetJack photos...
+11:00:21:899 - Navigate to About
+11:00:26:986 - Navigate to Home
+11:01:12:250 - Navigate to Home
+11:01:18:834 - Navigate to Home
+11:01:26:574 - Navigate to About
+11:01:29:036 - Navigate to Meet Jack
+11:01:29:108 - Fetching meetJack photos...
+11:01:43:057 - Navigate to Home
+11:01:44:201 - Navigate to Project.Wordle
+11:01:54:337 - Navigate to Project.Wordle
+11:01:57:649 - Navigate to Matching
+11:02:15:809 - Navigate to Home
+11:02:19:385 - Navigate to About
+11:02:19:889 - Navigate to Home
+11:02:20:564 - Navigate to Meet Jack
+11:02:20:631 - Fetching meetJack photos...
+11:02:22:899 - Navigate to About
+11:18:17:431 - Navigate to About
+11:18:31:002 - Added message to thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: What is his experience with Python?
+11:18:32:280 - Created run run_qEbw8kjAKEBLKsGJCQssnPOu for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7
+11:18:33:248 - Run run_qEbw8kjAKEBLKsGJCQssnPOu status: in_progress
+11:18:38:386 - Run run_qEbw8kjAKEBLKsGJCQssnPOu status: completed
+11:18:38:643 - Assistant response for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: Based on the resume, Jack Van Zeeland has experien...
+11:18:59:452 - Added message to thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: Tell me about his Reddit Stories project
+11:19:00:430 - Created run run_NSuEAhWIdej5Mbc45Q2Oukht for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7
+11:19:01:629 - Run run_NSuEAhWIdej5Mbc45Q2Oukht status: in_progress
+11:19:02:463 - Run run_NSuEAhWIdej5Mbc45Q2Oukht status: in_progress
+11:19:04:061 - Run run_NSuEAhWIdej5Mbc45Q2Oukht status: in_progress
+11:19:05:387 - Run run_NSuEAhWIdej5Mbc45Q2Oukht status: completed
+11:19:05:556 - Assistant response for thread thread_d6blFJ8IFyb8b4qXKFIdXjZ7: The Reddit Stories project involved automating a d...
+12:36:56:483 - Navigate to Home
+12:36:59:599 - Navigate to Project.Wordle
+12:42:06:080 - Navigate to Project.Wordle
+12:43:08:621 - Navigate to Project.Wordle
+12:43:12:017 - Navigate to Home
+12:43:14:277 - Navigate to Matching
+12:43:36:336 - Navigate to Matching
+12:43:37:887 - Navigate to Matching
+12:43:38:663 - Navigate to Matching
+12:43:39:725 - Navigate to Matching
+12:45:49:816 - Navigate to Home
+12:45:56:011 - Navigate to Project.Wordle
+12:46:51:854 - Navigate to Project.Wordle
+12:47:40:932 - Navigate to Project.Wordle
+12:47:42:713 - Navigate to Home
+12:47:48:459 - Navigate to Project.Wordle
+12:48:09:560 - Navigate to Home
+12:48:27:665 - Navigate to Home
+12:48:56:209 - Navigate to Matching
+12:49:22:422 - Navigate to About
+12:49:34:994 - Navigate to Meet Jack
+12:49:35:075 - Fetching meetJack photos...
+12:50:10:117 - Navigate to Meet Jack
+12:50:10:502 - Fetching meetJack photos...
+12:50:24:120 - Navigate to Meet Jack
+12:50:24:189 - Fetching meetJack photos...
+12:51:09:182 - Navigate to Meet Jack
+12:51:09:255 - Fetching meetJack photos...
+12:51:33:877 - Navigate to Meet Jack
+12:51:33:939 - Fetching meetJack photos...
+12:51:44:367 - Navigate to Meet Jack
+12:51:44:684 - Fetching meetJack photos...
+12:52:14:331 - Navigate to Meet Jack
+12:52:14:401 - Fetching meetJack photos...
+12:52:26:158 - Navigate to Meet Jack
+12:52:26:236 - Fetching meetJack photos...
+12:54:36:520 - Navigate to About
+12:54:39:563 - Navigate to Home
+12:54:40:927 - Navigate to Project.Wordle
+12:54:47:819 - Navigate to Matching
+12:54:52:774 - Navigate to Matching
+12:54:52:781 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+12:54:52:782 - Calling secret_santa function...
+12:54:52:783 - Project.Matching - Retrieving secret santa matches
+12:54:52:785 - Project.Matching - Retrieved matching
+12:54:52:785 - secret_santa returned: {'Marshall': 'Lily', 'Ted': 'Marshall', 'Jack': 'Ted', 'Lily': 'Jack'}
+12:54:52:786 - Attempting to jsonify response...
+12:54:52:787 - jsonify call completed. Returning response.
+12:55:44:154 - Navigate to Matching
+12:56:48:260 - Navigate to Matching
+12:57:18:101 - Navigate to Matching
+12:57:32:075 - Navigate to Matching-Clear
+12:58:13:203 - Navigate to Matching
+12:58:15:620 - Navigate to Matching
+12:58:15:623 - Projects.Matching - got names input ['Jack', 'Lily', 'Marshall', 'Ted']
+12:58:15:624 - Calling secret_santa function...
+12:58:15:624 - Project.Matching - Retrieving secret santa matches
+12:58:15:625 - Project.Matching - Retrieved matching
+12:58:15:625 - secret_santa returned: {'Ted': 'Marshall', 'Jack': 'Ted', 'Lily': 'Jack', 'Marshall': 'Lily'}
+12:58:15:625 - Attempting to jsonify response...
+12:58:15:626 - jsonify call completed. Returning response.
+12:58:30:613 - Navigate to About
+13:00:12:785 - Created new OpenAI thread: thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:00:16:366 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What work experience does he have?
+13:00:18:013 - Created run run_tO8bUuIYJkorI3OLxXH96MHx for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:00:18:790 - Run run_tO8bUuIYJkorI3OLxXH96MHx status: in_progress
+13:00:19:647 - Run run_tO8bUuIYJkorI3OLxXH96MHx status: in_progress
+13:00:20:563 - Run run_tO8bUuIYJkorI3OLxXH96MHx status: in_progress
+13:00:21:689 - Run run_tO8bUuIYJkorI3OLxXH96MHx status: in_progress
+13:00:22:457 - Run run_tO8bUuIYJkorI3OLxXH96MHx status: completed
+13:00:22:612 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland has the following work experience...
+13:05:22:981 - Navigate to About
+13:05:32:573 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What is his work experience?
+13:05:36:760 - Created run run_g1QAASZPGvBqHTZ0zGpesFKa for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:05:37:734 - Run run_g1QAASZPGvBqHTZ0zGpesFKa status: in_progress
+13:05:38:495 - Run run_g1QAASZPGvBqHTZ0zGpesFKa status: in_progress
+13:05:39:698 - Run run_g1QAASZPGvBqHTZ0zGpesFKa status: in_progress
+13:05:42:323 - Run run_g1QAASZPGvBqHTZ0zGpesFKa status: completed
+13:05:42:514 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland's work experience includes roles ...
+13:06:16:604 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Can you provide his work experience with details of what he did in each?
+13:06:17:745 - Created run run_MRqmvcWDoXcyRlxW4tYO4qd6 for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:06:18:519 - Run run_MRqmvcWDoXcyRlxW4tYO4qd6 status: queued
+13:06:19:474 - Run run_MRqmvcWDoXcyRlxW4tYO4qd6 status: in_progress
+13:06:20:276 - Run run_MRqmvcWDoXcyRlxW4tYO4qd6 status: in_progress
+13:06:26:298 - Run run_MRqmvcWDoXcyRlxW4tYO4qd6 status: completed
+13:06:26:520 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland's work experience includes the fo...
+13:15:24:715 - Navigate to About
+13:15:43:392 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What is jack's work experience
+13:15:46:052 - Created run run_m0zVi8NRvYdUN8c9Imsd6s8j for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:15:46:877 - Run run_m0zVi8NRvYdUN8c9Imsd6s8j status: in_progress
+13:15:47:621 - Run run_m0zVi8NRvYdUN8c9Imsd6s8j status: in_progress
+13:15:48:612 - Run run_m0zVi8NRvYdUN8c9Imsd6s8j status: completed
+13:15:48:758 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Based on the resume provided, Jack Van Zeeland's w...
+13:16:56:955 - Navigate to About
+13:17:10:226 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What is jack's work experience
+13:17:11:528 - Created run run_byRt9DJrW8UTUYDsK66lmD4q for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:17:12:290 - Run run_byRt9DJrW8UTUYDsK66lmD4q status: in_progress
+13:17:13:092 - Run run_byRt9DJrW8UTUYDsK66lmD4q status: in_progress
+13:17:13:865 - Run run_byRt9DJrW8UTUYDsK66lmD4q status: completed
+13:17:14:009 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland has the following work experience...
+13:22:57:952 - Navigate to About
+13:23:15:300 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What is jack's working experience and the details of each?
+13:23:16:388 - Created run run_w63AquLqSbFnbuejhu5VOWfn for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:23:17:206 - Run run_w63AquLqSbFnbuejhu5VOWfn status: queued
+13:23:18:095 - Run run_w63AquLqSbFnbuejhu5VOWfn status: in_progress
+13:23:18:882 - Run run_w63AquLqSbFnbuejhu5VOWfn status: in_progress
+13:23:19:642 - Run run_w63AquLqSbFnbuejhu5VOWfn status: in_progress
+13:23:20:420 - Run run_w63AquLqSbFnbuejhu5VOWfn status: completed
+13:23:20:601 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland's work experience includes the fo...
+13:24:36:304 - Navigate to About
+13:24:52:273 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What is Jack's working experience and the details of each
+13:24:53:255 - Created run run_TTbsYQvHOPoDmDj67iBi2v8U for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:24:54:048 - Run run_TTbsYQvHOPoDmDj67iBi2v8U status: in_progress
+13:24:54:938 - Run run_TTbsYQvHOPoDmDj67iBi2v8U status: in_progress
+13:24:55:753 - Run run_TTbsYQvHOPoDmDj67iBi2v8U status: in_progress
+13:24:56:511 - Run run_TTbsYQvHOPoDmDj67iBi2v8U status: completed
+13:24:56:744 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland's work experience includes the fo...
+13:26:30:099 - Navigate to About
+13:26:43:789 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What is jack's college education
+13:26:44:811 - Created run run_pKM11JPd2i1tUDG4XHwXHgdy for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:26:45:574 - Run run_pKM11JPd2i1tUDG4XHwXHgdy status: in_progress
+13:26:46:463 - Run run_pKM11JPd2i1tUDG4XHwXHgdy status: in_progress
+13:26:47:299 - Run run_pKM11JPd2i1tUDG4XHwXHgdy status: in_progress
+13:26:48:151 - Run run_pKM11JPd2i1tUDG4XHwXHgdy status: in_progress
+13:26:49:012 - Run run_pKM11JPd2i1tUDG4XHwXHgdy status: completed
+13:26:49:216 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland completed a Bachelor of Science i...
+13:27:07:188 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What are some of Jack's projects and explain each one
+13:27:09:886 - Created run run_Hf5fyyinuLHplUHxPE1Mi1er for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:27:10:664 - Run run_Hf5fyyinuLHplUHxPE1Mi1er status: in_progress
+13:27:11:472 - Run run_Hf5fyyinuLHplUHxPE1Mi1er status: in_progress
+13:27:12:267 - Run run_Hf5fyyinuLHplUHxPE1Mi1er status: in_progress
+13:27:13:021 - Run run_Hf5fyyinuLHplUHxPE1Mi1er status: in_progress
+13:27:14:051 - Run run_Hf5fyyinuLHplUHxPE1Mi1er status: in_progress
+13:27:14:844 - Run run_Hf5fyyinuLHplUHxPE1Mi1er status: completed
+13:27:15:072 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland has worked on the following proje...
+13:32:24:921 - Navigate to About
+13:32:42:086 - Added message to thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: What is jack's work experience and the details with each?
+13:32:43:581 - Created run run_UxSXWeRE8mVxaoMib48VA12B for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS
+13:32:44:441 - Run run_UxSXWeRE8mVxaoMib48VA12B status: in_progress
+13:32:45:232 - Run run_UxSXWeRE8mVxaoMib48VA12B status: in_progress
+13:32:46:024 - Run run_UxSXWeRE8mVxaoMib48VA12B status: in_progress
+13:32:46:899 - Run run_UxSXWeRE8mVxaoMib48VA12B status: completed
+13:32:47:045 - Assistant response for thread thread_Txjf2i9Z3S31jhbzXOx8QxhS: Jack Van Zeeland's work experience includes the fo...
+13:33:21:850 - Navigate to Home
+13:33:23:245 - Navigate to Project.Wordle
+13:33:29:925 - Navigate to About
+13:34:52:879 - Navigate to About

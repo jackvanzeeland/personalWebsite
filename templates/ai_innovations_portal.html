@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}AI Innovations Portal{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center text-white d-flex flex-column align-items-center justify-content-center">
+    <div class="hero-content">
+        <h1 class="display-4">AI Innovations Portal</h1>
+        <p class="lead">A central hub for all AI-generated content and projects.</p>
+    </div>
+</div>
+
+<div class="row">    <div class="row">
+        {% for project in ai_projects %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/' + project.image) }}" class="card-img-top" alt="{{ project.title }} Image">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <p class="card-text">{{ project.description }}</p>
+                    <div class="mt-auto">
+                        {% for tech in project.technologies %}
+                        <span class="badge rounded-pill bg-dark text-white">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    {% if project.page %}
+                    <a href="{{ url_for(project.page) }}" class="btn btn-primary mt-3">View Project</a>
+                    {% elif project.github_link %}
+                    <a href="{{ project.github_link }}" target="_blank" class="btn btn-secondary mt-3">GitHub</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
