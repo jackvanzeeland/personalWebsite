@@ -111,7 +111,7 @@
             const topBarWrapper = document.querySelector('.top-bar-wrapper');
             document.body.style.paddingTop = topBarWrapper.offsetHeight + 'px';
 
-            const totalPages = 8; // about, basketball, budget, home, matching, beyondTheCode, nebula, superbowl, wordle
+            const totalPages = 10; // about, basketball, budget, home, matching, beyondTheCode, nebula, superbowl, wordle
             const currentPage = window.location.pathname;
 
             let visitedPages = JSON.parse(localStorage.getItem('visitedPages')) || [];
