@@ -544,7 +544,6 @@ body::before {
 
 #reset-journey-btn {
   margin-top: 0;
-  margin-left: auto;
 }
 
 
@@ -662,9 +661,4 @@ body::before {
 
 .progress-container:hover {
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
-}
-
-.top-bar-wrapper {
-    display: flex;
-    align-items: center;
 }
