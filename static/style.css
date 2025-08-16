@@ -646,9 +646,13 @@ body::before {
 }
 
 .rotate-icon.collapsed {
-    transform: rotate(0deg);
+    transform: rotate(180deg);
 }
 
 .rotate-icon:not(.collapsed) {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
+}
+
+.progress-container {
+    background-color: #eee;
 }
