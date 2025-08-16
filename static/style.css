@@ -611,3 +611,21 @@ body::before {
 .show {
     display: block;
 }
+
+/* Slideshow Styles */
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Adjust as needed */
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.slideshow-image {
+    width: 100%;
+    display: block;
+    transition: opacity 1s ease-in-out;
+    object-fit: cover; /* Ensures the image covers the container */
+}
