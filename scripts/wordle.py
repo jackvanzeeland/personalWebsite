@@ -4,13 +4,19 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from scripts.log import log_text
+import sys
+import os
+
+# Add parent directory to path for config import
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import Config
 
 
 
 def plot_key_values(key):
     # Load the JSON data from the file
     log_text("Projects.Wordle - load remaining.json")
-    with open("static/files/wordleRemaining.json", "r") as file:
+    with open(Config.WORDLE_REMAINING_FILE, "r") as file:
         data = json.load(file)
 
     log_text(f"Projects.Wordle - Creating plot for {key}")
@@ -41,8 +47,8 @@ def plot_key_values(key):
         plt.yticks(fontsize=10)
 
         # Save and close the figure
-        plt.savefig("static/images/remaining.png", dpi=300, bbox_inches="tight")  # High-resolution save
-        plt.close()  
-        log_text("Projects.Wordle - Plot saved as static/images/remaining.png")
+        plt.savefig(Config.WORDLE_PLOT_OUTPUT, dpi=300, bbox_inches="tight")  # High-resolution save
+        plt.close()
+        log_text(f"Projects.Wordle - Plot saved as {Config.WORDLE_PLOT_OUTPUT}")
     else:
         log_text(f"Projects.Wordle - Key '{key}' not found in data.")

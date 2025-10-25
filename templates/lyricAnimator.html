@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lyric Animator</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator.css') }}?v={{ now.timestamp() }}" />
+</head>
+
+<body>
+        <!-- Return button -->
+    <div style="position: absolute; top: 10px; left: 10px; font-size: 0.8rem; z-index: 1000;">
+        <a href="{{ url_for('home') }}" style="text-decoration: none; color: white; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 4px;">
+            Home
+        </a>
+    </div>
+
+    <div id="particles-js"></div>
+
+    <div id="upload-area">
+        <h1 id="upload-title">Lyric Animator</h1>
+        <p id="upload-instructions">
+            Upload an
+            <a href="https://www.lyricsify.com/" style="color: inherit; text-decoration: underline;">LRC file</a>
+            to see lyrics come alive!
+        </p>
+
+        <div id="user-inputs">
+            <label for="theme-color">Choose theme color:</label>
+            <input type="color" id="theme-color-picker" value="#ff8e53">
+            <br><br>
+
+            <!-- New Particle Customization Controls -->
+            <label for="particle-color">Particle Color:</label>
+            <input type="color" id="particle-color" value="#ffffff">
+            <br><br>
+
+            <label for="particle-count">Particle Count:</label>
+            <input type="range" id="particle-count" min="10" max="300" value="100">
+            <br><br>
+
+            <label for="particle-size">Particle Size:</label>
+            <input type="range" id="particle-size" min="1" max="100" value="3">
+            <br><br>
+
+            <label for="particle-speed">Particle Speed:</label>
+            <input type="range" id="particle-speed" min="1" max="200" value="10">
+            <br><br>
+            <label for="particle-shape">Particle Shape:</label>
+            <select id="particle-shape">
+                <option value="circle">Circle</option>
+                <option value="edge">Edge</option>
+                <option value="triangle">Triangle</option>
+                <option value="polygon">Polygon</option>
+                <option value="star" selected>Star</option>
+            </select>
+            <br><br>
+            <label for="line-color">Line Color:</label>
+            <input type="color" id="line-color" value="#ffffff">
+            <br><br>
+        </div> <!-- Existing Controls -->
+        <!-- File Input -->
+        <input type="file" id="file-input" accept=".lrc" />
+        <button id="upload-btn">Choose LRC File</button>
+    </div>
+
+
+    <div id="lyrics-container"></div>
+    <div id="controls" style="display: none; text-align: center; margin-top: 20px;">
+        <div id="time-display">0:00 / 0:00</div>
+        <input type="range" id="progress-bar" min="0" max="0" step="0.1" value="0" style="width: 80%;">
+        <button id="play-pause">Play</button>
+    </div>
+
+    <div
+        style="position: fixed; bottom: 0; width: 100%; padding: 10px; text-align: center; box-shadow: 0 -2px 5px rgba(0,0,0,0.1);">
+        <div id="status"></div>
+        <button id="reset-btn">Reset</button>
+    </div>
+
+
+    <!-- Particles.js background -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', filename='js/lyric-animator-particles.js') }}?v={{ now.timestamp() }}"></script>
+
+    <!-- Lyrics animation logic -->
+    <script src="{{ url_for('static', filename='js/lyrics-animator.js') }}"></script>
+
+    <!-- UI logic -->
+    <script src="{{ url_for('static', filename='js/lyric-animator-ui.js') }}?v={{ now.timestamp() }}"></script>
+</body>
+
+</html>

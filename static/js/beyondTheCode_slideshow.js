@@ -24,26 +24,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to fetch images from the Flask endpoint
     async function fetchImages() {
-        console.log('Fetching images from /get_meet_jack_photos...');
-        try {
-            const response = await fetch('/get_meet_jack_photos');
-            const data = await response.json();
-            images = data.photos;
-            console.log('Fetched images:', images);
+    console.log('Fetching images...');
+    try {
+        const response = await fetch('/api/get_beyond_the_code_photos');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-            if (images.length > 0) {
-                renderImage(); // Display the first image
-                startAutoSlide(); // Start auto-rotate
-            } else {
-                // If no photos, display a message directly in the img container area
-                slideshowContainer.innerHTML = '<p>No photos available.</p>';
-                console.warn('No photos returned from server.');
-            }
-        } catch (error) {
-            console.error('Error fetching images:', error);
-            slideshowContainer.innerHTML = '<p>Error loading photos.</p>';
+        const data = await response.json();
+        images = data.photos;
+        console.log('Images fetched:', images);
+
+        if (images.length > 0) {
+            renderImage();
+            startAutoSlide();
+        } else {
+            slideshowContainer.innerHTML = '<p>No photos available.</p>';
+            console.warn('No photos returned from server.');
         }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        slideshowContainer.innerHTML = '<p>Error loading photos.</p>';
     }
+}
+
+
 
     // Function to render the current image
     function renderImage() {

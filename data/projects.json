@@ -1,0 +1,162 @@
+{
+  "main_projects": [
+    {
+      "title": "Wordle Algorithm Solver",
+      "description": "Built an algorithm that recommends the optimal next guess in Wordle based on previous outcomes, competing against my manual attempts. The algorithm outperformed or tied with me in 87% of games (46/53), showcasing its strategic efficiency.",
+      "technologies": ["Python", "Regex"],
+      "github_link": null,
+      "image": "wordleMain.png",
+      "page": "wordle",
+      "is_interactive": true,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Budgeting Automation",
+      "description": "Developed an automation bot that scans an email account for bank statements, downloads the statement, and parses the data into an Excel sheet stored in Office 365. This tool streamlines budgeting across multiple bank accounts by tracking dates, purchase descriptions, and amounts in one central location.",
+      "technologies": ["UiPath", "Automation", "Data Manipulation"],
+      "github_link": null,
+      "image": "budgetingMain.jpeg",
+      "page": "budget",
+      "is_interactive": false,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Basketball Linup Optimization",
+      "description": "Developed a process for a friend that is a basketball coach that analyzes basketball game data by tracking points scored and allowed for each lineup throughout the game. The tool then groups combinations of size 2, 3, 4, and 5 to identify the most effective lineups, helping optimize team performance.",
+      "technologies": ["R Programming", "Problem Solving", "Data Manipulation"],
+      "github_link": null,
+      "image": "basketballMain.jpeg",
+      "page": "basketball",
+      "is_interactive": false,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Secret Santa Matching",
+      "description": "Developed a Secret Santa partner-matching program in Python that ensures no one selects themselves and provides a private interface for users to view their match. This streamlined the process for holiday gift exchanges while maintaining confidentiality.",
+      "technologies": ["Python", "Problem Solving"],
+      "github_link": null,
+      "image": "partnerMatchingMain.jpeg",
+      "page": "matching",
+      "is_interactive": true,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Super Bowl Competition",
+      "description": "Created a system for a Super Bowl prop bet competition, where participants ranked their confidence in 20 prop outcomes. The tool validated confidence values compared predictions to real results and calculated each participant's score to determine the winner.",
+      "technologies": ["Python", "Creative"],
+      "github_link": null,
+      "image": "superBowlMain.jpeg",
+      "page": "superbowl",
+      "is_interactive": false,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Reddit Stories",
+      "description": "Developed an automated social media bot in Python that retrieved top daily Reddit stories, converted them to speech, and paired the audio with engaging Minecraft speed-run footage. The system generated subtitles from the audio, compiled both full-length and short-form videos, and uploaded them automatically. The project gained over 20 subscribers and 50,000 views before decommissioning.",
+      "technologies": ["Python", "YouTube", "TikTok"],
+      "github_link": null,
+      "image": "redditStories.jpeg",
+      "page": "redditStories",
+      "is_interactive": false,
+      "youtube_link": "https://www.youtube.com/@redditStories_JVZ",
+      "tiktok_link": "https://www.tiktok.com/@redditstories_jvz",
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Lyric Animator",
+      "description": "Developed a web application that displays & animates song lyrics in sync with the music playback, enhancing the listening experience.",
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "github_link": null,
+      "image": "BangerBank.png",
+      "page": "lyricAnimator",
+      "is_interactive": true,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "AI Innovations Portal",
+      "description": "A central hub for all AI-generated content and projects.",
+      "technologies": ["AI", "Generative AI", "HTML"],
+      "github_link": null,
+      "image": "AI_Innovations.png",
+      "page": "ai_innovations_portal",
+      "is_interactive": false,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Nebula - Personal Assistant",
+      "description": "IN PROGRESS",
+      "technologies": ["Python", "Generative AI"],
+      "github_link": null,
+      "image": "nebulaMain.jpg",
+      "page": null,
+      "is_interactive": false,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Run Genius",
+      "description": "IN PROGRESS",
+      "technologies": ["Gemini CLI", "SwiftUI", "XCode"],
+      "github_link": null,
+      "image": "runGenius.png",
+      "page": null,
+      "is_interactive": false,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    }
+  ],
+  "ai_projects": [
+    {
+      "title": "HTML Gems Uncovered",
+      "description": "A tool that highlights unique and creative HTML snippets for web development.",
+      "technologies": ["AI", "HTML"],
+      "github_link": null,
+      "image": "ai_generated_html.png",
+      "page": "htmlGems",
+      "is_interactive": true,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    },
+    {
+      "title": "Open Chat Board",
+      "description": "An open chat board where users can interact in real-time, powered by Socket.IO.",
+      "technologies": ["Socket.IO", "flask", "JavaScript"],
+      "github_link": null,
+      "image": "chatBoard.png",
+      "page": "chatBoard",
+      "is_interactive": true,
+      "youtube_link": null,
+      "tiktok_link": null,
+      "live_demo": null,
+      "webpage_link": null
+    }
+  ]
+}

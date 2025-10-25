@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Secret Santa Matching{% endblock %}
+{% block title %}Projects - Secret Santa Matching{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
@@ -12,7 +12,9 @@
                 <div class="card-body">
                     <h5 class="card-title">Project Overview</h5>
                     <p class="card-text">
-                        I developed a Secret Santa partner-matching program in Python that ensures no one selects themselves and provides a private interface for users to view their match. This streamlined the process for holiday gift exchanges while maintaining confidentiality.
+                        I developed a Secret Santa partner-matching program in Python that ensures no one selects
+                        themselves and provides a private interface for users to view their match. This streamlined the
+                        process for holiday gift exchanges while maintaining confidentiality.
                     </p>
                 </div>
             </div>
@@ -21,7 +23,8 @@
                 <div class="card-body">
                     <h5 class="card-title">How It Works</h5>
                     <p class="card-text">
-                        The program takes a list of participants and randomly assigns each person a Secret Santa, with the rule that no one can be assigned to themselves.
+                        The program takes a list of participants and randomly assigns each person a Secret Santa, with
+                        the rule that no one can be assigned to themselves.
                     </p>
                     <div class="text-center">
                         <pre class="mermaid">
@@ -43,25 +46,19 @@
                             <form id="names-form" class="secret-santa-form" method="POST">
                                 <div class="form-group">
                                     <label for="names">Enter Names (comma separated):</label>
-                                    <input type="text" 
-                                           id="names" 
-                                           name="names" 
-                                           value="{{ names|join(', ') if names else '' }}" 
-                                           placeholder="e.g., John, Mary, Bob, Alice"
-                                           required
-                                           pattern="^[A-Za-z\s]+(,[A-Za-z\s]+)*$"
-                                           title="Please enter names separated by commas"
-                                           class="secret-santa-input">
+                                    <input type="text" id="names" name="names"
+                                        value="{{ names|join(', ') if names else '' }}"
+                                        placeholder="e.g., John, Mary, Bob, Alice" required
+                                        pattern="^[A-Za-z\s]+(,[A-Za-z\s]+)*$"
+                                        title="Please enter names separated by commas" class="secret-santa-input">
                                 </div>
                                 <button type="submit" class="btn-generate">Generate Secret Santa</button>
                             </form>
                         </section>
-
                         <div class="match-result" id="matchResult" style="display: none;">
                             <h3>Your Secret Santa Match</h3>
                             <p id="matchResultText"></p>
                         </div>
-
                         {% if error %}
                         <div class="error-message">
                             <p>{{ error }}</p>
@@ -71,28 +68,32 @@
                 </div>
             </div>
 
-            <section class="match-section" id="matchSection" style="display: none;">
-                <h2>Find Your Secret Santa Match</h2>
-                <form id="match-form" class="secret-santa-form">
-                    <div class="form-group">
-                        <label for="person">Select your name:</label>
-                        <select name="person" id="person" class="secret-santa-select">
-                            <option value="">Choose your name</option>
-                        </select>
-                    </div>
-                    <div class="button-group">
-                        <button type="button" class="btn-hide-match" id="hideResults">Hide Results</button>
-                    </div>
-                </form>
-            </section>
+            <section class="match-section card mb-4" id="matchSection" style="display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">Find Your Secret Santa Match</h5>
+                    <form id="match-form" class="secret-santa-form">
+                        <div class="form-group">
+                            <label for="person">Select your name:</label>
+                            <select name="person" id="person" class="secret-santa-select">
+                                <option value="">Choose your name</option>
+                            </select>
+                        </div>
 
-            {% if names %}
-            <form id="reset-form" class="reset-form" style="display: none;">
-                <button type="button" class="btn-clear" id="clearListButton" onclick="return confirm('Are you sure you want to clear all matches?')">
-                    Clear List
-                </button>
-            </form>
-            {% endif %}
+
+                        <div class="button-group">
+                            <button type="button" class="btn-hide-match" id="hideResults">Hide Results</button>
+                            {% if names %}
+                            <form id="reset-form" class="reset-form" style="display: none;">
+                                <button type="button" class="btn-clear" id="clearListButton"
+                                    onclick="return confirm('Are you sure you want to clear all matches?')">
+                                    Clear List
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </section>
 
             <div class="card">
                 <div class="card-body">
@@ -111,165 +112,11 @@
 
 {% block scripts %}
 {{ super() }}
+<!-- Pass Jinja2 template data to JavaScript -->
 <script>
-    console.log("Script block parsing started.");
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("Page loaded");
-
-        // Handle form submission for hiding results
-        document.getElementById("hideResults")?.addEventListener("click", function (e) {
-            e.preventDefault();
-            const matchResult = document.getElementById("matchResult");
-            if (matchResult) {
-                matchResult.style.display = "none";
-            }
-        });
-
-        // Handle showing match when a person is selected from the dropdown
-        document.getElementById("person")?.addEventListener("change", function () {
-            const selectedPerson = this.value;
-            console.log("Dropdown changed. Selected person:", selectedPerson);
-            const results = window.secretSantaResults; 
-            console.log("Global results (window.secretSantaResults):", results);
-            const matchResult = document.getElementById("matchResult");
-            const matchResultText = document.getElementById("matchResultText");
-
-            if (selectedPerson && selectedPerson !== "" && selectedPerson !== "Choose your name" && results && results[selectedPerson]) {
-                console.log("Match found for", selectedPerson, ":", results[selectedPerson]);
-                if (matchResult && matchResultText) {
-                    matchResultText.innerHTML = `${selectedPerson}, you will be getting a gift for: <strong>${results[selectedPerson]}</strong>`;
-                    matchResult.style.display = "block";
-                }
-            } else if (matchResult) {
-                console.log("No match found or selected person is empty/default.");
-                matchResult.style.display = "none";
-            }
-        });
-
-        // Handle AJAX submission for names-form
-        document.getElementById('names-form')?.addEventListener('submit', function (e) {
-            e.preventDefault(); // Prevent default form submission
-
-            const namesInput = document.getElementById('names');
-            const names = namesInput.value.split(',').map(n => n.trim());
-
-            // Basic validation
-            if (names.length < 2) {
-                alert('Please enter at least 2 names');
-                return;
-            }
-            if (new Set(names).size !== names.length) {
-                alert('Please ensure all names are unique');
-                return;
-            }
-
-            const formData = new FormData(this);
-
-            console.log("Attempting to fetch /project/matching via AJAX...");
-            fetch('/project/matching', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest' // Indicate AJAX request
-                }
-            })
-            .then(response => {
-                console.log("AJAX response received.", response);
-                return response.json();
-            })
-            .then(data => {
-                console.log("Data received from AJAX call:", data);
-                if (data.error) {
-                    alert(data.error);
-                    return;
-                }
-
-                // Store results globally for access by other functions
-                window.secretSantaResults = data.results; 
-                console.log("AJAX call successful. window.secretSantaResults set to:", window.secretSantaResults);
-
-                // Update the person dropdown
-                const personSelect = document.getElementById('person');
-                personSelect.innerHTML = '<option value="">Choose your name</option>'; // Clear existing options
-                data.names.sort().forEach(name => {
-                    const option = document.createElement('option');
-                    option.value = name;
-                    option.textContent = name;
-                    personSelect.appendChild(option);
-                });
-
-                // Show the match section and hide the match result initially
-                const matchSection = document.getElementById('matchSection');
-                const matchResult = document.getElementById('matchResult');
-                const resetForm = document.getElementById('reset-form');
-
-                if (matchSection) {
-                    matchSection.style.display = 'block';
-                    console.log("matchSection display set to block.");
-                }
-                if (matchResult) {
-                    matchResult.style.display = 'none';
-                    console.log("matchResult display set to none.");
-                }
-                if (resetForm) {
-                    resetForm.style.display = 'block'; // Show reset button
-                    console.log("resetForm display set to block.");
-                }
-
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while generating matches.');
-            });
-        });
-
-        // Handle AJAX submission for reset-form
-        document.getElementById('clearListButton')?.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (confirm('Are you sure you want to clear all matches?')) {
-                fetch('/project/matching/clear', {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Clear names and results from session (handled by Flask)
-                        window.secretSantaResults = {};
-                        document.getElementById('names').value = '';
-                        document.getElementById('person').innerHTML = '<option value="">Choose your name</option>';
-                        document.getElementById('matchSection').style.display = 'none';
-                        document.getElementById('matchResult').style.display = 'none';
-                        document.getElementById('reset-form').style.display = 'none';
-                    } else {
-                        alert('Failed to clear list.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while clearing the list.');
-                });
-            }
-        });
-
-        // Initial population of dropdown if names are already present (e.g., after a Flask redirect)
-        const initialNames = {{ names | tojson }} || [];
-        const initialResults = {{ results | tojson }} || {};
-        if (initialNames && initialNames.length > 0) {
-            const personSelect = document.getElementById('person');
-            personSelect.innerHTML = '<option value="">Choose your name</option>';
-            initialNames.sort().forEach(name => {
-                const option = document.createElement('option');
-                option.value = name;
-                option.textContent = name;
-                personSelect.appendChild(option);
-            });
-            window.secretSantaResults = initialResults;
-            document.getElementById('matchSection').style.display = 'block';
-            document.getElementById('reset-form').style.display = 'block';
-        }
-    });
+    window.secretSantaInitialNames = {{ names | tojson }} || [];
+    window.secretSantaInitialResults = {{ results | tojson }} || {};
 </script>
+<!-- Secret Santa logic -->
+<script src="{{ url_for('static', filename='js/secret-santa.js') }}?v={{ now.timestamp() }}"></script>
 {% endblock %}

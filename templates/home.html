@@ -1,82 +1,20 @@
 {% extends "base.html" %}
+{% from '_macros.html' import hero_section, project_card %}
 
-{% block title %} Portfolio - Home{% endblock %}
+{% block title %}Jack Van Zeeland - Home{% endblock %}
 
 {% block content %}
-<div class="hero-section text-center text-white d-flex flex-column align-items-center justify-content-center">
-    <div class="hero-content">
-        <h1 class="display-4">Welcome to My Portfolio</h1>
-        <p class="lead">Showcasing my passion for problem-solving and innovative solutions.</p>
-    </div>
-</div>
+{{ hero_section('Welcome to My Portfolio', 'Showcasing my passion for problem-solving and innovative solutions.') }}
 
 <div class="container my-4">
     <p class="text-center"><span class="interactive-legend"></span> Indicates an interactive project</p>
 </div>
 
-<div class="row">
-    {% for project in projects %}
-    <div class="col-md-6 col-lg-4 mb-4"> <!-- Two columns on medium screens, three on large screens -->
-        <div class="card h-100">
-            {% if project.is_interactive %}
-            <span class="interactive-star" title="Interactive Project">⭐</span>
-            {% endif %}
-            {% if project.image %}
-            <img src="{{ url_for('static', filename='images/' + project.image) }}" class="card-img-top" alt="{{ project.title }}">
-            {% endif %}
-            <div class="card-body">
-                <!-- Only the title and description are inside the anchor tag -->
-                {% if project.page %}
-                    <a class="clickable" href="{{ url_for(project.page) }}">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </a>
-                {% elif project.github_link %}
-                    <a class="clickable" href="{{ project.github_link }}" target="_blank">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </a>
-                {% elif project.live_demo %}
-                    <a class="clickable" href="{{ project.live_demo }}" target="_blank">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </a>
-                {% elif project.youtube_link %}
-                    <a class="clickable" href="{{ project.youtube_link }}" target="_blank">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </a>
-                {% elif project.tiktok_link %}
-                    <a class="clickable" href="{{ project.tiktok_link }}" target="_blank">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </a>
-                {% else %}
-                    <div>
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </div>
-                {% endif %}
-
-                <!-- Technologies badges (no hyperlink) -->
-                <div class="mb-2">
-                    {% for tech in project.technologies %}
-                    <span class="badge rounded-pill bg-dark text-white">{{ tech }}</span>
-                    {% endfor %}
-                </div>
-
-                <!-- GitHub and Live Demo buttons (no hyperlink) -->
-                {% if project.webpage_link %}
-                <a href="{{ project.webpage_link }}" class="btn btn-primary text-white" target="_blank">Webpage</a>
-                {% endif %}
-
-                {% if project.live_demo %}
-                <a href="{{ project.live_demo }}" class="btn btn-secondary text-white" target="_blank">Live Demo</a>
-                {% endif %}
-
-            </div>
-        </div>
+<div class="container mt-5">
+    <div class="row">
+        {% for project in projects %}
+            {{ project_card(project) }}
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

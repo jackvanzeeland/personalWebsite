@@ -1,0 +1,22 @@
+"""
+WSGI configuration for PythonAnywhere deployment
+
+This file is called by PythonAnywhere's web server to serve the application.
+Copy this file to wsgi.py and update the project_home path.
+"""
+import sys
+import os
+
+# Add your project directory to the sys.path
+project_home = '/home/yourusername/personalWebsite'  # UPDATE THIS
+if project_home not in sys.path:
+    sys.path.insert(0, project_home)
+
+# Set environment to production
+os.environ['FLASK_ENV'] = 'production'
+
+# Import Flask app
+from app import app as application
+
+# For debugging (remove in production)
+# application.debug = False

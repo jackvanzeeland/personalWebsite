@@ -1,0 +1,129 @@
+{# Reusable template macros for common components #}
+
+{#
+  Basic card with title and content
+  Usage: {{ info_card('Title', '<p>Content</p>') }}
+#}
+{% macro info_card(title, content, extra_class='mb-4') %}
+<div class="card {{ extra_class }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ title }}</h5>
+        <div class="card-text">
+            {{ content | safe }}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{#
+  Card with Mermaid diagram
+  Usage: {{ mermaid_card('How It Works', 'graph TD\n  A-->B;') }}
+#}
+{% macro mermaid_card(title, mermaid_code, extra_class='mb-4') %}
+<div class="card {{ extra_class }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ title }}</h5>
+        <div class="text-center">
+            <pre class="mermaid">{{ mermaid_code | safe }}</pre>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{#
+  Technologies list card
+  Usage: {{ tech_card(['<strong>Python:</strong> Description', ...]) }}
+#}
+{% macro tech_card(technologies, title='Technologies Used') %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ title }}</h5>
+        <ul>
+            {% for tech in technologies %}
+            <li>{{ tech | safe }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endmacro %}
+
+{#
+  Project card for home page
+  Usage: {{ project_card(project_dict) }}
+#}
+{% macro project_card(project) %}
+<div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100">
+        {% if project.is_interactive %}
+        <span class="interactive-star" title="Interactive Project">⭐</span>
+        {% endif %}
+
+        {% if project.image %}
+        <img src="{{ url_for('static', filename='images/' + project.image) }}"
+             class="card-img-top"
+             alt="{{ project.title }}">
+        {% endif %}
+
+        <div class="card-body">
+            {% if project.page %}
+            <a href="{{ url_for(project.page) }}" class="stretched-link text-decoration-none">
+                <h5 class="card-title">{{ project.title }}</h5>
+            </a>
+            {% elif project.github_link %}
+            <a href="{{ project.github_link }}" target="_blank" class="stretched-link text-decoration-none">
+                <h5 class="card-title">{{ project.title }}</h5>
+            </a>
+            {% else %}
+            <h5 class="card-title">{{ project.title }}</h5>
+            {% endif %}
+
+            <p class="card-text">{{ project.description }}</p>
+
+            <div class="mb-2">
+                {% for tech in project.technologies %}
+                <span class="badge rounded-pill bg-dark text-white">{{ tech }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-2">
+                {% if project.youtube_link %}
+                <a href="{{ project.youtube_link }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                    <i class="fab fa-youtube"></i> Watch
+                </a>
+                {% endif %}
+
+                {% if project.tiktok_link %}
+                <a href="{{ project.tiktok_link }}" target="_blank" class="btn btn-sm btn-outline-dark">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+                {% endif %}
+
+                {% if project.live_demo %}
+                <a href="{{ project.live_demo }}" target="_blank" class="btn btn-sm btn-outline-success">
+                    <i class="fas fa-play"></i> Demo
+                </a>
+                {% endif %}
+
+                {% if project.webpage_link %}
+                <a href="{{ project.webpage_link }}" target="_blank" class="btn btn-sm btn-outline-info">
+                    <i class="fas fa-link"></i> Visit
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{#
+  Hero section
+  Usage: {{ hero_section('Title', 'Subtitle') }}
+#}
+{% macro hero_section(title, subtitle) %}
+<div class="hero-section text-center text-white d-flex flex-column align-items-center justify-content-center">
+    <div class="hero-content">
+        <h1 class="display-4">{{ title }}</h1>
+        <p class="lead">{{ subtitle }}</p>
+    </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,11 @@
+zip -r personalWebsite.zip . \
+  -x "venv/*" \
+  -x "__pycache__/*" \
+  -x "node_modules/*" \
+  -x "logs/*" \
+  -x "*.csv" \
+  -x "*.pyc" \
+  -x "*.pyo" \
+  -x "*.pyd" \
+  -x "*.DS_Store" \
+  -x ".git/*"

@@ -1,128 +1,97 @@
-{% extends "base.html" %}
+{% extends "layouts/project_detail.html" %}
+{% from '_macros.html' import info_card, mermaid_card, tech_card %}
 
-{% block title %}Wordle Algorithm Solver{% endblock %}
+{% set project_title = "Wordle Algorithm Solver" %}
 
-{% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-            <h1 class="text-center mb-4 text-white text-decoration-underline">Wordle Algorithm Solver</h1>
+{% block project_content %}
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Project Overview</h5>
-                    <p class="card-text">
-                        This project features an algorithm that I built to solve the popular word game, Wordle. The algorithm recommends the optimal next guess based on previous outcomes, and I competed against it to see which of us was the better player. The algorithm either won or tied with me in 87% of the games we played (46 out of 53), which shows how efficient it is.
-                    </p>
+{{ info_card('Project Overview', '<p>This project features an algorithm that I built to solve the popular word game, Wordle. The algorithm recommends the optimal next guess based on previous outcomes, and I competed against it to see which of us was the better player. The algorithm either won or tied with me in 87% of the games we played (46 out of 53), which shows how efficient it is.</p>') }}
+
+{% set mermaid_code = 'graph TD
+    A[Start] --> B{Guess a word};
+    B --> C{Receive feedback};
+    C --> D{Update possible word list};
+    D --> E{Recommend next best word};
+    E --> B;' %}
+
+{{ mermaid_card('How It Works', mermaid_code) }}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Interactive Solver</h5>
+        <p class="card-text">
+            You can try out the interactive Wordle solver below. Enter a 5-letter word to see the algorithm in action.
+        </p>
+        {% if todaysWord %}
+            <h2 style="text-align: center; color: blue;">{{ todaysWord | upper }} - {{ guesses | length }}</h2>
+        {% endif %}
+
+        {% if feedback %}
+            <div class="alert alert-info">{{ feedback }}</div>
+        {% endif %}
+
+        {% if not todaysWord %}
+            <form method="POST">
+                <label for="todaysWord" class="form-label">Enter Today's Word (5 letters):</label>
+                <input type="text" id="todaysWord" name="todaysWord" maxlength="5" class="form-control" required>
+                <button type="submit" class="btn btn-primary mt-2 text-white">Submit Word</button>
+            </form>
+        {% endif %}
+
+        {% if todaysWord %}
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="col-md-4 text-center">
+                    <img src="{{ url_for('static', filename='images/wordleFoundDistribution.png') }}"
+                        alt="Wordle Found Distribution"
+                        class="img-fluid rounded">
+                </div>
+
+                <div class="col-md-4">
+                    <table class="wordle-table">
+                        {% for guess in guesses %}
+                            <tr class="wordle-row">
+                                {% set wordle_target = todaysWord | list %}
+                                {% set colors = ["wordle-box-grey", "wordle-box-grey", "wordle-box-grey", "wordle-box-grey", "wordle-box-grey"] %}
+
+                                {# First pass: Mark greens #}
+                                {% for i in range(5) %}
+                                    {% if guess[i] == todaysWord[i] %}
+                                        {% set _ = colors.__setitem__(i, "wordle-box-green") %}
+                                        {% set _ = wordle_target.__setitem__(i, None) %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {# Second pass: Mark yellows #}
+                                {% for i in range(5) %}
+                                    {% if colors[i] != "wordle-box-green" and guess[i] in wordle_target %}
+                                        {% set _ = colors.__setitem__(i, "wordle-box-yellow") %}
+                                        {% set _ = wordle_target.__setitem__(wordle_target.index(guess[i]), None) %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {# Render the row #}
+                                {% for i in range(5) %}
+                                    <td class="{{ colors[i] }}">{{ guess[i] }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+                <div class="col-md-4 text-center">
+                    <img src="{{ url_for('static', filename='images/remaining.png') }}"
+                        alt="Options Breakdown"
+                        class="img-fluid rounded">
                 </div>
             </div>
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">How It Works</h5>
-                    <p class="card-text">
-                        The algorithm uses a process of elimination to narrow down the list of possible words. Here's a step-by-step breakdown of how it works:
-                    </p>
-                    <div class="text-center">
-                        <pre class="mermaid">
-                            graph TD
-                                A[Start] --> B{Guess a word};
-                                B --> C{Receive feedback};
-                                C --> D{Update possible word list};
-                                D --> E{Recommend next best word};
-                                E --> B;
-                        </pre>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Interactive Solver</h5>
-                    <p class="card-text">
-                        You can try out the interactive Wordle solver below. Enter a 5-letter word to see the algorithm in action.
-                    </p>
-                    {% if todaysWord %}
-                        <h2 style="text-align: center; color: blue;">{{ todaysWord | upper }} - {{ guesses | length }}</h2>
-                    {% endif %}
-
-                    {% if feedback %}
-                        <div class="alert alert-info">{{ feedback }}</div>
-                    {% endif %}
-
-                    {% if not todaysWord %}
-                        <form method="POST">
-                            <label for="todaysWord" class="form-label">Enter Today's Word (5 letters):</label>
-                            <input type="text" id="todaysWord" name="todaysWord" maxlength="5" class="form-control" required>
-                            <button type="submit" class="btn btn-primary mt-2">Submit Word</button>
-                        </form>
-                    {% endif %}
-
-                    {% if todaysWord %}
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="col-md-4 text-center">
-                                <img src="{{ url_for('static', filename='images/wordleFoundDistribution.png') }}" 
-                                    alt="Wordle Found Distribution" 
-                                    class="img-fluid rounded">
-                            </div>
-
-                            <div class="col-md-4">
-                                <table class="wordle-table">
-                                    {% for guess in guesses %}
-                                        <tr class="wordle-row">
-                                            {% set wordle_target = todaysWord | list %}
-                                            {% set colors = ["wordle-box-grey", "wordle-box-grey", "wordle-box-grey", "wordle-box-grey", "wordle-box-grey"] %}
-
-                                            {# First pass: Mark greens #}
-                                            {% for i in range(5) %}
-                                                {% if guess[i] == todaysWord[i] %}
-                                                    {% set _ = colors.__setitem__(i, "wordle-box-green") %}
-                                                    {% set _ = wordle_target.__setitem__(i, None) %}
-                                                {% endif %}
-                                            {% endfor %}
-
-                                            {# Second pass: Mark yellows #}
-                                            {% for i in range(5) %}
-                                                {% if colors[i] != "wordle-box-green" and guess[i] in wordle_target %}
-                                                    {% set _ = colors.__setitem__(i, "wordle-box-yellow") %}
-                                                    {% set _ = wordle_target.__setitem__(wordle_target.index(guess[i]), None) %}
-                                                {% endif %}
-                                            {% endfor %}
-
-                                            {# Render the row #}
-                                            {% for i in range(5) %}
-                                                <td class="{{ colors[i] }}">{{ guess[i] }}</td>
-                                            {% endfor %}
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-
-                            <div class="col-md-4 text-center">
-                                <img src="{{ url_for('static', filename='images/remaining.png') }}" 
-                                    alt="Options Breakdown" 
-                                    class="img-fluid rounded">
-                            </div>
-                        </div>
-                        
-                        <form method="GET" class="mt-3">
-                            <button type="submit" class="btn btn-secondary">Refresh</button>
-                        </form>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Technologies Used</h5>
-                    <ul>
-                        <li><strong>Python:</strong> For the core algorithm and game logic.</li>
-                        <li><strong>Regex:</strong> To filter the word list based on feedback.</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
+            <form method="GET" class="mt-3">
+                <button type="submit" class="btn btn-secondary">Refresh</button>
+            </form>
+        {% endif %}
     </div>
 </div>
+
+{{ tech_card(['<strong>Python:</strong> For the core algorithm and game logic.', '<strong>Regex:</strong> To filter the word list based on feedback.']) }}
+
 {% endblock %}

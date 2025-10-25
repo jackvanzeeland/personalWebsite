@@ -1,52 +1,20 @@
-{% extends "base.html" %}
+{% extends "layouts/project_detail.html" %}
+{% from '_macros.html' import info_card, mermaid_card, tech_card %}
 
-{% block title %}Basketball Lineup Optimization{% endblock %}
+{% set project_title = "Basketball Lineup Optimization" %}
 
-{% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-            <h1 class="text-center mb-4 text-white text-decoration-underline">Basketball Lineup Optimization</h1>
+{% block project_content %}
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Project Overview</h5>
-                    <p class="card-text">
-                        I developed a process for a friend who is a basketball coach to help them analyze game data. The tool tracks points scored and allowed for each lineup throughout the game and groups player combinations to identify the most effective lineups, ultimately helping to optimize team performance.
-                    </p>
-                </div>
-            </div>
+{{ info_card('Project Overview', '<p>I developed a process for a friend who is a basketball coach to help them analyze game data. The tool tracks points scored and allowed for each lineup throughout the game and groups player combinations to identify the most effective lineups, ultimately helping to optimize team performance.</p>') }}
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">How It Works</h5>
-                    <p class="card-text">
-                        The process analyzes player data to determine the most effective lineup combinations on the court.
-                    </p>
-                    <div class="text-center">
-                        <pre class="mermaid">
-                            graph TD;
-                                A[Input Game Data] --> B(Track Points Scored/Allowed per Lineup);
-                                B --> C(Group Lineups by Size);
-                                C --> D(Analyze +/- for each group);
-                                D --> E(Identify Most Effective Lineups);
-                        </pre>
-                    </div>
-                </div>
-            </div>
+{% set mermaid_code = 'graph TD;
+    A[Input Game Data] --> B(Track Points Scored/Allowed per Lineup);
+    B --> C(Group Lineups by Size);
+    C --> D(Analyze +/- for each group);
+    D --> E(Identify Most Effective Lineups);' %}
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Technologies Used</h5>
-                    <ul>
-                        <li><strong>R Programming:</strong> For statistical analysis and data manipulation.</li>
-                        <li><strong>Problem Solving:</strong> To develop the logic for lineup evaluation.</li>
-                        <li><strong>Data Manipulation:</strong> To process and structure the raw game data.</li>
-                    </ul>
-                </div>
-            </div>
+{{ mermaid_card('How It Works', mermaid_code) }}
 
-        </div>
-    </div>
-</div>
+{{ tech_card(['<strong>R Programming:</strong> For statistical analysis and data manipulation.', '<strong>Problem Solving:</strong> To develop the logic for lineup evaluation.', '<strong>Data Manipulation:</strong> To process and structure the raw game data.']) }}
+
 {% endblock %}

@@ -12,16 +12,17 @@
     <meta property="og:image" content="https://jackvz2002.pythonanywhere.com/static/images/preview.png">
     <meta name="description" content="The portfolio of Jack Van Zeeland, a Business Automation Engineer.">
     <meta property="og:title" content="Jack Van Zeeland's Portfolio">
-    <meta property="og:description" content="A showcase of projects and skills in automation, data analysis, and software development.">
+    <meta property="og:description"
+        content="A showcase of projects and skills in automation, data analysis, and software development.">
     <meta property="og:url" content="https://jackvz2002.pythonanywhere.com/">
     <meta property="og:type" content="website">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Jack Van Zeeland's Portfolio">
-    <meta name="twitter:description" content="A showcase of projects and skills in automation, data analysis, and software development.">
+    <meta name="twitter:description"
+        content="A showcase of projects and skills in automation, data analysis, and software development.">
     <meta name="twitter:image" content="https://jackvz2002.pythonanywhere.com/static/images/preview.png">
-
 
     <!-- Page Title (can be overridden by child templates) -->
     <title>{% block title %}Your Portfolio{% endblock %}</title>
@@ -33,6 +34,9 @@
     <!-- Custom CSS (static) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
+
+    <!-- Page-specific extra head content (e.g., fonts, inline CSS) -->
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body>
@@ -41,16 +45,16 @@
             <div class="progress-bar progress-title" id="page-progress-bar"></div>
             <div class="dropdown-content" id="journey-dropdown"></div>
         </div>
-        <button id="reset-journey-btn" class="btn-danger btn-sm" style="display: none; margin-left: auto;" onclick="resetJourney()">Reset Journey</button>
+        <button id="reset-journey-btn" style="display: none;" onclick="resetJourney()">Reset Journey</button>
     </div>
+
     <!-- Navbar Section -->
-        <!-- Navbar Section -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <!-- Brand Name (links to home page) -->
+            <!-- Brand Name -->
             <a class="navbar-brand" href="{{ url_for('home') }}">Jack Van Zeeland</a>
 
-            <!-- Navbar Toggle Button for Mobile Screens -->
+            <!-- Mobile Nav Toggle -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -58,16 +62,12 @@
             <!-- Navbar Links -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <!-- Home Link -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
-
-                    <!-- About Link -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about') }}">About</a>
                     </li>
-                    <!-- About Link -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('beyondTheCode') }}">Beyond the Code</a>
                     </li>
@@ -76,96 +76,48 @@
         </div>
     </nav>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <div class="container mt-4">
-        <!-- Placeholder for dynamic content from child templates -->
         {% block content %}{% endblock %}
     </div>
 
-    <!-- Footer Section -->
+    <!-- Footer -->
     <footer class="footer mt-5 py-3 bg-dark">
         <div class="container text-center">
-            <!-- Footer Text with Dynamic Year -->
-            <span class="text-muted">© {{ now.year }} Jack Van Zeeland. All rights reserved.</span>
             <div>
                 <a href="https://github.com/jackvanzeeland" target="_blank" class="text-muted mx-2">GitHub</a>
-                <a href="https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/" target="_blank" class="text-muted mx-2">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/" target="_blank"
+                    class="text-muted mx-2">LinkedIn</a>
             </div>
+            <span class="text-muted">Built by Jack Van Zeeland</span>
         </div>
     </footer>
 
-    <!-- External JS: Bootstrap Bundle (Includes Popper) -->
+    <!-- JS: Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Mermaid.js for diagrams -->
+    <!-- Mermaid.js (used for diagrams, if needed) -->
     <script type="module">
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             mermaid.initialize({ startOnLoad: true });
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 
+    <!-- Utility scripts (load first) -->
+    <script src="{{ url_for('static', filename='js/utils/dom-helpers.js') }}?v={{ now.timestamp() }}"></script>
+    <script src="{{ url_for('static', filename='js/utils/api-client.js') }}?v={{ now.timestamp() }}"></script>
+    <script src="{{ url_for('static', filename='js/utils/storage.js') }}?v={{ now.timestamp() }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/usersJourney.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animateCards.js') }}"></script>
+
+    <!-- Optional: For backward compatibility if you use this anywhere -->
     {% block scripts %}{% endblock %}
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const topBarWrapper = document.querySelector('.top-bar-wrapper');
-            document.body.style.paddingTop = topBarWrapper.offsetHeight + 'px';
 
-            const totalPages = 10; // about, basketball, budget, home, matching, beyondTheCode, nebula, superbowl, wordle
-            const currentPage = window.location.pathname;
-
-            let visitedPages = JSON.parse(localStorage.getItem('visitedPages')) || [];
-
-            if (!visitedPages.includes(currentPage)) {
-                visitedPages.push(currentPage);
-                localStorage.setItem('visitedPages', JSON.stringify(visitedPages));
-            }
-
-            const progress = (visitedPages.length / totalPages) * 100;
-            const progressBar = document.getElementById('page-progress-bar');
-            progressBar.style.width = progress + '%';
-            progressBar.innerHTML = `User\'s Journey: ${Math.round(progress)}%`;
-
-            if (progress === 100) {
-                document.getElementById('reset-journey-btn').style.display = 'block';
-            }
-
-            // Populate the dropdown
-            const dropdown = document.getElementById('journey-dropdown');
-            dropdown.innerHTML = ''; // Clear existing items
-
-            function formatPageName(page) {
-                if (page === '/') {
-                    return 'Home';
-                }
-                // Remove leading slash and .html extension
-                let formatted = page.replace(/^\/|\.html$/g, '');
-                // Insert space before capital letters for camelCase
-                formatted = formatted.replace(/([A-Z])/g, ' $1');
-                // Replace underscores and hyphens with spaces
-                formatted = formatted.replace(/[_-]/g, ' ');
-                // Capitalize the first letter of each word
-                return formatted.replace(/\b\w/g, char => char.toUpperCase());
-            }
-
-            visitedPages.forEach(page => {
-                const pageName = formatPageName(page);
-                const link = document.createElement('a');
-                link.href = page;
-                link.textContent = pageName;
-                dropdown.appendChild(link);
-            });
-        });
-
-        function toggleDropdown() {
-            document.getElementById('journey-dropdown').classList.toggle('show');
-        }
-
-        function resetJourney() {
-            localStorage.removeItem('visitedPages');
-            window.location.reload();
-        }
-    </script>
+    <!-- Page-specific extra scripts (e.g., lyric animation JS) -->
+    {% block extra_scripts %}{% endblock %}
 </body>
 
 </html>

@@ -1,293 +1,261 @@
 {% extends "base.html" %}
 
-{% block title %}Wordle Algorithm Solver{% endblock %}
+{% block title %}AI Innovations - HTML Gems{% endblock %}
 
 {% block content %}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hidden Gems of HTML</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  
-</head>
-<body>
-  <header>
+<main class="html-gems-container">
+  <!-- Page header -->
+  <header class="html-gems-header">
     <h1>Hidden Gems of HTML</h1>
-    <p class="lead">A live, self‑contained showcase of underused tags & attributes. No JS required unless a feature truly needs it.</p>
-    <p class="row" style="justify-content:center">
-      <span class="badge">Pure HTML + CSS</span>
-      <span class="badge">Responsive</span>
-      <span class="badge">Copy‑paste friendly</span>
-    </p>
+    <p>A live, self-contained showcase of underused tags & attributes. No JS required unless a feature truly needs it.</p>
   </header>
 
-  <main>
-    <!-- 1. details / summary -->
-    <section class="card">
-      <h2>&lt;details&gt; &amp; &lt;summary&gt;</h2>
-      <div class="ex">
-        <details>
-          <summary>Click to reveal more goodies</summary>
-          <p>Native disclosure widget with accessibility baked in—no JS needed.</p>
-          <ul>
-            <li>Works with keyboard and screen readers</li>
-            <li>Style the open state via <code>details[open]</code></li>
-          </ul>
-        </details>
-      </div>
-      <p class="desc">Create expandable sections (FAQ, code blocks, etc.) with a11y-friendly behavior out of the box.</p>
-    </section>
+  <!-- 1. details / summary -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;details&gt; &amp; &lt;summary&gt;</h2>
+    <div class="html-gem-example">
+      <details>
+        <summary>Click to reveal more goodies</summary>
+        <p>Native disclosure widget with accessibility baked in—no JS needed.</p>
+        <ul>
+          <li>Works with keyboard and screen readers</li>
+          <li>Style the open state via <code>details[open]</code></li>
+        </ul>
+      </details>
+    </div>
+    <p class="desc">Create expandable sections (FAQ, code blocks, etc.) with a11y-friendly behavior out of the box.</p>
+  </section>
 
-    <!-- 2. datalist -->
-    <section class="card">
-      <h2>&lt;datalist&gt; (input suggestions)</h2>
-      <div class="ex">
-        <label for="flavor">Favorite flavor</label><br>
-        <input id="flavor" name="flavor" list="flavors" placeholder="Start typing…" />
-        <datalist id="flavors">
-          <option>Ube</option>
-          <option>Pistachio</option>
-          <option>Salted Caramel</option>
-          <option>Yuzu</option>
-          <option>Taro</option>
-        </datalist>
-      </div>
-      <p class="desc">Attach a suggestion list to text inputs—no custom dropdown code necessary.</p>
-    </section>
+  <!-- 2. datalist -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;datalist&gt; (input suggestions)</h2>
+    <div class="html-gem-example">
+      <label for="flavor">Favorite flavor</label>
+      <input id="flavor" name="flavor" list="flavors" placeholder="Start typing…" />
+      <datalist id="flavors">
+        <option>Ube</option>
+        <option>Pistachio</option>
+        <option>Salted Caramel</option>
+        <option>Yuzu</option>
+        <option>Taro</option>
+      </datalist>
+    </div>
+    <p class="desc">Attach a suggestion list to text inputs—no custom dropdown code necessary.</p>
+  </section>
 
-    <!-- 3. meter -->
-    <section class="card">
-      <h2>&lt;meter&gt; (bounded scalar)</h2>
-      <div class="ex grid-2">
-        <div>
-          <label for="score">Accessibility Score</label><br>
-          <meter id="score" class="meter-ok" min="0" max="100" low="50" high="90" optimum="100" value="92">92</meter>
-        </div>
-        <div>
-          <label for="temp">CPU Temp</label><br>
-          <meter id="temp" class="meter-warn meter-bad" min="0" max="100" low="60" high="85" optimum="40" value="78">78</meter>
-        </div>
+  <!-- 3. meter -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;meter&gt; (bounded scalar)</h2>
+    <div class="html-gem-example html-gem-grid-2">
+      <div>
+        <label for="score">Accessibility Score</label>
+        <meter id="score" class="meter-ok" min="0" max="100" low="50" high="90" optimum="100" value="92">92</meter>
       </div>
-      <p class="desc">Great for ratings/thresholds. Style via vendor pseudo-elements for extra flair.</p>
-    </section>
-
-    <!-- 4. progress -->
-    <section class="card">
-      <h2>&lt;progress&gt; (task progress)</h2>
-      <div class="ex">
-        <label for="dl">Download</label><br>
-        <progress id="dl" value="66" max="100">66%</progress>
+      <div>
+        <label for="temp">CPU Temp</label>
+        <meter id="temp" class="meter-warn meter-bad" min="0" max="100" low="60" high="85" optimum="40" value="78">78</meter>
       </div>
-      <p class="desc">A semantic way to show task completion. Screen readers announce progress automatically.</p>
-    </section>
+    </div>
+    <p class="desc">Great for ratings/thresholds. Style via vendor pseudo-elements for extra flair.</p>
+  </section>
 
-    <!-- 5. contenteditable + spellcheck -->
-    <section class="card">
-      <h2>contenteditable + spellcheck</h2>
-      <div class="ex" contenteditable="true" spellcheck="true" aria-label="Editable note">
-        Click here and type. This region is editable and will underline misspellings.
-      </div>
-      <p class="desc">Turn any element into a lightweight editor without JS.</p>
-    </section>
+  <!-- 4. progress -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;progress&gt; (task progress)</h2>
+    <div class="html-gem-example">
+      <label for="dl">Download</label>
+      <progress id="dl" value="66" max="100">66%</progress>
+    </div>
+    <p class="desc">A semantic way to show task completion. Screen readers announce progress automatically.</p>
+  </section>
 
-    <!-- 6. details + <code> & <samp> -->
-    <section class="card">
-      <h2>&lt;code&gt;, &lt;kbd&gt;, &lt;samp&gt;</h2>
-      <div class="ex">
-        <p>Press <kbd>⌘</kbd> + <kbd>K</kbd> to open search.</p>
-        <p><code>fetch('/api')</code> returns <samp>{"ok":true}</samp></p>
-      </div>
-      <p class="desc">Communicate code, keyboard shortcuts, and sample output with semantic tags.</p>
-    </section>
+  <!-- 5. contenteditable + spellcheck -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">contenteditable + spellcheck</h2>
+    <div class="html-gem-example" contenteditable="true" spellcheck="true" aria-label="Editable note">
+      Click here and type. This region is editable and will underline misspellings.
+    </div>
+    <p class="desc">Turn any element into a lightweight editor without JS.</p>
+  </section>
 
-    <!-- 7. abbr & mark -->
-    <section class="card">
-      <h2>&lt;abbr&gt; + &lt;mark&gt;</h2>
-      <div class="ex">
-        <p>
-          <abbr title="Accessible Rich Internet Applications">ARIA</abbr> improves a11y, and
-          <mark>highlighting</mark> draws attention to key bits.
-        </p>
-      </div>
-      <p class="desc">Tooltips for abbreviations and built-in highlight styling.</p>
-    </section>
+  <!-- 6. code, kbd, samp -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;code&gt;, &lt;kbd&gt;, &lt;samp&gt;</h2>
+    <div class="html-gem-example">
+      <p>Press <kbd>⌘</kbd> + <kbd>K</kbd> to open search.</p>
+      <p><code>fetch('/api')</code> returns <samp>{"ok":true}</samp></p>
+    </div>
+    <p class="desc">Communicate code, keyboard shortcuts, and sample output with semantic tags.</p>
+  </section>
 
-    <!-- 8. figure / figcaption -->
-    <section class="card">
-      <h2>&lt;figure&gt; / &lt;figcaption&gt;</h2>
-      <div class="ex">
-        <figure>
-          <img src="https://picsum.photos/600/300" alt="Abstract placeholder art" style="width:100%; border-radius:10px;">
-          <figcaption>Random art, captioned semantically.</figcaption>
-        </figure>
-      </div>
-      <p class="desc">Captions that are programmatically tied to the media, not just visually nearby.</p>
-    </section>
+  <!-- 7. abbr & mark -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;abbr&gt; + &lt;mark&gt;</h2>
+    <div class="html-gem-example">
+      <p>
+        <abbr title="Accessible Rich Internet Applications">ARIA</abbr> improves a11y, and
+        <mark>highlighting</mark> draws attention to key bits.
+      </p>
+    </div>
+    <p class="desc">Tooltips for abbreviations and built-in highlight styling.</p>
+  </section>
 
-    <!-- 9. download attribute -->
-    <section class="card">
-      <h2><code>download</code> attribute</h2>
-      <div class="ex">
-        <a href="data:text/plain,Hello%20from%20HTML%20gems!" download="hello.txt">Download a tiny text file</a>
-      </div>
-      <p class="desc">Suggests a filename and prompts download instead of navigation.</p>
-    </section>
+  <!-- 8. figure / figcaption -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;figure&gt; / &lt;figcaption&gt;</h2>
+    <div class="html-gem-example">
+      <figure>
+        <img src="https://picsum.photos/600/300" alt="Abstract placeholder art" class="html-gem-figure-img">
+        <figcaption class="html-gem-figcaption">Random art, captioned semantically.</figcaption>
+      </figure>
+    </div>
+    <p class="desc">Captions that are programmatically tied to the media, not just visually nearby.</p>
+  </section>
 
-    <!-- 10. input types + pattern + required -->
-    <section class="card">
-      <h2>Underused &lt;input&gt; types + validation</h2>
-      <div class="ex grid-2">
-        <label>Email
-          <input type="email" placeholder="you@example.com" required>
-        </label>
-        <label>Color
-          <input type="color" value="#7dd3fc">
-        </label>
-        <label>Range
-          <input type="range" min="0" max="100" value="42" oninput="this.nextElementSibling.value=this.value">
-          <output>42</output>
-        </label>
-        <label>Search
-          <input type="search" placeholder="Find things…">
-        </label>
-        <label>Regex (US ZIP)
-          <input type="text" inputmode="numeric" placeholder="12345-6789" pattern="^\d{5}(-\d{4})?$" title="Use 12345 or 12345-6789">
-        </label>
-        <label>Datetime Local
-          <input type="datetime-local">
-        </label>
-      </div>
-      <p class="desc">Native inputs + validation cues reduce JS bloat and improve accessibility.</p>
-    </section>
+  <!-- 9. download attribute -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title"><code>download</code> attribute</h2>
+    <div class="html-gem-example">
+      <a href="data:text/plain,Hello%20from%20HTML%20gems!" download="hello.txt">Download a tiny text file</a>
+    </div>
+    <p class="desc">Suggests a filename and prompts download instead of navigation.</p>
+  </section>
 
-    <!-- 11. native <dialog> -->
-    <section class="card">
-      <h2>&lt;dialog&gt; (modal, minimal JS)</h2>
-      <div class="ex">
-        <dialog id="dlg">
-          <form method="dialog">
-            <h3>Hi there 👋</h3>
-            <p>This is a native modal with focus trapping and ESC to close.</p>
-            <menu class="row" style="justify-content:flex-end; gap:8px;">
-              <button value="cancel">Cancel</button>
-              <button value="ok">OK</button>
-            </menu>
-          </form>
-        </dialog>
-        <button onclick="document.getElementById('dlg').showModal()">Open Dialog</button>
-        <button onclick="document.getElementById('dlg').close()">Close</button>
-      </div>
-      <p class="desc">Accessible modal without heavy libraries. One line to open/close.</p>
-    </section>
+  <!-- 10. input types + pattern + required -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">Underused &lt;input&gt; types + validation</h2>
+    <div class="html-gem-example html-gem-grid-2">
+      <label>Email <input type="email" placeholder="you@example.com" required></label>
+      <label>Color <input type="color" value="#7dd3fc"></label>
+      <label>Range <input type="range" min="0" max="100" value="42" oninput="this.nextElementSibling.value=this.value"><output>42</output></label>
+      <label>Search <input type="search" placeholder="Find things…"></label>
+      <label>Regex (US ZIP) <input type="text" inputmode="numeric" placeholder="12345-6789" pattern="^\d{5}(-\d{4})?$" title="Use 12345 or 12345-6789"></label>
+      <label>Datetime Local <input type="datetime-local"></label>
+    </div>
+    <p class="desc">Native inputs + validation cues reduce JS bloat and improve accessibility.</p>
+  </section>
 
-    <!-- 12. inert attribute (progressive) -->
-    <section class="card">
-      <h2><code>inert</code> attribute (progressively enhanced)</h2>
-      <div class="ex">
-        <p>When a modal opens, you can set the rest of the page to <code>inert</code> to prevent focus/interaction (Chrome, Safari, FF 120+).</p>
-        <div id="inert-demo">
-          <button onclick="toggleInert()">Toggle inert on main content</button>
-        </div>
-        <script>
-          function toggleInert(){
-            const main = document.querySelector('main');
-            main.inert = !main.inert;
-            alert('Main content inert: ' + main.inert);
-          }
-        </script>
-      </div>
-      <p class="desc">Helps enforce focus trapping patterns cleanly with native support.</p>
-    </section>
-
-    <!-- 13. input with datalist + list attribute and <output> -->
-    <section class="card">
-      <h2>&lt;output&gt; + form calc (no JS)</h2>
-      <div class="ex">
-        <form oninput="total.value = (+price.value||0) * (+qty.value||0)">
-          <label>Price $ <input id="price" type="number" step="0.01" value="3.50"></label>
-          <label>Qty <input id="qty" type="number" value="2"></label>
-          <p>Total: <output name="total" for="price qty">7.00</output></p>
+  <!-- 11. native dialog -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;dialog&gt; (modal, minimal JS)</h2>
+    <div class="html-gem-example">
+      <dialog id="dlg" class="html-gem-dialog">
+        <form method="dialog">
+          <h3>Hi there 👋</h3>
+          <p>This is a native modal with focus trapping and ESC to close.</p>
+          <menu class="html-gem-dialog-menu">
+            <button value="cancel">Cancel</button>
+            <button value="ok">OK</button>
+          </menu>
         </form>
-      </div>
-      <p class="desc">Bind outputs to inputs with simple formulas using the <code>oninput</code> event.</p>
-    </section>
+      </dialog>
+      <button onclick="document.getElementById('dlg').showModal()">Open Dialog</button>
+      <button onclick="document.getElementById('dlg').close()">Close</button>
+    </div>
+    <p class="desc">Accessible modal without heavy libraries. One line to open/close.</p>
+  </section>
 
-    <!-- 14. accesskey (demonstration) -->
-    <section class="card">
-      <h2><code>accesskey</code> (quick shortcuts)</h2>
-      <div class="ex">
-        <a href="#top" accesskey="h">Press Alt/⌥ + H to jump to top</a>
-      </div>
-      <p class="desc">Provide quick keyboard access—use sparingly and document your keys.</p>
-    </section>
+  <!-- 12. inert attribute -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title"><code>inert</code> attribute</h2>
+    <div class="html-gem-example">
+      <p>When a modal opens, you can set the rest of the page to <code>inert</code> to prevent focus/interaction.</p>
+      <button onclick="toggleInert()">Toggle inert on main content</button>
+      <script>
+        function toggleInert() {
+          const main = document.querySelector('main');
+          main.inert = !main.inert;
+          alert('Main content inert: ' + main.inert);
+        }
+      </script>
+    </div>
+    <p class="desc">Helps enforce focus trapping patterns cleanly with native support.</p>
+  </section>
 
-    <!-- 15. media with track -->
-    <section class="card">
-      <h2>&lt;video&gt; + &lt;track kind="captions"&gt;</h2>
-      <div class="ex">
-        <video controls width="100%" poster="https://picsum.photos/800/450?blur=1">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-          <track kind="captions" srclang="en" label="English" src="https://gist.githubusercontent.com/anonymous/dfb1ad82a651c01fb9b1d3d866e1f7e8/raw/9c1a2af3b7f4f9b8680d15a6a68a36c8a59f7a9a/sample.vtt" default>
-          Sorry, your browser doesn’t support embedded videos.
-        </video>
-      </div>
-      <p class="desc">Native captions improve accessibility and searchability of media.</p>
-    </section>
+  <!-- 13. output + form calc -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;output&gt; + form calc</h2>
+    <div class="html-gem-example">
+      <form oninput="total.value = (+price.value||0) * (+qty.value||0)">
+        <label>Price $ <input id="price" type="number" step="0.01" value="3.50"></label>
+        <label>Qty <input id="qty" type="number" value="2"></label>
+        <p>Total: <output name="total" for="price qty">7.00</output></p>
+      </form>
+    </div>
+    <p class="desc">Bind outputs to inputs with simple formulas using the <code>oninput</code> event.</p>
+  </section>
 
-    <!-- 16. picture for responsive images -->
-    <section class="card">
-      <h2>&lt;picture&gt; (responsive images)</h2>
-      <div class="ex">
-        <picture>
-          <source media="(min-width: 900px)" srcset="https://picsum.photos/1200/300">
-          <source media="(min-width: 600px)" srcset="https://picsum.photos/900/300">
-          <img src="https://picsum.photos/600/300" alt="Responsive art" style="width:100%; border-radius:10px;">
-        </picture>
-      </div>
-      <p class="desc">Serve the right asset for the right viewport without JS.</p>
-    </section>
+  <!-- 14. accesskey -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title"><code>accesskey</code> (quick shortcuts)</h2>
+    <div class="html-gem-example">
+      <a href="#top" accesskey="h">Press Alt/⌥ + H to jump to top</a>
+    </div>
+    <p class="desc">Provide quick keyboard access—use sparingly and document your keys.</p>
+  </section>
 
-    <!-- 17. select + optgroup -->
-    <section class="card">
-      <h2>&lt;select&gt; + &lt;optgroup&gt;</h2>
-      <div class="ex">
-        <label class="sr-only" for="city">City</label>
-        <select id="city">
-          <optgroup label="USA">
-            <option>Chicago</option>
-            <option>Seattle</option>
-            <option>Austin</option>
-          </optgroup>
-          <optgroup label="International">
-            <option>Tokyo</option>
-            <option>Lisbon</option>
-            <option>Seoul</option>
-          </optgroup>
-        </select>
-      </div>
-      <p class="desc">Group related options for better navigation in long lists.</p>
-    </section>
+  <!-- 15. media with captions -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;video&gt; + &lt;track&gt;</h2>
+    <div class="html-gem-example">
+      <video controls class="html-gem-video" poster="https://picsum.photos/800/450?blur=1">
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+        <track kind="captions" srclang="en" label="English" src="https://gist.githubusercontent.com/anonymous/dfb1ad82a651c01fb9b1d3d866e1f7e8/raw/9c1a2af3b7f4f9b8680d15a6a68a36c8a59f7a9a/sample.vtt" default>
+        Sorry, your browser doesn’t support embedded videos.
+      </video>
+    </div>
+    <p class="desc">Native captions improve accessibility and searchability of media.</p>
+  </section>
 
-    <!-- 18. details + summary used as code reveal -->
-    <section class="card">
-      <h2>Native copy snippet (no JS)</h2>
-      <div class="ex">
-        <details>
-          <summary>Show snippet</summary>
-          <pre><code>&lt;a href="report.csv" download&gt;Download Report&lt;/a&gt;</code></pre>
-        </details>
-      </div>
-      <p class="desc">Use <code>&lt;details&gt;</code> as a lightweight disclosure for docs & examples.</p>
-    </section>
+  <!-- 16. picture for responsive images -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;picture&gt; (responsive images)</h2>
+    <div class="html-gem-example">
+      <picture>
+        <source media="(min-width: 900px)" srcset="https://picsum.photos/1200/300">
+        <source media="(min-width: 600px)" srcset="https://picsum.photos/900/300">
+        <img src="https://picsum.photos/600/300" alt="Responsive art" class="html-gem-figure-img">
+      </picture>
+    </div>
+    <p class="desc">Serve the right asset for the right viewport without JS.</p>
+  </section>
 
-  </main>
+  <!-- 17. select + optgroup -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">&lt;select&gt; + &lt;optgroup&gt;</h2>
+    <div class="html-gem-example">
+      <label class="sr-only" for="city">City</label>
+      <select id="city">
+        <optgroup label="USA">
+          <option>Chicago</option>
+          <option>Seattle</option>
+          <option>Austin</option>
+        </optgroup>
+        <optgroup label="International">
+          <option>Tokyo</option>
+          <option>Lisbon</option>
+          <option>Seoul</option>
+        </optgroup>
+      </select>
+    </div>
+    <p class="desc">Group related options for better navigation in long lists.</p>
+  </section>
 
-  <footer>
+  <!-- 18. native copy snippet -->
+  <section class="html-gem-card">
+    <h2 class="html-gem-title">Native copy snippet (no JS)</h2>
+    <div class="html-gem-example">
+      <details>
+        <summary>Show snippet</summary>
+        <pre><code>&lt;a href="report.csv" download&gt;Download Report&lt;/a&gt;</code></pre>
+      </details>
+    </div>
+    <p class="desc">Use <code>&lt;details&gt;</code> as a lightweight disclosure for docs & examples.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="html-gems-footer">
     Explore the hidden superpowers of HTML! — Built with ❤️ using only HTML & CSS.
   </footer>
-</body>
-</html>
+</main>
 {% endblock %}
