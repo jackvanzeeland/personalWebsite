@@ -72,6 +72,14 @@
                         <a class="nav-link" href="{{ url_for('beyondTheCode') }}">Beyond the Code</a>
                     </li>
                 </ul>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle"
+                        class="btn btn-sm btn-outline-light ms-auto"
+                        aria-label="Switch to light mode"
+                        title="Light Mode">
+                    <i class="fas fa-sun"></i>
+                </button>
             </div>
         </div>
     </nav>
@@ -108,6 +116,9 @@
     <script src="{{ url_for('static', filename='js/utils/dom-helpers.js') }}?v={{ now.timestamp() }}"></script>
     <script src="{{ url_for('static', filename='js/utils/api-client.js') }}?v={{ now.timestamp() }}"></script>
     <script src="{{ url_for('static', filename='js/utils/storage.js') }}?v={{ now.timestamp() }}"></script>
+
+    <!-- Theme Switcher (load before page-specific scripts) -->
+    <script src="{{ url_for('static', filename='js/theme-switcher.js') }}?v={{ now.timestamp() }}"></script>
 
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/usersJourney.js') }}"></script>

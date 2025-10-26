@@ -330,7 +330,7 @@ def clear_results():
 @app.route('/project/superbowl')
 def superbowl():
     log_text("Navigate to Projects/Superbowl")
-    return render_template("superbowl.html", now=datetime.now)
+    return render_template("superbowl.html", now=datetime.now())
 
 @app.route('/project/nebula')
 def nebula():

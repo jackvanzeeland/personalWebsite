@@ -54,7 +54,9 @@ class Config:
         if missing:
             raise ValueError(
                 f"Missing required environment variables: {', '.join(missing)}\n"
-                f"Please create a .env file based on .env.example"
+                "Please create a .env file based on .env.example:\n"
+                "  cp .env.example .env\n"
+                "Then edit .env with your actual values."
             )
 
         return True

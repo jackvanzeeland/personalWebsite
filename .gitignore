@@ -1,6 +1,7 @@
 # Environment
 .env
 .env.local
+!.env.example  # Keep the example in git
 
 # Python
 __pycache__/

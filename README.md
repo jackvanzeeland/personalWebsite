@@ -1,65 +1,273 @@
 # Personal Portfolio Website
 
-This is a personal portfolio website built with Flask to showcase various projects.
+A professional portfolio website built with Flask, showcasing technical projects, automation solutions, and software engineering skills. The application features interactive project demonstrations, AI-powered chat, and a comprehensive project catalog.
 
-## Projects
+🌐 **Live Site**: [jackvz2002.pythonanywhere.com](https://jackvz2002.pythonanywhere.com)
 
-The portfolio features the following projects:
+## Features
 
-*   **Wordle Algorithm Solver**: An algorithm that suggests the optimal Wordle guess.
-*   **Budgeting Automation**: A bot that automates budget tracking from bank statements.
-*   **Basketball Lineup Optimization**: A tool to analyze and optimize basketball lineups.
-*   **Secret Santa Matching**: A program to facilitate Secret Santa gift exchanges.
-*   **Super Bowl Competition**: A system to manage a Super Bowl prop bet competition.
-*   **Reddit Stories**: An automated bot that creates social media content from Reddit stories.
-*   **Nebula - Personal Assistant**: A personal assistant application (in progress).
-*   **Run Genius**: A mobile application for runners (in progress).
+- **Interactive Project Showcase**: 10+ projects with detailed descriptions and live demos
+- **AI-Powered Chat**: OpenAI Assistant integration for interactive conversations
+- **Responsive Design**: Mobile-friendly interface with modern CSS
+- **User Journey Tracking**: Progress tracking across site pages
+- **Beyond The Code**: Personal photo slideshow and interests
+- **Production Ready**: Professional logging, error handling, and deployment configuration
 
-## Project Structure
+## Tech Stack
 
-The project is organized as follows:
+- **Backend**: Flask (Python 3.13)
+- **Frontend**: HTML5, CSS3 (with CSS Custom Properties), JavaScript (ES6+)
+- **AI Integration**: OpenAI API (GPT-based Assistant)
+- **Deployment**: PythonAnywhere
+- **Server**: Gunicorn (production) / Flask dev server (development)
+
+## Project Architecture
+
+The codebase follows modern software engineering practices with clean separation of concerns:
 
 ```
-/
-├── app.py                 # Main Flask application
-├── requirements.txt       # Python dependencies
-├── setup.sh               # Setup script
-├── Procfile               # For Heroku deployment
-├── .gitignore
-├── README.md
-├── scripts/               # Python scripts for backend logic
-│   ├── matching.py
-│   ├── wordle.py
-│   └── log.py
-├── static/                # Static assets
+personalWebsite/
+├── app.py                      # Main Flask application
+├── config.py                   # Centralized configuration
+├── wsgi.py.example             # WSGI config template for deployment
+├── gunicorn.conf.py            # Gunicorn server configuration
+├── runtime.txt                 # Python version specification
+├── requirements.txt            # Python dependencies (6 packages)
+│
+├── data/                       # Application data
+│   └── projects.json           # Project metadata and content
+│
+├── utils/                      # Utility modules
+│   ├── __init__.py
+│   └── project_loader.py       # Project data loader
+│
+├── scripts/                    # Backend logic and utilities
+│   ├── ai_projects.py          # AI project definitions
+│   ├── cleanup_logs.py         # Log maintenance utility
+│   ├── log.py                  # Production logging with rotation
+│   ├── matching.py             # Secret Santa algorithm
+│   └── wordle.py               # Wordle solver algorithm
+│
+├── static/                     # Static assets
 │   ├── css/
-│   │   └── style.css
-│   ├── images/            # Project images and logos
-│   └── js/                # JavaScript files
-├── templates/             # HTML templates
-│   ├── base.html          # Base template
-│   ├── home.html          # Home page
-│   ├── about.html         # About page
-│   ├── beyondTheCode.html      # Meet Jack page
-│   ├── basketball.html    # Project pages
+│   │   ├── analytics-viewer.css
+│   │   ├── lyric-animator.css
+│   │   └── secret-santa.css
+│   ├── js/
+│   │   ├── utils/              # Shared JavaScript utilities
+│   │   │   ├── api-client.js   # Fetch wrapper
+│   │   │   ├── dom-helpers.js  # DOM manipulation utilities
+│   │   │   └── storage.js      # localStorage wrapper
+│   │   ├── analytics-viewer.js
+│   │   ├── animateCards.js
+│   │   ├── beyondTheCode_slideshow.js
+│   │   ├── lyric-animator-particles.js
+│   │   ├── lyric-animator-ui.js
+│   │   ├── lyrics-animator.js
+│   │   ├── secret-santa.js
+│   │   └── usersJourney.js     # Progress tracking
+│   ├── images/                 # Project images and assets
+│   └── files/                  # Static files (PDFs, JSON)
+│
+├── templates/                  # Jinja2 templates
+│   ├── layouts/                # Base layouts
+│   │   └── project_detail.html # Reusable project layout
+│   ├── _macros.html            # Reusable template components
+│   ├── base.html               # Main base template
+│   ├── home.html               # Portfolio landing page
+│   ├── about.html              # About page
+│   ├── beyondTheCode.html      # Personal interests
+│   ├── ai_innovations_portal.html
+│   ├── analyticsViewer.html
+│   ├── lyricAnimator.html
+│   ├── matching.html           # Secret Santa
+│   ├── wordle.html             # Wordle solver
+│   ├── basketball.html
 │   ├── budget.html
-│   ├── matching.html
-│   ├── nebula.html
 │   ├── superbowl.html
-│   └── wordle.html
-└── venv/                  # Virtual environment
+│   └── ... (additional project pages)
+│
+├── logs/                       # Application logs (auto-rotating)
+│   ├── .gitkeep
+│   └── app.log                 # Current log file
+│
+├── DEPLOYMENT.md               # PythonAnywhere deployment guide
+├── CHECKLIST.md                # Pre-deployment checklist
+├── PLAYBOOK.md                 # Development workflow guide
+└── .env                        # Environment variables (not in git)
 ```
 
-## Running the Project
+## Featured Projects
 
-1.  **Set up the environment:**
+### Interactive Projects
+- **Wordle Algorithm Solver** - AI that recommends optimal Wordle guesses (87% win rate)
+- **Secret Santa Matching** - Constraint-based partner matching system
+- **Lyric Animator** - Synchronized lyrics display with Particles.js effects
+- **Analytics Viewer** - CSV data visualization with Chart.js
 
-    ```bash
-    ./setup.sh
-    ```
+### Automation & Optimization
+- **Budgeting Automation** - UiPath bot for bank statement processing
+- **Basketball Lineup Optimization** - R-based team performance analyzer
+- **Super Bowl Competition** - Prop bet scoring system
 
-2.  **Run the Flask application:**
+### AI & Web Development
+- **AI Innovations Portal** - Hub for AI-generated projects
+- **HTML Gems** - AI-powered HTML snippet discovery
+- **Open Chat Board** - Real-time Socket.IO chat application
 
-    ```bash
-    flask run
-    ```
+## Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/personalWebsite.git
+cd personalWebsite
+```
+
+### 2. Create Virtual Environment
+
+```bash
+python3.13 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+SECRET_KEY=your-secret-key-here
+OPENAI_API_KEY=sk-your-openai-api-key
+OPENAI_ASSISTANT_ID=asst-your-assistant-id
+LOG_LEVEL=INFO
+```
+
+**Security Note**: Never commit the `.env` file to version control!
+
+### 5. Validate Configuration
+
+```bash
+python -c "from config import Config; Config.validate(); print('✓ Config OK')"
+```
+
+### 6. Run the Application
+
+**Development mode:**
+```bash
+flask run
+```
+
+**Production mode (with Gunicorn):**
+```bash
+gunicorn -c gunicorn.conf.py app:app
+```
+
+Visit: http://127.0.0.1:5000
+
+## Development Workflow
+
+### Project Structure Conventions
+
+1. **Configuration**: All settings in `config.py`, environment variables in `.env`
+2. **Data**: Project metadata in `data/projects.json`, loaded via `utils/project_loader.py`
+3. **Templates**: Use `_macros.html` for reusable components, extend `layouts/project_detail.html` for project pages
+4. **JavaScript**: Import utilities from `static/js/utils/` before application scripts
+5. **CSS**: Use CSS custom properties defined in `static/style.css`
+6. **Logging**: Use `from scripts.log import log_text, log_error, log_warning`
+
+### Adding a New Project
+
+1. Add project metadata to `data/projects.json`
+2. Create template in `templates/` (extend `layouts/project_detail.html` if applicable)
+3. Add route in `app.py` if needed
+4. Add project images to `static/images/`
+5. Test locally before deploying
+
+### Code Quality Standards
+
+- **Python**: Follow PEP 8, use type hints where appropriate
+- **JavaScript**: Use ES6+ features, IIFE pattern for modules
+- **CSS**: Use custom properties, avoid inline styles
+- **Templates**: Use macros for repeated patterns, keep logic minimal
+
+## Deployment
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for complete PythonAnywhere deployment instructions.
+
+Quick summary:
+1. Push code to GitHub
+2. Clone to PythonAnywhere
+3. Set up virtual environment
+4. Configure `.env` file
+5. Set up Web app with WSGI configuration
+6. Reload and test
+
+## Maintenance
+
+### View Logs
+
+```bash
+tail -f logs/app.log
+```
+
+### Clean Old Logs
+
+```bash
+python scripts/cleanup_logs.py
+```
+
+### Update Deployed Site
+
+```bash
+git pull origin main
+source venv/bin/activate
+pip install -r requirements.txt
+# Reload via PythonAnywhere Web tab
+```
+
+## Performance Optimizations
+
+- **Asset Caching**: Cache-busting query parameters on CSS/JS files
+- **Log Rotation**: Automatic daily rotation, 30-day retention
+- **DOM Caching**: Frequently accessed elements cached in JavaScript
+- **Modular Loading**: Utilities loaded before application scripts
+- **CSS Variables**: Single source of truth for theming
+
+## Security Features
+
+- Environment-based secret management (no hardcoded credentials)
+- Input validation on all forms
+- OpenAI API key isolation
+- Secure session handling
+- Production-grade error handling
+
+## Browser Support
+
+- Chrome/Edge 90+
+- Firefox 88+
+- Safari 14+
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## Contributing
+
+This is a personal portfolio project, but suggestions and feedback are welcome!
+
+## License
+
+© 2025 Jack Van Zeeland. All rights reserved.
+
+## Contact
+
+- **Portfolio**: https://jackvz2002.pythonanywhere.com
+- **LinkedIn**: [Jack Van Zeeland](https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/)
+- **GitHub**: [@jackvanzeeland](https://github.com/jackvanzeeland)
+
+---
+
+**Built with Flask** 🐍 | **Deployed on PythonAnywhere** ☁️ | **Powered by AI** 🤖
