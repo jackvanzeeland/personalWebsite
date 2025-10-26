@@ -357,6 +357,22 @@ def analyticsViewer():
     log_text("Navigate to analytics viewer")
     return render_template('analyticsViewer.html', now=datetime.now())
 
+# Case Study Routes
+@app.route('/case-study/wordle')
+def wordle_case_study():
+    log_text("Navigate to Wordle Case Study")
+    return render_template('case-studies/wordle-case-study.html', now=datetime.now())
+
+@app.route('/case-study/secret-santa')
+def secret_santa_case_study():
+    log_text("Navigate to Secret Santa Case Study")
+    return render_template('case-studies/secret-santa-case-study.html', now=datetime.now())
+
+@app.route('/case-study/basketball')
+def basketball_case_study():
+    log_text("Navigate to Basketball Case Study")
+    return render_template('case-studies/basketball-case-study.html', now=datetime.now())
+
 # Start Flask app
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

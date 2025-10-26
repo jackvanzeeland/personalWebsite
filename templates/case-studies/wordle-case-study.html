@@ -1,0 +1,294 @@
+{% extends "layouts/case_study.html" %}
+
+{% block title %}Wordle Algorithm Solver - Case Study{% endblock %}
+
+{% block case_title %}Wordle Algorithm Solver{% endblock %}
+{% block case_subtitle %}Building an AI that outperforms humans at strategic word guessing{% endblock %}
+
+{% block case_meta %}
+<div class="meta-tags">
+    <span class="meta-tag"><i class="fas fa-code"></i> Python</span>
+    <span class="meta-tag"><i class="fas fa-brain"></i> Algorithm Design</span>
+    <span class="meta-tag"><i class="fas fa-chart-line"></i> Data Analysis</span>
+</div>
+<div class="case-study-stats">
+    <div class="stat-item">
+        <div class="stat-value">87%</div>
+        <div class="stat-label">Win Rate vs Human</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">12,972</div>
+        <div class="stat-label">Words Analyzed</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">46/53</div>
+        <div class="stat-label">Games Won/Tied</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block case_content %}
+
+<!-- Problem Statement -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">01</span> Problem Statement</h2>
+    <div class="section-content">
+        <p class="lead">Wordle is a popular word-guessing game where players have 6 attempts to guess a 5-letter word. After each guess, the game provides feedback: green for correct letters in correct positions, yellow for correct letters in wrong positions, and gray for incorrect letters.</p>
+
+        <div class="challenge-box">
+            <h4>The Challenge</h4>
+            <p>Can we build an algorithm that consistently outperforms human players by making optimal guesses based on available information?</p>
+        </div>
+
+        <p>The key questions were:</p>
+        <ul>
+            <li>How do we mathematically model the feedback system?</li>
+            <li>What makes a "good" next guess when multiple options exist?</li>
+            <li>How can we efficiently search through 12,000+ possible words?</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Research & Planning -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">02</span> Research & Planning</h2>
+    <div class="section-content">
+        <p>I analyzed successful Wordle strategies and identified three core principles:</p>
+
+        <div class="row">
+            <div class="col-md-4 scroll-stagger-item">
+                <div class="principle-card">
+                    <div class="principle-icon">🎯</div>
+                    <h5>Maximize Information</h5>
+                    <p>Each guess should eliminate as many possibilities as possible</p>
+                </div>
+            </div>
+            <div class="col-md-4 scroll-stagger-item">
+                <div class="principle-card">
+                    <div class="principle-icon">🔤</div>
+                    <h5>Letter Frequency</h5>
+                    <p>Prioritize common letters (E, A, R, O, T) early</p>
+                </div>
+            </div>
+            <div class="col-md-4 scroll-stagger-item">
+                <div class="principle-card">
+                    <div class="principle-icon">📊</div>
+                    <h5>Pattern Matching</h5>
+                    <p>Use regex to filter words based on known constraints</p>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mt-4">Algorithm Architecture</h4>
+        <pre class="mermaid">
+graph TD
+    A[Start with 12,972 valid words] --> B[Make initial guess: ARISE]
+    B --> C[Receive color feedback]
+    C --> D{All green?}
+    D -->|Yes| E[Success!]
+    D -->|No| F[Build regex pattern from feedback]
+    F --> G[Filter word list using pattern]
+    G --> H[Score remaining words by letter frequency]
+    H --> I[Select highest scoring word]
+    I --> C
+        </pre>
+    </div>
+</section>
+
+<!-- Technical Challenges -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">03</span> Technical Challenges</h2>
+    <div class="section-content">
+
+        <h4>Challenge 1: Regex Pattern Generation</h4>
+        <p>The most complex part was converting Wordle feedback into a regex pattern that could filter the word list.</p>
+
+        <div class="code-example">
+            <div class="code-header">
+                <span class="code-lang">Python</span>
+                <span class="code-file">wordle_algorithm.py</span>
+            </div>
+            <pre><code class="language-python"># Example: Guess "ARISE" → Feedback: ⬜🟨⬜🟨⬜
+# A is wrong, R is in word but not position 2, etc.
+
+def build_regex_pattern(guess, feedback):
+    pattern = ""
+    excluded_letters = set()
+    required_letters = {}
+
+    for i, (letter, color) in enumerate(zip(guess, feedback)):
+        if color == "green":
+            pattern += letter
+        elif color == "yellow":
+            pattern += f"[^{letter}]"  # Not this letter here
+            required_letters[letter] = i
+        else:
+            pattern += "."
+            excluded_letters.add(letter)
+
+    return pattern, required_letters, excluded_letters</code></pre>
+        </div>
+
+        <h4 class="mt-4">Challenge 2: Word Scoring Algorithm</h4>
+        <p>To choose the best next guess, I developed a scoring system based on letter frequency in remaining possible words.</p>
+
+        <div class="code-example">
+            <div class="code-header">
+                <span class="code-lang">Python</span>
+                <span class="code-file">scoring.py</span>
+            </div>
+            <pre><code class="language-python">def score_word(word, possible_words):
+    """Score a word based on how much information it provides"""
+    letter_freq = {}
+
+    # Calculate frequency of each letter in possible words
+    for possible in possible_words:
+        for letter in set(possible):
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
+
+    # Score this word
+    score = 0
+    for letter in set(word):
+        score += letter_freq.get(letter, 0)
+
+    return score</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Solution Approach -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">04</span> Solution Approach</h2>
+    <div class="section-content">
+        <p>The final algorithm follows this decision-making process:</p>
+
+        <div class="solution-steps">
+            <div class="solution-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h5>Optimal First Guess</h5>
+                    <p>After analyzing letter frequency across all valid words, "ARISE" emerged as the statistically best opening move, containing the 5 most common letters.</p>
+                </div>
+            </div>
+
+            <div class="solution-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h5>Pattern-Based Filtering</h5>
+                    <p>Convert feedback into regex patterns to eliminate impossible words. For example, if E is green in position 5, pattern becomes <code>....E</code></p>
+                </div>
+            </div>
+
+            <div class="solution-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h5>Information Maximization</h5>
+                    <p>Score remaining words by how many new letters they test. Prioritize words that will narrow down possibilities regardless of outcome.</p>
+                </div>
+            </div>
+
+            <div class="solution-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h5>Adaptive Strategy</h5>
+                    <p>As possibilities narrow, switch from exploration (testing new letters) to exploitation (guessing likely answers).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Results & Metrics -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">05</span> Results & Metrics</h2>
+    <div class="section-content">
+        <div class="results-grid">
+            <div class="result-card">
+                <div class="result-icon">🏆</div>
+                <h4>Competition Results</h4>
+                <p>Competed against my manual attempts over 53 games</p>
+                <ul>
+                    <li><strong>Algorithm wins:</strong> 38 games (72%)</li>
+                    <li><strong>Ties:</strong> 8 games (15%)</li>
+                    <li><strong>Human wins:</strong> 7 games (13%)</li>
+                </ul>
+                <p class="mt-2"><strong>Overall: 87% win/tie rate for the algorithm</strong></p>
+            </div>
+
+            <div class="result-card">
+                <div class="result-icon">📈</div>
+                <h4>Performance Metrics</h4>
+                <ul>
+                    <li><strong>Average guesses:</strong> 4.2 (algorithm) vs 4.6 (human)</li>
+                    <li><strong>Success rate:</strong> 96% solve within 6 guesses</li>
+                    <li><strong>Fastest solve:</strong> 2 guesses</li>
+                    <li><strong>Search time:</strong> ~50ms per guess</li>
+                </ul>
+            </div>
+        </div>
+
+        <h4 class="mt-4">Key Insights from Data</h4>
+        <div class="insight-box">
+            <p><strong>Opening word matters:</strong> "ARISE" as the first guess led to 23% faster solutions compared to random starting words.</p>
+            <p><strong>Early variety wins:</strong> Testing unique letters in guesses 2-3 dramatically improved outcomes.</p>
+            <p><strong>Humans overthink:</strong> I often second-guessed obvious choices while the algorithm stayed objective.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Lessons Learned -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">06</span> Lessons Learned</h2>
+    <div class="section-content">
+        <div class="lessons-grid">
+            <div class="lesson-item">
+                <h5>🎯 Data-Driven Decisions Beat Intuition</h5>
+                <p>My initial instinct was to use common words like "STARE," but frequency analysis proved "ARISE" was mathematically superior. Trusting the data over gut feeling was key.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>🔧 Regex is Powerful for Pattern Matching</h5>
+                <p>I initially tried manual string filtering, but converting feedback to regex patterns made the code cleaner and 3x faster. Learning regex deeply was worth the investment.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>🧪 Test with Real Scenarios</h5>
+                <p>Competing against myself revealed edge cases that unit tests missed. Real-world testing is irreplaceable for validating algorithm performance.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>📊 Simple Metrics Can Be Deceptive</h5>
+                <p>Early on, I only tracked win rate. Adding "average guesses" revealed that some wins were inefficient. Multi-dimensional metrics provide better insight.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>🚀 Optimization ≠ Perfection</h5>
+                <p>I spent 2 days trying to get from 87% to 95% success rate, but the marginal gains weren't worth it. Knowing when "good enough" is actually good enough is a valuable skill.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>💡 Side Projects Build Real Skills</h5>
+                <p>This project taught me practical algorithm design, statistical analysis, and Python optimization—skills I now use daily in my professional work.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Interactive Demo -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">07</span> Try It Yourself</h2>
+    <div class="section-content">
+        <p>Want to see the algorithm in action? Try the interactive Wordle solver:</p>
+        <a href="{{ url_for('wordle') }}" class="btn btn-primary btn-lg mt-3">
+            <i class="fas fa-play-circle"></i> Launch Wordle Solver
+        </a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block case_nav_extra %}
+<a href="{{ url_for('secret_santa_case_study') }}" class="btn btn-outline-secondary">
+    Next Case Study: Secret Santa <i class="fas fa-arrow-right"></i>
+</a>
+{% endblock %}

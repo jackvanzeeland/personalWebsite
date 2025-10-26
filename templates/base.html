@@ -32,7 +32,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Custom CSS (static) -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ now.timestamp() }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/scroll-animations.css') }}?v={{ now.timestamp() }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
 
     <!-- Page-specific extra head content (e.g., fonts, inline CSS) -->
@@ -119,6 +120,15 @@
 
     <!-- Theme Switcher (load before page-specific scripts) -->
     <script src="{{ url_for('static', filename='js/theme-switcher.js') }}?v={{ now.timestamp() }}"></script>
+
+    <!-- Achievements System (load early for other modules to access) -->
+    <script src="{{ url_for('static', filename='js/achievements.js') }}?v={{ now.timestamp() }}"></script>
+
+    <!-- Scroll Animations (load early for fallback initialization) -->
+    <script src="{{ url_for('static', filename='js/scroll-animations.js') }}?v={{ now.timestamp() }}"></script>
+
+    <!-- Project Filter -->
+    <script src="{{ url_for('static', filename='js/project-filter.js') }}?v={{ now.timestamp() }}"></script>
 
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/usersJourney.js') }}"></script>

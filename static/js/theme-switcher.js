@@ -94,6 +94,11 @@ const ThemeSwitcher = (function() {
         const currentTheme = StorageHelper.get(STORAGE_KEY, THEMES.dark);
         const newTheme = currentTheme === THEMES.dark ? THEMES.light : THEMES.dark;
         applyTheme(newTheme);
+
+        // Track achievement
+        if (window.AchievementSystem) {
+            AchievementSystem.trackAction('theme_switched');
+        }
     }
 
     /**

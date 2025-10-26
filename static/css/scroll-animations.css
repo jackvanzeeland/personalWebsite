@@ -1,0 +1,224 @@
+/* ====== SCROLL-DRIVEN ANIMATIONS ====== */
+
+/* Check for scroll-timeline support */
+@supports (animation-timeline: view()) {
+    /* Modern browsers with native scroll-driven animations */
+
+    /* Fade in from bottom */
+    .scroll-fade-up {
+        animation: scroll-fade-up linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+    }
+
+    @keyframes scroll-fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Fade in from sides */
+    .scroll-fade-left {
+        animation: scroll-fade-left linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+    }
+
+    @keyframes scroll-fade-left {
+        from {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .scroll-fade-right {
+        animation: scroll-fade-right linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+    }
+
+    @keyframes scroll-fade-right {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Scale up reveal */
+    .scroll-scale {
+        animation: scroll-scale linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+    }
+
+    @keyframes scroll-scale {
+        from {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Rotate reveal */
+    .scroll-rotate {
+        animation: scroll-rotate linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 40%;
+    }
+
+    @keyframes scroll-rotate {
+        from {
+            opacity: 0;
+            transform: rotateY(-15deg) translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: rotateY(0deg) translateY(0);
+        }
+    }
+
+    /* Blur to focus */
+    .scroll-blur-focus {
+        animation: scroll-blur-focus linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+    }
+
+    @keyframes scroll-blur-focus {
+        from {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+    }
+
+    /* Parallax effect for hero images */
+    .scroll-parallax {
+        animation: scroll-parallax linear;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+    }
+
+    @keyframes scroll-parallax {
+        from {
+            transform: translateY(-10%);
+        }
+        to {
+            transform: translateY(10%);
+        }
+    }
+
+    /* Stagger animations for lists */
+    .scroll-stagger-item:nth-child(1) {
+        animation: scroll-fade-up linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 25%;
+    }
+
+    .scroll-stagger-item:nth-child(2) {
+        animation: scroll-fade-up linear;
+        animation-timeline: view();
+        animation-range: entry 5% cover 30%;
+    }
+
+    .scroll-stagger-item:nth-child(3) {
+        animation: scroll-fade-up linear;
+        animation-timeline: view();
+        animation-range: entry 10% cover 35%;
+    }
+
+    .scroll-stagger-item:nth-child(4) {
+        animation: scroll-fade-up linear;
+        animation-timeline: view();
+        animation-range: entry 15% cover 40%;
+    }
+
+    .scroll-stagger-item:nth-child(5) {
+        animation: scroll-fade-up linear;
+        animation-timeline: view();
+        animation-range: entry 20% cover 45%;
+    }
+
+    .scroll-stagger-item:nth-child(6) {
+        animation: scroll-fade-up linear;
+        animation-timeline: view();
+        animation-range: entry 25% cover 50%;
+    }
+}
+
+/* Fallback for browsers without scroll-timeline support */
+@supports not (animation-timeline: view()) {
+    /* These will be handled by Intersection Observer JS */
+    .scroll-fade-up,
+    .scroll-fade-left,
+    .scroll-fade-right,
+    .scroll-scale,
+    .scroll-rotate,
+    .scroll-blur-focus {
+        opacity: 0;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scroll-fade-up {
+        transform: translateY(100px);
+    }
+
+    .scroll-fade-left {
+        transform: translateX(-100px);
+    }
+
+    .scroll-fade-right {
+        transform: translateX(100px);
+    }
+
+    .scroll-scale {
+        transform: scale(0.8);
+    }
+
+    .scroll-rotate {
+        transform: rotateY(-15deg) translateY(50px);
+    }
+
+    .scroll-blur-focus {
+        filter: blur(10px);
+        transform: translateY(50px);
+    }
+
+    /* Visible state applied by JS */
+    .scroll-visible {
+        opacity: 1 !important;
+        transform: translateY(0) translateX(0) scale(1) rotateY(0) !important;
+        filter: blur(0) !important;
+    }
+}
+
+/* Prevent layout shift */
+.scroll-fade-up,
+.scroll-fade-left,
+.scroll-fade-right,
+.scroll-scale,
+.scroll-rotate,
+.scroll-blur-focus {
+    will-change: transform, opacity;
+}

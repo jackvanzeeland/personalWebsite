@@ -1,0 +1,35 @@
+<!-- Case Study Layout Template -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="case-study-container">
+    <!-- Hero Section -->
+    <div class="case-study-hero">
+        <div class="container">
+            <a href="{{ url_for('home') }}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Projects
+            </a>
+            <h1 class="case-study-title">{% block case_title %}{% endblock %}</h1>
+            <p class="case-study-subtitle">{% block case_subtitle %}{% endblock %}</p>
+            <div class="case-study-meta">
+                {% block case_meta %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="container case-study-content">
+        {% block case_content %}{% endblock %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="case-study-nav">
+        <div class="container">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+                <i class="fas fa-th"></i> View All Projects
+            </a>
+            {% block case_nav_extra %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

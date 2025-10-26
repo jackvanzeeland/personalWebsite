@@ -52,7 +52,7 @@
   Usage: {{ project_card(project_dict) }}
 #}
 {% macro project_card(project) %}
-<div class="col-md-6 col-lg-4 mb-4">
+<div class="col-md-6 col-lg-4 mb-4 project-card-wrapper scroll-fade-up" data-tags="{{ project.tags | join(', ') if project.tags else '' }}">
     <div class="card h-100">
         {% if project.is_interactive %}
         <span class="interactive-star" title="Interactive Project">⭐</span>

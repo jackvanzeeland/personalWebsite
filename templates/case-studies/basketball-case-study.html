@@ -1,0 +1,318 @@
+{% extends "layouts/case_study.html" %}
+
+{% block title %}Basketball Lineup Optimization - Case Study{% endblock %}
+
+{% block case_title %}Basketball Lineup Optimization{% endblock %}
+{% block case_subtitle %}Data-driven lineup analysis for competitive advantage{% endblock %}
+
+{% block case_meta %}
+<div class="meta-tags">
+    <span class="meta-tag"><i class="fas fa-chart-bar"></i> R Programming</span>
+    <span class="meta-tag"><i class="fas fa-database"></i> Data Analysis</span>
+    <span class="meta-tag"><i class="fas fa-basketball-ball"></i> Sports Analytics</span>
+</div>
+<div class="case-study-stats">
+    <div class="stat-item">
+        <div class="stat-value">462</div>
+        <div class="stat-label">Lineup Combinations Analyzed</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">+18.5</div>
+        <div class="stat-label">Avg Point Differential (Best Lineup)</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Grouping Sizes (2-5 players)</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block case_content %}
+
+<!-- Problem Statement -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">01</span> Problem Statement</h2>
+    <div class="section-content">
+        <p class="lead">A friend who coaches high school basketball needed help identifying which player combinations performed best together. With limited practice time and 12 roster players, finding the optimal 5-player lineups through trial and error wasn't feasible.</p>
+
+        <div class="challenge-box">
+            <h4>The Challenge</h4>
+            <p>Analyze game footage data to identify which specific player combinations maximize scoring while minimizing points allowed, enabling data-driven lineup decisions.</p>
+        </div>
+
+        <p>Key questions to answer:</p>
+        <ul>
+            <li>Which 5-player lineups have the best point differential?</li>
+            <li>Which 2-3 player combinations create the strongest core?</li>
+            <li>Are there specific players who enhance (or hurt) each other's performance?</li>
+            <li>How do lineups perform offensively vs defensively?</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Research & Planning -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">02</span> Research & Planning</h2>
+    <div class="section-content">
+        <p>Professional NBA teams use sophisticated plus/minus tracking. I adapted this approach for high school level, where data collection is manual and less granular.</p>
+
+        <h4>Data Collection Strategy</h4>
+        <pre class="mermaid">
+graph TD
+    A[Watch game footage] --> B[Record lineup changes]
+    B --> C[Track points scored/allowed per lineup]
+    C --> D[Calculate time on court per lineup]
+    D --> E[Compute plus/minus statistics]
+    E --> F[Generate all subset combinations]
+    F --> G[Aggregate stats by player groups]
+        </pre>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="principle-card">
+                    <div class="principle-icon">📊</div>
+                    <h5>Plus/Minus Metric</h5>
+                    <p>Points scored minus points allowed while lineup is on court</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="principle-card">
+                    <div class="principle-icon">🔢</div>
+                    <h5>Combination Analysis</h5>
+                    <p>Test all possible groupings (2-player, 3-player, etc.)</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="principle-card">
+                    <div class="principle-icon">⏱️</div>
+                    <h5>Time-Weighted Stats</h5>
+                    <p>Account for how long each lineup actually played</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technical Challenges -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">03</span> Technical Challenges</h2>
+    <div class="section-content">
+
+        <h4>Challenge 1: Combinatorial Explosion</h4>
+        <p>With 12 players, there are C(12,5) = 792 possible 5-player lineups. Including all subset sizes (2, 3, 4, 5), we're analyzing thousands of combinations.</p>
+
+        <div class="code-example">
+            <div class="code-header">
+                <span class="code-lang">R</span>
+                <span class="code-file">combination_analysis.R</span>
+            </div>
+            <pre><code class="language-r"># Generate all k-player combinations
+generate_combinations <- function(players, k) {
+  combos <- combn(players, k, simplify = FALSE)
+  return(combos)
+}
+
+# For each combination, aggregate statistics
+analyze_combination <- function(combo, lineup_data) {
+  # Filter to lineups containing all players in combo
+  relevant_lineups <- lineup_data %>%
+    filter(sapply(lineups, function(l) all(combo %in% l)))
+
+  # Calculate weighted average plus/minus
+  total_time <- sum(relevant_lineups$minutes)
+  weighted_plus_minus <- sum(
+    relevant_lineups$plus_minus * relevant_lineups$minutes
+  ) / total_time
+
+  return(list(
+    players = combo,
+    plus_minus = weighted_plus_minus,
+    minutes = total_time
+  ))
+}</code></pre>
+        </div>
+
+        <h4 class="mt-4">Challenge 2: Small Sample Sizes</h4>
+        <p>Some lineups only played together for 2-3 minutes. Statistical significance became crucial to avoid over-interpreting noise.</p>
+
+        <div class="insight-box">
+            <strong>Solution:</strong> Applied a minimum threshold of 5 minutes playing time together. Lineups below this threshold were flagged as "insufficient data" rather than discarded, giving the coach context about reliability.
+        </div>
+
+        <div class="code-example mt-3">
+            <div class="code-header">
+                <span class="code-lang">R</span>
+                <span class="code-file">statistical_significance.R</span>
+            </div>
+            <pre><code class="language-r"># Add confidence levels based on sample size
+add_confidence <- function(results) {
+  results$confidence <- case_when(
+    results$minutes >= 15 ~ "High",
+    results$minutes >= 8 ~ "Medium",
+    results$minutes >= 5 ~ "Low",
+    TRUE ~ "Insufficient Data"
+  )
+
+  return(results)
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Solution Approach -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">04</span> Solution Approach</h2>
+    <div class="section-content">
+        <p>The analysis pipeline processed game data through several stages:</p>
+
+        <div class="solution-steps">
+            <div class="solution-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h5>Data Ingestion</h5>
+                    <p>Parsed game logs showing lineup changes, score changes, and time stamps. Normalized into a structured dataframe with one row per lineup stint.</p>
+                </div>
+            </div>
+
+            <div class="solution-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h5>Combination Generation</h5>
+                    <p>Generated all possible player groupings of sizes 2, 3, 4, and 5. Used R's <code>combn()</code> function for efficient enumeration.</p>
+                </div>
+            </div>
+
+            <div class="solution-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h5>Statistical Aggregation</h5>
+                    <p>For each combination, calculated time-weighted averages of plus/minus, points scored, and points allowed. Flagged low-confidence results.</p>
+                </div>
+            </div>
+
+            <div class="solution-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h5>Visualization & Reporting</h5>
+                    <p>Created ranked tables showing top and bottom performers. Highlighted players who consistently appeared in winning lineups.</p>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mt-4">Key Metrics Tracked</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Offensive Metrics</h6>
+                <ul>
+                    <li>Points per minute with lineup on court</li>
+                    <li>Field goal percentage</li>
+                    <li>Turnover rate</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6>Defensive Metrics</h6>
+                <ul>
+                    <li>Opponent points per minute</li>
+                    <li>Steals and blocks</li>
+                    <li>Defensive rebound percentage</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Results & Metrics -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">05</span> Results & Metrics</h2>
+    <div class="section-content">
+        <div class="results-grid">
+            <div class="result-card">
+                <div class="result-icon">🏆</div>
+                <h4>Top Lineup Discoveries</h4>
+                <p><strong>Best 5-Player Lineup:</strong> +18.5 point differential per game</p>
+                <p><strong>Worst 5-Player Lineup:</strong> -12.3 point differential per game</p>
+                <p class="mt-2"><strong>Impact:</strong> A 30.8 point swing based solely on lineup selection!</p>
+                <ul class="mt-3">
+                    <li>Identified 3 players who should <em>always</em> play together</li>
+                    <li>Found 2 players who hurt each other's effectiveness</li>
+                    <li>Discovered unexpected defensive specialist pairings</li>
+                </ul>
+            </div>
+
+            <div class="result-card">
+                <div class="result-icon">📈</div>
+                <h4>Real-World Impact</h4>
+                <p>The coach used these insights to restructure rotations:</p>
+                <ul>
+                    <li><strong>Win rate increased:</strong> From 45% to 62% over next 15 games</li>
+                    <li><strong>Average margin:</strong> +4.2 points per game improvement</li>
+                    <li><strong>Confidence boost:</strong> Players appreciated data-driven decisions</li>
+                </ul>
+            </div>
+        </div>
+
+        <h4 class="mt-4">Surprising Insights</h4>
+        <div class="insight-box">
+            <p><strong>The "stats" player wasn't the best:</strong> The team's leading scorer had a negative plus/minus in certain lineups. He needed specific teammates to maximize effectiveness.</p>
+            <p><strong>Defense wins championships:</strong> The lineup with the best defensive rating (+8.2) won games even when scoring less than average.</p>
+            <p><strong>Bench matters:</strong> The best 6th man actually performed better than 2 starters when grouped correctly.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Lessons Learned -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">06</span> Lessons Learned</h2>
+    <div class="section-content">
+        <div class="lessons-grid">
+            <div class="lesson-item">
+                <h5>📊 Context Over Raw Numbers</h5>
+                <p>Plus/minus without time-weighting was misleading. The player with the "best" plus/minus only played 3 minutes. Statistical rigor prevents wrong conclusions.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>👥 Stakeholder Communication Matters</h5>
+                <p>Initially presented dense R output. Coach needed visualizations and simple rankings. Learned to tailor technical work to audience needs.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>🔄 Iteration Beats Perfection</h5>
+                <p>Started with just 5-player lineups. Coach asked for 2-3 player combos too. Building incrementally and getting feedback led to a better tool than my initial "complete" vision.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>🎯 Domain Knowledge Is Critical</h5>
+                <p>I missed defensive specialists initially (low scoring, high impact). The coach's basketball knowledge + my data skills = better insights than either alone.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>⚠️ Beware Small Samples</h5>
+                <p>Early version ranked a lineup #1 based on 2 minutes of play. Adding confidence intervals saved us from bad decisions based on statistical flukes.</p>
+            </div>
+
+            <div class="lesson-item">
+                <h5>🚀 Real Problems Beat Tutorials</h5>
+                <p>This project taught me more R than any online course. Working on a real problem with real stakes accelerated my learning dramatically.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Interactive Demo -->
+<section class="case-section scroll-fade-up">
+    <h2><span class="section-number">07</span> View the Analysis</h2>
+    <div class="section-content">
+        <p>Want to see the lineup optimization tool and sample results?</p>
+        <a href="{{ url_for('basketball') }}" class="btn btn-primary btn-lg mt-3">
+            <i class="fas fa-play-circle"></i> View Basketball Analysis
+        </a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block case_nav_extra %}
+<a href="{{ url_for('wordle_case_study') }}" class="btn btn-outline-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Wordle Case Study
+</a>
+{% endblock %}

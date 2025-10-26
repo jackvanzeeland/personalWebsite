@@ -7,7 +7,31 @@
 {{ hero_section('Welcome to My Portfolio', 'Showcasing my passion for problem-solving and innovative solutions.') }}
 
 <div class="container my-4">
-    <p class="text-center"><span class="interactive-legend"></span> Indicates an interactive project</p>
+    <div class="legend-filter-container">
+        <p class="text-center">
+            <span class="interactive-legend"></span> Indicates an interactive project
+            <button class="filter-toggle-btn" id="filter-toggle" aria-expanded="false" title="Filter projects by tag">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+        </p>
+
+        <!-- Collapsible Filter Dropdown -->
+        <div class="filter-dropdown" id="filter-dropdown" style="display: none;">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+                <button class="filter-btn" data-filter="Python" aria-pressed="false">Python</button>
+                <button class="filter-btn" data-filter="JavaScript" aria-pressed="false">JavaScript</button>
+                <button class="filter-btn" data-filter="AI" aria-pressed="false">AI</button>
+                <button class="filter-btn" data-filter="Interactive" aria-pressed="false">Interactive</button>
+                <button class="filter-btn" data-filter="Algorithm" aria-pressed="false">Algorithm</button>
+                <button class="filter-btn" data-filter="Data" aria-pressed="false">Data</button>
+                <button class="filter-btn" data-filter="Automation" aria-pressed="false">Automation</button>
+                <button class="filter-btn" data-filter="Web" aria-pressed="false">Web</button>
+                <button class="filter-btn" data-filter="Creative" aria-pressed="false">Creative</button>
+            </div>
+            <span class="filter-count">All Projects ({{ projects|length }})</span>
+        </div>
+    </div>
 </div>
 
 <div class="container mt-5">

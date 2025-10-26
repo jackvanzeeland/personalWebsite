@@ -6,7 +6,7 @@ const UserJourney = (function() {
     'use strict';
 
     // Private variables
-    const TOTAL_PAGES = 12; // about, basketball, budget, home, matching, beyondTheCode, superbowl, wordle, ai_innovations_portal, htmlGems, chatBoard
+    const TOTAL_PAGES = 14; // about, basketball, budget, home, matching, beyondTheCode, superbowl, wordle, ai_innovations_portal, htmlGems, chatBoard, wordle_case_study, secret_santa_case_study, basketball_case_study
     let visitedPages = StorageHelper.get('visitedPages', []);
 
     /**
@@ -44,6 +44,11 @@ const UserJourney = (function() {
         if (!visitedPages.includes(currentPage)) {
             visitedPages.push(currentPage);
             StorageHelper.set('visitedPages', visitedPages);
+
+            // Track achievement
+            if (window.AchievementSystem) {
+                AchievementSystem.trackAction('page_visit');
+            }
         }
 
         updateProgressBar();

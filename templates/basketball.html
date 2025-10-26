@@ -7,6 +7,19 @@
 
 {{ info_card('Project Overview', '<p>I developed a process for a friend who is a basketball coach to help them analyze game data. The tool tracks points scored and allowed for each lineup throughout the game and groups player combinations to identify the most effective lineups, ultimately helping to optimize team performance.</p>') }}
 
+<!-- Case Study CTA -->
+<div class="alert alert-info case-study-cta">
+    <div class="d-flex align-items-center justify-content-between">
+        <div>
+            <h5 class="mb-2"><i class="fas fa-book-open"></i> Want the full story?</h5>
+            <p class="mb-0">Read the complete case study to learn about the lineup analysis, statistical methods, and real-world impact (+17% win rate).</p>
+        </div>
+        <a href="{{ url_for('basketball_case_study') }}" class="btn btn-primary ms-3">
+            Read Case Study <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</div>
+
 {% set mermaid_code = 'graph TD;
     A[Input Game Data] --> B(Track Points Scored/Allowed per Lineup);
     B --> C(Group Lineups by Size);

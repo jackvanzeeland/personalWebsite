@@ -7,6 +7,19 @@
 
 {{ info_card('Project Overview', '<p>This project features an algorithm that I built to solve the popular word game, Wordle. The algorithm recommends the optimal next guess based on previous outcomes, and I competed against it to see which of us was the better player. The algorithm either won or tied with me in 87% of the games we played (46 out of 53), which shows how efficient it is.</p>') }}
 
+<!-- Case Study CTA -->
+<div class="alert alert-info case-study-cta">
+    <div class="d-flex align-items-center justify-content-between">
+        <div>
+            <h5 class="mb-2"><i class="fas fa-book-open"></i> Want the full story?</h5>
+            <p class="mb-0">Read the complete case study to learn about the algorithm design, technical challenges, and lessons learned.</p>
+        </div>
+        <a href="{{ url_for('wordle_case_study') }}" class="btn btn-primary ms-3">
+            Read Case Study <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</div>
+
 {% set mermaid_code = 'graph TD
     A[Start] --> B{Guess a word};
     B --> C{Receive feedback};
