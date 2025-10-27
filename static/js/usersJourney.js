@@ -6,25 +6,8 @@ const UserJourney = (function() {
     'use strict';
 
     // Private variables
-    const TOTAL_PAGES = 14; // about, basketball, budget, home, matching, beyondTheCode, superbowl, wordle, ai_innovations_portal, htmlGems, chatBoard, wordle_case_study, secret_santa_case_study, basketball_case_study
+    const TOTAL_PAGES = 14; // /, /about, /beyondTheCode, /project/wordle, /project/budget, /project/basketball, /project/matching, /project/superbowl, /project/ai_innovations_portal, /project/ai_innovations_portal/htmlGems, /project/ai_innovations_portal/chat, /case-study/wordle, /case-study/secret-santa, /case-study/basketball (excludes /journey meta page)
     let visitedPages = StorageHelper.get('visitedPages', []);
-
-    /**
-     * Format page pathname for display
-     */
-    function formatPageName(page) {
-        if (page === '/') {
-            return 'Home';
-        }
-        // Remove leading slash and .html extension
-        let formatted = page.replace(/^\/|\.html$/g, '');
-        // Insert space before capital letters for camelCase
-        formatted = formatted.replace(/([A-Z])/g, ' $1');
-        // Replace underscores and hyphens with spaces
-        formatted = formatted.replace(/[_-]/g, ' ');
-        // Capitalize the first letter of each word
-        return formatted.replace(/\b\w/g, char => char.toUpperCase());
-    }
 
     /**
      * Initialize journey tracking
@@ -52,7 +35,6 @@ const UserJourney = (function() {
         }
 
         updateProgressBar();
-        updateDropdown();
     }
 
     /**
@@ -60,70 +42,24 @@ const UserJourney = (function() {
      */
     function updateProgressBar() {
         const progressBar = DOMHelpers.getById('page-progress-bar');
+        const progressText = DOMHelpers.getById('progress-text');
         if (!progressBar) return;
 
-        const progress = (visitedPages.length / TOTAL_PAGES) * 100;
+        // Exclude /journey from the count (it's a meta page, not content)
+        const contentPagesVisited = visitedPages.filter(path => path !== '/journey');
+        const progress = (contentPagesVisited.length / TOTAL_PAGES) * 100;
         progressBar.style.width = `${progress}%`;
-        progressBar.innerHTML = `User's Journey: ${Math.round(progress)}%`;
 
-        // Show reset button when journey is complete
-        if (progress === 100) {
-            const resetBtn = DOMHelpers.getById('reset-journey-btn');
-            if (resetBtn) {
-                resetBtn.style.display = 'inline-block';
-            }
+        if (progressText) {
+            progressText.textContent = `User's Journey: ${Math.round(progress)}% - Click to view details`;
         }
-    }
-
-    /**
-     * Update dropdown menu
-     */
-    function updateDropdown() {
-        const dropdown = DOMHelpers.getById('journey-dropdown');
-        if (!dropdown) return;
-
-        dropdown.innerHTML = ''; // Clear existing items
-
-        visitedPages.forEach(page => {
-            const pageName = formatPageName(page);
-            const link = DOMHelpers.create('a', {
-                attrs: { href: page },
-                text: pageName
-            });
-            dropdown.appendChild(link);
-        });
-    }
-
-    /**
-     * Toggle dropdown visibility
-     */
-    function toggleDropdown() {
-        const dropdown = DOMHelpers.getById('journey-dropdown');
-        if (dropdown) {
-            dropdown.classList.toggle('show');
-        }
-    }
-
-    /**
-     * Reset journey tracking
-     */
-    function resetJourney() {
-        visitedPages = [];
-        StorageHelper.remove('visitedPages');
-        window.location.reload();
     }
 
     // Public API
     return {
-        init,
-        toggleDropdown,
-        resetJourney
+        init
     };
 })();
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', UserJourney.init);
-
-// Expose functions needed by HTML onclick handlers
-window.toggleDropdown = UserJourney.toggleDropdown;
-window.resetJourney = UserJourney.resetJourney;

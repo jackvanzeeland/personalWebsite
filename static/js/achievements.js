@@ -124,6 +124,11 @@ const AchievementSystem = (function() {
                 document.dispatchEvent(new CustomEvent('achievement-unlocked', {
                     detail: { achievement }
                 }));
+
+                // Track analytics
+                if (window.AnalyticsLogger) {
+                    AnalyticsLogger.trackAchievementUnlock(achievementId);
+                }
             }
         }
     }

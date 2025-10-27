@@ -843,23 +843,85 @@ body[data-theme="light"] .user-message {
 }
 
 /* REVIEWED */
-.top-bar-wrapper{
-    position: relative;
+/* ====== TOP PROGRESS BAR - OPTION 1: SLEEK BANNER ====== */
+
+.top-bar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(22, 33, 62, 0.98));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform var(--transition-normal);
 }
 
-/* REVIEWED */
-#reset-journey-btn {
-    /* fixed */
-    min-width: 120px;
-    /* flexible but not smaller than 120px */
+.top-bar-wrapper:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.journey-progress-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.journey-progress-track {
+    position: relative;
+    height: 32px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.journey-progress-fill {
     position: absolute;
-    z-index: 10;
-    right: 0;
-    top: 0px;
-    height: 25px;
-    background-color: #dc3545;
-    text-align: center;
-    color: white;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent-blue), #00d4ff);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.2;
+}
+
+.journey-progress-text {
+    position: relative;
+    z-index: 2;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.3px;
+}
+
+/* Light mode */
+body[data-theme="light"] .top-bar-wrapper {
+    background: linear-gradient(135deg, rgba(248, 249, 250, 0.98), rgba(233, 236, 239, 0.98));
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme="light"] .journey-progress-fill {
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    opacity: 0.15;
+}
+
+body[data-theme="light"] .journey-progress-text {
+    color: #212529;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .journey-progress-track {
+        height: 28px;
+    }
+
+    .journey-progress-text {
+        font-size: 0.75rem;
+    }
 }
 
 @keyframes fadeIn {
@@ -977,11 +1039,7 @@ body[data-theme="light"] .user-message {
 }
 
 /* REVIEWED */
-.progress-container {
-    background-color: #eee;
-    cursor: pointer;
-    width: 100%;
-}
+/* Legacy progress container - removed, now using .journey-progress-link */
 
 
 /* ====== AI Resume Assistant (Modern/Futuristic) ====== */
@@ -1305,28 +1363,30 @@ body[data-theme="light"] .user-message {
 }
 
 .fancy-summary {
-    cursor: pointer;
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: var(--color-accent-orange);
-    /* bootstrap cyan */
-    padding: 0.5em 1em;
-    border-radius: var(--radius-md);
-    transition: all var(--transition-normal);
-    list-style: none;
-    /* removes the default triangle */
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--color-accent-blue);
+  padding: 0.5em 1em;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+  list-style: none;
+  display: flex; /* ensures arrow and text align nicely */
+  align-items: center;
 }
 
 .fancy-summary::before {
-    content: "▶ ";
-    /* triangle icon */
-    transition: transform 0.3s ease;
+  content: "▶";
+  display: inline-block;
+  margin-right: 0.5em;
+  transition: transform 0.3s ease;
+  transform-origin: center;
 }
 
-details[open] .fancy-summary::before {
-    transform: rotate(90deg);
-    /* arrow rotates when open */
+details[open] > .fancy-summary::before {
+  transform: rotate(90deg);
 }
+
 
 
 
@@ -2244,5 +2304,313 @@ body[data-theme="light"] .case-study-nav {
 
     .results-grid, .lessons-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ====== JOURNEY PAGE STYLES ====== */
+
+.journey-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.journey-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.journey-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.journey-progress-container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.journey-progress-bar {
+    width: 100%;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.journey-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    border-radius: 20px;
+    transition: width 0.6s ease;
+}
+
+.journey-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Journey Stats Cards */
+.journey-stat-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journey-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.journey-stat-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.journey-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.journey-stat-label {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+/* Visited Pages Grid */
+.visited-pages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.page-item {
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.page-item.visited {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
+}
+
+.page-item.visited:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(79, 172, 254, 0.3);
+}
+
+.page-item.unvisited {
+    opacity: 0.5;
+    filter: grayscale(50%);
+}
+
+.page-item-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-item-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.page-item-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .journey-title {
+        font-size: 2rem;
+    }
+
+    .journey-subtitle {
+        font-size: 1rem;
+    }
+
+    .journey-stat-value {
+        font-size: 1.5rem;
+    }
+
+    .visited-pages-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .page-item {
+        padding: 1rem;
+    }
+
+    .page-item-icon {
+        font-size: 2rem;
+    }
+}
+
+/* ====== ANALYTICS DASHBOARD STYLES ====== */
+
+.analytics-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.analytics-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.analytics-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.time-range-selector {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.time-btn {
+    padding: 0.5rem 1.5rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.time-btn.active {
+    background-color: white;
+    color: var(--primary-color);
+    border-color: white;
+}
+
+/* Analytics Summary Cards */
+.analytics-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.analytics-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.analytics-card .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.analytics-card .card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.analytics-card .card-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Chart Containers */
+.chart-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    height: 100%;
+    min-height: 300px;
+}
+
+.chart-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.chart-container canvas {
+    max-height: 250px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .analytics-title {
+        font-size: 2rem;
+    }
+
+    .analytics-subtitle {
+        font-size: 1rem;
+    }
+
+    .time-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .analytics-card .card-icon {
+        font-size: 2rem;
+    }
+
+    .analytics-card .card-value {
+        font-size: 1.5rem;
+    }
+
+    .chart-container {
+        min-height: 250px;
     }
 }

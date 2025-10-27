@@ -9,6 +9,7 @@ import os
 from dotenv import load_dotenv # Import load_dotenv
 from config import Config
 from utils.project_loader import get_main_projects, get_ai_projects
+from utils import analytics_storage
 
 load_dotenv() # Load environment variables from .env file
 
@@ -372,6 +373,63 @@ def secret_santa_case_study():
 def basketball_case_study():
     log_text("Navigate to Basketball Case Study")
     return render_template('case-studies/basketball-case-study.html', now=datetime.now())
+
+# Journey Page
+@app.route('/journey')
+def journey():
+    log_text("Navigate to Journey Page")
+    return render_template('journey.html', now=datetime.now())
+
+# Analytics Routes
+@app.route('/api/analytics/events', methods=['POST'])
+def analytics_events():
+    """Receive and store analytics events from frontend"""
+    try:
+        data = request.get_json()
+        events = data.get('events', [])
+
+        if not events:
+            return jsonify({'status': 'error', 'message': 'No events provided'}), 400
+
+        # Store events
+        success = analytics_storage.store_events(events)
+
+        if success:
+            return jsonify({'status': 'success', 'count': len(events)}), 200
+        else:
+            return jsonify({'status': 'error', 'message': 'Failed to store events'}), 500
+
+    except Exception as e:
+        print(f"Analytics error: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/api/analytics/summary')
+def analytics_summary():
+    """Get analytics summary for dashboard"""
+    try:
+        days = request.args.get('days', default=7, type=int)
+
+        # Limit to reasonable range
+        if days < 1:
+            days = 7
+        elif days > 365:
+            days = 365
+
+        summary = analytics_storage.get_analytics_summary(days)
+
+        return jsonify(summary), 200
+
+    except Exception as e:
+        print(f"Analytics summary error: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/analytics/dashboard')
+def analytics_dashboard():
+    """Analytics dashboard page"""
+    log_text("Navigate to Analytics Dashboard")
+    return render_template('analyticsViewerDashboard.html', now=datetime.now())
 
 # Start Flask app
 if __name__ == '__main__':

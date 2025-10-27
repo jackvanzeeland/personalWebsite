@@ -98,6 +98,11 @@ const ProjectFilter = (function() {
         if (filterValue !== 'all' && window.AchievementSystem) {
             AchievementSystem.trackAction('filter_used');
         }
+
+        // Track analytics
+        if (filterValue !== 'all' && window.AnalyticsLogger) {
+            AnalyticsLogger.trackFilterUsage(filterValue);
+        }
     }
 
     /**

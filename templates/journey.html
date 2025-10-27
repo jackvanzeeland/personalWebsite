@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Your Journey - Jack Van Zeeland{% endblock %}
+
+{% block content %}
+
+<!-- Journey Hero Section -->
+<div class="journey-hero scroll-fade-up">
+    <div class="container">
+        <h1 class="journey-title">Your Portfolio Journey</h1>
+        <p class="journey-subtitle">Track your exploration progress and unlock achievements</p>
+
+        <!-- Overall Progress -->
+        <div class="journey-progress-container">
+            <div class="journey-progress-bar" id="journey-main-progress">
+                <div class="journey-progress-fill" id="journey-progress-fill"></div>
+            </div>
+            <div class="journey-progress-text" id="journey-progress-text">0%</div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+
+    <!-- Journey Statistics -->
+    <div class="row mb-5 scroll-fade-up">
+        <div class="col-md-4 mb-3">
+            <div class="journey-stat-card">
+                <div class="journey-stat-icon">📄</div>
+                <div class="journey-stat-value" id="pages-visited-stat">0/14</div>
+                <div class="journey-stat-label">Pages Visited</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="journey-stat-card">
+                <div class="journey-stat-icon">🏆</div>
+                <div class="journey-stat-value" id="achievements-unlocked-stat">0/8</div>
+                <div class="journey-stat-label">Achievements Unlocked</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="journey-stat-card">
+                <div class="journey-stat-icon">✨</div>
+                <div class="journey-stat-value" id="completion-stat">0%</div>
+                <div class="journey-stat-label">Portfolio Explored</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visited Pages Section -->
+    <div class="scroll-fade-up">
+        <h2 class="mb-4">Portfolio Pages</h2>
+        <div class="visited-pages-grid" id="visited-pages-grid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Achievements Section -->
+    <div class="scroll-fade-up mt-5">
+        <h2 class="mb-4">Achievements</h2>
+        <div id="achievements-widget" class="achievements-widget">
+            <p class="text-muted">Explore the portfolio to unlock achievements!</p>
+            <div id="achievements-grid" class="achievements-grid">
+                <!-- Achievements will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Journey Button -->
+    <div class="text-center mt-5 scroll-fade-up">
+        <button id="reset-journey-page-btn" class="btn btn-outline-danger">
+            <i class="fas fa-redo"></i> Reset Journey
+        </button>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Get journey data from localStorage
+    const visitedPages = StorageHelper.get('visitedPages', []);
+    const TOTAL_PAGES = 14;
+
+    // All pages in the portfolio (excluding /journey itself)
+    const ALL_PAGES = [
+        { path: '/', name: 'Home', icon: '🏠' },
+        { path: '/about', name: 'About', icon: '👤' },
+        { path: '/beyondTheCode', name: 'Beyond The Code', icon: '🎬' },
+        { path: '/project/wordle', name: 'Wordle Solver', icon: '🔤' },
+        { path: '/project/budget', name: 'Budget Tracker', icon: '💰' },
+        { path: '/project/basketball', name: 'Basketball Lineup', icon: '🏀' },
+        { path: '/project/matching', name: 'Secret Santa', icon: '🎅' },
+        { path: '/project/superbowl', name: 'Super Bowl Predictor', icon: '🏈' },
+        { path: '/project/ai_innovations_portal', name: 'AI Innovations', icon: '🤖' },
+        { path: '/project/ai_innovations_portal/htmlGems', name: 'HTML Gems', icon: '💎' },
+        { path: '/project/ai_innovations_portal/chat', name: 'Chat Board', icon: '💬' },
+        { path: '/case-study/wordle', name: 'Wordle Case Study', icon: '📚' },
+        { path: '/case-study/secret-santa', name: 'Secret Santa Case Study', icon: '📚' },
+        { path: '/case-study/basketball', name: 'Basketball Case Study', icon: '📚' }
+    ];
+
+    // Calculate progress (exclude /journey from count)
+    const contentPagesVisited = visitedPages.filter(path => path !== '/journey');
+    const progress = Math.round((contentPagesVisited.length / TOTAL_PAGES) * 100);
+    const unlockedAchievements = window.AchievementSystem ? AchievementSystem.getUnlockedAchievements().length : 0;
+
+    // Update stats
+    document.getElementById('journey-progress-fill').style.width = progress + '%';
+    document.getElementById('journey-progress-text').textContent = progress + '%';
+    document.getElementById('pages-visited-stat').textContent = contentPagesVisited.length + '/' + TOTAL_PAGES;
+    document.getElementById('achievements-unlocked-stat').textContent = unlockedAchievements + '/8';
+    document.getElementById('completion-stat').textContent = progress + '%';
+
+    // Render visited pages grid
+    const pagesGrid = document.getElementById('visited-pages-grid');
+    ALL_PAGES.forEach(page => {
+        const isVisited = visitedPages.includes(page.path);
+
+        const pageItem = document.createElement('div');
+        pageItem.className = `page-item ${isVisited ? 'visited' : 'unvisited'}`;
+
+        pageItem.innerHTML = `
+            <div class="page-item-icon">${page.icon}</div>
+            <div class="page-item-name">${page.name}</div>
+            ${isVisited ? '<div class="page-item-check">✓</div>' : ''}
+        `;
+
+        // Make visited pages clickable
+        if (isVisited) {
+            pageItem.style.cursor = 'pointer';
+            pageItem.addEventListener('click', () => {
+                window.location.href = page.path;
+            });
+        }
+
+        pagesGrid.appendChild(pageItem);
+    });
+
+    // Populate achievements
+    const achievementsGrid = document.getElementById('achievements-grid');
+    if (achievementsGrid && window.AchievementSystem) {
+        function renderAchievements() {
+            const progress = AchievementSystem.getProgress();
+            achievementsGrid.innerHTML = '';
+
+            progress.forEach(achievement => {
+                const item = document.createElement('div');
+                item.className = `achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'}`;
+
+                item.innerHTML = `
+                    <span class="achievement-item-icon">${achievement.icon}</span>
+                    <div class="achievement-item-title">${achievement.title}</div>
+                    <div class="achievement-item-desc">${achievement.description}</div>
+                    ${!achievement.unlocked ? `
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-bar" style="width: ${achievement.progress}%"></div>
+                        </div>
+                    ` : '<span class="achievement-badge">✓</span>'}
+                `;
+
+                achievementsGrid.appendChild(item);
+            });
+        }
+
+        // Initial render
+        renderAchievements();
+
+        // Re-render when achievement is unlocked
+        document.addEventListener('achievement-unlocked', renderAchievements);
+    }
+
+    // Reset journey button
+    document.getElementById('reset-journey-page-btn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset your journey? This will clear all visited pages and achievements.')) {
+            StorageHelper.remove('visitedPages');
+            StorageHelper.remove('portfolio_achievements');
+            StorageHelper.remove('achievement_stats');
+            window.location.reload();
+        }
+    });
+});
+</script>
+{% endblock %}

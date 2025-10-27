@@ -130,14 +130,6 @@
                     <span class="skill-badge">UiPath Insights</span>
                     <span class="skill-badge">VB.Net</span>
                 </div>
-
-                <h2>Achievements</h2>
-                <div id="achievements-widget" class="achievements-widget">
-                    <p class="text-muted">Explore the portfolio to unlock achievements!</p>
-                    <div id="achievements-grid" class="achievements-grid">
-                        <!-- Achievements will be populated by JavaScript -->
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -146,40 +138,4 @@
 
 {% block scripts %}
 <script src="static/js/resume_chat.js"></script>
-<script>
-// Populate achievements widget
-document.addEventListener('DOMContentLoaded', function() {
-    const achievementsGrid = document.getElementById('achievements-grid');
-    if (!achievementsGrid || !window.AchievementSystem) return;
-
-    function renderAchievements() {
-        const progress = AchievementSystem.getProgress();
-        achievementsGrid.innerHTML = '';
-
-        progress.forEach(achievement => {
-            const item = document.createElement('div');
-            item.className = `achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'}`;
-
-            item.innerHTML = `
-                <span class="achievement-item-icon">${achievement.icon}</span>
-                <div class="achievement-item-title">${achievement.title}</div>
-                <div class="achievement-item-desc">${achievement.description}</div>
-                ${!achievement.unlocked ? `
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-bar" style="width: ${achievement.progress}%"></div>
-                    </div>
-                ` : '<span class="achievement-badge">✓</span>'}
-            `;
-
-            achievementsGrid.appendChild(item);
-        });
-    }
-
-    // Initial render
-    renderAchievements();
-
-    // Re-render when achievement is unlocked
-    document.addEventListener('achievement-unlocked', renderAchievements);
-});
-</script>
 {% endblock %}

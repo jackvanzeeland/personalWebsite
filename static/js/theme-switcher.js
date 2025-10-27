@@ -99,6 +99,11 @@ const ThemeSwitcher = (function() {
         if (window.AchievementSystem) {
             AchievementSystem.trackAction('theme_switched');
         }
+
+        // Track analytics
+        if (window.AnalyticsLogger) {
+            AnalyticsLogger.trackThemeSwitch(newTheme);
+        }
     }
 
     /**
