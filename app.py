@@ -38,8 +38,8 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.secret_key = Config.SECRET_KEY 
 
-# Initialize SocketIO
-socketio = SocketIO(app)
+# Initialize SocketIO with eventlet for production WebSocket support
+socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
 
 # When a client sends a message
 @socketio.on("message")
@@ -431,6 +431,6 @@ def analytics_dashboard():
     log_text("Navigate to Analytics Dashboard")
     return render_template('analyticsViewerDashboard.html', now=datetime.now())
 
-# Start Flask app
+# Start Flask-SocketIO app (required for WebSocket support)
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    socketio.run(app, debug=True, host='0.0.0.0')
