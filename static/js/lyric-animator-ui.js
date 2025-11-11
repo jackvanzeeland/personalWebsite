@@ -39,4 +39,41 @@
 
     window.startTime = null; // Safety
 
+    // V1 Slider Value Display Updates
+    const particleCountSlider = document.getElementById('particle-count');
+    const particleCountValue = document.getElementById('particle-count-value');
+
+    const particleSizeSlider = document.getElementById('particle-size');
+    const particleSizeValue = document.getElementById('particle-size-value');
+
+    const particleSpeedSlider = document.getElementById('particle-speed');
+    const particleSpeedValue = document.getElementById('particle-speed-value');
+
+    if (particleCountSlider && particleCountValue) {
+        particleCountSlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            e.target.setAttribute('aria-valuenow', value);
+            e.target.setAttribute('aria-valuetext', `${value} particles`);
+            particleCountValue.textContent = value;
+        });
+    }
+
+    if (particleSizeSlider && particleSizeValue) {
+        particleSizeSlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            e.target.setAttribute('aria-valuenow', value);
+            e.target.setAttribute('aria-valuetext', `${value} pixels`);
+            particleSizeValue.textContent = value;
+        });
+    }
+
+    if (particleSpeedSlider && particleSpeedValue) {
+        particleSpeedSlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            e.target.setAttribute('aria-valuenow', value);
+            e.target.setAttribute('aria-valuetext', `${value} speed`);
+            particleSpeedValue.textContent = value;
+        });
+    }
+
 })();

@@ -17,7 +17,15 @@ class Config:
 
     # OpenAI Configuration
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-    OPENAI_ASSISTANT_ID = os.getenv('OPENAI_ASSISTANT_ID')
+
+    # Dual AI Assistants
+    OPENAI_ASSISTANT_ID_RESUME = os.getenv('OPENAI_ASSISTANT_ID_RESUME',
+                                           os.getenv('OPENAI_ASSISTANT_ID'))  # Fallback for backward compatibility
+    OPENAI_ASSISTANT_ID_PORTFOLIO = os.getenv('OPENAI_ASSISTANT_ID_PORTFOLIO')
+
+    # Email Configuration
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 
     # File Paths
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -46,7 +54,8 @@ class Config:
         required = {
             'SECRET_KEY': cls.SECRET_KEY,
             'OPENAI_API_KEY': cls.OPENAI_API_KEY,
-            'OPENAI_ASSISTANT_ID': cls.OPENAI_ASSISTANT_ID
+            'OPENAI_ASSISTANT_ID_RESUME': cls.OPENAI_ASSISTANT_ID_RESUME,
+            'OPENAI_ASSISTANT_ID_PORTFOLIO': cls.OPENAI_ASSISTANT_ID_PORTFOLIO
         }
 
         missing = [key for key, value in required.items() if not value]

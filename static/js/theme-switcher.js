@@ -75,15 +75,17 @@ const ThemeSwitcher = (function() {
         const icon = toggleBtn.querySelector('i');
         const isDark = themeName === THEMES.dark;
 
+        // Icon shows CURRENT theme (moon for dark, sun for light)
         if (icon) {
-            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
         }
 
+        // Aria-label and title indicate what will happen on click
         toggleBtn.setAttribute('aria-label',
             isDark ? 'Switch to light mode' : 'Switch to dark mode'
         );
         toggleBtn.setAttribute('title',
-            isDark ? 'Light Mode' : 'Dark Mode'
+            isDark ? 'Switch to light mode' : 'Switch to dark mode'
         );
     }
 

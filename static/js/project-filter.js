@@ -1,13 +1,13 @@
 /**
  * Project Filter Module
- * Handles filtering of project cards by tags
+ * Handles filtering of project cards by tags with multi-select support
  */
 
 const ProjectFilter = (function() {
     'use strict';
 
     let allProjects = [];
-    let activeFilter = 'all';
+    let selectedFilters = new Set();
 
     /**
      * Initialize the filter system
@@ -28,53 +28,62 @@ const ProjectFilter = (function() {
             });
         }
 
-        // Set up filter button listeners
-        const filterButtons = document.querySelectorAll('[data-filter]');
-        filterButtons.forEach(button => {
-            button.addEventListener('click', handleFilterClick);
+        // Calculate and display filter counts
+        updateFilterCounts();
+
+        // Set up filter checkbox listeners
+        const filterCheckboxes = document.querySelectorAll('.filter-checkbox input[type="checkbox"]');
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', handleFilterChange);
         });
+
+        // Set up "Clear All" button
+        const clearBtn = document.getElementById('clear-filters');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', clearAllFilters);
+        }
 
         // Apply initial filter (show all)
-        applyFilter('all');
+        applyFilters();
     }
 
     /**
-     * Handle filter button click
+     * Handle filter checkbox change
      */
-    function handleFilterClick(event) {
-        const button = event.currentTarget;
-        const filterValue = button.getAttribute('data-filter');
+    function handleFilterChange(event) {
+        const checkbox = event.target;
+        const filterValue = checkbox.value;
 
-        // Update active button state
-        updateActiveButton(button);
+        if (checkbox.checked) {
+            selectedFilters.add(filterValue);
+        } else {
+            selectedFilters.delete(filterValue);
+        }
 
-        // Apply the filter
-        applyFilter(filterValue);
+        // Apply the filters
+        applyFilters();
+
+        // Track analytics (only for first filter selection)
+        if (selectedFilters.size === 1 && checkbox.checked && window.AnalyticsLogger) {
+            AnalyticsLogger.trackFilterUsage(filterValue);
+        }
+
+        // Track achievement
+        if (selectedFilters.size > 0 && window.AchievementSystem) {
+            AchievementSystem.trackAction('filter_used');
+        }
     }
 
     /**
-     * Update active button styling
+     * Apply filters to projects (multi-select with OR logic)
      */
-    function updateActiveButton(activeButton) {
-        const allButtons = document.querySelectorAll('[data-filter]');
-        allButtons.forEach(btn => {
-            btn.classList.remove('active');
-            btn.setAttribute('aria-pressed', 'false');
-        });
-
-        activeButton.classList.add('active');
-        activeButton.setAttribute('aria-pressed', 'true');
-    }
-
-    /**
-     * Apply filter to projects
-     */
-    function applyFilter(filterValue) {
-        activeFilter = filterValue;
-
+    function applyFilters() {
         allProjects.forEach(projectWrapper => {
             const projectTags = getProjectTags(projectWrapper);
-            const shouldShow = filterValue === 'all' || projectTags.includes(filterValue);
+
+            // If no filters selected, show all projects
+            const shouldShow = selectedFilters.size === 0 ||
+                Array.from(selectedFilters).some(filter => projectTags.includes(filter));
 
             if (shouldShow) {
                 projectWrapper.style.display = '';
@@ -93,16 +102,49 @@ const ProjectFilter = (function() {
 
         // Update count
         updateProjectCount();
+    }
 
-        // Track achievement (only for non-'all' filters)
-        if (filterValue !== 'all' && window.AchievementSystem) {
-            AchievementSystem.trackAction('filter_used');
-        }
+    /**
+     * Clear all filters
+     */
+    function clearAllFilters() {
+        // Uncheck all checkboxes
+        document.querySelectorAll('.filter-checkbox input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
 
-        // Track analytics
-        if (filterValue !== 'all' && window.AnalyticsLogger) {
-            AnalyticsLogger.trackFilterUsage(filterValue);
-        }
+        // Clear selected filters set
+        selectedFilters.clear();
+
+        // Reapply filters (will show all)
+        applyFilters();
+    }
+
+    /**
+     * Calculate and update filter counts
+     */
+    function updateFilterCounts() {
+        const filterCounts = {};
+
+        // Count projects for each tag
+        allProjects.forEach(projectWrapper => {
+            const tags = getProjectTags(projectWrapper);
+            tags.forEach(tag => {
+                filterCounts[tag] = (filterCounts[tag] || 0) + 1;
+            });
+        });
+
+        // Update each filter label with count
+        document.querySelectorAll('.filter-checkbox').forEach(label => {
+            const checkbox = label.querySelector('input[type="checkbox"]');
+            const filterValue = checkbox.value;
+            const count = filterCounts[filterValue] || 0;
+
+            const labelText = label.querySelector('.filter-label-text');
+            if (labelText) {
+                labelText.innerHTML = `${filterValue} <span class="filter-count">(${count})</span>`;
+            }
+        });
     }
 
     /**
@@ -118,12 +160,14 @@ const ProjectFilter = (function() {
      */
     function updateProjectCount() {
         const visibleCount = allProjects.filter(p => p.style.display !== 'none').length;
-        const countElement = document.querySelector('.filter-count');
+        const countElement = document.querySelector('.filter-result-count');
 
         if (countElement) {
-            countElement.textContent = activeFilter === 'all'
-                ? `All Projects (${visibleCount})`
-                : `${visibleCount} project${visibleCount !== 1 ? 's' : ''} found`;
+            if (selectedFilters.size === 0) {
+                countElement.textContent = `Showing all ${visibleCount} projects`;
+            } else {
+                countElement.textContent = `${visibleCount} project${visibleCount !== 1 ? 's' : ''} found`;
+            }
         }
     }
 
@@ -144,9 +188,9 @@ const ProjectFilter = (function() {
     // Public API
     return {
         init,
-        applyFilter,
+        applyFilters,
         getAllTags,
-        getCurrentFilter: () => activeFilter
+        getSelectedFilters: () => Array.from(selectedFilters)
     };
 })();
 

@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for,session, jsonify
-from flask_socketio import SocketIO, send
 from datetime import datetime, timedelta
 from scripts.wordle import plot_key_values
 import json
@@ -10,6 +9,7 @@ from dotenv import load_dotenv # Import load_dotenv
 from config import Config
 from utils.project_loader import get_main_projects, get_ai_projects
 from utils import analytics_storage
+from utils.page_registry import get_all_trackable_pages, get_total_pages
 
 load_dotenv() # Load environment variables from .env file
 
@@ -36,35 +36,25 @@ def get_recent_messages():
 # Initialize the Flask app
 app = Flask(__name__)
 app.config.from_object(Config)
-app.secret_key = Config.SECRET_KEY 
+app.secret_key = Config.SECRET_KEY
 
-# Initialize SocketIO with eventlet for production WebSocket support
-socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
+# Journey Tracking Helper Functions
+def init_journey_session():
+    """Initialize journey tracking in session"""
+    if 'visited_pages' not in session:
+        session['visited_pages'] = []
+    return session['visited_pages']
 
-# When a client sends a message
-@socketio.on("message")
-def handle_message(msg):
-    # Ensure timestamp is present
-    if "timestamp" not in msg:
-        msg["timestamp"] = int(datetime.utcnow().timestamp() * 1000)
+def get_journey_data():
+    """Get journey tracking data for templates"""
+    visited = init_journey_session()
+    return {
+        'visited_pages': visited,
+        'total_pages': get_total_pages(),
+        'all_pages': get_all_trackable_pages()
+    }
 
-    # Store in global messages list
-    messages.append(msg)
-
-    print(f"Message: {msg}")
-    send(msg, broadcast=True)
-
-
-@socketio.on("connect")
-def on_connect():
-    recent = get_recent_messages()
-    for msg in recent:
-        socketio.emit("message", msg)
-
-@app.route("/project/ai_innovations_portal/chat")
-def chatBoard():
-    log_text("Navigate to Chat")
-    return render_template("ai-generated-chatboard.html", now=datetime.now())
+# Removed chatBoard route - template ai-generated-chatboard.html was deleted and route was unused
 
 # OpenAI Assistant Integration
 import openai
@@ -173,7 +163,7 @@ def ask_openai_assistant():
         send_message_to_thread(client, thread_id, question)
 
         # 5. Run assistant and wait
-        run_assistant_and_wait(client, thread_id, Config.OPENAI_ASSISTANT_ID)
+        run_assistant_and_wait(client, thread_id, Config.OPENAI_ASSISTANT_ID_RESUME)
 
         # 6. Extract response
         response_text = extract_assistant_response(client, thread_id)
@@ -201,23 +191,20 @@ def home():
     log_text("Navigate to Home")
     log_text(f"User IP: {request.remote_addr}")
     log_text(f"User Agent: {request.user_agent}")
-    return render_template('home.html', projects=get_main_projects(), now=datetime.now())
+    return render_template('home.html', projects=get_main_projects(), journey=get_journey_data(), now=datetime.now())
 
 # About page route
 @app.route('/about')
 def about():
     log_text("Navigate to About")
-    return render_template('about.html', now=datetime.now())
+    return render_template('about.html', journey=get_journey_data(), now=datetime.now())
 
 @app.route('/beyondTheCode')
 def beyondTheCode():
     log_text("Navigate to Beyond The Code")
-    return render_template('beyondTheCode.html', now=datetime.now())
+    return render_template('beyondTheCode.html', journey=get_journey_data(), now=datetime.now())
 
-@app.route('/project/ai_innovations_portal')
-def ai_innovations_portal():
-    log_text("Navigate to AI Innovations Portal")
-    return render_template('ai_innovations_portal.html', ai_projects=get_ai_projects(), now=datetime.now())
+# Removed ai_innovations_portal route - template ai_innovations_portal.html was deleted and route was unused
 
 @app.route('/api/get_beyond_the_code_photos')
 def get_beyond_the_code_photos():
@@ -254,18 +241,18 @@ def wordle():
             log_text(f"Projects.Wordle - Guesses: {guesses}")
             plot_key_values(todaysWord)
 
-    return render_template('wordle.html', todaysWord=todaysWord, guesses=guesses, now=datetime.now())
+    return render_template('wordle.html', todaysWord=todaysWord, guesses=guesses, journey=get_journey_data(), now=datetime.now())
 
 # Other project routes
 @app.route('/project/budget')
 def budget():
     log_text("navigate to Projects/budget")
-    return render_template("budget.html", now=datetime.now())
+    return render_template("budget.html", journey=get_journey_data(), now=datetime.now())
 
 @app.route('/project/basketball')
 def basketball():
     log_text("Navigate to Projects/Basketball")
-    return render_template("basketball.html", now=datetime.now())
+    return render_template("basketball.html", journey=get_journey_data(), now=datetime.now())
 
 @app.route('/project/matching', methods=['GET', 'POST'])
 def matching():
@@ -312,7 +299,7 @@ def matching():
         names=names,
         results=results,
         error=error,
-        now=datetime.now()
+        journey=get_journey_data(), now=datetime.now()
     )
 
 
@@ -331,17 +318,17 @@ def clear_results():
 @app.route('/project/superbowl')
 def superbowl():
     log_text("Navigate to Projects/Superbowl")
-    return render_template("superbowl.html", now=datetime.now())
+    return render_template("superbowl.html", journey=get_journey_data(), now=datetime.now())
 
 @app.route('/project/nebula')
 def nebula():
     log_text("Navigate to Projects/Nebula")
-    return render_template("nebula.html", now=datetime.now())
+    return render_template("nebula.html", journey=get_journey_data(), now=datetime.now())
 
-@app.route('/project/ai_innovations_portal/htmlGems')
+@app.route('/project/htmlGems')
 def htmlGems():
-    log_text("Navigate to Projects/AI Innovations Portal/HTML Gems")
-    return render_template("ai-generated-htmlGems.html", now=datetime.now())
+    log_text("Navigate to HTML Gems")
+    return render_template("htmlGems.html", journey=get_journey_data(), now=datetime.now())
 
 @app.route('/project/redditStories')
 def redditStories():
@@ -351,34 +338,34 @@ def redditStories():
 @app.route('/project/lyricAnimator')
 def lyricAnimator():
     log_text("Navigate to lyric animator")
-    return render_template('lyricAnimator.html', now=datetime.now())
+    return render_template('lyricAnimator.html', journey=get_journey_data(), now=datetime.now())
 
 @app.route('/analyticsViewer')
 def analyticsViewer():
     log_text("Navigate to analytics viewer")
-    return render_template('analyticsViewer.html', now=datetime.now())
+    return render_template('analyticsViewer.html', journey=get_journey_data(), now=datetime.now())
 
 # Case Study Routes
 @app.route('/case-study/wordle')
 def wordle_case_study():
     log_text("Navigate to Wordle Case Study")
-    return render_template('case-studies/wordle-case-study.html', now=datetime.now())
+    return render_template('case-studies/wordle-case-study.html', journey=get_journey_data(), now=datetime.now())
 
 @app.route('/case-study/secret-santa')
 def secret_santa_case_study():
     log_text("Navigate to Secret Santa Case Study")
-    return render_template('case-studies/secret-santa-case-study.html', now=datetime.now())
+    return render_template('case-studies/secret-santa-case-study.html', journey=get_journey_data(), now=datetime.now())
 
 @app.route('/case-study/basketball')
 def basketball_case_study():
     log_text("Navigate to Basketball Case Study")
-    return render_template('case-studies/basketball-case-study.html', now=datetime.now())
+    return render_template('case-studies/basketball-case-study.html', journey=get_journey_data(), now=datetime.now())
 
 # Journey Page
 @app.route('/journey')
 def journey():
     log_text("Navigate to Journey Page")
-    return render_template('journey.html', now=datetime.now())
+    return render_template('journey.html', journey=get_journey_data(), now=datetime.now())
 
 # Analytics Routes
 @app.route('/api/analytics/events', methods=['POST'])
@@ -425,12 +412,16 @@ def analytics_summary():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-@app.route('/analytics/dashboard')
-def analytics_dashboard():
-    """Analytics dashboard page"""
-    log_text("Navigate to Analytics Dashboard")
-    return render_template('analyticsViewerDashboard.html', now=datetime.now())
+# Removed analytics_dashboard route - template analyticsViewerDashboard.html was deleted and route was unused
+# Use /analytics/public or /analyticsViewer instead
 
-# Start Flask-SocketIO app (required for WebSocket support)
+
+@app.route('/analytics/public')
+def public_analytics():
+    """Public analytics page"""
+    log_text("Navigate to Public Analytics")
+    return render_template('publicAnalytics.html', journey=get_journey_data(), now=datetime.now())
+
+# Start Flask app
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')

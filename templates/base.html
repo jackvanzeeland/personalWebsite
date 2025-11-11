@@ -8,24 +8,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Dynamic meta variables (can be set by individual pages) -->
+    {% set meta_title = meta.title if meta is defined and meta.title else "Jack Van Zeeland - Portfolio" %}
+    {% set meta_description = meta.description if meta is defined and meta.description else "Automation Engineer & Full-Stack Developer showcasing projects in automation, data analysis, and software development." %}
+    {% set meta_image = meta.image if meta is defined and meta.image else url_for('static', filename='images/preview.png', _external=True) %}
+    {% set meta_type = meta.type if meta is defined and meta.type else "website" %}
+    {% set meta_url = meta.url if meta is defined and meta.url else request.url %}
+
+    <!-- Page Title -->
+    <title>{% block title %}{{ meta_title }}{% endblock %}</title>
+
+    <!-- Basic Meta -->
+    <meta name="description" content="{{ meta_description }}">
+    <meta name="author" content="Jack Van Zeeland">
+
     <!-- Open Graph / Facebook / LinkedIn -->
-    <meta property="og:image" content="https://jackvz2002.pythonanywhere.com/static/images/preview.png">
-    <meta name="description" content="The portfolio of Jack Van Zeeland, a Business Automation Engineer.">
-    <meta property="og:title" content="Jack Van Zeeland's Portfolio">
-    <meta property="og:description"
-        content="A showcase of projects and skills in automation, data analysis, and software development.">
-    <meta property="og:url" content="https://jackvz2002.pythonanywhere.com/">
-    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ meta_title }}">
+    <meta property="og:description" content="{{ meta_description }}">
+    <meta property="og:image" content="{{ meta_image }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="{{ meta_url }}">
+    <meta property="og:type" content="{{ meta_type }}">
+    <meta property="og:site_name" content="Jack Van Zeeland Portfolio">
 
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Jack Van Zeeland's Portfolio">
-    <meta name="twitter:description"
-        content="A showcase of projects and skills in automation, data analysis, and software development.">
-    <meta name="twitter:image" content="https://jackvz2002.pythonanywhere.com/static/images/preview.png">
+    <meta name="twitter:title" content="{{ meta_title }}">
+    <meta name="twitter:description" content="{{ meta_description }}">
+    <meta name="twitter:image" content="{{ meta_image }}">
 
-    <!-- Page Title (can be overridden by child templates) -->
-    <title>{% block title %}Your Portfolio{% endblock %}</title>
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Jack Van Zeeland",
+      "url": "{{ request.url_root }}",
+      "jobTitle": "Automation Engineer",
+      "description": "Automation Engineer and Full-Stack Developer",
+      "knowsAbout": ["UiPath", "Python", "JavaScript", "Web Development", "RPA", "Automation"],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Penn State University"
+      },
+      "sameAs": [
+        "https://github.com/jackvanzeeland",
+        "https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/"
+      ]
+    }
+    </script>
+
+    <!-- Page-specific structured data (can be overridden by child templates) -->
+    {% block structured_data %}{% endblock %}
 
     <!-- External CSS: Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +69,7 @@
     <!-- Custom CSS (static) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ now.timestamp() }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/scroll-animations.css') }}?v={{ now.timestamp() }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai-modal.css') }}?v={{ now.timestamp() }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
 
     <!-- Page-specific extra head content (e.g., fonts, inline CSS) -->
@@ -41,11 +77,31 @@
 </head>
 
 <body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Inject Journey Data for JavaScript -->
+    <script>
+        /**
+         * Journey tracking data from server
+         * This is the CANONICAL source for client-side tracking
+         * Synced from Flask session on every page load
+         */
+        window.JOURNEY_DATA = {
+            visitedPages: {{ journey.visited_pages | tojson | safe }},
+            totalPages: {{ journey.total_pages }},
+            allPages: {{ journey.all_pages | tojson | safe }}
+        };
+    </script>
+
     <div class="top-bar-wrapper">
         <a href="{{ url_for('journey') }}" class="journey-progress-link">
             <div class="journey-progress-track">
                 <div class="journey-progress-fill" id="page-progress-bar"></div>
-                <span class="journey-progress-text" id="progress-text">User's Journey: 0% - Click to view details</span>
+                <span class="journey-progress-text" id="progress-text">
+                    <span class="progress-full-text">User's Journey: 0% - Click to view details</span>
+                    <span class="progress-mobile-text">Journey: 0%</span>
+                </span>
             </div>
         </a>
     </div>
@@ -73,27 +129,43 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('beyondTheCode') }}">Beyond the Code</a>
                     </li>
+
+                    <!-- Portfolio AI Assistant -->
+                    <li class="nav-item">
+                        <button class="nav-link ai-nav-button" id="portfolio-ai-toggle"
+                                aria-label="Ask Portfolio AI"
+                                title="Ask about projects and technologies">
+                            <span class="ai-icon">🤖</span>
+                            <span class="ai-label d-none d-md-inline">Ask AI</span>
+                        </button>
+                    </li>
                 </ul>
 
                 <!-- Theme Toggle Button -->
                 <button id="theme-toggle"
                         class="btn btn-sm btn-outline-light ms-auto"
                         aria-label="Switch to light mode"
-                        title="Light Mode">
-                    <i class="fas fa-sun"></i>
+                        title="Switch to light mode">
+                    <i class="fas fa-moon"></i>
                 </button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    <div id="main-content" class="container mt-4">
         {% block content %}{% endblock %}
     </div>
 
     <!-- Footer -->
     <footer class="footer mt-5 py-3 bg-dark">
         <div class="container text-center">
+            <div class="footer-stats-badge mb-2">
+                <a href="{{ url_for('public_analytics') }}" class="stats-link">
+                    <i class="fas fa-chart-line"></i> Site Stats
+                </a>
+                <span class="stat-badge" id="total-views-badge">Loading...</span>
+            </div>
             <div>
                 <a href="https://github.com/jackvanzeeland" target="_blank" class="text-muted mx-2">GitHub</a>
                 <a href="https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/" target="_blank"
@@ -106,13 +178,8 @@
     <!-- JS: Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Mermaid.js (used for diagrams, if needed) -->
-    <script type="module">
-        document.addEventListener("DOMContentLoaded", function () {
-            mermaid.initialize({ startOnLoad: true });
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <!-- Mermaid.js - loaded conditionally in case study pages via extra_head block -->
+    {% block mermaid_js %}{% endblock %}
 
     <!-- Utility scripts (load first) -->
     <script src="{{ url_for('static', filename='js/utils/dom-helpers.js') }}?v={{ now.timestamp() }}"></script>
@@ -123,26 +190,82 @@
     <script src="{{ url_for('static', filename='js/theme-switcher.js') }}?v={{ now.timestamp() }}"></script>
 
     <!-- Achievements System (load early for other modules to access) -->
-    <script src="{{ url_for('static', filename='js/achievements.js') }}?v={{ now.timestamp() }}"></script>
+    <script src="{{ url_for('static', filename='js/achievements.js') }}?v={{ now.timestamp() }}" defer></script>
 
     <!-- Scroll Animations (load early for fallback initialization) -->
-    <script src="{{ url_for('static', filename='js/scroll-animations.js') }}?v={{ now.timestamp() }}"></script>
+    <script src="{{ url_for('static', filename='js/scroll-animations.js') }}?v={{ now.timestamp() }}" defer></script>
 
     <!-- Analytics Logger (load early for tracking) -->
-    <script src="{{ url_for('static', filename='js/analytics-logger.js') }}?v={{ now.timestamp() }}"></script>
+    <script src="{{ url_for('static', filename='js/analytics-logger.js') }}?v={{ now.timestamp() }}" defer></script>
 
     <!-- Project Filter -->
-    <script src="{{ url_for('static', filename='js/project-filter.js') }}?v={{ now.timestamp() }}"></script>
+    <script src="{{ url_for('static', filename='js/project-filter.js') }}?v={{ now.timestamp() }}" defer></script>
 
     <!-- Custom JS -->
-    <script src="{{ url_for('static', filename='js/usersJourney.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/animateCards.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/usersJourney.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/animateCards.js') }}" defer></script>
+
+    <!-- Portfolio AI Script -->
+    <script src="{{ url_for('static', filename='js/portfolio-ai.js') }}?v={{ now.timestamp() }}" defer></script>
+
+    <!-- Load public stats for footer badge -->
+    <script>
+        (async function loadFooterStats() {
+            const badge = document.getElementById('total-views-badge');
+            if (!badge) return;
+
+            try {
+                const response = await fetch('/api/analytics/public-summary');
+                const data = await response.json();
+
+                if (data.total_views !== undefined) {
+                    badge.textContent = `${data.total_views.toLocaleString()} views`;
+                    badge.style.opacity = '1';
+                } else {
+                    badge.style.display = 'none';
+                }
+            } catch (error) {
+                badge.style.display = 'none';
+            }
+        })();
+    </script>
 
     <!-- Optional: For backward compatibility if you use this anywhere -->
     {% block scripts %}{% endblock %}
 
     <!-- Page-specific extra scripts (e.g., lyric animation JS) -->
     {% block extra_scripts %}{% endblock %}
+
+    <!-- Portfolio AI Modal -->
+    <div id="portfolio-ai-modal" class="ai-modal hidden" role="dialog"
+         aria-labelledby="ai-modal-title" aria-modal="true">
+        <div class="ai-modal-content">
+            <div class="ai-modal-header">
+                <h3 id="ai-modal-title">Ask About Projects & Tech</h3>
+                <div class="ai-header-actions">
+                    <button id="ai-clear-chat" class="ai-clear-btn" aria-label="Clear chat" title="Clear conversation">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button id="ai-modal-close" class="ai-close-btn" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+            </div>
+            <div class="ai-modal-body">
+                <div id="ai-messages" class="ai-messages"></div>
+            </div>
+            <div class="ai-modal-footer">
+                <input type="text" id="ai-question-input"
+                       placeholder="Ask about algorithms, technologies, projects..."
+                       aria-label="Question for AI">
+                <button id="ai-send-btn" class="ai-send-btn">
+                    <span class="send-text">Send</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="ai-modal-backdrop" class="ai-modal-backdrop hidden"></div>
 </body>
 
 </html>

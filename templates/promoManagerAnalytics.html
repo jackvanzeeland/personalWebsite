@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Results Viewer | TikTok Promo Manager</title>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/promo-analytics.css') }}?v={{ now.timestamp() }}" />
+</head>
+<body>
+
+<!-- Header -->
+<header class="analytics-header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+                Back to Home
+            </a>
+            <h1 class="page-title">Campaign Results Viewer</h1>
+            <p class="page-subtitle">Upload your campaign data to analyze performance metrics</p>
+        </div>
+    </div>
+</header>
+
+<!-- Upload Section -->
+<section class="upload-section">
+    <div class="container">
+        <div class="upload-card" id="uploadCard">
+            <div class="upload-dropzone" id="dropzone">
+                <svg class="upload-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3>Upload Campaign Data</h3>
+                <p class="upload-instructions">Drag & drop your CSV file here, or click to browse</p>
+                <input type="file" id="csvFile" accept=".csv" hidden>
+                <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('csvFile').click()">
+                    Choose File
+                </button>
+                <button class="btn btn-outline" onclick="event.stopPropagation(); loadSampleData()">
+                    Load Sample Data
+                </button>
+            </div>
+            <p class="error" id="error"></p>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard Content (Hidden until data loaded) -->
+<div id="dashboardContent" style="display:none;">
+
+    <!-- Summary Metrics -->
+    <section class="metrics-section">
+        <div class="container">
+            <h2 class="section-title">Campaign Overview</h2>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-content">
+                        <h3 id="totalVideos">0</h3>
+                        <p>Videos Posted</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">❤️</div>
+                    <div class="metric-content">
+                        <h3 id="totalLikes">0</h3>
+                        <p>Total Likes</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">💬</div>
+                    <div class="metric-content">
+                        <h3 id="totalComments">0</h3>
+                        <p>Comments</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🔖</div>
+                    <div class="metric-content">
+                        <h3 id="totalBookmarks">0</h3>
+                        <p>Bookmarks</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🔄</div>
+                    <div class="metric-content">
+                        <h3 id="totalShares">0</h3>
+                        <p>Shares</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Averages -->
+            <div class="averages-section">
+                <h3 class="subsection-title">Average Per Video</h3>
+                <div class="averages-grid">
+                    <div class="average-item">
+                        <span class="average-label">Likes</span>
+                        <span class="average-value" id="averageLikes">0</span>
+                    </div>
+                    <div class="average-item">
+                        <span class="average-label">Comments</span>
+                        <span class="average-value" id="averageComments">0</span>
+                    </div>
+                    <div class="average-item">
+                        <span class="average-label">Bookmarks</span>
+                        <span class="average-value" id="averageBookmarks">0</span>
+                    </div>
+                    <div class="average-item">
+                        <span class="average-label">Shares</span>
+                        <span class="average-value" id="averageShares">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts-section">
+        <div class="container">
+            <h2 class="section-title">Engagement Distribution</h2>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3 class="chart-title">Likes Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="likesChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Comments Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="commentsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Bookmarks Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="bookmarksChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Shares Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="sharesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-card">
+                <div class="filters-header">
+                    <h3>Filter Data</h3>
+                    <button class="btn btn-sm btn-outline" onclick="toggleFilters()">
+                        <span id="filterToggleText">Show Filters</span>
+                    </button>
+                </div>
+
+                <div class="filters-content" id="filtersContent" style="display:none;">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Likes Range</label>
+                            <div class="filter-inputs">
+                                <input type="number" id="minLikes" placeholder="Min" value="0">
+                                <span class="filter-separator">to</span>
+                                <input type="number" id="maxLikes" placeholder="Max" value="1000000000">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Comments Range</label>
+                            <div class="filter-inputs">
+                                <input type="number" id="minComments" placeholder="Min" value="0">
+                                <span class="filter-separator">to</span>
+                                <input type="number" id="maxComments" placeholder="Max" value="1000000000">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Bookmarks Range</label>
+                            <div class="filter-inputs">
+                                <input type="number" id="minBookmarks" placeholder="Min" value="0">
+                                <span class="filter-separator">to</span>
+                                <input type="number" id="maxBookmarks" placeholder="Max" value="1000000000">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Shares Range</label>
+                            <div class="filter-inputs">
+                                <input type="number" id="minShares" placeholder="Min" value="0">
+                                <span class="filter-separator">to</span>
+                                <input type="number" id="maxShares" placeholder="Max" value="1000000000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                        <button class="btn btn-outline" onclick="resetFilters()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Table Section -->
+    <section class="table-section">
+        <div class="container">
+            <div class="table-card">
+                <div class="table-header">
+                    <h3>Video Performance Details</h3>
+                    <button class="btn btn-sm btn-outline" onclick="toggleTable()">
+                        <span id="tableToggleText">Show Table</span>
+                    </button>
+                </div>
+
+                <div class="table-disclaimer">
+                    <span class="icon">ℹ️</span>
+                    <span>Note: Data is not real-time and was calculated at time of processing</span>
+                </div>
+
+                <div class="table-wrapper" id="tableWrapper" style="display:none;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('video_url')">
+                                    Video URL
+                                    <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </th>
+                                <th onclick="sortTable('likes')">
+                                    Likes
+                                    <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </th>
+                                <th onclick="sortTable('comments')">
+                                    Comments
+                                    <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </th>
+                                <th onclick="sortTable('bookmarks')">
+                                    Bookmarks
+                                    <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </th>
+                                <th onclick="sortTable('shares')">
+                                    Shares
+                                    <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>
+            Courtesy of <a href="mailto:jvz@vylmedia.co">jvz@vylmedia.co</a>
+        </p>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/promo-analytics.js') }}?v={{ now.timestamp() }}"></script>
+</body>
+</html>

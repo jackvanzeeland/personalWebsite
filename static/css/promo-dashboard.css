@@ -1,0 +1,1688 @@
+/* ============================================
+   TikTok Promo Manager Dashboard Styles
+   ============================================ */
+
+:root {
+    --tiktok-cyan: #00f2ea;
+    --tiktok-pink: #ff0050;
+    --tiktok-purple: #8c52ff;
+    --tiktok-blue: #00d4ff;
+    --dark-bg: #0f0f0f;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+}
+
+/* Wrapper to isolate dashboard styles */
+.promo-dashboard-wrapper {
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Override base.html light theme for dashboard */
+.promo-dashboard-wrapper * {
+    color: var(--text-primary);
+}
+
+/* Container Overrides - Full Width Support */
+.promo-dashboard-wrapper .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.promo-dashboard-wrapper section {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Custom Button Styles for TikTok Theme */
+.promo-dashboard-wrapper .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.promo-dashboard-wrapper .btn-lg {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+}
+
+.promo-dashboard-wrapper .btn-sm {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+}
+
+.promo-dashboard-wrapper .btn-primary {
+    background: linear-gradient(135deg, var(--tiktok-cyan) 0%, var(--tiktok-purple) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 242, 234, 0.3);
+}
+
+.promo-dashboard-wrapper .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 242, 234, 0.4);
+}
+
+.promo-dashboard-wrapper .btn-outline-light {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.promo-dashboard-wrapper .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+}
+
+.promo-dashboard-wrapper .btn-outline-primary {
+    background: transparent;
+    color: var(--tiktok-cyan);
+    border: 2px solid var(--tiktok-cyan);
+}
+
+.promo-dashboard-wrapper .btn-outline-primary:hover {
+    background: rgba(0, 242, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.promo-dashboard-wrapper .promo-hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff0050 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+}
+
+.promo-dashboard-wrapper .promo-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(0, 242, 234, 0.3), transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(255, 0, 80, 0.3), transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+.promo-dashboard-wrapper .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.promo-dashboard-wrapper .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+}
+
+.promo-dashboard-wrapper .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.promo-dashboard-wrapper .hero-subtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+/* Hero Stats Bar */
+.promo-dashboard-wrapper .hero-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
+
+.promo-dashboard-wrapper .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.promo-dashboard-wrapper .stat-item.highlight {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.promo-dashboard-wrapper .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.promo-dashboard-wrapper .stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.promo-dashboard-wrapper .stat-divider {
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Hero CTAs */
+.promo-dashboard-wrapper .hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Animations */
+.promo-dashboard-wrapper .fade-in {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.promo-dashboard-wrapper .fade-in-delay-1 {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.promo-dashboard-wrapper .fade-in-delay-2 {
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.promo-dashboard-wrapper .fade-in-delay-3 {
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section Styling */
+.promo-dashboard-wrapper section {
+    padding: 5rem 0;
+}
+
+.promo-dashboard-wrapper .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.promo-dashboard-wrapper .section-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+}
+
+/* Lead Cards Grid */
+.promo-dashboard-wrapper .lead-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.promo-dashboard-wrapper .lead-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.promo-dashboard-wrapper .lead-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 242, 234, 0.2);
+}
+
+.promo-dashboard-wrapper .lead-header {
+    margin-bottom: 1.5rem;
+}
+
+.promo-dashboard-wrapper .lead-account {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--tiktok-cyan);
+    text-decoration: none;
+}
+
+.promo-dashboard-wrapper .lead-account:hover {
+    text-decoration: underline;
+}
+
+.promo-dashboard-wrapper .lead-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.promo-dashboard-wrapper .lead-stats .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.promo-dashboard-wrapper .stat-icon {
+    font-size: 1.5rem;
+}
+
+.promo-dashboard-wrapper .stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.promo-dashboard-wrapper .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Bio Snippet */
+.promo-dashboard-wrapper .bio-snippet {
+    background: rgba(0, 242, 234, 0.1);
+    border-left: 3px solid var(--tiktok-cyan);
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    display: flex;
+    gap: 0.8rem;
+}
+
+.promo-dashboard-wrapper .bio-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.promo-dashboard-wrapper .bio-text {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Keyword Score */
+.promo-dashboard-wrapper .keyword-score {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.promo-dashboard-wrapper .score-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.promo-dashboard-wrapper .score-value {
+    font-weight: 700;
+    color: var(--tiktok-cyan);
+    font-size: 1.1rem;
+}
+
+.promo-dashboard-wrapper .keyword-badge {
+    background: rgba(0, 242, 234, 0.2);
+    color: var(--tiktok-cyan);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Locked Section */
+.promo-dashboard-wrapper .locked-section {
+    position: relative;
+    margin-top: 4rem;
+    min-height: 400px;
+}
+
+.promo-dashboard-wrapper .blurred-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    filter: blur(12px);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.promo-dashboard-wrapper .lead-card.blurred {
+    height: 350px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.promo-dashboard-wrapper .lock-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(30px);
+    padding: 3rem 4rem;
+    border-radius: 20px;
+    border: 2px solid rgba(0, 242, 234, 0.3);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.promo-dashboard-wrapper .lock-icon {
+    color: var(--tiktok-cyan);
+    margin-bottom: 1.5rem;
+}
+
+.promo-dashboard-wrapper .lock-overlay h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.promo-dashboard-wrapper #remainingLeadCount {
+    color: var(--tiktok-cyan);
+    font-weight: 700;
+}
+
+.promo-dashboard-wrapper .lock-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Algorithm Section */
+.promo-dashboard-wrapper .algorithm-section {
+    background: linear-gradient(180deg, rgba(0, 242, 234, 0.05) 0%, transparent 100%);
+}
+
+/* ============================================
+   Process Timeline - Modern Card-Based Layout
+   ============================================ */
+
+.promo-dashboard-wrapper .process-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 4rem 0;
+    position: relative;
+    gap: 0;
+}
+
+/* Timeline Step Container */
+.promo-dashboard-wrapper .timeline-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.promo-dashboard-wrapper .timeline-step[data-step="1"] { animation-delay: 0.1s; }
+.promo-dashboard-wrapper .timeline-step[data-step="2"] { animation-delay: 0.2s; }
+.promo-dashboard-wrapper .timeline-step[data-step="3"] { animation-delay: 0.3s; }
+.promo-dashboard-wrapper .timeline-step[data-step="4"] { animation-delay: 0.4s; }
+
+/* Step Number Badge */
+.promo-dashboard-wrapper .step-number-badge {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tiktok-cyan), var(--tiktok-purple));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 8px 24px rgba(0, 242, 234, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+}
+
+.promo-dashboard-wrapper .step-number-badge.highlight {
+    background: linear-gradient(135deg, var(--tiktok-cyan), var(--tiktok-pink));
+    box-shadow: 0 12px 32px rgba(255, 0, 80, 0.4);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.promo-dashboard-wrapper .timeline-step:hover .step-number-badge {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(0, 242, 234, 0.5);
+}
+
+.promo-dashboard-wrapper .step-num {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Timeline Card */
+.promo-dashboard-wrapper .timeline-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    width: 100%;
+    max-width: 280px;
+    min-height: 320px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-dashboard-wrapper .timeline-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--tiktok-cyan), var(--tiktok-purple), var(--tiktok-pink));
+    opacity: 0;
+    border-radius: 20px;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+.promo-dashboard-wrapper .timeline-step:hover .timeline-card::before {
+    opacity: 0.5;
+}
+
+.promo-dashboard-wrapper .timeline-step:hover .timeline-card {
+    transform: translateY(-8px);
+    border-color: rgba(0, 242, 234, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 242, 234, 0.2);
+}
+
+.promo-dashboard-wrapper .timeline-card.highlight {
+    background: rgba(0, 242, 234, 0.08);
+    border-color: var(--tiktok-cyan);
+    box-shadow: 0 12px 32px rgba(0, 242, 234, 0.15);
+}
+
+/* Card Icon */
+.promo-dashboard-wrapper .card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 4px 12px rgba(0, 242, 234, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.promo-dashboard-wrapper .timeline-step:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Card Title */
+.promo-dashboard-wrapper .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* Card Metrics */
+.promo-dashboard-wrapper .card-metric {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: center;
+}
+
+.promo-dashboard-wrapper .metric-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--tiktok-cyan);
+    line-height: 1;
+    text-shadow: 0 2px 12px rgba(0, 242, 234, 0.4);
+}
+
+.promo-dashboard-wrapper .card-metric.highlight .metric-number {
+    color: var(--tiktok-pink);
+    text-shadow: 0 2px 12px rgba(255, 0, 80, 0.4);
+}
+
+.promo-dashboard-wrapper .metric-unit {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* Card Tags */
+.promo-dashboard-wrapper .card-tags {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.promo-dashboard-wrapper .tag {
+    background: rgba(0, 242, 234, 0.15);
+    color: var(--tiktok-cyan);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(0, 242, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.promo-dashboard-wrapper .tag.highlight {
+    background: rgba(255, 0, 80, 0.15);
+    color: var(--tiktok-pink);
+    border-color: rgba(255, 0, 80, 0.3);
+}
+
+.promo-dashboard-wrapper .timeline-step:hover .tag {
+    background: rgba(0, 242, 234, 0.25);
+    transform: scale(1.05);
+}
+
+/* Card Description */
+.promo-dashboard-wrapper .card-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+
+/* Timeline Connectors */
+.promo-dashboard-wrapper .timeline-connector {
+    flex: 0 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 30px; /* Align with badge center */
+    height: 60px;
+}
+
+.promo-dashboard-wrapper .connector-line {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 242, 234, 0.3) 0%,
+        rgba(140, 82, 255, 0.5) 50%,
+        rgba(0, 242, 234, 0.3) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-dashboard-wrapper .connector-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 242, 234, 0.8),
+        transparent
+    );
+    animation: flow 2s ease-in-out infinite;
+}
+
+@keyframes flow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.promo-dashboard-wrapper .connector-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--tiktok-purple);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(140, 82, 255, 0.6);
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 12px 32px rgba(255, 0, 80, 0.4);
+    }
+    50% {
+        box-shadow: 0 12px 48px rgba(255, 0, 80, 0.7);
+    }
+}
+
+/* Keyword Breakdown */
+.promo-dashboard-wrapper .keyword-breakdown {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-top: 3rem;
+}
+
+.promo-dashboard-wrapper .keyword-breakdown h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.promo-dashboard-wrapper .keyword-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.promo-dashboard-wrapper .keyword-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 242, 234, 0.05);
+    border-radius: 10px;
+}
+
+.promo-dashboard-wrapper .keyword-icon {
+    font-size: 1.5rem;
+}
+
+.promo-dashboard-wrapper .keyword-label {
+    font-size: 0.95rem;
+}
+
+.promo-dashboard-wrapper .result-callout {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(0, 242, 234, 0.1);
+    border-radius: 10px;
+    border-left: 4px solid var(--tiktok-cyan);
+    margin-top: 2rem;
+}
+
+/* Features Grid */
+.promo-dashboard-wrapper .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.promo-dashboard-wrapper .feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.promo-dashboard-wrapper .feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.promo-dashboard-wrapper .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.promo-dashboard-wrapper .feature-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.promo-dashboard-wrapper .feature-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Insight Callout */
+.promo-dashboard-wrapper .insight-callout {
+    display: flex;
+    gap: 2rem;
+    background: linear-gradient(135deg, rgba(0, 242, 234, 0.1), rgba(255, 0, 80, 0.1));
+    border: 2px solid rgba(0, 242, 234, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    align-items: center;
+}
+
+.promo-dashboard-wrapper .insight-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.promo-dashboard-wrapper .insight-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.promo-dashboard-wrapper .insight-text strong {
+    color: var(--tiktok-cyan);
+}
+
+/* Analytics Preview */
+.promo-dashboard-wrapper .sample-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.promo-dashboard-wrapper .metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.promo-dashboard-wrapper .metric-card:hover {
+    transform: scale(1.05);
+}
+
+.promo-dashboard-wrapper .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--tiktok-cyan);
+    margin-bottom: 0.5rem;
+}
+
+.promo-dashboard-wrapper .metric-label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.promo-dashboard-wrapper .analytics-note {
+    text-align: center;
+    color: var(--text-secondary);
+    margin: 2rem 0;
+}
+
+.promo-dashboard-wrapper .analytics-cta {
+    text-align: center;
+}
+
+/* Contact Form */
+.promo-dashboard-wrapper .contact-section {
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 242, 234, 0.05) 100%);
+}
+
+.promo-dashboard-wrapper .contact-form {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.promo-dashboard-wrapper .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.promo-dashboard-wrapper .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.promo-dashboard-wrapper .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.promo-dashboard-wrapper .form-group input,
+.promo-dashboard-wrapper .form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.promo-dashboard-wrapper .form-group input:focus,
+.promo-dashboard-wrapper .form-group textarea:focus {
+    outline: none;
+    border-color: var(--tiktok-cyan);
+}
+
+.promo-dashboard-wrapper .contact-form button[type="submit"] {
+    width: 100%;
+}
+
+.promo-dashboard-wrapper .contact-alternatives {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.promo-dashboard-wrapper .email-link {
+    color: var(--tiktok-cyan);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.promo-dashboard-wrapper .email-link:hover {
+    text-decoration: underline;
+}
+
+/* Loading State */
+.promo-dashboard-wrapper .loading-state {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.promo-dashboard-wrapper .spinner {
+    border: 4px solid rgba(0, 242, 234, 0.1);
+    border-top: 4px solid var(--tiktok-cyan);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Premium Micro-Interactions */
+.promo-dashboard-wrapper .lead-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-dashboard-wrapper .lead-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--tiktok-cyan), var(--tiktok-purple), var(--tiktok-pink));
+    opacity: 0;
+    border-radius: 20px;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+.promo-dashboard-wrapper .lead-card:hover::before {
+    opacity: 1;
+}
+
+.promo-dashboard-wrapper .feature-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-dashboard-wrapper .feature-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(0, 242, 234, 0.1), transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.promo-dashboard-wrapper .feature-card:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Smooth scroll behavior */
+.promo-dashboard-wrapper {
+    scroll-behavior: smooth;
+}
+
+/* Loading state improvements */
+.promo-dashboard-wrapper .loading-state {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Enhanced form styling */
+.promo-dashboard-wrapper .form-group input:focus,
+.promo-dashboard-wrapper .form-group textarea:focus {
+    box-shadow: 0 0 0 3px rgba(0, 242, 234, 0.2);
+}
+
+/* Premium gradient text for headings - Disabled for better readability */
+/* .promo-dashboard-wrapper .section-title {
+    background: linear-gradient(135deg, white 0%, var(--tiktok-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+} */
+
+/* Enhanced metric cards */
+.promo-dashboard-wrapper .metric-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-dashboard-wrapper .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 242, 234, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.promo-dashboard-wrapper .metric-card:hover::before {
+    left: 100%;
+}
+
+/* ============================================
+   Responsive Design - Mobile Optimizations
+   ============================================ */
+
+/* Tablet and Small Desktop (768px - 1024px) */
+@media (max-width: 1024px) {
+    .promo-dashboard-wrapper .container {
+        padding: 0 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .hero-title {
+        font-size: 3rem;
+    }
+
+    .promo-dashboard-wrapper .timeline-card {
+        max-width: 240px;
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* Tablet Portrait (768px and below) */
+@media (max-width: 768px) {
+    /* Container & Section Spacing */
+    .promo-dashboard-wrapper .container {
+        padding: 0 1.5rem;
+    }
+
+    .promo-dashboard-wrapper section {
+        padding: 3rem 0;
+    }
+
+    /* Hero Section */
+    .promo-dashboard-wrapper .promo-hero {
+        min-height: 80vh;
+        padding: 3rem 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .hero-title {
+        font-size: 2.2rem;
+        line-height: 1.3;
+    }
+
+    .promo-dashboard-wrapper .hero-subtitle {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    /* Hero Stats - Vertical Layout */
+    .promo-dashboard-wrapper .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .stat-item.highlight {
+        padding: 1.25rem 2rem;
+    }
+
+    .promo-dashboard-wrapper .stat-divider {
+        transform: rotate(90deg);
+        font-size: 1.5rem;
+    }
+
+    /* Section Titles */
+    .promo-dashboard-wrapper .section-title {
+        font-size: 2rem;
+    }
+
+    .promo-dashboard-wrapper .section-subtitle {
+        font-size: 1.1rem;
+    }
+
+    /* Lead Cards Grid */
+    .promo-dashboard-wrapper .lead-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .blurred-cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* Timeline - Vertical Layout */
+    .promo-dashboard-wrapper .process-timeline {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .promo-dashboard-wrapper .timeline-step {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .promo-dashboard-wrapper .timeline-card {
+        max-width: 100%;
+        min-height: auto;
+    }
+
+    .promo-dashboard-wrapper .timeline-connector {
+        width: 60px;
+        height: 60px;
+        margin-top: 0;
+        transform: rotate(90deg);
+    }
+
+    .promo-dashboard-wrapper .connector-line {
+        height: 60px;
+        width: 3px;
+    }
+
+    .promo-dashboard-wrapper .connector-line::after {
+        animation: flow-vertical 2s ease-in-out infinite;
+    }
+
+    @keyframes flow-vertical {
+        0% { top: -100%; }
+        100% { top: 100%; }
+    }
+
+    /* Keyword Grid */
+    .promo-dashboard-wrapper .keyword-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Features Grid */
+    .promo-dashboard-wrapper .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Form */
+    .promo-dashboard-wrapper .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Insight Callout */
+    .promo-dashboard-wrapper .insight-callout {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    /* Lock Overlay */
+    .promo-dashboard-wrapper .lock-overlay {
+        padding: 2rem;
+    }
+
+    .promo-dashboard-wrapper .lock-overlay h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile Landscape & Large Phones (414px - 767px) */
+@media (max-width: 767px) and (min-width: 415px) {
+    .promo-dashboard-wrapper .hero-title {
+        font-size: 2rem;
+    }
+
+    .promo-dashboard-wrapper .hero-subtitle {
+        font-size: 1.05rem;
+    }
+
+    .promo-dashboard-wrapper .stat-number {
+        font-size: 1.75rem;
+    }
+
+    .promo-dashboard-wrapper .metric-number {
+        font-size: 2rem;
+    }
+}
+
+/* Mobile Portrait - iPhone 12/13 Pro Max (375px - 414px) */
+@media (max-width: 414px) {
+    /* Container - Reduced padding for more content space */
+    .promo-dashboard-wrapper .container {
+        padding: 0 1rem;
+    }
+
+    /* Hero Section */
+    .promo-dashboard-wrapper .promo-hero {
+        min-height: auto;
+        padding: 2.5rem 1rem;
+    }
+
+    .promo-dashboard-wrapper .hero-title {
+        font-size: 1.75rem;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+    }
+
+    .promo-dashboard-wrapper .hero-subtitle {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 2rem;
+    }
+
+    /* Hero Stats */
+    .promo-dashboard-wrapper .hero-stats {
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+
+    .promo-dashboard-wrapper .stat-item.highlight {
+        padding: 1rem 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .stat-label {
+        font-size: 0.8rem;
+    }
+
+    /* Buttons - Ensure touch targets */
+    .promo-dashboard-wrapper .btn {
+        min-height: 44px;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .promo-dashboard-wrapper .btn-lg {
+        min-height: 48px;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+
+    .promo-dashboard-wrapper .hero-cta {
+        gap: 1rem;
+    }
+
+    /* Section Spacing */
+    .promo-dashboard-wrapper section {
+        padding: 2.5rem 0;
+    }
+
+    /* Section Titles */
+    .promo-dashboard-wrapper .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Lead Cards */
+    .promo-dashboard-wrapper .lead-card {
+        padding: 1.5rem;
+        border-radius: 15px;
+    }
+
+    .promo-dashboard-wrapper .lead-account {
+        font-size: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .stat-value {
+        font-size: 1.1rem;
+    }
+
+    .promo-dashboard-wrapper .bio-snippet {
+        padding: 0.875rem;
+        font-size: 0.9rem;
+    }
+
+    /* Timeline */
+    .promo-dashboard-wrapper .step-number-badge {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        max-width: 50px;
+        max-height: 50px;
+        margin-bottom: 1rem;
+    }
+
+    .promo-dashboard-wrapper .step-num {
+        font-size: 1.2rem;
+    }
+
+    .promo-dashboard-wrapper .timeline-card {
+        padding: 1.5rem;
+        border-radius: 15px;
+    }
+
+    .promo-dashboard-wrapper .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .metric-number {
+        font-size: 1.75rem;
+    }
+
+    .promo-dashboard-wrapper .metric-unit {
+        font-size: 0.85rem;
+    }
+
+    .promo-dashboard-wrapper .card-description {
+        font-size: 0.85rem;
+    }
+
+    .promo-dashboard-wrapper .tag {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .timeline-connector {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Keyword Breakdown */
+    .promo-dashboard-wrapper .keyword-breakdown {
+        padding: 1.5rem;
+        border-radius: 15px;
+    }
+
+    .promo-dashboard-wrapper .keyword-breakdown h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-grid {
+        gap: 1rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-item {
+        padding: 0.875rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-icon {
+        font-size: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-label {
+        font-size: 0.875rem;
+    }
+
+    .promo-dashboard-wrapper .result-callout {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+
+    /* Features */
+    .promo-dashboard-wrapper .features-grid {
+        gap: 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .feature-card {
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .promo-dashboard-wrapper .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .feature-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .feature-card p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    /* Insight Callout */
+    .promo-dashboard-wrapper .insight-callout {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .promo-dashboard-wrapper .insight-icon {
+        font-size: 2.5rem;
+    }
+
+    .promo-dashboard-wrapper .insight-text {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    /* Lock Overlay */
+    .promo-dashboard-wrapper .lock-overlay {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .promo-dashboard-wrapper .lock-icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 1rem;
+    }
+
+    .promo-dashboard-wrapper .lock-overlay h3 {
+        font-size: 1.35rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .lock-description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Form */
+    .promo-dashboard-wrapper .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .form-group label {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .promo-dashboard-wrapper .form-group input,
+    .promo-dashboard-wrapper .form-group textarea {
+        padding: 0.875rem;
+        font-size: 1rem; /* Keep at 16px to prevent zoom on iOS */
+    }
+
+    /* Analytics */
+    .promo-dashboard-wrapper .analytics-note {
+        font-size: 0.95rem;
+        margin: 1.5rem 0;
+    }
+
+    /* Metric Cards */
+    .promo-dashboard-wrapper .metric-value {
+        font-size: 2rem;
+    }
+
+    .promo-dashboard-wrapper .metric-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Small Mobile - iPhone SE, iPhone 12/13 mini (320px - 374px) */
+@media (max-width: 374px) {
+    /* Ultra-compact layout for smallest devices */
+    .promo-dashboard-wrapper .container {
+        padding: 0 0.875rem;
+    }
+
+    .promo-dashboard-wrapper .promo-hero {
+        padding: 2rem 0.875rem;
+    }
+
+    .promo-dashboard-wrapper .hero-title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    .promo-dashboard-wrapper .hero-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .promo-dashboard-wrapper .stat-number {
+        font-size: 1.35rem;
+    }
+
+    .promo-dashboard-wrapper .stat-label {
+        font-size: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .promo-dashboard-wrapper .btn-lg {
+        padding: 0.875rem 1.75rem;
+        font-size: 0.95rem;
+    }
+
+    .promo-dashboard-wrapper section {
+        padding: 2rem 0;
+    }
+
+    .promo-dashboard-wrapper .section-title {
+        font-size: 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .section-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .promo-dashboard-wrapper .lead-card {
+        padding: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .step-number-badge {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        max-width: 44px;
+        max-height: 44px;
+    }
+
+    .promo-dashboard-wrapper .step-num {
+        font-size: 1rem;
+    }
+
+    .promo-dashboard-wrapper .timeline-card {
+        padding: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .card-icon {
+        font-size: 2rem;
+    }
+
+    .promo-dashboard-wrapper .card-title {
+        font-size: 1.1rem;
+    }
+
+    .promo-dashboard-wrapper .metric-number {
+        font-size: 1.5rem;
+    }
+
+    .promo-dashboard-wrapper .metric-unit {
+        font-size: 0.8rem;
+    }
+
+    .promo-dashboard-wrapper .card-description {
+        font-size: 0.8rem;
+    }
+
+    .promo-dashboard-wrapper .tag {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.6rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-breakdown {
+        padding: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-breakdown h3 {
+        font-size: 1.1rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-item {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-icon {
+        font-size: 1.1rem;
+    }
+
+    .promo-dashboard-wrapper .keyword-label {
+        font-size: 0.8rem;
+    }
+
+    .promo-dashboard-wrapper .result-callout {
+        padding: 0.875rem;
+        font-size: 0.875rem;
+    }
+
+    .promo-dashboard-wrapper .feature-card {
+        padding: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .feature-icon {
+        font-size: 2rem;
+    }
+
+    .promo-dashboard-wrapper .feature-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .promo-dashboard-wrapper .feature-card p {
+        font-size: 0.875rem;
+    }
+
+    .promo-dashboard-wrapper .insight-callout {
+        padding: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .insight-icon {
+        font-size: 2rem;
+    }
+
+    .promo-dashboard-wrapper .insight-text {
+        font-size: 0.875rem;
+    }
+
+    .promo-dashboard-wrapper .lock-overlay {
+        padding: 1.25rem;
+    }
+
+    .promo-dashboard-wrapper .lock-overlay h3 {
+        font-size: 1.2rem;
+    }
+
+    .promo-dashboard-wrapper .lock-description {
+        font-size: 0.85rem;
+    }
+
+    .promo-dashboard-wrapper .metric-value {
+        font-size: 1.75rem;
+    }
+
+    .promo-dashboard-wrapper .metric-label {
+        font-size: 0.85rem;
+    }
+}
+
+/* Fix for full-width hero on all screens */
+@media (max-width: 1024px) {
+    .promo-dashboard-wrapper .promo-hero {
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+    }
+}
+
+/* Ensure no horizontal scroll */
+@media (max-width: 767px) {
+    .promo-dashboard-wrapper {
+        overflow-x: hidden;
+    }
+
+    .promo-dashboard-wrapper .lead-cards-grid,
+    .promo-dashboard-wrapper .keyword-grid,
+    .promo-dashboard-wrapper .features-grid {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .promo-dashboard-wrapper * {
+        max-width: 100%;
+    }
+}

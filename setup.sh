@@ -6,10 +6,13 @@ set -e
 rm -rf venv
 
 echo "🔧 Creating virtual environment..."
-python3 -m venv venv
+python3.12 -m venv venv
 
 echo "📦 Activating virtual environment..."
 source venv/bin/activate
+
+echo "⬆️ Upgrading pip, setuptools, and wheel..."
+pip3 install --upgrade pip setuptools wheel
 
 echo "⬇️ Installing dependencies from requirements.txt..."
 pip3 install -r requirements.txt

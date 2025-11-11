@@ -8,6 +8,10 @@ A professional portfolio website built with Flask, showcasing technical projects
 
 - **Interactive Project Showcase**: 10+ projects with detailed descriptions and live demos
 - **AI-Powered Chat**: OpenAI Assistant integration for interactive conversations
+- **Real-time Chat Board**: Socket.IO-powered open chat platform
+- **Promo Manager Analytics**: TikTok campaign analytics with algorithmic lead qualification
+- **Analytics Dashboard**: Event tracking and visualization with Chart.js
+- **Lyric Animator V2**: Enhanced music visualization with particle effects and modular animations
 - **Responsive Design**: Mobile-friendly interface with modern CSS
 - **User Journey Tracking**: Progress tracking across site pages
 - **Beyond The Code**: Personal photo slideshow and interests
@@ -15,11 +19,13 @@ A professional portfolio website built with Flask, showcasing technical projects
 
 ## Tech Stack
 
-- **Backend**: Flask (Python 3.13)
+- **Backend**: Flask 3.1.0 (Python 3.12+)
 - **Frontend**: HTML5, CSS3 (with CSS Custom Properties), JavaScript (ES6+)
-- **AI Integration**: OpenAI API (GPT-based Assistant)
+- **AI Integration**: OpenAI API 1.78.1 (GPT-based Assistant)
+- **Data Processing**: Pandas 2.0.3 (for promo analytics)
+- **Real-time**: Flask-SocketIO 5.4.1, Socket.IO
 - **Deployment**: PythonAnywhere
-- **Server**: Gunicorn (production) / Flask dev server (development)
+- **Server**: Gunicorn + Eventlet (production) / Flask dev server (development)
 
 ## Project Architecture
 
@@ -31,15 +37,19 @@ personalWebsite/
 ├── config.py                   # Centralized configuration
 ├── wsgi.py.example             # WSGI config template for deployment
 ├── gunicorn.conf.py            # Gunicorn server configuration
-├── runtime.txt                 # Python version specification
-├── requirements.txt            # Python dependencies (6 packages)
+├── setup.sh                    # Automated setup script
+├── requirements.txt            # Python dependencies (7 packages)
 │
 ├── data/                       # Application data
-│   └── projects.json           # Project metadata and content
+│   ├── projects.json           # Project metadata and content
+│   ├── analytics/              # Daily analytics JSON files
+│   └── promoManager/           # TikTok lead qualification data (CSV)
 │
 ├── utils/                      # Utility modules
 │   ├── __init__.py
-│   └── project_loader.py       # Project data loader
+│   ├── project_loader.py       # Project data loader
+│   ├── analytics_storage.py    # Analytics event storage and aggregation
+│   └── promo_data_processor.py # TikTok lead qualification processor
 │
 ├── scripts/                    # Backend logic and utilities
 │   ├── ai_projects.py          # AI project definitions
@@ -50,20 +60,24 @@ personalWebsite/
 │
 ├── static/                     # Static assets
 │   ├── css/
+│   │   ├── lyric-animator.css, lyric-animator-v2.css
+│   │   ├── promo-dashboard.css, promo-analytics.css
 │   │   ├── analytics-viewer.css
-│   │   ├── lyric-animator.css
-│   │   └── secret-santa.css
+│   │   ├── secret-santa.css
+│   │   └── backgrounds/        # Background effect styles
 │   ├── js/
 │   │   ├── utils/              # Shared JavaScript utilities
 │   │   │   ├── api-client.js   # Fetch wrapper
 │   │   │   ├── dom-helpers.js  # DOM manipulation utilities
 │   │   │   └── storage.js      # localStorage wrapper
-│   │   ├── analytics-viewer.js
+│   │   ├── lyrics-animator-v2.js, lyrics-animator-v2-animations.js
+│   │   ├── lyrics-animator-v2-layouts.js, lyric-animator-particles-v2.js
+│   │   ├── lyric-animator-ui-v2.js
+│   │   ├── promo-dashboard.js, promo-analytics.js
+│   │   ├── analytics-logger.js, analytics-viewer.js
+│   │   ├── backgrounds/        # Background effect scripts
 │   │   ├── animateCards.js
 │   │   ├── beyondTheCode_slideshow.js
-│   │   ├── lyric-animator-particles.js
-│   │   ├── lyric-animator-ui.js
-│   │   ├── lyrics-animator.js
 │   │   ├── secret-santa.js
 │   │   └── usersJourney.js     # Progress tracking
 │   ├── images/                 # Project images and assets
@@ -78,8 +92,9 @@ personalWebsite/
 │   ├── about.html              # About page
 │   ├── beyondTheCode.html      # Personal interests
 │   ├── ai_innovations_portal.html
-│   ├── analyticsViewer.html
-│   ├── lyricAnimator.html
+│   ├── analyticsViewerDashboard.html # Analytics dashboard
+│   ├── lyricAnimator.html      # Lyric Animator V2
+│   ├── promoManagerAnalytics.html # TikTok campaign analytics
 │   ├── matching.html           # Secret Santa
 │   ├── wordle.html             # Wordle solver
 │   ├── basketball.html
@@ -102,8 +117,9 @@ personalWebsite/
 ### Interactive Projects
 - **Wordle Algorithm Solver** - AI that recommends optimal Wordle guesses (87% win rate)
 - **Secret Santa Matching** - Constraint-based partner matching system
-- **Lyric Animator** - Synchronized lyrics display with Particles.js effects
-- **Analytics Viewer** - CSV data visualization with Chart.js
+- **Lyric Animator V2** - Enhanced music visualization with particle effects, modular animations
+- **Promo Manager Analytics** - TikTok campaign analytics with lead qualification (215/6,156 qualified)
+- **Analytics Dashboard** - Event tracking visualization with Chart.js
 
 ### Automation & Optimization
 - **Budgeting Automation** - UiPath bot for bank statement processing
@@ -127,7 +143,7 @@ cd personalWebsite
 ### 2. Create Virtual Environment
 
 ```bash
-python3.13 -m venv venv
+python3.12 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
@@ -145,6 +161,8 @@ Create a `.env` file in the project root:
 SECRET_KEY=your-secret-key-here
 OPENAI_API_KEY=sk-your-openai-api-key
 OPENAI_ASSISTANT_ID=asst-your-assistant-id
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-gmail-app-password
 LOG_LEVEL=INFO
 ```
 

@@ -55,24 +55,25 @@
 <div class="col-md-6 col-lg-4 mb-4 project-card-wrapper scroll-fade-up" data-tags="{{ project.tags | join(', ') if project.tags else '' }}">
     <div class="card h-100">
         {% if project.is_interactive %}
-        <span class="interactive-star" title="Interactive Project">⭐</span>
+        <span class="interactive-star" title="This project is interactive - try it out!" aria-label="Interactive project">⭐</span>
         {% endif %}
 
         {% if project.image %}
         <img src="{{ url_for('static', filename='images/' + project.image) }}"
              class="card-img-top"
-             alt="{{ project.title }}">
+             alt="{{ project.title }}"
+             loading="lazy">
         {% endif %}
 
         <div class="card-body">
             {% if project.page %}
-            <a href="{{ url_for(project.page) }}" class="stretched-link text-decoration-none">
-                <h5 class="card-title">{{ project.title }}</h5>
-            </a>
+            <h5 class="card-title">
+                <a href="{{ url_for(project.page) }}" class="text-decoration-none project-title-link">{{ project.title }}</a>
+            </h5>
             {% elif project.github_link %}
-            <a href="{{ project.github_link }}" target="_blank" class="stretched-link text-decoration-none">
-                <h5 class="card-title">{{ project.title }}</h5>
-            </a>
+            <h5 class="card-title">
+                <a href="{{ project.github_link }}" target="_blank" class="text-decoration-none project-title-link">{{ project.title }}</a>
+            </h5>
             {% else %}
             <h5 class="card-title">{{ project.title }}</h5>
             {% endif %}

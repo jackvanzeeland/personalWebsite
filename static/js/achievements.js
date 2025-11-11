@@ -98,6 +98,35 @@ const AchievementSystem = (function() {
     }
 
     /**
+     * Sync page_visit stat with actual journey progress
+     * Single source of truth: journey tracking owns the data
+     */
+    function syncWithJourneyData() {
+        const stats = getStats();
+
+        // Get actual visited pages count from journey tracking
+        let visitedPagesCount = 0;
+
+        if (window.JOURNEY_DATA && window.JOURNEY_DATA.visitedPages) {
+            // Use server data (authoritative)
+            visitedPagesCount = window.JOURNEY_DATA.visitedPages.filter(p => p !== '/journey').length;
+        } else {
+            // Fallback to localStorage
+            const localPages = StorageHelper.get('visitedPages', []);
+            visitedPagesCount = localPages.filter(p => p !== '/journey').length;
+        }
+
+        // Update achievement stat to match reality
+        if (stats.page_visit !== visitedPagesCount) {
+            stats.page_visit = visitedPagesCount;
+            saveStats(stats);
+            console.log(`Achievements: Synced page_visit to ${visitedPagesCount}`);
+        }
+
+        return stats;
+    }
+
+    /**
      * Check if achievement is unlocked
      */
     function isUnlocked(achievementId) {
@@ -237,8 +266,10 @@ const AchievementSystem = (function() {
      * Initialize achievement system
      */
     function init() {
-        // Initial check for achievements
-        const stats = getStats();
+        // Sync with journey data first (single source of truth)
+        const stats = syncWithJourneyData();
+
+        // Check for achievements
         checkAchievements(stats);
 
         // Track page time for "Deep Dive" achievement
@@ -270,7 +301,8 @@ const AchievementSystem = (function() {
         getProgress,
         getUnlockedAchievements,
         isUnlocked,
-        getAllAchievements: () => ACHIEVEMENTS
+        getAllAchievements: () => ACHIEVEMENTS,
+        syncWithJourneyData  // Allow manual sync from journey tracking
     };
 })();
 

@@ -10,26 +10,84 @@
     <div class="legend-filter-container">
         <p class="text-center">
             <span class="interactive-legend"></span> Indicates an interactive project
-            <button class="filter-toggle-btn" id="filter-toggle" aria-expanded="false" title="Filter projects by tag">
+            <button class="filter-toggle-btn" id="filter-toggle"
+                    aria-expanded="false"
+                    aria-controls="filter-dropdown"
+                    aria-label="Toggle project filters"
+                    title="Filter projects by tag">
                 <i class="fas fa-filter"></i> Filter
             </button>
         </p>
 
         <!-- Collapsible Filter Dropdown -->
         <div class="filter-dropdown" id="filter-dropdown" style="display: none;">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
-                <button class="filter-btn" data-filter="Python" aria-pressed="false">Python</button>
-                <button class="filter-btn" data-filter="JavaScript" aria-pressed="false">JavaScript</button>
-                <button class="filter-btn" data-filter="AI" aria-pressed="false">AI</button>
-                <button class="filter-btn" data-filter="Interactive" aria-pressed="false">Interactive</button>
-                <button class="filter-btn" data-filter="Algorithm" aria-pressed="false">Algorithm</button>
-                <button class="filter-btn" data-filter="Data" aria-pressed="false">Data</button>
-                <button class="filter-btn" data-filter="Automation" aria-pressed="false">Automation</button>
-                <button class="filter-btn" data-filter="Web" aria-pressed="false">Web</button>
-                <button class="filter-btn" data-filter="Creative" aria-pressed="false">Creative</button>
+            <div class="filter-header">
+                <span class="filter-result-count">Showing all {{ projects|length }} projects</span>
+                <button id="clear-filters" class="clear-filters-btn" title="Clear all filters">Clear All</button>
             </div>
-            <span class="filter-count">All Projects ({{ projects|length }})</span>
+
+            <div class="filter-checkboxes">
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Python">
+                    <span class="filter-label-text">Python <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="JavaScript">
+                    <span class="filter-label-text">JavaScript <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="AI">
+                    <span class="filter-label-text">AI <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Interactive">
+                    <span class="filter-label-text">Interactive <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Algorithm">
+                    <span class="filter-label-text">Algorithm <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Data">
+                    <span class="filter-label-text">Data <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Automation">
+                    <span class="filter-label-text">Automation <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Web">
+                    <span class="filter-label-text">Web <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Creative">
+                    <span class="filter-label-text">Creative <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="R">
+                    <span class="filter-label-text">R <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Sports">
+                    <span class="filter-label-text">Sports <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Video">
+                    <span class="filter-label-text">Video <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Social Media">
+                    <span class="filter-label-text">Social Media <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Music">
+                    <span class="filter-label-text">Music <span class="filter-count">(0)</span></span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" value="Educational">
+                    <span class="filter-label-text">Educational <span class="filter-count">(0)</span></span>
+                </label>
+            </div>
         </div>
     </div>
 </div>

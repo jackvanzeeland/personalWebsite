@@ -1,0 +1,795 @@
+{% extends "base.html" %}
+
+{% block title %}HTML Gems Uncovered - Hidden Features{% endblock %}
+
+{% block extra_head %}
+<!-- HTML Gems Dedicated Stylesheet -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/html-gems.css') }}?v={{ now.timestamp() }}">
+
+<!-- Prism.js for Syntax Highlighting (HTML language only) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+
+<!-- HTML Gems JavaScript -->
+<script src="{{ url_for('static', filename='js/html-gems.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+<main class="html-gems-container">
+
+  <!-- Breadcrumb Navigation -->
+  <nav class="html-gems-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ url_for('home') }}">Home</a>
+    <span class="breadcrumb-separator">/</span>
+    <a href="{{ url_for('home') }}#projects">Projects</a>
+    <span class="breadcrumb-separator">/</span>
+    <span aria-current="page">HTML Gems Uncovered</span>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="html-gems-header">
+    <h1>💎 Hidden Gems of HTML</h1>
+    <p>Discover 18 underused HTML features and attributes that reduce JavaScript bloat, improve accessibility, and unlock native browser capabilities.</p>
+  </header>
+
+  <!-- Search & Filter Controls -->
+  <div class="html-gems-controls">
+    <div class="html-gems-search-wrapper">
+      <i class="fas fa-search html-gems-search-icon" aria-hidden="true"></i>
+      <input
+        type="search"
+        class="html-gems-search"
+        placeholder="Search features by name or tag... (Ctrl+K)"
+        aria-label="Search HTML features"
+        autocomplete="off"
+      >
+      <button class="html-gems-clear-search" aria-label="Clear search" title="Clear search">×</button>
+    </div>
+
+    <div class="html-gems-results-count" role="status" aria-live="polite" style="display: none;"></div>
+
+    <div class="html-gems-filters" role="group" aria-label="Category filters">
+      <button class="html-gems-filter-btn active" data-category="all">
+        <span class="filter-icon">🌐</span> All Features
+      </button>
+      <button class="html-gems-filter-btn" data-category="forms">
+        <span class="filter-icon">📝</span> Forms & Inputs
+      </button>
+      <button class="html-gems-filter-btn" data-category="media">
+        <span class="filter-icon">🎬</span> Media & Content
+      </button>
+      <button class="html-gems-filter-btn" data-category="interactive">
+        <span class="filter-icon">✨</span> Interactive
+      </button>
+      <button class="html-gems-filter-btn" data-category="semantic">
+        <span class="filter-icon">📖</span> Semantic Markup
+      </button>
+      <button class="html-gems-filter-btn" data-category="indicators">
+        <span class="filter-icon">📊</span> Indicators
+      </button>
+      <button class="html-gems-filter-btn" data-category="attributes">
+        <span class="filter-icon">⚙️</span> Attributes
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick Reference Section -->
+  <section class="html-gems-quick-ref">
+    <div class="html-gems-quick-ref-title">
+      <span>🔖</span> Quick Reference - Jump to Feature
+    </div>
+    <div class="html-gems-quick-ref-chips">
+      <a href="#details-summary" class="html-gems-quick-chip">&lt;details&gt;</a>
+      <a href="#datalist" class="html-gems-quick-chip">&lt;datalist&gt;</a>
+      <a href="#meter" class="html-gems-quick-chip">&lt;meter&gt;</a>
+      <a href="#progress" class="html-gems-quick-chip">&lt;progress&gt;</a>
+      <a href="#contenteditable" class="html-gems-quick-chip">contenteditable</a>
+      <a href="#code-kbd-samp" class="html-gems-quick-chip">&lt;code&gt;/&lt;kbd&gt;</a>
+      <a href="#abbr-mark" class="html-gems-quick-chip">&lt;abbr&gt;/&lt;mark&gt;</a>
+      <a href="#figure" class="html-gems-quick-chip">&lt;figure&gt;</a>
+      <a href="#download" class="html-gems-quick-chip">download</a>
+      <a href="#input-types" class="html-gems-quick-chip">Input Types</a>
+      <a href="#dialog" class="html-gems-quick-chip">&lt;dialog&gt;</a>
+      <a href="#inert" class="html-gems-quick-chip">inert</a>
+      <a href="#output" class="html-gems-quick-chip">&lt;output&gt;</a>
+      <a href="#accesskey" class="html-gems-quick-chip">accesskey</a>
+      <a href="#video-track" class="html-gems-quick-chip">&lt;video&gt;/&lt;track&gt;</a>
+      <a href="#picture" class="html-gems-quick-chip">&lt;picture&gt;</a>
+      <a href="#optgroup" class="html-gems-quick-chip">&lt;optgroup&gt;</a>
+      <a href="#native-copy" class="html-gems-quick-chip">Copy Snippet</a>
+    </div>
+  </section>
+
+  <!-- Mobile TOC Toggle -->
+  <button class="html-gems-toc-toggle" aria-expanded="false" aria-controls="html-gems-toc">
+    <span>📑 Table of Contents</span>
+    <span class="toggle-icon">▼</span>
+  </button>
+
+  <!-- Main Layout Grid -->
+  <div class="html-gems-layout">
+
+    <!-- Table of Contents (Sidebar) -->
+    <aside class="html-gems-toc" id="html-gems-toc" role="navigation" aria-label="Table of contents">
+      <div class="html-gems-toc-title">Table of Contents</div>
+
+      <!-- Interactive Elements Category -->
+      <div class="html-gems-toc-category">
+        <div class="html-gems-toc-category-title">✨ Interactive</div>
+        <ul class="html-gems-toc-list">
+          <li><a href="#details-summary" class="html-gems-toc-link">&lt;details&gt; & &lt;summary&gt;</a></li>
+          <li><a href="#dialog" class="html-gems-toc-link">&lt;dialog&gt;</a></li>
+          <li><a href="#contenteditable" class="html-gems-toc-link">contenteditable</a></li>
+        </ul>
+      </div>
+
+      <!-- Forms & Inputs Category -->
+      <div class="html-gems-toc-category">
+        <div class="html-gems-toc-category-title">📝 Forms & Inputs</div>
+        <ul class="html-gems-toc-list">
+          <li><a href="#datalist" class="html-gems-toc-link">&lt;datalist&gt;</a></li>
+          <li><a href="#input-types" class="html-gems-toc-link">Input Types & Validation</a></li>
+          <li><a href="#optgroup" class="html-gems-toc-link">&lt;optgroup&gt;</a></li>
+        </ul>
+      </div>
+
+      <!-- Indicators Category -->
+      <div class="html-gems-toc-category">
+        <div class="html-gems-toc-category-title">📊 Indicators</div>
+        <ul class="html-gems-toc-list">
+          <li><a href="#meter" class="html-gems-toc-link">&lt;meter&gt;</a></li>
+          <li><a href="#progress" class="html-gems-toc-link">&lt;progress&gt;</a></li>
+          <li><a href="#output" class="html-gems-toc-link">&lt;output&gt;</a></li>
+        </ul>
+      </div>
+
+      <!-- Semantic Markup Category -->
+      <div class="html-gems-toc-category">
+        <div class="html-gems-toc-category-title">📖 Semantic</div>
+        <ul class="html-gems-toc-list">
+          <li><a href="#code-kbd-samp" class="html-gems-toc-link">&lt;code&gt;/&lt;kbd&gt;/&lt;samp&gt;</a></li>
+          <li><a href="#abbr-mark" class="html-gems-toc-link">&lt;abbr&gt; & &lt;mark&gt;</a></li>
+          <li><a href="#native-copy" class="html-gems-toc-link">Native Copy Snippet</a></li>
+        </ul>
+      </div>
+
+      <!-- Media & Content Category -->
+      <div class="html-gems-toc-category">
+        <div class="html-gems-toc-category-title">🎬 Media</div>
+        <ul class="html-gems-toc-list">
+          <li><a href="#figure" class="html-gems-toc-link">&lt;figure&gt; & &lt;figcaption&gt;</a></li>
+          <li><a href="#video-track" class="html-gems-toc-link">&lt;video&gt; & &lt;track&gt;</a></li>
+          <li><a href="#picture" class="html-gems-toc-link">&lt;picture&gt;</a></li>
+        </ul>
+      </div>
+
+      <!-- Attributes Category -->
+      <div class="html-gems-toc-category">
+        <div class="html-gems-toc-category-title">⚙️ Attributes</div>
+        <ul class="html-gems-toc-list">
+          <li><a href="#download" class="html-gems-toc-link">download</a></li>
+          <li><a href="#inert" class="html-gems-toc-link">inert</a></li>
+          <li><a href="#accesskey" class="html-gems-toc-link">accesskey</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Features Content -->
+    <div class="html-gems-content">
+
+      <!-- INTERACTIVE ELEMENTS CATEGORY -->
+
+      <!-- 1. details / summary -->
+      <section class="html-gem-card" id="details-summary" data-category="interactive">
+        <div class="html-gem-category category-interactive"><span>✨</span> Interactive</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">📂</span>
+          <code>&lt;details&gt;</code> & <code>&lt;summary&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <details>
+            <summary>Click to reveal more goodies</summary>
+            <p>Native disclosure widget with accessibility baked in—no JS needed.</p>
+            <ul>
+              <li>Works with keyboard and screen readers</li>
+              <li>Style the open state via <code>details[open]</code></li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;details&gt;
+  &lt;summary&gt;Click to reveal more goodies&lt;/summary&gt;
+  &lt;p&gt;Native disclosure widget with accessibility baked in.&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+        </div>
+
+        <p class="desc">Create expandable sections (FAQ, code blocks, etc.) with a11y-friendly behavior out of the box. Perfect for accordions without JavaScript!</p>
+      </section>
+
+      <!-- 11. native dialog -->
+      <section class="html-gem-card" id="dialog" data-category="interactive">
+        <div class="html-gem-category category-interactive"><span>✨</span> Interactive</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">💬</span>
+          <code>&lt;dialog&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <dialog id="dlg" class="html-gem-dialog">
+            <form method="dialog">
+              <h3>Hi there 👋</h3>
+              <p>This is a native modal with focus trapping and ESC to close.</p>
+              <menu class="html-gem-dialog-menu">
+                <button value="cancel">Cancel</button>
+                <button value="ok">OK</button>
+              </menu>
+            </form>
+          </dialog>
+          <button onclick="document.getElementById('dlg').showModal()">Open Dialog</button>
+          <button onclick="document.getElementById('dlg').close()">Close Dialog</button>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;dialog id="dlg"&gt;
+  &lt;form method="dialog"&gt;
+    &lt;h3&gt;Modal Title&lt;/h3&gt;
+    &lt;p&gt;Modal content here&lt;/p&gt;
+    &lt;button value="ok"&gt;OK&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+
+&lt;button onclick="document.getElementById('dlg').showModal()"&gt;Open&lt;/button&gt;</code></pre>
+        </div>
+
+        <p class="desc">Accessible modal dialogs without heavy libraries. Native focus trapping, backdrop clicks, and ESC key support. Just one line to open/close!</p>
+      </section>
+
+      <!-- 5. contenteditable + spellcheck -->
+      <section class="html-gem-card" id="contenteditable" data-category="interactive">
+        <div class="html-gem-category category-interactive"><span>✨</span> Interactive</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">✏️</span>
+          <code>contenteditable</code> + <code>spellcheck</code>
+        </h2>
+
+        <div class="html-gem-example" contenteditable="true" spellcheck="true" aria-label="Editable note">
+          Click here and type. This region is editable and will underline misspellings. Try it out!
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;div contenteditable="true" spellcheck="true" aria-label="Editable note"&gt;
+  Click here and type...
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <p class="desc">Turn any element into a lightweight editor without JavaScript. Perfect for note-taking interfaces, comment boxes, or simple WYSIWYG editors.</p>
+      </section>
+
+      <!-- FORMS & INPUTS CATEGORY -->
+
+      <!-- 2. datalist -->
+      <section class="html-gem-card" id="datalist" data-category="forms">
+        <div class="html-gem-category category-forms"><span>📝</span> Forms & Inputs</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">📋</span>
+          <code>&lt;datalist&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <label for="flavor">Favorite flavor</label>
+          <input id="flavor" name="flavor" list="flavors" placeholder="Start typing…" />
+          <datalist id="flavors">
+            <option>Ube</option>
+            <option>Pistachio</option>
+            <option>Salted Caramel</option>
+            <option>Yuzu</option>
+            <option>Taro</option>
+          </datalist>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;input list="flavors" placeholder="Start typing…" /&gt;
+&lt;datalist id="flavors"&gt;
+  &lt;option&gt;Chocolate&lt;/option&gt;
+  &lt;option&gt;Vanilla&lt;/option&gt;
+  &lt;option&gt;Strawberry&lt;/option&gt;
+&lt;/datalist&gt;</code></pre>
+        </div>
+
+        <p class="desc">Attach a suggestion list to text inputs—no custom dropdown code necessary. Users can still type freely or select from suggestions.</p>
+      </section>
+
+      <!-- 10. input types + pattern + required -->
+      <section class="html-gem-card" id="input-types" data-category="forms">
+        <div class="html-gem-category category-forms"><span>📝</span> Forms & Inputs</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🎛️</span>
+          Underused <code>&lt;input&gt;</code> Types + Validation
+        </h2>
+
+        <div class="html-gem-example html-gem-grid-2">
+          <label>Email <input type="email" placeholder="you@example.com" required></label>
+          <label>Color <input type="color" value="#46c8ff"></label>
+          <label>Range <input type="range" min="0" max="100" value="42" oninput="this.nextElementSibling.value=this.value"><output>42</output></label>
+          <label>Search <input type="search" placeholder="Find things…"></label>
+          <label>Regex (US ZIP) <input type="text" inputmode="numeric" placeholder="12345-6789" pattern="^\d{5}(-\d{4})?$" title="Use 12345 or 12345-6789"></label>
+          <label>Datetime Local <input type="datetime-local"></label>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;input type="email" required /&gt;
+&lt;input type="color" value="#46c8ff" /&gt;
+&lt;input type="range" min="0" max="100" /&gt;
+&lt;input type="search" /&gt;
+&lt;input type="text" pattern="^\d{5}(-\d{4})?$" title="ZIP code" /&gt;
+&lt;input type="datetime-local" /&gt;</code></pre>
+        </div>
+
+        <p class="desc">Native inputs with built-in validation reduce JavaScript bloat and improve accessibility. Browsers provide native pickers and validation UI.</p>
+      </section>
+
+      <!-- 17. select + optgroup -->
+      <section class="html-gem-card" id="optgroup" data-category="forms">
+        <div class="html-gem-category category-forms"><span>📝</span> Forms & Inputs</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🗂️</span>
+          <code>&lt;select&gt;</code> + <code>&lt;optgroup&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <label for="city">City</label>
+          <select id="city">
+            <optgroup label="USA">
+              <option>Chicago</option>
+              <option>Seattle</option>
+              <option>Austin</option>
+            </optgroup>
+            <optgroup label="International">
+              <option>Tokyo</option>
+              <option>Lisbon</option>
+              <option>Seoul</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;select&gt;
+  &lt;optgroup label="USA"&gt;
+    &lt;option&gt;New York&lt;/option&gt;
+    &lt;option&gt;Los Angeles&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="International"&gt;
+    &lt;option&gt;Tokyo&lt;/option&gt;
+    &lt;option&gt;London&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;</code></pre>
+        </div>
+
+        <p class="desc">Group related options for better navigation in long lists. Screen readers announce group labels for improved accessibility.</p>
+      </section>
+
+      <!-- INDICATORS CATEGORY -->
+
+      <!-- 3. meter -->
+      <section class="html-gem-card" id="meter" data-category="indicators">
+        <div class="html-gem-category category-indicators"><span>📊</span> Indicators</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">📊</span>
+          <code>&lt;meter&gt;</code>
+        </h2>
+
+        <div class="html-gem-example html-gem-grid-2">
+          <div>
+            <label for="score">Accessibility Score</label>
+            <meter id="score" min="0" max="100" low="50" high="90" optimum="100" value="92">92</meter>
+          </div>
+          <div>
+            <label for="temp">CPU Temperature</label>
+            <meter id="temp" min="0" max="100" low="60" high="85" optimum="40" value="78">78°C</meter>
+          </div>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;meter min="0" max="100" low="50" high="90" optimum="100" value="92"&gt;
+  92 out of 100
+&lt;/meter&gt;</code></pre>
+        </div>
+
+        <p class="desc">Represent bounded scalar values like ratings, disk usage, or scores. Browser automatically styles based on thresholds (low/high/optimum).</p>
+      </section>
+
+      <!-- 4. progress -->
+      <section class="html-gem-card" id="progress" data-category="indicators">
+        <div class="html-gem-category category-indicators"><span>📊</span> Indicators</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">⏳</span>
+          <code>&lt;progress&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <label for="dl">Download Progress</label>
+          <progress id="dl" value="66" max="100">66%</progress>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;progress value="66" max="100"&gt;66%&lt;/progress&gt;</code></pre>
+        </div>
+
+        <p class="desc">A semantic way to show task completion. Screen readers announce progress automatically. Omit value for indeterminate state.</p>
+      </section>
+
+      <!-- 13. output + form calc -->
+      <section class="html-gem-card" id="output" data-category="indicators">
+        <div class="html-gem-category category-indicators"><span>📊</span> Indicators</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🧮</span>
+          <code>&lt;output&gt;</code> + Form Calculations
+        </h2>
+
+        <div class="html-gem-example">
+          <form oninput="total.value = (+price.value||0) * (+qty.value||0)">
+            <label>Price $ <input id="price" type="number" step="0.01" value="3.50"></label>
+            <label>Qty <input id="qty" type="number" value="2"></label>
+            <p>Total: $<output name="total" for="price qty">7.00</output></p>
+          </form>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;form oninput="total.value = (+price.value) * (+qty.value)"&gt;
+  &lt;input id="price" type="number" value="10"&gt;
+  &lt;input id="qty" type="number" value="2"&gt;
+  &lt;output name="total" for="price qty"&gt;20&lt;/output&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+
+        <p class="desc">Semantic element for displaying calculation results. The 'for' attribute links it to input fields for better accessibility.</p>
+      </section>
+
+      <!-- SEMANTIC MARKUP CATEGORY -->
+
+      <!-- 6. code, kbd, samp -->
+      <section class="html-gem-card" id="code-kbd-samp" data-category="semantic">
+        <div class="html-gem-category category-semantic"><span>📖</span> Semantic</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">⌨️</span>
+          <code>&lt;code&gt;</code>, <code>&lt;kbd&gt;</code>, <code>&lt;samp&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <p>Press <kbd>⌘</kbd> + <kbd>K</kbd> to open search.</p>
+          <p><code>fetch('/api')</code> returns <samp>{"ok":true}</samp></p>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;p&gt;Press &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt; to copy.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;console.log()&lt;/code&gt; outputs &lt;samp&gt;Hello&lt;/samp&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <p class="desc">Communicate code, keyboard shortcuts, and sample output with semantic tags. Screen readers can differentiate between them.</p>
+      </section>
+
+      <!-- 7. abbr & mark -->
+      <section class="html-gem-card" id="abbr-mark" data-category="semantic">
+        <div class="html-gem-category category-semantic"><span>📖</span> Semantic</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🔤</span>
+          <code>&lt;abbr&gt;</code> + <code>&lt;mark&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <p>
+            <abbr title="Accessible Rich Internet Applications">ARIA</abbr> improves a11y, and
+            <mark>highlighting</mark> draws attention to key bits.
+          </p>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;abbr title="HyperText Markup Language"&gt;HTML&lt;/abbr&gt;
+&lt;mark&gt;highlighted text&lt;/mark&gt;</code></pre>
+        </div>
+
+        <p class="desc">Native tooltips for abbreviations and built-in highlight styling. &lt;abbr&gt; shows dotted underline, &lt;mark&gt; provides semantic emphasis.</p>
+      </section>
+
+      <!-- 18. native copy snippet -->
+      <section class="html-gem-card" id="native-copy" data-category="semantic">
+        <div class="html-gem-category category-semantic"><span>📖</span> Semantic</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">📝</span>
+          Native Copy Snippet (No JS)
+        </h2>
+
+        <div class="html-gem-example">
+          <details>
+            <summary>Show code snippet</summary>
+            <pre><code>&lt;a href="report.csv" download&gt;Download Report&lt;/a&gt;</code></pre>
+          </details>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;details&gt;
+  &lt;summary&gt;Show snippet&lt;/summary&gt;
+  &lt;pre&gt;&lt;code&gt;const x = 42;&lt;/code&gt;&lt;/pre&gt;
+&lt;/details&gt;</code></pre>
+        </div>
+
+        <p class="desc">Use &lt;details&gt; as a lightweight disclosure for docs & examples. Perfect for code snippets in documentation.</p>
+      </section>
+
+      <!-- MEDIA & CONTENT CATEGORY -->
+
+      <!-- 8. figure / figcaption -->
+      <section class="html-gem-card" id="figure" data-category="media">
+        <div class="html-gem-category category-media"><span>🎬</span> Media</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🖼️</span>
+          <code>&lt;figure&gt;</code> / <code>&lt;figcaption&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <figure>
+            <img src="https://picsum.photos/600/300" alt="Abstract placeholder art" class="html-gem-figure-img">
+            <figcaption class="html-gem-figcaption">Random art, captioned semantically.</figcaption>
+          </figure>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;figure&gt;
+  &lt;img src="photo.jpg" alt="Description"&gt;
+  &lt;figcaption&gt;Photo caption here&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+        </div>
+
+        <p class="desc">Captions that are programmatically tied to the media, not just visually nearby. Works with images, diagrams, code blocks, and more.</p>
+      </section>
+
+      <!-- 15. media with captions -->
+      <section class="html-gem-card" id="video-track" data-category="media">
+        <div class="html-gem-category category-media"><span>🎬</span> Media</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🎥</span>
+          <code>&lt;video&gt;</code> + <code>&lt;track&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <video controls class="html-gem-video" poster="https://picsum.photos/800/450?blur=1">
+            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+            <track kind="captions" srclang="en" label="English" default>
+            Sorry, your browser doesn't support embedded videos.
+          </video>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;video controls&gt;
+  &lt;source src="video.mp4" type="video/mp4"&gt;
+  &lt;track kind="captions" srclang="en" src="captions.vtt" default&gt;
+&lt;/video&gt;</code></pre>
+        </div>
+
+        <p class="desc">Native captions improve accessibility and searchability of media. Supports subtitles, captions, descriptions, and chapters via WebVTT files.</p>
+      </section>
+
+      <!-- 16. picture for responsive images -->
+      <section class="html-gem-card" id="picture" data-category="media">
+        <div class="html-gem-category category-media"><span>🎬</span> Media</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🌅</span>
+          <code>&lt;picture&gt;</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <picture>
+            <source media="(min-width: 900px)" srcset="https://picsum.photos/1200/300">
+            <source media="(min-width: 600px)" srcset="https://picsum.photos/900/300">
+            <img src="https://picsum.photos/600/300" alt="Responsive art" class="html-gem-figure-img">
+          </picture>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;picture&gt;
+  &lt;source media="(min-width: 900px)" srcset="large.jpg"&gt;
+  &lt;source media="(min-width: 600px)" srcset="medium.jpg"&gt;
+  &lt;img src="small.jpg" alt="Responsive image"&gt;
+&lt;/picture&gt;</code></pre>
+        </div>
+
+        <p class="desc">Serve the right image asset for the right viewport without JavaScript. Great for art direction and performance optimization.</p>
+      </section>
+
+      <!-- ATTRIBUTES CATEGORY -->
+
+      <!-- 9. download attribute -->
+      <section class="html-gem-card" id="download" data-category="attributes">
+        <div class="html-gem-category category-attributes"><span>⚙️</span> Attributes</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">💾</span>
+          <code>download</code> Attribute
+        </h2>
+
+        <div class="html-gem-example">
+          <a href="data:text/plain,Hello%20from%20HTML%20gems!" download="hello.txt">Download a tiny text file</a>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;a href="report.pdf" download="Q4-Report.pdf"&gt;
+  Download Report
+&lt;/a&gt;</code></pre>
+        </div>
+
+        <p class="desc">Suggests a filename and prompts download instead of navigation. Works with data URIs for client-side file generation!</p>
+      </section>
+
+      <!-- 12. inert attribute -->
+      <section class="html-gem-card" id="inert" data-category="attributes">
+        <div class="html-gem-category category-attributes"><span>⚙️</span> Attributes</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">🚫</span>
+          <code>inert</code> Attribute
+        </h2>
+
+        <div class="html-gem-example">
+          <p>When a modal opens, you can set the rest of the page to <code>inert</code> to prevent focus/interaction.</p>
+          <button onclick="toggleInert()">Toggle inert on main content</button>
+          <script>
+            function toggleInert() {
+              const main = document.querySelector('main');
+              main.inert = !main.inert;
+              alert('Main content inert: ' + main.inert);
+            }
+          </script>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;main inert&gt;
+  &lt;!-- This content cannot be focused or interacted with --&gt;
+&lt;/main&gt;</code></pre>
+        </div>
+
+        <p class="desc">Helps enforce focus trapping patterns cleanly with native support. Perfect for modal overlays and disabled sections.</p>
+      </section>
+
+      <!-- 14. accesskey -->
+      <section class="html-gem-card" id="accesskey" data-category="attributes">
+        <div class="html-gem-category category-attributes"><span>⚙️</span> Attributes</div>
+        <h2 class="html-gem-title">
+          <span class="gem-icon">⌨️</span>
+          <code>accesskey</code>
+        </h2>
+
+        <div class="html-gem-example">
+          <a href="#top" accesskey="h">Press Alt/⌥ + H to jump to top</a>
+        </div>
+
+        <div class="html-gem-code-wrapper">
+          <div class="html-gem-code-header">
+            <span class="html-gem-code-label">HTML</span>
+            <button class="html-gem-copy-btn" aria-label="Copy code to clipboard">
+              <span class="copy-icon">📋</span> Copy
+            </button>
+          </div>
+          <pre><code class="language-html">&lt;button accesskey="s"&gt;Save (Alt+S)&lt;/button&gt;</code></pre>
+        </div>
+
+        <p class="desc">Provide quick keyboard access—use sparingly and document your keys. Can conflict with browser/OS shortcuts, so test thoroughly.</p>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="html-gems-back-to-top" aria-label="Back to top" title="Back to top">
+    ↑
+  </button>
+
+  <!-- Footer -->
+  <footer class="html-gems-footer">
+    Explore the hidden superpowers of HTML! — Built with ❤️ by Jack Van Zeeland
+  </footer>
+
+</main>
+{% endblock %}

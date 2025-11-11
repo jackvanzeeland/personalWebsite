@@ -8,12 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const question = chatInput.value.trim();
         if (question === '') return;
 
+        // Disable send button and input during processing
+        sendBtn.disabled = true;
+        chatInput.disabled = true;
+        sendBtn.classList.add('loading');
+        const originalBtnText = sendBtn.textContent;
+        sendBtn.innerHTML = '<span class="spinner spinner-sm"></span>';
+
         // Display user message
         appendMessage(question, 'user');
         chatInput.value = '';
 
-        // Show thinking indicator
-        const thinkingMessage = appendMessage('Thinking...', 'bot', true);
+        // Show thinking indicator with spinner
+        const thinkingMessage = appendMessage('<span class="spinner spinner-sm"></span> Thinking...', 'bot', true);
 
         try {
             const response = await fetch('/ask_openai_assistant', {
@@ -38,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching response:', error);
             thinkingMessage.querySelector('p').textContent = 'Sorry, something went wrong. Please try again later.';
             thinkingMessage.classList.remove('thinking');
+        } finally {
+            // Re-enable send button and input
+            sendBtn.disabled = false;
+            chatInput.disabled = false;
+            sendBtn.classList.remove('loading');
+            sendBtn.textContent = originalBtnText;
         }
     };
 
@@ -47,9 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isThinking) {
             messageDiv.classList.add('thinking');
         }
-        
+
         const p = document.createElement('p');
-        p.textContent = text;
+        // Use innerHTML for spinner HTML
+        if (isThinking && text.includes('<span')) {
+            p.innerHTML = text;
+        } else {
+            p.textContent = text;
+        }
         messageDiv.appendChild(p);
         chatBox.appendChild(messageDiv);
 

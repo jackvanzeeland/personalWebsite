@@ -1,0 +1,39 @@
+/**
+ * BG1: Animated Mesh Gradient Styles
+ * Minimal CSS - most rendering done in WebGL
+ */
+
+#bg1-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    display: block;
+}
+
+/* Fallback for non-WebGL browsers */
+.bg1-fallback {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(135deg, #ff8e53 0%, #fe6b8b 50%, #ff8e53 100%);
+    background-size: 400% 400%;
+    animation: bg1-gradient-shift 15s ease infinite;
+}
+
+@keyframes bg1-gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

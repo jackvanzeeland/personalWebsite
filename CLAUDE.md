@@ -37,6 +37,87 @@ When asked to backup Memory Bank System files, you will copy the core context fi
 
 ## Project Overview
 
+A professional Flask-based portfolio website featuring interactive project demonstrations, AI-powered features, analytics tracking, and promotional campaign management. The application showcases software engineering projects with a focus on automation, data processing, and user experience.
+
+### Key Features
+
+- **Interactive Projects**: Wordle solver, Secret Santa matcher, Lyric Animator with particle effects
+- **AI Integration**: OpenAI Assistant for chat, Socket.IO real-time chatboard
+- **Analytics System**: Frontend event tracking with dashboard visualization (data/analytics/)
+- **Promo Manager**: TikTok campaign analytics with algorithmic lead qualification (data/promoManager/)
+- **Modern Architecture**: Centralized configuration, modular utilities, clean separation of concerns
+
+### Tech Stack
+
+- **Backend**: Flask 3.1.0, Flask-SocketIO 5.4.1, Python 3.12+
+- **AI/ML**: OpenAI API 1.78.1, Pandas 2.0.3 for data processing
+- **Frontend**: Vanilla JavaScript (ES6+), Particles.js, Chart.js
+- **Data**: JSON storage for projects and analytics, CSV for promo leads
+- **Deployment**: PythonAnywhere with Gunicorn/Eventlet
+
+### Project Structure
+
+```
+personalWebsite/
+├── app.py                  # Main Flask application (routes, SocketIO, OpenAI Assistant)
+├── config.py               # Centralized configuration with validation
+├── requirements.txt        # 7 core dependencies (Flask, OpenAI, Pandas, etc.)
+├── setup.sh                # Automated setup script (Python 3.12)
+│
+├── utils/                  # Utility modules
+│   ├── project_loader.py   # Loads projects from data/projects.json
+│   ├── analytics_storage.py # Analytics event storage and aggregation
+│   └── promo_data_processor.py # TikTok lead qualification processor
+│
+├── data/                   # Application data
+│   ├── projects.json       # Project metadata (main_projects, ai_projects)
+│   ├── analytics/          # Daily analytics JSON files
+│   └── promoManager/       # CSV files for TikTok lead data
+│
+├── static/
+│   ├── css/                # Stylesheets
+│   │   ├── lyric-animator.css, lyric-animator-v2.css
+│   │   ├── promo-dashboard.css, promo-analytics.css
+│   │   └── backgrounds/    # Background effect styles
+│   ├── js/                 # JavaScript modules
+│   │   ├── lyrics-animator-v2*.js (4 files: core, animations, layouts, particles, ui)
+│   │   ├── promo-dashboard.js, promo-analytics.js
+│   │   ├── analytics-logger.js, analytics-viewer.js
+│   │   ├── backgrounds/    # Background effect scripts
+│   │   └── utils/          # Shared JS utilities
+│   └── images/             # Project images and assets
+│
+└── templates/              # Jinja2 templates
+    ├── base.html           # Main base template
+    ├── home.html           # Portfolio landing
+    ├── lyricAnimator.html  # Updated with v2 features
+    ├── analyticsViewerDashboard.html # Analytics dashboard
+    ├── promoManagerAnalytics.html # TikTok campaign viewer
+    └── [project pages]     # Individual project templates
+
+### Recent Enhancements
+
+1. **Promo Manager Analytics** (Oct 2024)
+   - TikTok lead qualification system using keyword analysis
+   - Pandas-based data processing for 6,156 accounts → 215 qualified leads
+   - Campaign results viewer with stats dashboard
+
+2. **Lyric Animator V2** (Oct 2024)
+   - Enhanced animation system with modular architecture
+   - New particle effects and layouts
+   - Improved UI with background effects
+
+3. **Analytics System** (Oct 2024)
+   - Event-based tracking (page views, interactions, achievements)
+   - Daily JSON storage with aggregation
+   - Dashboard with Chart.js visualization
+
+### Important Notes
+
+- Python version changed from 3.13 → 3.12 in setup.sh (PythonAnywhere compatibility)
+- runtime.txt removed (PythonAnywhere handles Python version via Web app config)
+- No CLAUDE-*.md memory bank files exist (referenced in CLAUDE.md but not created)
+- Deleted old deployment guides (integrated into DEPLOYMENT.md)
 
 
 ## ALWAYS START WITH THESE COMMANDS FOR COMMON TASKS

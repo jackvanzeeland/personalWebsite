@@ -1,0 +1,322 @@
+/* ========================================
+   Portfolio AI Modal Styles
+   ======================================== */
+
+/* Navbar AI Button */
+.ai-nav-button {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ai-nav-button:hover {
+    color: var(--color-accent-blue, #46c8ff);
+    background-color: rgba(70, 200, 255, 0.1);
+    border-radius: 0.25rem;
+}
+
+.ai-nav-button .ai-icon {
+    font-size: 1.2rem;
+}
+
+.ai-label {
+    font-size: 0.9rem;
+}
+
+/* Modal Overlay */
+.ai-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    height: 80vh;
+    max-height: 80vh;
+    background: var(--bg-card-dark, #1e1e1e);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ai-modal:not(.hidden) {
+    opacity: 1;
+}
+
+.ai-modal.hidden {
+    display: none;
+}
+
+/* Backdrop */
+.ai-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ai-modal-backdrop:not(.hidden) {
+    opacity: 1;
+}
+
+.ai-modal-backdrop.hidden {
+    display: none;
+}
+
+/* Modal Content */
+.ai-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.ai-modal-header {
+    flex: 0 0 auto; /* Don't grow or shrink */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ai-modal-header h3 {
+    margin: 0;
+    color: var(--text-white, #ffffff);
+    font-size: 1.25rem;
+}
+
+.ai-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ai-clear-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: var(--text-light-gray, #aaa);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    border-radius: 4px;
+}
+
+.ai-clear-btn:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.ai-close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--text-light-gray, #aaa);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.ai-close-btn:hover {
+    color: var(--text-white, #ffffff);
+}
+
+/* Messages Area */
+.ai-modal-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.5rem;
+    min-height: 0; /* Important for flexbox scrolling */
+    max-height: 100%;
+}
+
+.ai-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: min-content;
+}
+
+.ai-message {
+    padding: 1rem;
+    border-radius: 12px;
+    max-width: 85%;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap; /* Preserve formatting but allow wrapping */
+}
+
+.ai-message.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.ai-message.assistant {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-white, #ffffff);
+}
+
+/* Footer (Input Area) */
+.ai-modal-footer {
+    flex: 0 0 auto; /* Don't grow or shrink */
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#ai-question-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-white, #ffffff);
+    font-size: 1rem;
+}
+
+#ai-question-input:focus {
+    outline: none;
+    border-color: var(--color-accent-blue, #46c8ff);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#ai-question-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.ai-send-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.ai-send-btn:hover {
+    transform: translateY(-2px);
+}
+
+.ai-send-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ai-send-btn .spinner {
+    display: none;
+}
+
+.ai-send-btn.loading .send-text {
+    display: none;
+}
+
+.ai-send-btn.loading .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+/* Light Mode */
+body[data-theme="light"] .ai-modal {
+    background: #ffffff;
+}
+
+body[data-theme="light"] .ai-modal-header h3,
+body[data-theme="light"] #ai-question-input,
+body[data-theme="light"] .ai-message.assistant {
+    color: #212529;
+}
+
+body[data-theme="light"] .ai-modal-header,
+body[data-theme="light"] .ai-modal-footer {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme="light"] #ai-question-input {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+body[data-theme="light"] #ai-question-input::placeholder {
+    color: #6c757d;
+}
+
+body[data-theme="light"] .ai-message.assistant {
+    background: #f8f9fa;
+}
+
+body[data-theme="light"] .ai-clear-btn {
+    color: #6c757d;
+}
+
+body[data-theme="light"] .ai-clear-btn:hover {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+body[data-theme="light"] .ai-close-btn {
+    color: #6c757d;
+}
+
+body[data-theme="light"] .ai-close-btn:hover {
+    color: #212529;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .ai-modal {
+        width: 100%;
+        max-width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        top: 0;
+        left: 0;
+        transform: none;
+    }
+
+    .ai-label {
+        display: none !important;
+    }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

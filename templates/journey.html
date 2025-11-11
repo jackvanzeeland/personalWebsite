@@ -27,7 +27,7 @@
         <div class="col-md-4 mb-3">
             <div class="journey-stat-card">
                 <div class="journey-stat-icon">📄</div>
-                <div class="journey-stat-value" id="pages-visited-stat">0/14</div>
+                <div class="journey-stat-value" id="pages-visited-stat">0/13</div>
                 <div class="journey-stat-label">Pages Visited</div>
             </div>
         </div>
@@ -81,31 +81,26 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Get journey data from localStorage
-    const visitedPages = StorageHelper.get('visitedPages', []);
-    const TOTAL_PAGES = 14;
+    // Use server data (injected by base.html)
+    const JOURNEY_DATA = window.JOURNEY_DATA || {
+        visitedPages: [],
+        totalPages: 13,
+        allPages: []
+    };
 
-    // All pages in the portfolio (excluding /journey itself)
-    const ALL_PAGES = [
-        { path: '/', name: 'Home', icon: '🏠' },
-        { path: '/about', name: 'About', icon: '👤' },
-        { path: '/beyondTheCode', name: 'Beyond The Code', icon: '🎬' },
-        { path: '/project/wordle', name: 'Wordle Solver', icon: '🔤' },
-        { path: '/project/budget', name: 'Budget Tracker', icon: '💰' },
-        { path: '/project/basketball', name: 'Basketball Lineup', icon: '🏀' },
-        { path: '/project/matching', name: 'Secret Santa', icon: '🎅' },
-        { path: '/project/superbowl', name: 'Super Bowl Predictor', icon: '🏈' },
-        { path: '/project/ai_innovations_portal', name: 'AI Innovations', icon: '🤖' },
-        { path: '/project/ai_innovations_portal/htmlGems', name: 'HTML Gems', icon: '💎' },
-        { path: '/project/ai_innovations_portal/chat', name: 'Chat Board', icon: '💬' },
-        { path: '/case-study/wordle', name: 'Wordle Case Study', icon: '📚' },
-        { path: '/case-study/secret-santa', name: 'Secret Santa Case Study', icon: '📚' },
-        { path: '/case-study/basketball', name: 'Basketball Case Study', icon: '📚' }
-    ];
+    const visitedPages = JOURNEY_DATA.visitedPages;
+    const TOTAL_PAGES = JOURNEY_DATA.totalPages;
+    const ALL_PAGES = JOURNEY_DATA.allPages;
+
+    console.log('Journey Page: Loaded', {
+        visitedCount: visitedPages.length,
+        totalPages: TOTAL_PAGES,
+        allPagesCount: ALL_PAGES.length
+    });
 
     // Calculate progress (exclude /journey from count)
     const contentPagesVisited = visitedPages.filter(path => path !== '/journey');
-    const progress = Math.round((contentPagesVisited.length / TOTAL_PAGES) * 100);
+    const progress = Math.min(Math.round((contentPagesVisited.length / TOTAL_PAGES) * 100), 100);
     const unlockedAchievements = window.AchievementSystem ? AchievementSystem.getUnlockedAchievements().length : 0;
 
     // Update stats
@@ -140,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         pagesGrid.appendChild(pageItem);
     });
 
-    // Populate achievements
+    // Populate achievements (unchanged)
     const achievementsGrid = document.getElementById('achievements-grid');
     if (achievementsGrid && window.AchievementSystem) {
         function renderAchievements() {
@@ -150,6 +145,8 @@ document.addEventListener('DOMContentLoaded', function() {
             progress.forEach(achievement => {
                 const item = document.createElement('div');
                 item.className = `achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'}`;
+                item.setAttribute('role', 'listitem');
+                item.setAttribute('aria-label', `${achievement.title} - ${achievement.unlocked ? 'Unlocked' : 'Locked'}`);
 
                 item.innerHTML = `
                     <span class="achievement-item-icon">${achievement.icon}</span>
@@ -166,20 +163,29 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Initial render
         renderAchievements();
-
-        // Re-render when achievement is unlocked
         document.addEventListener('achievement-unlocked', renderAchievements);
     }
 
     // Reset journey button
     document.getElementById('reset-journey-page-btn').addEventListener('click', function() {
         if (confirm('Are you sure you want to reset your journey? This will clear all visited pages and achievements.')) {
+            // Clear localStorage
             StorageHelper.remove('visitedPages');
             StorageHelper.remove('portfolio_achievements');
             StorageHelper.remove('achievement_stats');
-            window.location.reload();
+
+            // Clear server session via POST request
+            fetch('/api/journey/reset', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(() => {
+                window.location.reload();
+            }).catch((error) => {
+                console.error('Failed to reset server session:', error);
+                // Reload anyway (localStorage is cleared)
+                window.location.reload();
+            });
         }
     });
 });

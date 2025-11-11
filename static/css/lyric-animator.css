@@ -130,11 +130,18 @@ body {
     text-shadow: 0 0 10px rgba(var(--glow-rgb), 0.3);
     filter: blur(4px);
     z-index: 1;
+
+    /* Fix text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
 }
 
 .karaoke-line.current {
     opacity: 1;
-    transform: translateY(-50%) scale(1.1);
+    transform: translateY(-50%) translate3d(0, 0, 0) scale(1.05);
     filter: blur(0);
     color: var(--glow);
     animation: pulseGlow 2s infinite;
@@ -170,15 +177,21 @@ body {
 .karaoke-char {
     display: inline-block;
     opacity: 0;
-    transform: translateY(20px) scale(0.8);
+    transform: translateY(20px) translate3d(0, 0, 0) scale(0.9);
     transition: opacity 0.3s ease, transform 0.3s ease;
     color: inherit;
     white-space: pre-wrap;
+
+    /* Fix text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    backface-visibility: hidden;
 }
 
 .karaoke-char.visible {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) translate3d(0, 0, 0) scale(1);
 }
 
 #status {
@@ -338,5 +351,172 @@ body {
     #play-pause {
         padding: 8px 16px;
         font-size: 0.9rem;
+    }
+}
+
+/* ====== MOBILE-FRIENDLY CONTROLS ====== */
+@media (max-width: 768px) {
+    /* Make user-inputs container scrollable on mobile */
+    #user-inputs {
+        max-height: 50vh;
+        overflow-y: auto;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    /* Increase touch target sizes for all inputs */
+    #v1-controls input[type="range"],
+    #v2-controls input[type="range"] {
+        height: 44px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+        cursor: pointer;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    /* Style range slider thumb for better touch targets */
+    #v1-controls input[type="range"]::-webkit-slider-thumb,
+    #v2-controls input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--primary);
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #v1-controls input[type="range"]::-moz-range-thumb,
+    #v2-controls input[type="range"]::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--primary);
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Increase size of select dropdowns */
+    #v1-controls select,
+    #v2-controls select {
+        min-height: 44px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 5px;
+        margin: 8px 0;
+    }
+
+    /* Increase size of color inputs */
+    #v1-controls input[type="color"],
+    #v2-controls input[type="color"] {
+        min-height: 44px;
+        min-width: 80px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    /* Increase size of file input button */
+    #v2-controls input[type="file"] {
+        min-height: 44px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    /* Stack labels and inputs vertically */
+    #v1-controls label,
+    #v2-controls label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    /* Remove line breaks on mobile */
+    #v1-controls br,
+    #v2-controls br {
+        display: none;
+    }
+
+    /* Collapsible sections for V2 background controls */
+    .background-controls {
+        margin-top: 10px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        border-left: 3px solid var(--primary);
+    }
+
+    /* Version selector - make more touch-friendly */
+    #version-selector {
+        min-height: 44px;
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    /* Main buttons - ensure minimum touch target */
+    #upload-btn,
+    #reset-btn,
+    #play-pause {
+        min-height: 44px;
+        min-width: 120px;
+        font-size: 16px;
+        padding: 12px 24px;
+        margin: 10px 5px;
+    }
+
+    /* Upload area - adjust spacing */
+    #upload-area {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    #upload-title {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    #upload-instructions {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    #user-inputs {
+        max-height: 40vh;
+        padding: 10px;
+    }
+
+    #upload-title {
+        font-size: 1.5rem;
+    }
+
+    #upload-instructions {
+        font-size: 0.85rem;
+    }
+
+    #v1-controls label,
+    #v2-controls label {
+        font-size: 13px;
+    }
+
+    /* Reduce button text on very small screens */
+    #upload-btn,
+    #reset-btn {
+        font-size: 14px;
+        padding: 10px 20px;
     }
 }

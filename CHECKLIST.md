@@ -10,10 +10,11 @@ Use this checklist before deploying to production.
 - [ ] No API keys committed to git
 
 ## Configuration
-- [ ] requirements.txt is up to date
-- [ ] runtime.txt specifies correct Python version
+- [ ] requirements.txt is up to date (7 dependencies)
+- [ ] Python 3.12+ used (PythonAnywhere Web app config)
 - [ ] config.py validation works (`python -c "from config import Config; Config.validate()"`)
 - [ ] All file paths use Config constants (no hardcoded paths)
+- [ ] .env file contains all required variables (SECRET_KEY, OPENAI_API_KEY, OPENAI_ASSISTANT_ID)
 
 ## Code Quality
 - [ ] No console.log or debug print statements
@@ -29,10 +30,14 @@ Use this checklist before deploying to production.
 
 ## Functionality
 - [ ] All pages load without errors
-- [ ] Chat functionality works
+- [ ] Chat functionality works (OpenAI Assistant)
+- [ ] Chatboard works (Socket.IO real-time)
 - [ ] OpenAI integration works
 - [ ] Wordle solver works
 - [ ] Secret Santa works
+- [ ] Lyric Animator V2 works (particles, animations, backgrounds)
+- [ ] Analytics dashboard displays data correctly
+- [ ] Promo Manager Analytics loads (if data files present)
 - [ ] All interactive features tested
 - [ ] Mobile responsive design works
 

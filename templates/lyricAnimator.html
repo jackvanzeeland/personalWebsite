@@ -8,18 +8,42 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator.css') }}?v={{ now.timestamp() }}" />
+    <!-- Accessibility styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/accessibility.css') }}?v={{ now.timestamp() }}" />
 </head>
 
 <body>
-        <!-- Return button -->
+    <!-- Skip navigation for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#controls" class="skip-link">Skip to playback controls</a>
+
+    <!-- Return button -->
     <div style="position: absolute; top: 10px; left: 10px; font-size: 0.8rem; z-index: 1000;">
         <a href="{{ url_for('home') }}" style="text-decoration: none; color: white; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 4px;">
             Home
         </a>
     </div>
 
+    <!-- Version Selector -->
+    <div class="version-selector-group" style="position: absolute; top: 10px; right: 10px; font-size: 0.8rem; z-index: 1000;">
+        <label id="version-label" for="version-selector" style="color: white; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 4px;">
+            Lyric Animator Version:
+            <select id="version-selector"
+                    aria-labelledby="version-label"
+                    aria-describedby="version-description"
+                    style="margin-left: 5px; padding: 2px 5px; border-radius: 3px;">
+                <option value="1">v1 - Classic experience</option>
+                <option value="2">v2 - Enhanced with animations</option>
+            </select>
+        </label>
+        <span id="version-description" class="sr-only">
+            Switching versions will reload the page and clear your current session
+        </span>
+    </div>
+
     <div id="particles-js"></div>
 
+    <main role="main" id="main-content">
     <div id="upload-area">
         <h1 id="upload-title">Lyric Animator</h1>
         <p id="upload-instructions">
@@ -29,68 +53,669 @@
         </p>
 
         <div id="user-inputs">
-            <label for="theme-color">Choose theme color:</label>
-            <input type="color" id="theme-color-picker" value="#ff8e53">
-            <br><br>
+            <!-- V1 Controls -->
+            <div id="v1-controls">
+                <label for="theme-color">Choose theme color:</label>
+                <input type="color" id="theme-color-picker" value="#ff8e53">
+                <br><br>
 
-            <!-- New Particle Customization Controls -->
-            <label for="particle-color">Particle Color:</label>
-            <input type="color" id="particle-color" value="#ffffff">
-            <br><br>
+                <!-- Particle Customization Controls -->
+                <label for="particle-color">Particle Color:</label>
+                <input type="color" id="particle-color" value="#ffffff">
+                <br><br>
 
-            <label for="particle-count">Particle Count:</label>
-            <input type="range" id="particle-count" min="10" max="300" value="100">
-            <br><br>
+                <div class="control-group">
+                    <label id="particle-count-label" for="particle-count">
+                        Particle Count
+                        <span id="particle-count-value" aria-live="polite" class="value-display">100</span>
+                    </label>
+                    <input type="range"
+                           id="particle-count"
+                           min="10" max="300" value="100"
+                           aria-labelledby="particle-count-label"
+                           aria-valuemin="10"
+                           aria-valuemax="300"
+                           aria-valuenow="100"
+                           aria-valuetext="100 particles">
+                </div>
+                <br>
 
-            <label for="particle-size">Particle Size:</label>
-            <input type="range" id="particle-size" min="1" max="100" value="3">
-            <br><br>
+                <div class="control-group">
+                    <label id="particle-size-label" for="particle-size">
+                        Particle Size
+                        <span id="particle-size-value" aria-live="polite" class="value-display">3</span>
+                    </label>
+                    <input type="range"
+                           id="particle-size"
+                           min="1" max="100" value="3"
+                           aria-labelledby="particle-size-label"
+                           aria-valuemin="1"
+                           aria-valuemax="100"
+                           aria-valuenow="3"
+                           aria-valuetext="3 pixels">
+                </div>
+                <br>
 
-            <label for="particle-speed">Particle Speed:</label>
-            <input type="range" id="particle-speed" min="1" max="200" value="10">
-            <br><br>
-            <label for="particle-shape">Particle Shape:</label>
-            <select id="particle-shape">
-                <option value="circle">Circle</option>
-                <option value="edge">Edge</option>
-                <option value="triangle">Triangle</option>
-                <option value="polygon">Polygon</option>
-                <option value="star" selected>Star</option>
-            </select>
-            <br><br>
-            <label for="line-color">Line Color:</label>
-            <input type="color" id="line-color" value="#ffffff">
-            <br><br>
-        </div> <!-- Existing Controls -->
+                <div class="control-group">
+                    <label id="particle-speed-label" for="particle-speed">
+                        Particle Speed
+                        <span id="particle-speed-value" aria-live="polite" class="value-display">10</span>
+                    </label>
+                    <input type="range"
+                           id="particle-speed"
+                           min="1" max="200" value="10"
+                           aria-labelledby="particle-speed-label"
+                           aria-valuemin="1"
+                           aria-valuemax="200"
+                           aria-valuenow="10"
+                           aria-valuetext="Speed 10">
+                </div>
+                <br>
+                <label for="particle-shape">Particle Shape:</label>
+                <select id="particle-shape">
+                    <option value="circle">Circle</option>
+                    <option value="edge">Edge</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="polygon">Polygon</option>
+                    <option value="star" selected>Star</option>
+                </select>
+                <br><br>
+                <label for="line-color">Line Color:</label>
+                <input type="color" id="line-color" value="#ffffff">
+                <br><br>
+            </div>
+
+            <!-- V2 Controls with Progressive Disclosure -->
+            <div id="v2-controls" style="display: none;">
+                <!-- Tab Navigation -->
+                <nav class="control-tabs" role="tablist" aria-label="Customization categories">
+                    <button class="tab-button active" role="tab"
+                            aria-selected="true"
+                            aria-controls="essentials-panel"
+                            id="essentials-tab"
+                            data-tab="essentials">
+                        Essentials
+                    </button>
+                    <button class="tab-button" role="tab"
+                            aria-selected="false"
+                            aria-controls="animation-panel"
+                            id="animation-tab"
+                            data-tab="animation">
+                        Animation
+                    </button>
+                    <button class="tab-button" role="tab"
+                            aria-selected="false"
+                            aria-controls="background-panel"
+                            id="background-tab"
+                            data-tab="background">
+                        Background
+                    </button>
+                </nav>
+
+                <!-- Tab Panels -->
+
+                <!-- Essentials Panel -->
+                <div class="tab-panel active" role="tabpanel" id="essentials-panel" aria-labelledby="essentials-tab">
+                    <label for="v2-theme-color">Theme Color:</label>
+                    <input type="color" id="v2-theme-color-picker" value="#ff8e53">
+                    <br><br>
+
+                    <label for="animation-preset">Animation Style:</label>
+                    <select id="animation-preset">
+                        <option value="typewriter">Typewriter (Classic)</option>
+                        <option value="slide-in">Slide In</option>
+                        <option value="bounce">Bounce</option>
+                        <option value="fade-wave">Fade Wave</option>
+                        <option value="scale-pop">Scale Pop</option>
+                        <option value="rotate-flip">Rotate Flip</option>
+                        <option value="glow-pulse">Glow Pulse</option>
+                    </select>
+                    <br><br>
+
+                    <label for="layout-mode">Layout Mode:</label>
+                    <select id="layout-mode">
+                        <option value="classic">Classic Karaoke</option>
+                        <option value="fullscreen">Full Screen</option>
+                        <option value="multiline">Multi-line Context</option>
+                        <option value="bottom-bar">Bottom Bar</option>
+                    </select>
+                    <br><br>
+
+                    <label for="background-style">Background Style:</label>
+                    <select id="background-style">
+                        <option value="bg1">Mesh Gradient</option>
+                        <option value="bg2">CSS Gradient</option>
+                        <option value="bg3">Audio Visualizer</option>
+                        <option value="bg4">3D Particles</option>
+                        <option value="bg5">Hybrid Effects</option>
+                    </select>
+                </div>
+
+                <!-- Animation Panel -->
+                <div class="tab-panel" role="tabpanel" id="animation-panel" aria-labelledby="animation-tab" style="display: none;">
+                    <h3 style="margin-top: 0; color: rgba(255, 255, 255, 0.9);">Animation Customization</h3>
+                    <p class="panel-description">Fine-tune how lyrics appear and animate</p>
+
+                    <label for="animation-preset-detail">Animation Style:</label>
+                    <select id="animation-preset-detail">
+                        <option value="typewriter">Typewriter (Classic)</option>
+                        <option value="slide-in">Slide In</option>
+                        <option value="bounce">Bounce</option>
+                        <option value="fade-wave">Fade Wave</option>
+                        <option value="scale-pop">Scale Pop</option>
+                        <option value="rotate-flip">Rotate Flip</option>
+                        <option value="glow-pulse">Glow Pulse</option>
+                    </select>
+                    <br><br>
+
+                    <label for="layout-mode-detail">Layout Mode:</label>
+                    <select id="layout-mode-detail">
+                        <option value="classic">Classic Karaoke</option>
+                        <option value="fullscreen">Full Screen</option>
+                        <option value="multiline">Multi-line Context</option>
+                        <option value="bottom-bar">Bottom Bar</option>
+                    </select>
+                </div>
+
+                <!-- Background Panel -->
+                <div class="tab-panel" role="tabpanel" id="background-panel" aria-labelledby="background-tab" style="display: none;">
+                    <h3 style="margin-top: 0; color: rgba(255, 255, 255, 0.9);">Background Customization</h3>
+                    <p class="panel-description">Choose and customize your visual background</p>
+
+                    <label for="background-style-detail">Background Style:</label>
+                    <select id="background-style-detail">
+                        <option value="bg1">Mesh Gradient</option>
+                        <option value="bg2">CSS Gradient</option>
+                        <option value="bg3">Audio Visualizer</option>
+                        <option value="bg4">3D Particles</option>
+                        <option value="bg5">Hybrid Effects</option>
+                    </select>
+                    <br><br>
+
+                <!-- BG1: Mesh Gradient Controls -->
+                <div id="bg1-controls" class="background-controls" style="display: none;">
+                    <div class="control-group">
+                        <label id="bg1-animation-speed-label" for="bg1-animation-speed">
+                            Animation Speed
+                            <span id="bg1-animation-speed-value" aria-live="polite" class="value-display">10</span>
+                        </label>
+                        <input type="range"
+                               id="bg1-animation-speed"
+                               min="1" max="50" value="10"
+                               aria-labelledby="bg1-animation-speed-label"
+                               aria-valuemin="1"
+                               aria-valuemax="50"
+                               aria-valuenow="10"
+                               aria-valuetext="Speed 10">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg1-noise-scale-label" for="bg1-noise-scale">
+                            Noise Scale
+                            <span id="bg1-noise-scale-value" aria-live="polite" class="value-display">3</span>
+                        </label>
+                        <input type="range"
+                               id="bg1-noise-scale"
+                               min="1" max="10" value="3"
+                               aria-labelledby="bg1-noise-scale-label"
+                               aria-valuemin="1"
+                               aria-valuemax="10"
+                               aria-valuenow="3"
+                               aria-valuetext="Scale 3">
+                    </div>
+                    <br>
+
+                    <label for="bg1-color-count">Color Count:</label>
+                    <select id="bg1-color-count">
+                        <option value="2">2 Colors</option>
+                        <option value="3">3 Colors</option>
+                        <option value="4" selected>4 Colors</option>
+                        <option value="5">5 Colors</option>
+                    </select>
+                    <br><br>
+                </div>
+
+                <!-- BG2: CSS Gradient Controls -->
+                <div id="bg2-controls" class="background-controls" style="display: none;">
+                    <label for="bg2-gradient-style">Gradient Style:</label>
+                    <select id="bg2-gradient-style">
+                        <option value="linear" selected>Linear</option>
+                        <option value="radial">Radial</option>
+                        <option value="diagonal">Diagonal</option>
+                        <option value="conic">Conic</option>
+                    </select>
+                    <br><br>
+
+                    <div class="control-group">
+                        <label id="bg2-animation-speed-label" for="bg2-animation-speed">
+                            Animation Speed
+                            <span id="bg2-animation-speed-value" aria-live="polite" class="value-display">15</span>
+                        </label>
+                        <input type="range"
+                               id="bg2-animation-speed"
+                               min="5" max="60" value="15"
+                               aria-labelledby="bg2-animation-speed-label"
+                               aria-valuemin="5"
+                               aria-valuemax="60"
+                               aria-valuenow="15"
+                               aria-valuetext="Speed 15">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg2-color-stops-label" for="bg2-color-stops">
+                            Color Stops
+                            <span id="bg2-color-stops-value" aria-live="polite" class="value-display">4</span>
+                        </label>
+                        <input type="range"
+                               id="bg2-color-stops"
+                               min="2" max="6" value="4"
+                               aria-labelledby="bg2-color-stops-label"
+                               aria-valuemin="2"
+                               aria-valuemax="6"
+                               aria-valuenow="4"
+                               aria-valuetext="4 stops">
+                    </div>
+                    <br>
+                </div>
+
+                <!-- BG3: Audio Visualizer Controls -->
+                <div id="bg3-controls" class="background-controls" style="display: none;">
+                    <label for="audio-file">Audio File (optional):</label>
+                    <input type="file" id="audio-file" accept="audio/*">
+                    <br><br>
+
+                    <div class="youtube-download-section">
+                        <label for="youtube-video-id">Or download from YouTube:</label>
+                        <div class="input-button-group">
+                            <input type="text"
+                                   id="youtube-video-id"
+                                   placeholder="dQw4w9WgXcQ"
+                                   aria-label="YouTube video ID"
+                                   aria-describedby="youtube-hint"
+                                   style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <button id="youtube-download-btn" class="btn-primary">
+                                <span class="btn-text">Download</span>
+                                <span class="btn-spinner" style="display: none;">
+                                    <svg class="spinner" width="16" height="16" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3"
+                                                stroke-dasharray="31.4 31.4" stroke-linecap="round">
+                                            <animateTransform attributeName="transform" type="rotate"
+                                                              from="0 12 12" to="360 12 12"
+                                                              dur="1s" repeatCount="indefinite"/>
+                                        </circle>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+
+                        <p id="youtube-hint" class="hint-text">
+                            Enter the 11-character ID from the YouTube URL (after "v=")
+                        </p>
+
+                        <!-- Progress indicator (hidden by default) -->
+                        <div id="youtube-progress" class="download-progress" style="display: none;">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="youtube-progress-fill"></div>
+                            </div>
+                            <p class="progress-text" id="youtube-progress-text">
+                                Downloading audio... <span id="progress-percent">0%</span>
+                            </p>
+                            <button id="cancel-download-btn" class="btn-text-only">Cancel</button>
+                        </div>
+
+                        <div id="youtube-status" class="status-message" role="status" aria-live="polite"></div>
+                    </div>
+                    <br><br>
+
+                    <label for="bg3-visualizer-style">Visualizer Style:</label>
+                    <select id="bg3-visualizer-style">
+                        <option value="bars" selected>Frequency Bars</option>
+                        <option value="circular">Circular</option>
+                        <option value="waveform">Waveform</option>
+                        <option value="particles">Particles</option>
+                    </select>
+                    <br><br>
+
+                    <div class="control-group">
+                        <label id="bg3-sensitivity-label" for="bg3-sensitivity">
+                            Sensitivity
+                            <span id="bg3-sensitivity-value" aria-live="polite" class="value-display">5</span>
+                        </label>
+                        <input type="range"
+                               id="bg3-sensitivity"
+                               min="1" max="10" value="5"
+                               aria-labelledby="bg3-sensitivity-label"
+                               aria-valuemin="1"
+                               aria-valuemax="10"
+                               aria-valuenow="5"
+                               aria-valuetext="Sensitivity 5">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg3-bar-count-label" for="bg3-bar-count">
+                            Bar Count
+                            <span id="bg3-bar-count-value" aria-live="polite" class="value-display">256</span>
+                        </label>
+                        <input type="range"
+                               id="bg3-bar-count"
+                               min="32" max="512" value="256"
+                               aria-labelledby="bg3-bar-count-label"
+                               aria-valuemin="32"
+                               aria-valuemax="512"
+                               aria-valuenow="256"
+                               aria-valuetext="256 bars">
+                    </div>
+                    <br>
+                </div>
+
+                <!-- BG4: 3D Particles Controls -->
+                <div id="bg4-controls" class="background-controls" style="display: none;">
+                    <div class="control-group">
+                        <label id="bg4-particle-count-label" for="bg4-particle-count">
+                            Particle Count
+                            <span id="bg4-particle-count-value" aria-live="polite" class="value-display">200</span>
+                        </label>
+                        <input type="range"
+                               id="bg4-particle-count"
+                               min="50" max="500" value="200"
+                               aria-labelledby="bg4-particle-count-label"
+                               aria-valuemin="50"
+                               aria-valuemax="500"
+                               aria-valuenow="200"
+                               aria-valuetext="200 particles">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg4-particle-size-label" for="bg4-particle-size">
+                            Particle Size
+                            <span id="bg4-particle-size-value" aria-live="polite" class="value-display">2</span>
+                        </label>
+                        <input type="range"
+                               id="bg4-particle-size"
+                               min="1" max="5" value="2" step="0.5"
+                               aria-labelledby="bg4-particle-size-label"
+                               aria-valuemin="1"
+                               aria-valuemax="5"
+                               aria-valuenow="2"
+                               aria-valuetext="Size 2">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg4-rotation-speed-label" for="bg4-rotation-speed">
+                            Rotation Speed
+                            <span id="bg4-rotation-speed-value" aria-live="polite" class="value-display">5</span>
+                        </label>
+                        <input type="range"
+                               id="bg4-rotation-speed"
+                               min="1" max="10" value="5"
+                               aria-labelledby="bg4-rotation-speed-label"
+                               aria-valuemin="1"
+                               aria-valuemax="10"
+                               aria-valuenow="5"
+                               aria-valuetext="Speed 5">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg4-camera-speed-label" for="bg4-camera-speed">
+                            Camera Speed
+                            <span id="bg4-camera-speed-value" aria-live="polite" class="value-display">5</span>
+                        </label>
+                        <input type="range"
+                               id="bg4-camera-speed"
+                               min="1" max="20" value="5"
+                               aria-labelledby="bg4-camera-speed-label"
+                               aria-valuemin="1"
+                               aria-valuemax="20"
+                               aria-valuenow="5"
+                               aria-valuetext="Speed 5">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg4-fog-density-label" for="bg4-fog-density">
+                            Fog Density
+                            <span id="bg4-fog-density-value" aria-live="polite" class="value-display">8</span>
+                        </label>
+                        <input type="range"
+                               id="bg4-fog-density"
+                               min="0" max="20" value="8" step="1"
+                               aria-labelledby="bg4-fog-density-label"
+                               aria-valuemin="0"
+                               aria-valuemax="20"
+                               aria-valuenow="8"
+                               aria-valuetext="Density 8">
+                    </div>
+                    <br>
+                </div>
+
+                <!-- BG5: Hybrid Effects Controls -->
+                <div id="bg5-controls" class="background-controls" style="display: none;">
+                    <div class="control-group">
+                        <label id="bg5-blob-count-label" for="bg5-blob-count">
+                            Blob Count
+                            <span id="bg5-blob-count-value" aria-live="polite" class="value-display">8</span>
+                        </label>
+                        <input type="range"
+                               id="bg5-blob-count"
+                               min="2" max="20" value="8"
+                               aria-labelledby="bg5-blob-count-label"
+                               aria-valuemin="2"
+                               aria-valuemax="20"
+                               aria-valuenow="8"
+                               aria-valuetext="8 blobs">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg5-blob-size-label" for="bg5-blob-size">
+                            Blob Size
+                            <span id="bg5-blob-size-value" aria-live="polite" class="value-display">75</span>
+                        </label>
+                        <input type="range"
+                               id="bg5-blob-size"
+                               min="30" max="200" value="75"
+                               aria-labelledby="bg5-blob-size-label"
+                               aria-valuemin="30"
+                               aria-valuemax="200"
+                               aria-valuenow="75"
+                               aria-valuetext="Size 75">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg5-ray-count-label" for="bg5-ray-count">
+                            Light Ray Count
+                            <span id="bg5-ray-count-value" aria-live="polite" class="value-display">12</span>
+                        </label>
+                        <input type="range"
+                               id="bg5-ray-count"
+                               min="0" max="30" value="12"
+                               aria-labelledby="bg5-ray-count-label"
+                               aria-valuemin="0"
+                               aria-valuemax="30"
+                               aria-valuenow="12"
+                               aria-valuetext="12 rays">
+                    </div>
+                    <br>
+
+                    <div class="control-group">
+                        <label id="bg5-movement-speed-label" for="bg5-movement-speed">
+                            Movement Speed
+                            <span id="bg5-movement-speed-value" aria-live="polite" class="value-display">5</span>
+                        </label>
+                        <input type="range"
+                               id="bg5-movement-speed"
+                               min="1" max="20" value="5"
+                               aria-labelledby="bg5-movement-speed-label"
+                               aria-valuemin="1"
+                               aria-valuemax="20"
+                               aria-valuenow="5"
+                               aria-valuetext="Speed 5">
+                    </div>
+                    <br>
+                </div>
+                </div> <!-- End Background Panel -->
+            </div> <!-- End v2-controls -->
+        </div> <!-- Controls -->
         <!-- File Input -->
-        <input type="file" id="file-input" accept=".lrc" />
-        <button id="upload-btn">Choose LRC File</button>
+        <input type="file"
+               id="file-input"
+               accept=".lrc"
+               aria-label="Choose LRC lyrics file to upload"
+               aria-describedby="upload-instructions" />
+        <button id="upload-btn"
+                aria-label="Select LRC file from your computer">
+            Choose LRC File
+        </button>
     </div>
 
 
-    <div id="lyrics-container"></div>
-    <div id="controls" style="display: none; text-align: center; margin-top: 20px;">
-        <div id="time-display">0:00 / 0:00</div>
+    <div id="lyrics-container">
+        <!-- Loading skeleton (shown while parsing lyrics) -->
+        <div class="lyrics-skeleton" id="lyrics-skeleton" style="display: none;">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+        </div>
+    </div>
+    <div id="controls" role="region" aria-label="Playback controls" style="display: none; text-align: center; margin-top: 20px;">
+        <div id="time-display" aria-live="polite">0:00 / 0:00</div>
         <input type="range" id="progress-bar" min="0" max="0" step="0.1" value="0" style="width: 80%;">
-        <button id="play-pause">Play</button>
+        <button id="play-pause"
+                aria-label="Play lyrics animation"
+                aria-pressed="false">
+            <span aria-hidden="true">▶️</span>
+            <span class="button-text">Play</span>
+        </button>
     </div>
+    </main>
 
     <div
         style="position: fixed; bottom: 0; width: 100%; padding: 10px; text-align: center; box-shadow: 0 -2px 5px rgba(0,0,0,0.1);">
-        <div id="status"></div>
+        <div id="status" role="status" aria-live="polite"></div>
         <button id="reset-btn">Reset</button>
     </div>
 
 
     <!-- Particles.js background -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="{{ url_for('static', filename='js/lyric-animator-particles.js') }}?v={{ now.timestamp() }}"></script>
 
-    <!-- Lyrics animation logic -->
-    <script src="{{ url_for('static', filename='js/lyrics-animator.js') }}"></script>
+    <!-- Notification system (load before other scripts) -->
+    <script src="{{ url_for('static', filename='js/notification-manager.js') }}?v={{ now.timestamp() }}"></script>
 
-    <!-- UI logic -->
-    <script src="{{ url_for('static', filename='js/lyric-animator-ui.js') }}?v={{ now.timestamp() }}"></script>
+    <!-- Keyboard shortcuts (load early for keyboard navigation) -->
+    <script src="{{ url_for('static', filename='js/keyboard-shortcuts.js') }}?v={{ now.timestamp() }}"></script>
+
+    <!-- Version Manager - loads first to handle version switching -->
+    <script>
+        // Version Manager - Handles version switching and script loading
+        (function() {
+            'use strict';
+
+            // Get version from localStorage or default to v1
+            let currentVersion = localStorage.getItem('lyricAnimatorVersion') || '1';
+            const versionSelector = document.getElementById('version-selector');
+            versionSelector.value = currentVersion;
+
+            // Show/hide appropriate controls
+            function updateControlsVisibility() {
+                const v1Controls = document.getElementById('v1-controls');
+                const v2Controls = document.getElementById('v2-controls');
+
+                if (currentVersion === '1') {
+                    v1Controls.style.display = 'block';
+                    v2Controls.style.display = 'none';
+                } else {
+                    v1Controls.style.display = 'none';
+                    v2Controls.style.display = 'block';
+                }
+            }
+
+            // Load appropriate scripts
+            function loadVersionScripts() {
+                const timestamp = '{{ now.timestamp() }}';
+
+                if (currentVersion === '1') {
+                    // Load V1 scripts
+                    const scripts = [
+                        '{{ url_for("static", filename="js/lyric-animator-particles.js") }}?v=' + timestamp,
+                        '{{ url_for("static", filename="js/lyrics-animator.js") }}',
+                        '{{ url_for("static", filename="js/lyric-animator-ui.js") }}?v=' + timestamp
+                    ];
+                    scripts.forEach(src => {
+                        const script = document.createElement('script');
+                        script.src = src;
+                        document.body.appendChild(script);
+                    });
+                } else {
+                    // Load V2 scripts (including background manager)
+                    const scripts = [
+                        '{{ url_for("static", filename="js/lyric-animator-state.js") }}?v=' + timestamp,
+                        '{{ url_for("static", filename="js/backgrounds/bg-manager.js") }}?v=' + timestamp,
+                        '{{ url_for("static", filename="js/lyrics-animator-v2-animations.js") }}?v=' + timestamp,
+                        '{{ url_for("static", filename="js/lyrics-animator-v2-layouts.js") }}?v=' + timestamp,
+                        '{{ url_for("static", filename="js/lyrics-animator-v2.js") }}?v=' + timestamp,
+                        '{{ url_for("static", filename="js/lyric-animator-ui-v2.js") }}?v=' + timestamp
+                    ];
+                    scripts.forEach(src => {
+                        const script = document.createElement('script');
+                        script.src = src;
+                        document.body.appendChild(script);
+                    });
+
+                    // Initialize background manager after scripts load
+                    setTimeout(() => {
+                        if (window.BackgroundManager) {
+                            window.BackgroundManager.init();
+                        }
+                    }, 500);
+                }
+            }
+
+            // Handle version change
+            versionSelector.addEventListener('change', (e) => {
+                const newVersion = e.target.value;
+                const hasContent = window.lyricData && window.lyricData.length > 0;
+
+                // Warn if user has uploaded content
+                if (hasContent && currentVersion !== newVersion) {
+                    const confirmed = confirm(
+                        '⚠️ Switching versions will clear your current session.\n\n' +
+                        'Your uploaded LRC file and settings will be lost.\n\n' +
+                        'Continue?'
+                    );
+
+                    if (!confirmed) {
+                        e.target.value = currentVersion; // Revert
+                        return;
+                    }
+                }
+
+                currentVersion = newVersion;
+                localStorage.setItem('lyricAnimatorVersion', currentVersion);
+                location.reload();
+            });
+
+            // Initialize on page load
+            updateControlsVisibility();
+            loadVersionScripts();
+        })();
+    </script>
+
+    <!-- V2 CSS (loaded conditionally) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator-v2.css') }}?v={{ now.timestamp() }}" id="v2-css">
+    <script>
+        // Hide v2 CSS if on v1
+        if (localStorage.getItem('lyricAnimatorVersion') === '1') {
+            document.getElementById('v2-css').disabled = true;
+        }
+    </script>
 </body>
 
 </html>

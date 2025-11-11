@@ -23,7 +23,7 @@ cd personalWebsite
 
 ```bash
 # Create virtual environment
-python3.13 -m venv venv
+python3.12 -m venv venv
 
 # Activate virtual environment
 source venv/bin/activate
@@ -44,6 +44,8 @@ Add the following (replace with your actual values):
 SECRET_KEY=your-secret-key-here
 OPENAI_API_KEY=sk-your-key-here
 OPENAI_ASSISTANT_ID=asst-your-id-here
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-gmail-app-password
 LOG_LEVEL=INFO
 ```
 
@@ -68,7 +70,7 @@ Exit with Ctrl+C if it starts successfully.
 1. Go to PythonAnywhere Dashboard → Web
 2. Click "Add a new web app"
 3. Choose "Manual configuration"
-4. Select Python 3.13
+4. Select Python 3.12
 
 ### 2. Configure WSGI File
 

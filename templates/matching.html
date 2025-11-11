@@ -56,6 +56,36 @@
                     <h5 class="card-title">Interactive Matching Tool</h5>
                     <div class="secret-santa-container">
                         <section class="secret-santa-form-section">
+                            <!-- Error message placeholder (server-side or client-side) -->
+                            <div id="error-message" class="alert alert-error" role="alert" style="display: none;">
+                                <span class="alert-icon">⚠️</span>
+                                <div class="alert-content">
+                                    <strong>Error:</strong> <span id="error-text"></span>
+                                </div>
+                            </div>
+
+                            <!-- Success message placeholder (client-side) -->
+                            <div id="success-message" class="alert alert-success" role="alert" style="display: none;">
+                                <span class="alert-icon">✅</span>
+                                <div class="alert-content">
+                                    <strong>Success!</strong> Secret Santa matches have been generated! Select your name below to see your match.
+                                </div>
+                            </div>
+
+                            <!-- Show server-side error if present -->
+                            {% if error %}
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const errorDiv = document.getElementById('error-message');
+                                    const errorText = document.getElementById('error-text');
+                                    if (errorDiv && errorText) {
+                                        errorText.textContent = {{ error | tojson }};
+                                        errorDiv.style.display = 'flex';
+                                    }
+                                });
+                            </script>
+                            {% endif %}
+
                             <form id="names-form" class="secret-santa-form" method="POST">
                                 <div class="form-group">
                                     <label for="names">Enter Names (comma separated):</label>
@@ -72,11 +102,6 @@
                             <h3>Your Secret Santa Match</h3>
                             <p id="matchResultText"></p>
                         </div>
-                        {% if error %}
-                        <div class="error-message">
-                            <p>{{ error }}</p>
-                        </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -121,6 +146,16 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block mermaid_js %}
+<!-- Mermaid.js for Secret Santa flow diagram -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        mermaid.initialize({ startOnLoad: true });
+    });
+</script>
 {% endblock %}
 
 {% block scripts %}

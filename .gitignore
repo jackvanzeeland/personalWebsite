@@ -37,6 +37,9 @@ logs/*.log.*
 data/analytics/*.json
 !data/analytics/.gitkeep
 
+# Temporary audio downloads
+data/temp_audio/*.mp3
+
 # Deployment
 wsgi.py  # May contain server-specific paths
 
@@ -56,3 +59,9 @@ sessions/sessions-state.json
 sessions/package.json
 sessions/transcripts/
 sessions/.archived/
+
+# Working documentation and notes (exclude CLAUDE.md per project instructions)
+CompletedPromptsClaude/
+*_uxEnhancement.md
+PORTFOLIO_CONTEXT.md
+CLEANUP_REPORT.md

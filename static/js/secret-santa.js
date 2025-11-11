@@ -8,6 +8,59 @@
 
     console.log("Script block parsing started.");
 
+    /**
+     * Helper function to show error message
+     */
+    function showError(message) {
+        const errorDiv = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const successDiv = document.getElementById('success-message');
+
+        if (errorDiv && errorText) {
+            // Hide success message if visible
+            if (successDiv) successDiv.style.display = 'none';
+
+            errorText.textContent = message;
+            errorDiv.style.display = 'flex';
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    /**
+     * Helper function to show success message with auto-dismiss
+     */
+    function showSuccess() {
+        const successDiv = document.getElementById('success-message');
+        const errorDiv = document.getElementById('error-message');
+
+        if (successDiv) {
+            // Hide error message if visible
+            if (errorDiv) errorDiv.style.display = 'none';
+
+            successDiv.style.display = 'flex';
+            successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                successDiv.style.animation = 'slideOutAlert 0.3s ease';
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                    successDiv.style.animation = '';
+                }, 300);
+            }, 5000);
+        }
+    }
+
+    /**
+     * Helper function to hide all messages
+     */
+    function hideMessages() {
+        const errorDiv = document.getElementById('error-message');
+        const successDiv = document.getElementById('success-message');
+        if (errorDiv) errorDiv.style.display = 'none';
+        if (successDiv) successDiv.style.display = 'none';
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         console.log("Page loaded");
 
@@ -45,17 +98,30 @@
         document.getElementById('names-form')?.addEventListener('submit', function (e) {
             e.preventDefault(); // Prevent default form submission
 
+            // Hide any existing messages
+            hideMessages();
+
             const namesInput = document.getElementById('names');
             const names = namesInput.value.split(',').map(n => n.trim());
 
             // Basic validation
             if (names.length < 2) {
-                alert('Please enter at least 2 names');
+                showError('Please enter at least 2 names');
                 return;
             }
             if (new Set(names).size !== names.length) {
-                alert('Please ensure all names are unique');
+                showError('Please ensure all names are unique');
                 return;
+            }
+
+            // Get submit button and add loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+                const originalText = submitBtn.textContent;
+                submitBtn.setAttribute('data-original-text', originalText);
+                submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Generating...';
             }
 
             const formData = new FormData(this);
@@ -74,14 +140,30 @@
                 })
                 .then(data => {
                     console.log("Data received from AJAX call:", data);
+
+                    // Remove loading state
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                        submitBtn.textContent = submitBtn.getAttribute('data-original-text') || 'Generate Secret Santa';
+                    }
+
                     if (data.error) {
-                        alert(data.error);
+                        showError(data.error);
                         return;
                     }
 
                     // Store results globally for access by other functions
                     window.secretSantaResults = data.results;
                     console.log("AJAX call successful. window.secretSantaResults set to:", window.secretSantaResults);
+
+                    // Track achievement - user generated Secret Santa matches
+                    if (window.AchievementSystem) {
+                        window.AchievementSystem.trackAction('interactive_used');
+                    }
+
+                    // Show success message
+                    showSuccess();
 
                     // Update the person dropdown
                     const personSelect = document.getElementById('person');
@@ -114,7 +196,14 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while generating matches.');
+                    showError('An error occurred while generating matches.');
+
+                    // Remove loading state on error
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                        submitBtn.textContent = submitBtn.getAttribute('data-original-text') || 'Generate Secret Santa';
+                    }
                 });
         });
 
@@ -138,13 +227,14 @@
                             document.getElementById('matchSection').style.display = 'none';
                             document.getElementById('matchResult').style.display = 'none';
                             document.getElementById('reset-form').style.display = 'none';
+                            hideMessages();
                         } else {
-                            alert('Failed to clear list.');
+                            showError('Failed to clear list.');
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('An error occurred while clearing the list.');
+                        showError('An error occurred while clearing the list.');
                     });
             }
         });

@@ -2,6 +2,16 @@
 
 {% block title %}Projects - {{ project_title }}{% endblock %}
 
+{% block mermaid_js %}
+<!-- Mermaid.js for project diagrams -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        mermaid.initialize({ startOnLoad: true });
+    });
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <div class="row">

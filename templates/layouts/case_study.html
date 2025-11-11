@@ -1,6 +1,43 @@
 <!-- Case Study Layout Template -->
 {% extends "base.html" %}
 
+{% block structured_data %}
+<!-- Case Study Article Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Case Study - Jack Van Zeeland",
+  "description": "A detailed case study showcasing project development, challenges, and solutions.",
+  "image": "{{ meta.image if meta is defined and meta.image else url_for('static', filename='images/preview.png', _external=True) }}",
+  "author": {
+    "@type": "Person",
+    "name": "Jack Van Zeeland",
+    "url": "{{ request.url_root }}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Jack Van Zeeland"
+  },
+  "datePublished": "2024-01-01",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.url }}"
+  }
+}
+</script>
+{% endblock %}
+
+{% block mermaid_js %}
+<!-- Mermaid.js for case study diagrams -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        mermaid.initialize({ startOnLoad: true });
+    });
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="case-study-container">
     <!-- Hero Section -->

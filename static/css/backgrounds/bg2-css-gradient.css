@@ -1,0 +1,131 @@
+/**
+ * BG2: Pure CSS Animated Gradient Styles
+ * Beautiful animated gradients using only CSS
+ */
+
+.bg2-gradient-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+    /* Default gradient colors (will be overridden by JS) */
+    --bg2-color1: #ff8e53;
+    --bg2-color2: #fe6b8b;
+    --bg2-color3: #ff8e53;
+    --bg2-color4: #f857a6;
+
+    /* Multi-gradient background */
+    background: linear-gradient(
+        -45deg,
+        var(--bg2-color1),
+        var(--bg2-color2),
+        var(--bg2-color3),
+        var(--bg2-color4)
+    );
+    background-size: 400% 400%;
+    animation: bg2-gradient-shift 15s ease infinite;
+}
+
+/* Main gradient animation */
+@keyframes bg2-gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Alternative gradient styles (can be added via classes) */
+
+.bg2-radial {
+    background: radial-gradient(
+        circle at center,
+        var(--bg2-color1),
+        var(--bg2-color2),
+        var(--bg2-color3),
+        var(--bg2-color4)
+    );
+    background-size: 400% 400%;
+    animation: bg2-radial-pulse 20s ease infinite;
+}
+
+@keyframes bg2-radial-pulse {
+    0%, 100% {
+        background-size: 100% 100%;
+    }
+    50% {
+        background-size: 200% 200%;
+    }
+}
+
+.bg2-diagonal {
+    background: linear-gradient(
+        135deg,
+        var(--bg2-color1) 0%,
+        var(--bg2-color2) 25%,
+        var(--bg2-color3) 50%,
+        var(--bg2-color4) 75%,
+        var(--bg2-color1) 100%
+    );
+    background-size: 400% 400%;
+    animation: bg2-diagonal-slide 18s ease infinite;
+}
+
+@keyframes bg2-diagonal-slide {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.bg2-conic {
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        var(--bg2-color1),
+        var(--bg2-color2),
+        var(--bg2-color3),
+        var(--bg2-color4),
+        var(--bg2-color1)
+    );
+    animation: bg2-conic-rotate 25s linear infinite;
+}
+
+@keyframes bg2-conic-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .bg2-gradient-container {
+        /* Simpler gradient for better mobile performance */
+        background-size: 200% 200%;
+        animation-duration: 20s;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .bg2-gradient-container,
+    .bg2-radial,
+    .bg2-diagonal,
+    .bg2-conic {
+        animation: none;
+    }
+}
