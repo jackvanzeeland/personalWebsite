@@ -198,6 +198,9 @@
     <!-- Analytics Logger (load early for tracking) -->
     <script src="{{ url_for('static', filename='js/analytics-logger.js') }}?v={{ now.timestamp() }}" defer></script>
 
+    <!-- Project Interaction Tracker -->
+    <script src="{{ url_for('static', filename='js/project-interaction-tracker.js') }}?v={{ now.timestamp() }}" defer></script>
+
     <!-- Project Filter -->
     <script src="{{ url_for('static', filename='js/project-filter.js') }}?v={{ now.timestamp() }}" defer></script>
 

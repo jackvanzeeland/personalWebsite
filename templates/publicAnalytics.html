@@ -28,10 +28,34 @@
         {% if data.popular_pages %}
         <div class="popular-list">
             {% for page_data in data.popular_pages %}
+            {% set page_path = page_data[0] %}
+            {% set page_name = 'Home' %}
+
+            {# Format page path to readable name #}
+            {% if page_path == '/' %}
+                {% set page_name = 'Home' %}
+            {% elif page_path == '/about' %}
+                {% set page_name = 'About' %}
+            {% elif page_path == '/beyondTheCode' %}
+                {% set page_name = 'Beyond the Code' %}
+            {% elif page_path.startswith('/project/') %}
+                {% set page_name = page_path.replace('/project/', '').replace('-', ' ').title() %}
+            {% elif page_path.startswith('/case-study/') %}
+                {% set page_name = page_path.replace('/case-study/', '').replace('-', ' ').title() + ' Case Study' %}
+            {% elif page_path == '/journey' %}
+                {% set page_name = 'Journey' %}
+            {% elif page_path == '/analytics/public' %}
+                {% set page_name = 'Site Stats' %}
+            {% elif page_path == '/analyticsViewer' %}
+                {% set page_name = 'Analytics Viewer' %}
+            {% else %}
+                {% set page_name = page_path.replace('/', '').replace('-', ' ').title() %}
+            {% endif %}
+
             <div class="popular-item">
                 <div class="item-rank">{{ loop.index }}</div>
                 <div class="item-content">
-                    <div class="item-name">{{ page_data[0] or 'Home' }}</div>
+                    <div class="item-name">{{ page_name }}</div>
                     <div class="item-stats">{{ "{:,}".format(page_data[1]) }} views</div>
                 </div>
                 <div class="item-bar">
@@ -42,29 +66,6 @@
         </div>
         {% else %}
         <p class="text-muted">No page view data available yet.</p>
-        {% endif %}
-    </div>
-
-    <!-- Popular Projects -->
-    <div class="analytics-section mb-5">
-        <h2 class="section-title">Most Viewed Projects</h2>
-        {% if data.popular_projects %}
-        <div class="popular-list">
-            {% for project_data in data.popular_projects %}
-            <div class="popular-item">
-                <div class="item-rank">{{ loop.index }}</div>
-                <div class="item-content">
-                    <div class="item-name">{{ project_data[0] }}</div>
-                    <div class="item-stats">{{ "{:,}".format(project_data[1]) }} interactions</div>
-                </div>
-                <div class="item-bar">
-                    <div class="item-bar-fill" style="width: {{ (project_data[1] / data.popular_projects[0][1] * 100) if data.popular_projects[0][1] > 0 else 0 }}%"></div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p class="text-muted">No project interaction data available yet.</p>
         {% endif %}
     </div>
 

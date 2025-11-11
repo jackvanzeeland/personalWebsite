@@ -445,11 +445,37 @@ def analytics_summary():
 # Use /analytics/public or /analyticsViewer instead
 
 
+@app.route('/api/analytics/public-summary')
+def public_analytics_summary():
+    """API endpoint for public analytics summary (used by footer badge)"""
+    try:
+        summary = analytics_storage.get_analytics_summary(days=30)
+        return jsonify({
+            'total_views': summary.get('page_views', 0),
+            'unique_visitors': summary.get('unique_sessions', 0)
+        }), 200
+    except Exception as e:
+        print(f"Public analytics summary error: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 @app.route('/analytics/public')
 def public_analytics():
     """Public analytics page"""
     log_text("Navigate to Public Analytics")
-    return render_template('publicAnalytics.html', journey=get_journey_data(), now=datetime.now())
+
+    # Get analytics data for last 30 days
+    days = 30
+    summary = analytics_storage.get_analytics_summary(days)
+
+    # Transform data for template
+    data = {
+        'date_range': f'{days} days',
+        'total_views': summary.get('page_views', 0),
+        'unique_visitors': summary.get('unique_sessions', 0),
+        'popular_pages': summary.get('popular_pages', [])  # Already a list of tuples from analytics_storage
+    }
+
+    return render_template('publicAnalytics.html', data=data, journey=get_journey_data(), now=datetime.now())
 
 # Start Flask app
 if __name__ == '__main__':
