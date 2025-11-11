@@ -6,25 +6,25 @@ Manages the list of all pages that should be tracked in user journey
 from utils.project_loader import get_main_projects
 
 
-# Project icon mapping (using text instead of emojis to avoid encoding issues)
+# Project icon mapping with emojis
 PROJECT_ICONS = {
-    'wordle': 'W',
-    'secretSanta': 'SS',
-    'basketball': 'BB',
-    'lyricAnimator': 'LA',
-    'redditStories': 'RS',
-    'nebula': 'NB',
-    'budget': 'BG',
-    'superbowl': 'SB',
-    'htmlGems': 'HG',
-    'promoManagerAnalytics': 'PM',
+    'wordle': '🔤',
+    'matching': '🎅',  # Secret Santa
+    'basketball': '🏀',
+    'lyricAnimator': '🎵',
+    'redditStories': '📖',
+    'nebula': '🌌',
+    'budget': '💰',
+    'superbowl': '🏈',
+    'htmlGems': '💎',
+    'promoManagerAnalytics': '📊',
 }
 
 
 def get_project_icon(project):
     """Get icon for a project, fallback to default"""
     page_name = project.get('page', '')
-    return PROJECT_ICONS.get(page_name, 'P')
+    return PROJECT_ICONS.get(page_name, '📄')
 
 
 def get_all_trackable_pages():
@@ -43,9 +43,9 @@ def get_all_trackable_pages():
 
     # Main pages (hardcoded - these are always present)
     pages.extend([
-        {'path': '/', 'name': 'Home', 'icon': 'H'},
-        {'path': '/about', 'name': 'About', 'icon': 'A'},
-        {'path': '/beyondTheCode', 'name': 'Beyond the Code', 'icon': 'BC'},
+        {'path': '/', 'name': 'Home', 'icon': '🏠'},
+        {'path': '/about', 'name': 'About', 'icon': '👤'},
+        {'path': '/beyondTheCode', 'name': 'Beyond the Code', 'icon': '🌟'},
     ])
 
     # Project pages from projects.json (dynamic)
@@ -61,9 +61,9 @@ def get_all_trackable_pages():
 
     # Case study pages (hardcoded - these are always present)
     pages.extend([
-        {'path': '/case-study/wordle', 'name': 'Wordle Case Study', 'icon': 'CS'},
-        {'path': '/case-study/secret-santa', 'name': 'Secret Santa Case Study', 'icon': 'CS'},
-        {'path': '/case-study/basketball', 'name': 'Basketball Case Study', 'icon': 'CS'},
+        {'path': '/case-study/wordle', 'name': 'Wordle Case Study', 'icon': '📝'},
+        {'path': '/case-study/secret-santa', 'name': 'Secret Santa Case Study', 'icon': '📝'},
+        {'path': '/case-study/basketball', 'name': 'Basketball Case Study', 'icon': '📝'},
     ])
 
     return pages

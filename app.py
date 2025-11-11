@@ -9,7 +9,7 @@ from dotenv import load_dotenv # Import load_dotenv
 from config import Config
 from utils.project_loader import get_main_projects, get_ai_projects
 from utils import analytics_storage
-from utils.page_registry import get_all_trackable_pages, get_total_pages
+from utils.page_registry import get_all_trackable_pages, get_total_pages, is_trackable_page
 
 load_dotenv() # Load environment variables from .env file
 
@@ -37,6 +37,27 @@ def get_recent_messages():
 app = Flask(__name__)
 app.config.from_object(Config)
 app.secret_key = Config.SECRET_KEY
+
+# Automatic Journey Tracking (Server-Side Source of Truth)
+@app.before_request
+def track_page_visit():
+    """
+    Automatically track page visits in server session BEFORE rendering.
+    This ensures the current page is included in journey data immediately.
+    """
+    current_path = request.path
+
+    # Check if this page should be tracked
+    if is_trackable_page(current_path):
+        # Initialize session if needed
+        if 'visited_pages' not in session:
+            session['visited_pages'] = []
+
+        # Add page if not already visited
+        if current_path not in session['visited_pages']:
+            session['visited_pages'].append(current_path)
+            session.modified = True  # Ensure session is saved
+            print(f"Journey: Tracked {current_path} ({len(session['visited_pages'])}/{get_total_pages()})")
 
 # Journey Tracking Helper Functions
 def init_journey_session():
@@ -366,6 +387,14 @@ def basketball_case_study():
 def journey():
     log_text("Navigate to Journey Page")
     return render_template('journey.html', journey=get_journey_data(), now=datetime.now())
+
+@app.route('/api/journey/reset', methods=['POST'])
+def reset_journey():
+    """Reset user's journey progress (clear server session)"""
+    session['visited_pages'] = []
+    session.modified = True
+    log_text("Journey reset")
+    return jsonify({'status': 'success', 'message': 'Journey progress reset'})
 
 # Analytics Routes
 @app.route('/api/analytics/events', methods=['POST'])

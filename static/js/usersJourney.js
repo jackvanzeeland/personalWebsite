@@ -1,27 +1,27 @@
 /**
  * Users Journey Tracker Module
  *
- * Hybrid server/client tracking system:
- * - Server session is source of truth (handles redirects)
- * - localStorage is cache for offline/performance
- * - Always syncs with server data on page load
+ * Server-side tracking system:
+ * - Server session is the ONLY source of truth
+ * - Automatic tracking via Flask @app.after_request
+ * - Client only reads and displays server data
  */
 
 const UserJourney = (function() {
     'use strict';
 
-    // Use server data as source of truth
+    // Server data injected by Flask (read-only)
     const JOURNEY_DATA = window.JOURNEY_DATA || {
         visitedPages: [],
         totalPages: 13,
         allPages: []
     };
 
-    let visitedPages = JOURNEY_DATA.visitedPages;
+    const visitedPages = JOURNEY_DATA.visitedPages;
     const TOTAL_PAGES = JOURNEY_DATA.totalPages;
 
     /**
-     * Initialize journey tracking
+     * Initialize journey display (read-only from server)
      */
     function init() {
         const topBarWrapper = DOMHelpers.query('.top-bar-wrapper');
@@ -33,65 +33,31 @@ const UserJourney = (function() {
         // Adjust body padding for top bar
         document.body.style.paddingTop = `${topBarWrapper.offsetHeight}px`;
 
-        // Sync localStorage with server data (server is authoritative)
-        syncWithServer();
+        // Clear old localStorage data (migration to server-only tracking)
+        clearOldLocalStorage();
 
-        // Track current page client-side (as backup)
-        trackCurrentPage();
-
-        // Update UI
+        // Update UI from server data
         updateProgressBar();
+
+        // Sync achievements with server journey data
+        if (window.AchievementSystem) {
+            AchievementSystem.syncWithJourneyData();
+        }
     }
 
     /**
-     * Sync localStorage with server session data
+     * Clear old localStorage journey data (one-time migration)
      */
-    function syncWithServer() {
-        if (JOURNEY_DATA.visitedPages && JOURNEY_DATA.visitedPages.length > 0) {
-            // Server has data - use it and update localStorage
-            visitedPages = JOURNEY_DATA.visitedPages;
-            StorageHelper.set('visitedPages', visitedPages);
-            console.log(`Journey: Synced ${visitedPages.length} pages from server`);
-        } else {
-            // Server has no data - try localStorage
-            const localPages = StorageHelper.get('visitedPages', []);
-            if (localPages.length > 0) {
-                visitedPages = localPages;
-                console.log(`Journey: Using ${localPages.length} pages from localStorage`);
-            }
+    function clearOldLocalStorage() {
+        const oldData = StorageHelper.get('visitedPages', null);
+        if (oldData !== null) {
+            StorageHelper.remove('visitedPages');
+            console.log('Journey: Cleared old localStorage data. Server is now source of truth.');
         }
     }
 
     /**
-     * Track current page visit (client-side backup)
-     */
-    function trackCurrentPage() {
-        const currentPage = window.location.pathname;
-
-        // Don't track /journey itself
-        if (currentPage === '/journey') {
-            return;
-        }
-
-        // Check if page is trackable
-        const isTrackable = JOURNEY_DATA.allPages.some(page => page.path === currentPage);
-
-        if (isTrackable && !visitedPages.includes(currentPage)) {
-            // Add to local tracking (will be synced with server on next page load)
-            visitedPages.push(currentPage);
-            StorageHelper.set('visitedPages', visitedPages);
-
-            // Sync achievements with updated journey data (single source of truth)
-            if (window.AchievementSystem) {
-                AchievementSystem.syncWithJourneyData();
-            }
-
-            console.log(`Journey: Tracked ${currentPage} (${visitedPages.length}/${TOTAL_PAGES})`);
-        }
-    }
-
-    /**
-     * Update progress bar in top navigation
+     * Update progress bar in top navigation (read from server data)
      */
     function updateProgressBar() {
         const progressBar = DOMHelpers.getById('page-progress-bar');
