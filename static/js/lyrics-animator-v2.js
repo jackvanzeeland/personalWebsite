@@ -1,4 +1,13 @@
-console.log('lyrics-animator-v2.js loaded successfully!');
+Logger.debug('lyrics-animator-v2.js loaded successfully!');
+
+// Configuration constants (Issue #32 fix)
+const CONFIG = {
+    LYRIC_END_BUFFER_SECONDS: 5,      // Extra time after last lyric
+    ANIMATION_DELAY_MS: 50,            // Delay between character animations
+    TIME_UPDATE_THROTTLE_MS: 1000,    // Throttle time display updates
+    SCROLL_DEBOUNCE_MS: 100,           // Debounce scroll events
+    MS_TO_SECONDS: 1000,              // Milliseconds to seconds conversion
+};
 
 // V2 Global state
 window.isPlaying = false;
@@ -16,6 +25,24 @@ let lastDisplayedTime = -1;
 
 // Scroll tracking for multiline layout (Issue #23 fix)
 let lastScrolledLineIndex = -1;
+
+// Standardized error handler (Issue #33 fix)
+function handleError(errorType, details = {}) {
+    // Log to console (always)
+    Logger.error(`[${errorType}]`, details);
+
+    // Show user-friendly notification if NotificationManager is available
+    if (window.NotificationManager) {
+        window.NotificationManager.showError(errorType);
+    }
+
+    // Fallback to status element if NotificationManager not available
+    const statusElement = document.getElementById('status');
+    if (statusElement && !window.NotificationManager) {
+        statusElement.textContent = `Error: ${errorType}`;
+        statusElement.style.color = 'var(--error, #ff4444)';
+    }
+}
 
 // Helper to format time as MM:SS
 function formatTime(seconds) {
@@ -49,7 +76,7 @@ const scrollToCurrentLine = debounce((line, currentIndex) => {
             inline: 'nearest'
         });
     }
-}, 100);  // Scroll at most once per 100ms
+}, CONFIG.SCROLL_DEBOUNCE_MS);  // Scroll debounce
 
 // Clear pending timeouts
 function clearTypewriterTimeouts() {
@@ -58,7 +85,7 @@ function clearTypewriterTimeouts() {
 }
 
 window.parseAndAnimateLyrics = async function (file) {
-    console.info('Starting parseAndAnimateLyrics V2 for', file.name);
+    Logger.info('Starting parseAndAnimateLyrics V2 for', file.name);
 
     // Clear any existing timeouts from previous session
     clearTypewriterTimeouts();
@@ -90,24 +117,21 @@ window.parseAndAnimateLyrics = async function (file) {
             const timeInSeconds = minutes * 60 + seconds;
             lyricData.push({ time: timeInSeconds, text });
         } else {
-            console.warn('Skipped invalid line:', line);
+            Logger.warn('Skipped invalid line:', line);
         }
     });
 
     if (lyricData.length === 0) {
-        console.error('No valid timestamps found in file');
-        if (window.NotificationManager) {
-            window.NotificationManager.showError('noTimestamps');
-        }
+        handleError('noTimestamps', { file: file.name });
         document.getElementById('status').textContent = 'Upload a valid LRC file to continue';
         return;
     }
 
-    console.info('Parsed', lyricData.length, 'valid lyric lines');
+    Logger.info('Parsed', lyricData.length, 'valid lyric lines');
     lyricData.sort((a, b) => a.time - b.time);
 
     // Calculate total time
-    window.totalTime = lyricData[lyricData.length - 1].time + 5;
+    window.totalTime = lyricData[lyricData.length - 1].time + CONFIG.LYRIC_END_BUFFER_SECONDS;
 
     const container = document.getElementById('lyrics-container');
     container.innerHTML = '';
@@ -262,7 +286,7 @@ window.parseAndAnimateLyrics = async function (file) {
                 controlsDiv.style.position = 'relative';
                 controlsDiv.appendChild(progressTooltip);
             } else {
-                console.warn('Controls div not found - progress tooltip disabled');
+                Logger.warn('Controls div not found - progress tooltip disabled');
                 // Don't create tooltip if there's no container
                 progressTooltip = null;
             }
@@ -305,7 +329,7 @@ window.parseAndAnimateLyrics = async function (file) {
     updateTimeDisplay();
 
     document.getElementById('status').textContent = '';
-    console.info('V2 Controls ready; initial lyric displayed');
+    Logger.info('V2 Controls ready; initial lyric displayed');
 };
 
 function updateLyricsDisplay(lyricData) {
@@ -350,15 +374,10 @@ function updateLyricsDisplay(lyricData) {
                 try {
                     window.LyricsAnimations[animationPreset](chars, window.isPlaying);
                 } catch (error) {
-                    console.error(`Animation '${animationPreset}' failed:`, error);
+                    handleError('animationError', { animation: animationPreset, error: error.message });
 
                     // Fallback to simple display
                     chars.forEach(char => char.classList.add('visible'));
-
-                    // Notify user
-                    if (window.NotificationManager) {
-                        window.NotificationManager.showError('animationError');
-                    }
 
                     // Reset to typewriter (safe fallback)
                     window.currentAnimation = 'typewriter';
@@ -390,11 +409,14 @@ function updateTimeDisplay() {
     const currentTimeSeconds = Math.floor(window.currentTime);
 
     // Throttle: only update display once per second (Issue #30 fix)
-    if (now - lastTimeUpdate < 1000 && currentTimeSeconds === lastDisplayedTime) {
+    if (now - lastTimeUpdate < CONFIG.TIME_UPDATE_THROTTLE_MS && currentTimeSeconds === lastDisplayedTime) {
         // Still update progress bar (smooth animation)
         const progressBar = document.getElementById('progress-bar');
         if (progressBar) {
             progressBar.value = window.currentTime;
+            // Issue #41 fix: Update aria attributes for screen readers
+            progressBar.setAttribute('aria-valuenow', window.currentTime.toFixed(1));
+            progressBar.setAttribute('aria-valuetext', `${formatTime(window.currentTime)} of ${formatTime(window.totalTime)}`);
         }
         return;
     }
@@ -412,6 +434,9 @@ function updateTimeDisplay() {
     const progressBar = document.getElementById('progress-bar');
     if (progressBar) {
         progressBar.value = window.currentTime;
+        // Issue #41 fix: Update aria attributes for screen readers
+        progressBar.setAttribute('aria-valuenow', window.currentTime.toFixed(1));
+        progressBar.setAttribute('aria-valuetext', `${formatTime(window.currentTime)} of ${formatTime(window.totalTime)}`);
     }
 }
 
@@ -420,7 +445,7 @@ window.animateLyrics = function (lyricData) {
 
     const now = performance.now();
     if (window.lastFrameTime) {
-        const delta = (now - window.lastFrameTime) / 1000;
+        const delta = (now - window.lastFrameTime) / CONFIG.MS_TO_SECONDS;
         window.currentTime = Math.min(window.currentTime + delta, window.totalTime);
     }
     window.lastFrameTime = now;
@@ -431,7 +456,7 @@ window.animateLyrics = function (lyricData) {
     if (window.currentTime < window.totalTime) {
         requestAnimationFrame(() => window.animateLyrics(lyricData));
     } else {
-        console.info('V2 Animation completed');
+        Logger.info('V2 Animation completed');
         document.getElementById('status').textContent = 'Song complete! Reset to replay.';
         window.isPlaying = false;
         lastScrolledLineIndex = -1;  // Reset scroll tracking (Issue #23 fix)

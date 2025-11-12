@@ -93,10 +93,10 @@
     color: var(--glow);
     font-size: var(--text-lg);
     font-weight: 600;
-    animation: pulse 1s ease-in-out infinite;
+    animation: lyricsV2-pulse1s ease-in-out infinite;
 }
 
-@keyframes pulse {
+@keyframes lyricsV2-pulse {
     0%, 100% {
         opacity: 1;
     }
@@ -119,7 +119,7 @@
     border: 3px dashed #ff6b6b;
     border-radius: 16px;
     padding: 2rem;
-    animation: shake 0.4s ease-in-out;
+    animation: lyricsV2-shake0.4s ease-in-out;
 }
 
 #upload-area.drag-invalid::before {
@@ -129,7 +129,7 @@
     font-weight: 600;
 }
 
-@keyframes shake {
+@keyframes lyricsV2-shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-10px); }
     75% { transform: translateX(10px); }
@@ -291,7 +291,7 @@
         rgba(255, 255, 255, 0.05) 100%
     );
     border-radius: 4px;
-    animation: skeleton-loading 1.5s ease-in-out infinite;
+    animation: lyricsV2-skeleton-loading1.5s ease-in-out infinite;
     background-size: 200% 100%;
 }
 
@@ -315,7 +315,7 @@
     width: 70%;
 }
 
-@keyframes skeleton-loading {
+@keyframes lyricsV2-skeleton-loading {
     0% {
         background-position: 200% 0;
     }
@@ -342,7 +342,7 @@
     align-items: center;
     gap: 0.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    animation: slideInFromBottom 0.3s ease;
+    animation: lyricsV2-slideInFromBottom0.3s ease;
     z-index: 9998;
 }
 
@@ -351,7 +351,7 @@
     font-size: 1.25rem;
 }
 
-@keyframes slideInFromBottom {
+@keyframes lyricsV2-slideInFromBottom {
     from {
         transform: translateY(100px);
         opacity: 0;
@@ -576,10 +576,10 @@ button:active:not(:disabled) {
 }
 
 .spinner {
-    animation: spin 1s linear infinite;
+    animation: lyricsV2-spin1s linear infinite;
 }
 
-@keyframes spin {
+@keyframes lyricsV2-spin {
     to { transform: rotate(360deg); }
 }
 
@@ -596,10 +596,10 @@ button:active:not(:disabled) {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(var(--glow-rgb), 0.3);
     border-radius: 8px;
-    animation: slideDown 0.3s ease;
+    animation: lyricsV2-slideDown0.3s ease;
 }
 
-@keyframes slideDown {
+@keyframes lyricsV2-slideDown {
     from {
         opacity: 0;
         transform: translateY(-10px);
@@ -678,10 +678,10 @@ button:active:not(:disabled) {
         transparent
     );
     background-size: 200% 100%;
-    animation: indeterminateProgress 1.5s ease-in-out infinite;
+    animation: lyricsV2-indeterminateProgress1.5s ease-in-out infinite;
 }
 
-@keyframes indeterminateProgress {
+@keyframes lyricsV2-indeterminateProgress {
     0% {
         background-position: 200% 0;
     }
@@ -695,17 +695,29 @@ button:active:not(:disabled) {
    ============================================== */
 
 @media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
+    /* Issue #42 fix: Comprehensive reduced motion support */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
     }
 
+    /* Disable specific animations that should not run at all */
     .skeleton-line,
     .audio-loaded-indicator,
     .download-progress,
     .tab-panel,
-    .progress-fill.indeterminate {
-        animation: none;
+    .progress-fill.indeterminate,
+    .karaoke-char {
+        animation: none !important;
+    }
+
+    /* Ensure tab panels still display properly without animation */
+    .tab-panel {
+        opacity: 1;
+        transform: none;
     }
 }

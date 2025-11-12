@@ -135,4 +135,4 @@ window.LyricsLayouts = {
     }
 };
 
-console.log('lyrics-animator-v2-layouts.js loaded successfully!');
+Logger.debug('lyrics-animator-v2-layouts.js loaded successfully!');

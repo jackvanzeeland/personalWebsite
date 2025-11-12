@@ -173,6 +173,15 @@
     }
 
     resetBtn.addEventListener('click', () => {
+        // Issue #43 fix: Clear localStorage before reset
+        localStorage.removeItem('lyricAnimatorVersion');
+        localStorage.removeItem('debug');
+        // Issue #47 fix: Clear layout mode from localStorage
+        localStorage.removeItem('layoutMode');
+        // Issue #44 fix: Reset audio file input
+        if (audioFileInput) {
+            audioFileInput.value = '';
+        }
         location.reload();
     });
 

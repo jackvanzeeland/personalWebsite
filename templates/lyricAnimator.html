@@ -577,11 +577,15 @@
 
 
     <div id="lyrics-container">
-        <!-- Loading skeleton (shown while parsing lyrics) -->
-        <div class="lyrics-skeleton" id="lyrics-skeleton" style="display: none;">
-            <div class="skeleton-line"></div>
-            <div class="skeleton-line"></div>
-            <div class="skeleton-line"></div>
+        <!-- Loading skeleton (shown while parsing lyrics) Issue #36 fix -->
+        <div class="lyrics-skeleton" id="lyrics-skeleton" style="display: none;"
+             role="status"
+             aria-live="polite"
+             aria-label="Loading lyrics">
+            <div class="skeleton-line" aria-hidden="true"></div>
+            <div class="skeleton-line" aria-hidden="true"></div>
+            <div class="skeleton-line" aria-hidden="true"></div>
+            <span class="sr-only">Loading lyrics, please wait...</span>
         </div>
     </div>
     <div id="controls" role="region" aria-label="Playback controls" style="display: none; text-align: center; margin-top: 20px;">
@@ -660,8 +664,9 @@
                     }
                     console.log('All V1 scripts loaded successfully');
                 } else {
-                    // Load V2 scripts sequentially (including background manager)
+                    // Load V2 scripts sequentially (including background manager and logger)
                     const scripts = [
+                        '{{ url_for("static", filename="js/utils/logger.js") }}?v=' + timestamp,
                         '{{ url_for("static", filename="js/lyric-animator-state.js") }}?v=' + timestamp,
                         '{{ url_for("static", filename="js/backgrounds/bg-manager.js") }}?v=' + timestamp,
                         '{{ url_for("static", filename="js/lyrics-animator-v2-animations.js") }}?v=' + timestamp,

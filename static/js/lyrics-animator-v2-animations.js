@@ -10,8 +10,12 @@ window.animationState = window.animationState || {
 };
 
 window.LyricsAnimations = {
-    // Classic typewriter effect (same as v1)
-    typewriter: function(chars, isPlaying) {
+    /**
+     * Classic typewriter effect - characters appear one by one
+     * @param {NodeList} chars - Character elements to animate
+     * @param {boolean} shouldAnimate - Whether to animate or show immediately
+     */
+    typewriter: function(chars, shouldAnimate) {
         // Cancel running animation first
         if (window.animationState.isRunning) {
             if (typeof clearTypewriterTimeouts === 'function') {
@@ -26,7 +30,7 @@ window.LyricsAnimations = {
             char.removeAttribute('style');
         });
 
-        if (isPlaying && !window.animationState.isRunning) {
+        if (shouldAnimate && !window.animationState.isRunning) {
             window.animationState.isRunning = true;
             window.animationState.currentAnimation = 'typewriter';
 
@@ -40,13 +44,17 @@ window.LyricsAnimations = {
                 }, charIndex * 50);
                 window.typewriterTimeouts.push(timeout);
             });
-        } else if (!isPlaying) {
+        } else if (!shouldAnimate) {
             chars.forEach(char => char.classList.add('visible'));
         }
     },
 
-    // Slide in from left
-    slideIn: function(chars, isPlaying) {
+    /**
+     * Slide-in animation - characters slide in from the left
+     * @param {NodeList} chars - Character elements to animate
+     * @param {boolean} shouldAnimate - Whether to animate or show immediately
+     */
+    slideIn: function(chars, shouldAnimate) {
         // Cancel running animation first
         if (window.animationState.isRunning) {
             if (typeof clearTypewriterTimeouts === 'function') {
@@ -61,7 +69,7 @@ window.LyricsAnimations = {
             char.removeAttribute('style');
         });
 
-        if (isPlaying && !window.animationState.isRunning) {
+        if (shouldAnimate && !window.animationState.isRunning) {
             window.animationState.isRunning = true;
             window.animationState.currentAnimation = 'slideIn';
 
@@ -76,7 +84,7 @@ window.LyricsAnimations = {
                 }, charIndex * 30);
                 window.typewriterTimeouts.push(timeout);
             });
-        } else if (!isPlaying) {
+        } else if (!shouldAnimate) {
             chars.forEach(char => {
                 char.style.animation = 'none';
                 char.classList.add('visible');
@@ -84,8 +92,12 @@ window.LyricsAnimations = {
         }
     },
 
-    // Bounce effect
-    bounce: function(chars, isPlaying) {
+    /**
+     * Bounce animation - characters bounce in with elastic effect
+     * @param {NodeList} chars - Character elements to animate
+     * @param {boolean} shouldAnimate - Whether to animate or show immediately
+     */
+    bounce: function(chars, shouldAnimate) {
         // Cancel running animation first
         if (window.animationState.isRunning) {
             if (typeof clearTypewriterTimeouts === 'function') {
@@ -100,7 +112,7 @@ window.LyricsAnimations = {
             char.removeAttribute('style');
         });
 
-        if (isPlaying && !window.animationState.isRunning) {
+        if (shouldAnimate && !window.animationState.isRunning) {
             window.animationState.isRunning = true;
             window.animationState.currentAnimation = 'bounce';
 
@@ -115,7 +127,7 @@ window.LyricsAnimations = {
                 }, charIndex * 40);
                 window.typewriterTimeouts.push(timeout);
             });
-        } else if (!isPlaying) {
+        } else if (!shouldAnimate) {
             chars.forEach(char => {
                 char.style.animation = 'none';
                 char.classList.add('visible');
@@ -123,8 +135,12 @@ window.LyricsAnimations = {
         }
     },
 
-    // Fade wave effect
-    fadeWave: function(chars, isPlaying) {
+    /**
+     * Fade wave animation - characters fade in with upward motion in waves
+     * @param {NodeList} chars - Character elements to animate
+     * @param {boolean} shouldAnimate - Whether to animate or show immediately
+     */
+    fadeWave: function(chars, shouldAnimate) {
         // Cancel running animation first
         if (window.animationState.isRunning) {
             if (typeof clearTypewriterTimeouts === 'function') {
@@ -139,7 +155,7 @@ window.LyricsAnimations = {
             char.removeAttribute('style');
         });
 
-        if (isPlaying && !window.animationState.isRunning) {
+        if (shouldAnimate && !window.animationState.isRunning) {
             window.animationState.isRunning = true;
             window.animationState.currentAnimation = 'fadeWave';
 
@@ -154,7 +170,7 @@ window.LyricsAnimations = {
                 }, charIndex * 60);
                 window.typewriterTimeouts.push(timeout);
             });
-        } else if (!isPlaying) {
+        } else if (!shouldAnimate) {
             chars.forEach(char => {
                 char.style.animation = 'none';
                 char.classList.add('visible');
@@ -162,8 +178,12 @@ window.LyricsAnimations = {
         }
     },
 
-    // Scale pop effect
-    scalePop: function(chars, isPlaying) {
+    /**
+     * Scale pop animation - characters scale up from small with elastic bounce
+     * @param {NodeList} chars - Character elements to animate
+     * @param {boolean} shouldAnimate - Whether to animate or show immediately
+     */
+    scalePop: function(chars, shouldAnimate) {
         // Cancel running animation first
         if (window.animationState.isRunning) {
             if (typeof clearTypewriterTimeouts === 'function') {
@@ -178,7 +198,7 @@ window.LyricsAnimations = {
             char.removeAttribute('style');
         });
 
-        if (isPlaying && !window.animationState.isRunning) {
+        if (shouldAnimate && !window.animationState.isRunning) {
             window.animationState.isRunning = true;
             window.animationState.currentAnimation = 'scalePop';
 
@@ -193,7 +213,7 @@ window.LyricsAnimations = {
                 }, charIndex * 35);
                 window.typewriterTimeouts.push(timeout);
             });
-        } else if (!isPlaying) {
+        } else if (!shouldAnimate) {
             chars.forEach(char => {
                 char.style.animation = 'none';
                 char.classList.add('visible');
@@ -201,8 +221,12 @@ window.LyricsAnimations = {
         }
     },
 
-    // Rotate flip effect
-    rotateFlip: function(chars, isPlaying) {
+    /**
+     * Rotate flip animation - characters rotate and flip in 3D space
+     * @param {NodeList} chars - Character elements to animate
+     * @param {boolean} shouldAnimate - Whether to animate or show immediately
+     */
+    rotateFlip: function(chars, shouldAnimate) {
         // Cancel running animation first
         if (window.animationState.isRunning) {
             if (typeof clearTypewriterTimeouts === 'function') {
@@ -217,7 +241,7 @@ window.LyricsAnimations = {
             char.removeAttribute('style');
         });
 
-        if (isPlaying && !window.animationState.isRunning) {
+        if (shouldAnimate && !window.animationState.isRunning) {
             window.animationState.isRunning = true;
             window.animationState.currentAnimation = 'rotateFlip';
 
@@ -232,7 +256,7 @@ window.LyricsAnimations = {
                 }, charIndex * 45);
                 window.typewriterTimeouts.push(timeout);
             });
-        } else if (!isPlaying) {
+        } else if (!shouldAnimate) {
             chars.forEach(char => {
                 char.style.animation = 'none';
                 char.classList.add('visible');
@@ -240,8 +264,12 @@ window.LyricsAnimations = {
         }
     },
 
-    // Glow pulse effect
-    glowPulse: function(chars, isPlaying) {
+    /**
+     * Glow pulse animation - characters fade in with glowing pulse effect
+     * @param {NodeList} chars - Character elements to animate
+     * @param {boolean} shouldAnimate - Whether to animate or show immediately
+     */
+    glowPulse: function(chars, shouldAnimate) {
         // Cancel running animation first
         if (window.animationState.isRunning) {
             if (typeof clearTypewriterTimeouts === 'function') {
@@ -256,7 +284,7 @@ window.LyricsAnimations = {
             char.removeAttribute('style');
         });
 
-        if (isPlaying && !window.animationState.isRunning) {
+        if (shouldAnimate && !window.animationState.isRunning) {
             window.animationState.isRunning = true;
             window.animationState.currentAnimation = 'glowPulse';
 
@@ -271,7 +299,7 @@ window.LyricsAnimations = {
                 }, charIndex * 50);
                 window.typewriterTimeouts.push(timeout);
             });
-        } else if (!isPlaying) {
+        } else if (!shouldAnimate) {
             chars.forEach(char => {
                 char.style.animation = 'none';
                 char.classList.add('visible');
@@ -280,4 +308,4 @@ window.LyricsAnimations = {
     }
 };
 
-console.log('lyrics-animator-v2-animations.js loaded successfully!');
+Logger.debug('lyrics-animator-v2-animations.js loaded successfully!');
