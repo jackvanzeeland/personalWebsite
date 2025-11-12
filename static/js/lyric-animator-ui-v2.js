@@ -174,10 +174,15 @@
                         clearTypewriterTimeouts();
                     }
 
+                    // Complete reset of all animation artifacts
                     chars.forEach(char => {
                         char.classList.remove('visible', 'animated');
-                        char.style.animation = 'none';
+                        // Remove ALL inline styles to prevent state corruption
+                        char.removeAttribute('style');
                     });
+
+                    // Force reflow to ensure clean slate
+                    void currentLine.offsetWidth;
 
                     // Apply new animation after brief delay
                     setTimeout(() => {
@@ -582,10 +587,15 @@
                         clearTypewriterTimeouts();
                     }
 
+                    // Complete reset of all animation artifacts
                     chars.forEach(char => {
                         char.classList.remove('visible', 'animated');
-                        char.style.animation = 'none';
+                        // Remove ALL inline styles to prevent state corruption
+                        char.removeAttribute('style');
                     });
+
+                    // Force reflow to ensure clean slate
+                    void currentLine.offsetWidth;
 
                     // Apply new animation after brief delay
                     setTimeout(() => {

@@ -306,10 +306,32 @@ function updateLyricsDisplay(lyricData) {
                 });
             }
 
-            // Apply selected animation
+            // Apply selected animation with error boundary
             const animationPreset = window.currentAnimation || 'typewriter';
             if (window.LyricsAnimations && window.LyricsAnimations[animationPreset]) {
-                window.LyricsAnimations[animationPreset](chars, window.isPlaying);
+                try {
+                    window.LyricsAnimations[animationPreset](chars, window.isPlaying);
+                } catch (error) {
+                    console.error(`Animation '${animationPreset}' failed:`, error);
+
+                    // Fallback to simple display
+                    chars.forEach(char => char.classList.add('visible'));
+
+                    // Notify user
+                    if (window.NotificationManager) {
+                        window.NotificationManager.showError('animationError');
+                    }
+
+                    // Reset to typewriter (safe fallback)
+                    window.currentAnimation = 'typewriter';
+
+                    // Update UI if possible
+                    const animationSelect = document.getElementById('animation-preset') ||
+                                            document.getElementById('v2-animation-preset');
+                    if (animationSelect) {
+                        animationSelect.value = 'typewriter';
+                    }
+                }
             } else {
                 // Fallback to making chars visible
                 chars.forEach(char => char.classList.add('visible'));

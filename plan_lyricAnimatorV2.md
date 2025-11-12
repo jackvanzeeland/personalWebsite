@@ -591,14 +591,14 @@ detailControl.addEventListener('change', (e) => {
 
 **Validation & Error Handling:**
 - [ ] **Issue #9**: Missing Audio File Validation
-- [ ] **Issue #13**: Missing Error Boundary - Animation Failures
+- [x] **Issue #13**: Missing Error Boundary - Animation Failures
 - [ ] **Issue #14**: Background Manager Container Null Risk
 - [ ] **Issue #17**: Audio Sync Missing Error Handling
 
 **Animation & Layout:**
-- [ ] **Issue #10**: Animation State Corruption
+- [x] **Issue #10**: Animation State Corruption
 - [ ] **Issue #16**: Layout Switching Doesn't Reset Container Styles
-- [ ] **Issue #22**: Animation Preset Preview Doesn't Clear Previous State
+- [x] **Issue #22**: Animation Preset Preview Doesn't Clear Previous State
 - [ ] **Issue #23**: Multiline Layout Scroll Behavior Conflicts
 
 **UI & UX:**
@@ -803,7 +803,7 @@ document.addEventListener('visibilitychange', () => {
 
 #### Issue #10: Animation State Corruption
 
-- [ ] **Fixed and verified**
+- [x] **Fixed and verified**
 
 **File:** `static/js/lyrics-animator-v2-animations.js`  
 **Lines:** 24, 44, 64, 84, 104, 124  
@@ -878,7 +878,7 @@ slideIn: function(chars, isPlaying) {
 
 #### Issue #13: Missing Error Boundary - Animation Failures
 
-- [ ] **Fixed and verified**
+- [x] **Fixed and verified**
 
 **File:** `static/js/lyrics-animator-v2.js`  
 **Lines:** 301-307  
@@ -937,7 +937,7 @@ if (window.LyricsAnimations && window.LyricsAnimations[animationPreset]) {
 
 #### Issue #22: Animation Preset Preview Doesn't Clear Previous State
 
-- [ ] **Fixed and verified**
+- [x] **Fixed and verified**
 
 **File:** `static/js/lyric-animator-ui-v2.js`  
 **Lines:** 159-189, 556-601  
