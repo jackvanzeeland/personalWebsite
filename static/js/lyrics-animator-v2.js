@@ -10,12 +10,46 @@ window.currentDisplayIndex = -1;
 window.currentAnimation = 'typewriter'; // Default animation
 window.currentLayout = 'classic'; // Default layout
 
+// Time display throttling (Issue #30 fix)
+let lastTimeUpdate = 0;
+let lastDisplayedTime = -1;
+
+// Scroll tracking for multiline layout (Issue #23 fix)
+let lastScrolledLineIndex = -1;
+
 // Helper to format time as MM:SS
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
+
+// Debounce function for scroll (Issue #23 fix)
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Debounced scroll function (Issue #23 fix)
+const scrollToCurrentLine = debounce((line, currentIndex) => {
+    // Only scroll if line changed
+    if (currentIndex !== lastScrolledLineIndex) {
+        lastScrolledLineIndex = currentIndex;
+
+        line.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'nearest'
+        });
+    }
+}, 100);  // Scroll at most once per 100ms
 
 // Clear pending timeouts
 function clearTypewriterTimeouts() {
@@ -178,6 +212,7 @@ window.parseAndAnimateLyrics = async function (file) {
     progressBar.addEventListener('mousedown', () => {
         wasPlayingBeforeSeek = window.isPlaying;
         window.isPlaying = false;
+        lastScrolledLineIndex = -1;  // Reset scroll tracking (Issue #23 fix)
         clearTypewriterTimeouts();
     });
 
@@ -247,8 +282,15 @@ window.parseAndAnimateLyrics = async function (file) {
         progressTooltip.textContent = formatTime(hoverTime);
         progressTooltip.classList.add('visible');
 
-        // Position tooltip at mouse cursor
-        const tooltipX = offsetX;
+        // Calculate tooltip position with bounds checking (Issue #18 fix)
+        const tooltipWidth = progressTooltip.offsetWidth || 60;  // Approximate width
+        let tooltipX = offsetX - (tooltipWidth / 2);  // Center on cursor
+
+        // Keep tooltip within progress bar bounds
+        const minX = 0;
+        const maxX = rect.width - tooltipWidth;
+        tooltipX = Math.max(minX, Math.min(maxX, tooltipX));
+
         progressTooltip.style.left = `${tooltipX}px`;
     });
 
@@ -297,13 +339,9 @@ function updateLyricsDisplay(lyricData) {
             line.classList.add('current');
             line.classList.remove('fade-out');
 
-            // Smooth scroll to current line (for multiline layouts)
+            // Smooth scroll to current line (for multiline layouts) (Issue #23 fix)
             if (layoutMode === 'multiline' && window.isPlaying) {
-                line.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest'
-                });
+                scrollToCurrentLine(line, currentDisplayIndex);
             }
 
             // Apply selected animation with error boundary
@@ -348,8 +386,33 @@ function updateLyricsDisplay(lyricData) {
 }
 
 function updateTimeDisplay() {
-    document.getElementById('time-display').textContent = `${formatTime(window.currentTime)} / ${formatTime(window.totalTime)}`;
-    document.getElementById('progress-bar').value = window.currentTime;
+    const now = Date.now();
+    const currentTimeSeconds = Math.floor(window.currentTime);
+
+    // Throttle: only update display once per second (Issue #30 fix)
+    if (now - lastTimeUpdate < 1000 && currentTimeSeconds === lastDisplayedTime) {
+        // Still update progress bar (smooth animation)
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) {
+            progressBar.value = window.currentTime;
+        }
+        return;
+    }
+
+    lastTimeUpdate = now;
+    lastDisplayedTime = currentTimeSeconds;
+
+    // Update time display (only once per second)
+    const timeDisplay = document.getElementById('time-display');
+    if (timeDisplay) {
+        timeDisplay.textContent = `${formatTime(window.currentTime)} / ${formatTime(window.totalTime)}`;
+    }
+
+    // Update progress bar
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+        progressBar.value = window.currentTime;
+    }
 }
 
 window.animateLyrics = function (lyricData) {
@@ -371,6 +434,7 @@ window.animateLyrics = function (lyricData) {
         console.info('V2 Animation completed');
         document.getElementById('status').textContent = 'Song complete! Reset to replay.';
         window.isPlaying = false;
+        lastScrolledLineIndex = -1;  // Reset scroll tracking (Issue #23 fix)
 
         // Update Play/Pause button state
         const playPauseBtn = document.getElementById('play-pause');

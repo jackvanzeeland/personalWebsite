@@ -691,24 +691,54 @@
             // Handle version change
             versionSelector.addEventListener('change', (e) => {
                 const newVersion = e.target.value;
-                const hasContent = window.lyricData && window.lyricData.length > 0;
 
-                // Warn if user has uploaded content
-                if (hasContent && currentVersion !== newVersion) {
+                // Check if user has uploaded content (check DOM, not JS variables) (Issue #24 fix)
+                const lyricsContainer = document.getElementById('lyrics-container');
+                const hasContent = lyricsContainer && lyricsContainer.children.length > 0;
+
+                // Also check if audio is playing
+                const hasAudio = window.audioElement && !window.audioElement.paused;
+
+                // Warn if user has uploaded content or playing audio
+                if ((hasContent || hasAudio) && currentVersion !== newVersion) {
                     const confirmed = confirm(
                         '⚠️ Switching versions will clear your current session.\n\n' +
-                        'Your uploaded LRC file and settings will be lost.\n\n' +
+                        'Current lyrics and audio will be lost.\n\n' +
                         'Continue?'
                     );
 
                     if (!confirmed) {
-                        e.target.value = currentVersion; // Revert
+                        e.target.value = currentVersion; // Revert selection
                         return;
                     }
                 }
 
+                // Update version
                 currentVersion = newVersion;
                 localStorage.setItem('lyricAnimatorVersion', currentVersion);
+
+                // Clear session
+                if (window.audioElement) {
+                    window.audioElement.pause();
+                    window.audioElement.src = '';
+                }
+
+                if (lyricsContainer) {
+                    lyricsContainer.innerHTML = '';
+                }
+
+                // Reset state
+                if (window.lyricData) {
+                    window.lyricData = [];
+                }
+                if (window.currentDisplayIndex !== undefined) {
+                    window.currentDisplayIndex = -1;
+                }
+                if (window.currentTime !== undefined) {
+                    window.currentTime = 0;
+                }
+
+                // Reload page with new version
                 location.reload();
             });
 

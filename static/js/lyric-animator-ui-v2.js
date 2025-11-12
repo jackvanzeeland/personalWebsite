@@ -6,6 +6,21 @@
 (function() {
     'use strict';
 
+    // Audio validation constants (Issue #9 fix)
+    const VALID_AUDIO_TYPES = [
+        'audio/mpeg',      // .mp3
+        'audio/mp4',       // .m4a
+        'audio/wav',       // .wav
+        'audio/ogg',       // .ogg
+        'audio/webm',      // .webm
+        'audio/aac',       // .aac
+        'audio/flac'       // .flac
+    ];
+
+    // Audio retry management (Issue #17 fix)
+    let audioRetryCount = 0;
+    const MAX_AUDIO_RETRIES = 3;
+
     const uploadBtn = document.getElementById('upload-btn');
     const fileInput = document.getElementById('file-input');
     const status = document.getElementById('status');
@@ -80,7 +95,7 @@
     uploadArea.addEventListener('dragleave', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        dragCounter--;
+        dragCounter = Math.max(0, dragCounter - 1);  // Prevent negative (Issue #19 fix)
 
         if (dragCounter === 0) {
             uploadArea.classList.remove('drag-active', 'drag-over', 'drag-invalid');
@@ -123,6 +138,12 @@
 
         // Process the file
         handleFileUpload(file);
+    });
+
+    // Reset drag counter on dragend (safety net) (Issue #19 fix)
+    uploadArea.addEventListener('dragend', () => {
+        dragCounter = 0;
+        uploadArea.classList.remove('drag-active', 'drag-over', 'drag-invalid');
     });
 
     /**
@@ -210,8 +231,28 @@
     // Layout mode selector
     if (layoutMode) {
         layoutMode.addEventListener('change', (e) => {
-            window.currentLayout = e.target.value;
-            console.log('Layout changed to:', window.currentLayout);
+            const newLayout = e.target.value;
+            const oldLayout = window.currentLayout;
+            window.currentLayout = newLayout;
+            console.log('Layout changed from', oldLayout, 'to:', newLayout);
+
+            // Reset container styles (Issue #16 fix)
+            const container = document.getElementById('lyrics-container');
+            if (container) {
+                // Reset ALL layout-specific styles
+                container.style.cssText = '';
+
+                // Also reset all line styles
+                const allLines = container.querySelectorAll('.karaoke-line');
+                allLines.forEach(line => {
+                    line.style.cssText = '';
+                    // Preserve data attributes
+                    const time = line.dataset.time;
+                    const text = line.dataset.text;
+                    if (time) line.dataset.time = time;
+                    if (text) line.dataset.text = text;
+                });
+            }
 
             // Show notification
             const layoutName = e.target.options[e.target.selectedIndex].text;
@@ -230,7 +271,6 @@
                 window.currentDisplayIndex = -1;
                 window.currentDisplayIndex = tempIndex;
                 // Get lyric data from DOM
-                const container = document.getElementById('lyrics-container');
                 const lines = container.querySelectorAll('.karaoke-line');
                 const lyricData = Array.from(lines).map(line => ({
                     time: parseFloat(line.dataset.time),
@@ -262,10 +302,26 @@
                 control.style.display = 'none';
             });
 
-            // Show controls for selected background
+            // Show controls for selected background (Issue #25 fix)
             const bgControls = document.getElementById(`${selectedBg}-controls`);
             if (bgControls) {
                 bgControls.style.display = 'block';
+            } else {
+                console.warn(`No controls found for background: ${selectedBg}`);
+
+                // Show message to user
+                const controlsContainer = document.getElementById('background-controls-container');
+                if (controlsContainer) {
+                    const noControlsMsg = document.createElement('div');
+                    noControlsMsg.className = 'info-message';
+                    noControlsMsg.textContent = 'ℹ️ No customization options available for this background';
+                    noControlsMsg.style.padding = '1rem';
+                    noControlsMsg.style.textAlign = 'center';
+                    noControlsMsg.style.color = 'var(--text-secondary, #888)';
+
+                    controlsContainer.innerHTML = '';
+                    controlsContainer.appendChild(noControlsMsg);
+                }
             }
 
             // Load the selected background
@@ -287,14 +343,31 @@
     if (audioFileInput) {
         audioFileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
-            if (file) {
-                const audioElement = new Audio(URL.createObjectURL(file));
-                if (window.BackgroundManager) {
-                    window.BackgroundManager.setAudio(audioElement);
+            if (!file) return;
+
+            // Validate MIME type (Issue #9 fix)
+            if (!VALID_AUDIO_TYPES.includes(file.type)) {
+                console.error(`Invalid audio file type: ${file.type}`);
+
+                if (window.NotificationManager) {
+                    window.NotificationManager.showError('invalidAudioType', {
+                        type: file.type,
+                        validTypes: 'MP3, WAV, OGG, M4A, AAC, FLAC, WebM'
+                    });
                 }
-                window.LyricAnimatorState.setAudioLoaded(true);
-                console.log('Audio file loaded:', file.name);
+
+                // Reset input
+                audioFileInput.value = '';
+                return;
             }
+
+            // Valid audio file
+            const audioElement = new Audio(URL.createObjectURL(file));
+            if (window.BackgroundManager) {
+                window.BackgroundManager.setAudio(audioElement);
+            }
+            window.LyricAnimatorState.setAudioLoaded(true);
+            console.log('Audio file loaded:', file.name);
         });
     }
 
@@ -707,10 +780,14 @@
             }
 
             // Validate format (11 characters)
-            const youtubeIdPattern = /^[a-zA-Z0-9_-]{11}$/;
+            // Accept 10-13 character IDs to cover edge cases (Issue #29 fix)
+            const youtubeIdPattern = /^[a-zA-Z0-9_-]{10,13}$/;
             if (!youtubeIdPattern.test(videoId)) {
                 if (window.NotificationManager) {
-                    window.NotificationManager.showError('invalidVideoId');
+                    window.NotificationManager.showError('invalidVideoId', {
+                        providedId: videoId,
+                        expectedFormat: '10-13 alphanumeric characters, hyphens, and underscores'
+                    });
                 }
                 return;
             }
@@ -724,13 +801,12 @@
             // Create abort controller for cancellation
             currentDownloadController = new AbortController();
 
-            // Simulate progress (since backend doesn't support SSE yet)
-            let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress = Math.min(progress + Math.random() * 15, 90);
-                youtubeProgressFill.style.width = `${progress}%`;
-                progressPercent.textContent = `${Math.round(progress)}%`;
-            }, 500);
+            // Use indeterminate progress (Issue #11 fix - no fake progress)
+            youtubeProgressFill.style.width = '100%';
+            youtubeProgressFill.classList.add('indeterminate');
+            progressPercent.textContent = '';
+            youtubeStatus.textContent = 'Downloading audio... (this may take 30-60 seconds)';
+            youtubeStatus.style.color = '';
 
             try {
                 // Call backend API
@@ -743,7 +819,8 @@
                     signal: currentDownloadController.signal
                 });
 
-                clearInterval(progressInterval);
+                // Remove indeterminate progress (Issue #11 fix)
+                youtubeProgressFill.classList.remove('indeterminate');
 
                 const result = await response.json();
 
@@ -777,10 +854,56 @@
                         window.tempAudioFilePath = result.file_path;
                     });
 
-                    audioElement.addEventListener('error', () => {
-                        youtubeStatus.textContent = 'Error loading audio file';
+                    audioElement.addEventListener('error', (e) => {
+                        const error = e.target.error;
+                        let errorMessage = 'Unknown error loading audio';
+
+                        // Decode error type (Issue #17 fix)
+                        if (error) {
+                            switch (error.code) {
+                                case error.MEDIA_ERR_ABORTED:
+                                    errorMessage = 'Audio loading was aborted';
+                                    break;
+                                case error.MEDIA_ERR_NETWORK:
+                                    errorMessage = 'Network error loading audio';
+                                    break;
+                                case error.MEDIA_ERR_DECODE:
+                                    errorMessage = 'Audio file is corrupted or unsupported format';
+                                    break;
+                                case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                                    errorMessage = 'Audio format not supported by your browser';
+                                    break;
+                            }
+                        }
+
+                        console.error('Audio load error:', errorMessage, error);
+
+                        // Try retry for network errors
+                        if (error && error.code === error.MEDIA_ERR_NETWORK && audioRetryCount < MAX_AUDIO_RETRIES) {
+                            audioRetryCount++;
+                            youtubeStatus.textContent = `Network error. Retrying (${audioRetryCount}/${MAX_AUDIO_RETRIES})...`;
+                            youtubeStatus.style.color = '#ffa500';
+
+                            setTimeout(() => {
+                                audioElement.load();
+                            }, 2000);
+                            return;
+                        }
+
+                        // Show error
+                        youtubeStatus.textContent = errorMessage;
                         youtubeStatus.style.color = '#ff6b6b';
                         youtubeProgress.style.display = 'none';
+
+                        // Reset retry count
+                        audioRetryCount = 0;
+
+                        // Notify user
+                        if (window.NotificationManager) {
+                            window.NotificationManager.showError('audioLoadError', {
+                                message: errorMessage
+                            });
+                        }
                     });
 
                 } else {
@@ -797,7 +920,8 @@
                     youtubeStatus.style.color = '#ff6b6b';
                 }
             } catch (error) {
-                clearInterval(progressInterval);
+                // Remove indeterminate progress (Issue #11 fix)
+                youtubeProgressFill.classList.remove('indeterminate');
 
                 if (error.name === 'AbortError') {
                     youtubeStatus.textContent = 'Download cancelled';
@@ -867,6 +991,73 @@
             }
         }
     });
+
+    // ===== Initialize ARIA attributes for all sliders (Issue #15 fix) =====
+    function initializeSliderAriaUpdates() {
+        const sliderIds = [
+            'particle-count', 'particle-size', 'particle-speed',
+            'particle-opacity', 'particle-line-opacity',
+            'h-slider', 's-slider', 'l-slider',
+            'v2-particle-count', 'v2-particle-size', 'v2-particle-speed'
+        ];
+
+        sliderIds.forEach(sliderId => {
+            const slider = document.getElementById(sliderId);
+            if (!slider) return;  // Slider doesn't exist, skip
+
+            const valueDisplay = document.getElementById(`${sliderId}-value`);
+
+            // Update ARIA on input
+            slider.addEventListener('input', (e) => {
+                const value = e.target.value;
+
+                // Always update ARIA attributes
+                slider.setAttribute('aria-valuenow', value);
+
+                // Format value text for screen readers
+                let valueText = value;
+
+                // Special formatting for specific sliders
+                if (sliderId.includes('opacity')) {
+                    valueText = `${(parseFloat(value) * 100).toFixed(0)}%`;
+                } else if (sliderId === 'h-slider') {
+                    valueText = `${value} degrees`;
+                } else if (sliderId === 's-slider' || sliderId === 'l-slider') {
+                    valueText = `${value}%`;
+                }
+
+                slider.setAttribute('aria-valuetext', valueText);
+
+                // Update value display if it exists
+                if (valueDisplay) {
+                    valueDisplay.textContent = valueText;
+                }
+            });
+
+            // Set initial ARIA values
+            slider.setAttribute('aria-valuenow', slider.value);
+            slider.setAttribute('aria-valuemin', slider.min || '0');
+            slider.setAttribute('aria-valuemax', slider.max || '100');
+
+            // Ensure slider has label
+            if (!slider.getAttribute('aria-label') && !slider.getAttribute('aria-labelledby')) {
+                const label = document.querySelector(`label[for="${sliderId}"]`);
+                if (label) {
+                    slider.setAttribute('aria-labelledby', label.id || `${sliderId}-label`);
+                    if (!label.id) label.id = `${sliderId}-label`;
+                } else {
+                    // Fallback: generate label from ID
+                    const labelText = sliderId
+                        .replace(/-/g, ' ')
+                        .replace(/\b\w/g, l => l.toUpperCase());
+                    slider.setAttribute('aria-label', labelText);
+                }
+            }
+        });
+    }
+
+    // Initialize ARIA on page load
+    initializeSliderAriaUpdates();
 
     console.log('lyric-animator-ui-v2.js loaded successfully!');
 })();

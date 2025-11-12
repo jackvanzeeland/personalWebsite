@@ -9,7 +9,15 @@
    ============================================== */
 
 :root {
-    /* Fluid typography that scales with viewport */
+    /* Fallback values for browsers without clamp() support (Issue #27 fix) */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+
+    /* Modern responsive values (override fallbacks in supporting browsers) */
     --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);     /* 12-14px */
     --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);       /* 14-16px */
     --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);       /* 16-18px */
@@ -81,7 +89,7 @@
 }
 
 #upload-area.drag-over::before {
-    content: '=Á Drop your LRC file here!';
+    content: '=ï¿½ Drop your LRC file here!';
     color: var(--glow);
     font-size: var(--text-lg);
     font-weight: 600;
@@ -339,7 +347,7 @@
 }
 
 .audio-loaded-indicator::before {
-    content: '<µ';
+    content: '<ï¿½';
     font-size: 1.25rem;
 }
 
@@ -659,6 +667,33 @@ button:active:not(:disabled) {
    REDUCED MOTION SUPPORT
    ============================================== */
 
+/* ==============================================
+   INDETERMINATE PROGRESS ANIMATION (Issue #11 fix)
+   ============================================== */
+
+.progress-fill.indeterminate {
+    background: linear-gradient(90deg,
+        transparent,
+        var(--glow, #ff8e53) 50%,
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: indeterminateProgress 1.5s ease-in-out infinite;
+}
+
+@keyframes indeterminateProgress {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ==============================================
+   REDUCED MOTION SUPPORT
+   ============================================== */
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -669,7 +704,8 @@ button:active:not(:disabled) {
     .skeleton-line,
     .audio-loaded-indicator,
     .download-progress,
-    .tab-panel {
+    .tab-panel,
+    .progress-fill.indeterminate {
         animation: none;
     }
 }

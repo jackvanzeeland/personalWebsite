@@ -6,6 +6,7 @@ window.LyricAnimatorState = {
     lrcFileLoaded: false,
     audioFileLoaded: false,
     currentBackgroundStyle: localStorage.getItem('lyricAnimatorV2Background') || 'bg1',
+    _isCheckingVisualizer: false,  // Re-entry guard (Issue #26 fix)
 
     setLrcLoaded: function(loaded) {
         this.lrcFileLoaded = loaded;
@@ -30,12 +31,28 @@ window.LyricAnimatorState = {
     },
 
     checkVisualizerReady: function() {
-        if (this.canRenderVisualizer() && this.currentBackgroundStyle === 'bg3') {
-            console.log('Both files ready! Starting audio visualizer...');
-            // Trigger visualizer start
-            if (window.BackgroundBG3 && window.BackgroundBG3.startRendering) {
-                window.BackgroundBG3.startRendering();
+        // Issue #26 fix: Prevent re-entry to avoid circular dependencies
+        if (this._isCheckingVisualizer) {
+            console.warn('checkVisualizerReady called recursively, ignoring');
+            return;
+        }
+
+        this._isCheckingVisualizer = true;
+
+        try {
+            if (this.canRenderVisualizer() && this.currentBackgroundStyle === 'bg3') {
+                console.log('Both files ready! Starting audio visualizer...');
+
+                // Trigger visualizer start
+                if (window.BackgroundBG3 && window.BackgroundBG3.startRendering) {
+                    window.BackgroundBG3.startRendering();
+                }
             }
+        } catch (error) {
+            console.error('Error checking visualizer:', error);
+        } finally {
+            // Reset guard after execution
+            this._isCheckingVisualizer = false;
         }
     }
 };

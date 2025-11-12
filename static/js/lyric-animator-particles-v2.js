@@ -2,8 +2,8 @@
  * Particles.js Configuration for Lyrics Animator V2
  */
 
-// --- Particle.js instance reference ---
-let particlesConfig = {
+// --- Default Particles Configuration (Issue #28 fix) ---
+const DEFAULT_PARTICLES_CONFIG = {
     particles: {
         number: { value: 100, density: { enable: true, value_area: 800 } },
         color: { value: '#ffffff' },
@@ -20,6 +20,20 @@ let particlesConfig = {
     }
 };
 
+// Current particles config (cloned from default)
+let particlesConfig = JSON.parse(JSON.stringify(DEFAULT_PARTICLES_CONFIG));
+
+// Clone config to prevent mutation (Issue #28 fix)
+function cloneConfig(config) {
+    return JSON.parse(JSON.stringify(config));
+}
+
+// Color storage to prevent precision loss (Issue #21 fix)
+const colorStorage = {
+    original: null,  // Store original hex
+    current: null    // Store current hex
+};
+
 // Initialize particles
 particlesJS('particles-js', particlesConfig);
 
@@ -34,8 +48,9 @@ const particleShape = document.getElementById('v2-particle-shape');
 
 // Helper: reload particles with updated config
 function reloadParticles() {
-    // Ensure pJSDom is initialized as an array
-    if (window.pJSDom === null || window.pJSDom === undefined) {
+    // Ensure pJSDom is initialized as an array (Issue #12 fix - robust type check)
+    if (!Array.isArray(window.pJSDom)) {
+        console.warn('pJSDom was corrupted or undefined, reinitializing');
         window.pJSDom = [];
     }
 
@@ -117,6 +132,13 @@ function hexToHsl(hex) {
 if (themeColorPicker) {
     themeColorPicker.addEventListener('input', e => {
         const baseHex = e.target.value;
+
+        // Store original if first time (Issue #21 fix)
+        if (!colorStorage.original) {
+            colorStorage.original = baseHex;
+        }
+        colorStorage.current = baseHex;
+
         const baseHsl = hexToHsl(baseHex);
         const primaryRgb = hexToRgb(baseHex);
 
@@ -154,6 +176,8 @@ if (themeColorPicker) {
 // 🌌 V2 Particle count
 if (particleCount) {
     particleCount.addEventListener('input', e => {
+        // Clone config to prevent mutation (Issue #28 fix)
+        particlesConfig = cloneConfig(particlesConfig);
         particlesConfig.particles.number.value = Math.max(1, +e.target.value);
         reloadParticles();
     });
@@ -162,6 +186,8 @@ if (particleCount) {
 // 🌈 V2 Particle color
 if (particleColor) {
     particleColor.addEventListener('input', e => {
+        // Clone config to prevent mutation (Issue #28 fix)
+        particlesConfig = cloneConfig(particlesConfig);
         particlesConfig.particles.color.value = e.target.value;
         reloadParticles();
     });
@@ -170,6 +196,8 @@ if (particleColor) {
 // 🔗 V2 Line color
 if (lineColor) {
     lineColor.addEventListener('input', e => {
+        // Clone config to prevent mutation (Issue #28 fix)
+        particlesConfig = cloneConfig(particlesConfig);
         particlesConfig.particles.line_linked.color = e.target.value;
         reloadParticles();
     });
@@ -178,6 +206,8 @@ if (lineColor) {
 // ⚪ V2 Particle size
 if (particleSize) {
     particleSize.addEventListener('input', e => {
+        // Clone config to prevent mutation (Issue #28 fix)
+        particlesConfig = cloneConfig(particlesConfig);
         particlesConfig.particles.size.value = Math.max(0.1, +e.target.value);
         reloadParticles();
     });
@@ -186,6 +216,8 @@ if (particleSize) {
 // 🏃 V2 Particle speed
 if (particleSpeed) {
     particleSpeed.addEventListener('input', e => {
+        // Clone config to prevent mutation (Issue #28 fix)
+        particlesConfig = cloneConfig(particlesConfig);
         particlesConfig.particles.move.speed = Math.max(0.1, +e.target.value);
         reloadParticles();
     });
@@ -194,6 +226,8 @@ if (particleSpeed) {
 // 🔷 V2 Particle shape
 if (particleShape) {
     particleShape.addEventListener('change', e => {
+        // Clone config to prevent mutation (Issue #28 fix)
+        particlesConfig = cloneConfig(particlesConfig);
         const shapeType = e.target.value;
         if (shapeType === 'polygon') {
             particlesConfig.particles.shape = {

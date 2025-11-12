@@ -144,8 +144,19 @@ window.BackgroundManager = (function() {
                 console.warn('BackgroundManager: container was null, re-querying DOM');
             }
 
+            // Issue #14 fix: Graceful degradation instead of throwing
             if (!container) {
-                throw new Error('Container element #particles-js not found in DOM');
+                console.error('Container element #particles-js not found in DOM');
+                console.warn('Background effects will be disabled');
+
+                // Notify user
+                if (window.NotificationManager) {
+                    window.NotificationManager.showWarning('backgroundsDisabled', {
+                        reason: 'Container element not found'
+                    });
+                }
+
+                return;  // Return without throwing
             }
 
             // Initialize the background
