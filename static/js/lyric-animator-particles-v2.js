@@ -41,14 +41,15 @@ function reloadParticles() {
 
     // Clear existing particle system
     if (window.pJSDom.length > 0) {
+        window.pJSDom = [];  // Clear first
+
         const container = document.getElementById('particles-js');
-        if (container) {
-            container.innerHTML = '';
-        } else {
+        if (!container) {
             console.error('Particles container (#particles-js) not found.');
             return;
         }
-        window.pJSDom = [];
+
+        container.innerHTML = '';  // Safe to clear now
     }
 
     // Reinitialize with the updated particlesConfig

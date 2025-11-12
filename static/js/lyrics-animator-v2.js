@@ -75,7 +75,6 @@ window.parseAndAnimateLyrics = async function (file) {
     container.innerHTML = '';
 
     // Hide loading skeleton
-    const skeleton = document.getElementById('lyrics-skeleton');
     if (skeleton) {
         skeleton.style.display = 'none';
     }
@@ -220,8 +219,14 @@ window.parseAndAnimateLyrics = async function (file) {
             progressTooltip.setAttribute('role', 'tooltip');
             progressTooltip.setAttribute('aria-live', 'polite');
             const controlsDiv = document.getElementById('controls');
-            controlsDiv.style.position = 'relative';
-            controlsDiv.appendChild(progressTooltip);
+            if (controlsDiv) {
+                controlsDiv.style.position = 'relative';
+                controlsDiv.appendChild(progressTooltip);
+            } else {
+                console.warn('Controls div not found - progress tooltip disabled');
+                // Don't create tooltip if there's no container
+                progressTooltip = null;
+            }
         }
     });
 

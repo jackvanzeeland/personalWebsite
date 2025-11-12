@@ -131,8 +131,8 @@
     function handleFileUpload(file) {
         status.textContent = 'Parsing lyrics...';
 
-        if (typeof parseAndAnimateLyrics === 'function') {
-            parseAndAnimateLyrics(file);
+        if (window.parseAndAnimateLyrics && typeof window.parseAndAnimateLyrics === 'function') {
+            window.parseAndAnimateLyrics(file);
             window.LyricAnimatorState.setLrcLoaded(true);
             uploadBtn.style.display = 'none';
             resetBtn.style.display = 'inline-block';
@@ -535,16 +535,26 @@
             const detailControl = document.getElementById(detail);
 
             if (essentialsControl && detailControl) {
+                let isSyncing = false;  // Flag to prevent recursive triggers
+
                 // Sync from essentials to detail
                 essentialsControl.addEventListener('change', (e) => {
+                    if (isSyncing) return;  // Prevent recursion
+
+                    isSyncing = true;
                     detailControl.value = e.target.value;
                     detailControl.dispatchEvent(new Event('change'));
+                    isSyncing = false;
                 });
 
                 // Sync from detail to essentials
                 detailControl.addEventListener('change', (e) => {
+                    if (isSyncing) return;  // Prevent recursion
+
+                    isSyncing = true;
                     essentialsControl.value = e.target.value;
                     essentialsControl.dispatchEvent(new Event('change'));
+                    isSyncing = false;
                 });
             }
         });

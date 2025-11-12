@@ -637,24 +637,30 @@
                 }
             }
 
-            // Load appropriate scripts
-            function loadVersionScripts() {
+            // Load appropriate scripts sequentially to prevent race conditions
+            async function loadVersionScripts() {
                 const timestamp = '{{ now.timestamp() }}';
 
                 if (currentVersion === '1') {
-                    // Load V1 scripts
+                    // Load V1 scripts sequentially
                     const scripts = [
                         '{{ url_for("static", filename="js/lyric-animator-particles.js") }}?v=' + timestamp,
                         '{{ url_for("static", filename="js/lyrics-animator.js") }}',
                         '{{ url_for("static", filename="js/lyric-animator-ui.js") }}?v=' + timestamp
                     ];
-                    scripts.forEach(src => {
-                        const script = document.createElement('script');
-                        script.src = src;
-                        document.body.appendChild(script);
-                    });
+
+                    for (const src of scripts) {
+                        await new Promise((resolve, reject) => {
+                            const script = document.createElement('script');
+                            script.src = src;
+                            script.onload = resolve;
+                            script.onerror = () => reject(new Error(`Failed to load ${src}`));
+                            document.body.appendChild(script);
+                        });
+                    }
+                    console.log('All V1 scripts loaded successfully');
                 } else {
-                    // Load V2 scripts (including background manager)
+                    // Load V2 scripts sequentially (including background manager)
                     const scripts = [
                         '{{ url_for("static", filename="js/lyric-animator-state.js") }}?v=' + timestamp,
                         '{{ url_for("static", filename="js/backgrounds/bg-manager.js") }}?v=' + timestamp,
@@ -663,18 +669,22 @@
                         '{{ url_for("static", filename="js/lyrics-animator-v2.js") }}?v=' + timestamp,
                         '{{ url_for("static", filename="js/lyric-animator-ui-v2.js") }}?v=' + timestamp
                     ];
-                    scripts.forEach(src => {
-                        const script = document.createElement('script');
-                        script.src = src;
-                        document.body.appendChild(script);
-                    });
 
-                    // Initialize background manager after scripts load
-                    setTimeout(() => {
-                        if (window.BackgroundManager) {
-                            window.BackgroundManager.init();
-                        }
-                    }, 500);
+                    for (const src of scripts) {
+                        await new Promise((resolve, reject) => {
+                            const script = document.createElement('script');
+                            script.src = src;
+                            script.onload = resolve;
+                            script.onerror = () => reject(new Error(`Failed to load ${src}`));
+                            document.body.appendChild(script);
+                        });
+                    }
+                    console.log('All V2 scripts loaded successfully');
+
+                    // Initialize background manager after all scripts are loaded
+                    if (window.BackgroundManager) {
+                        window.BackgroundManager.init();
+                    }
                 }
             }
 
