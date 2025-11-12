@@ -827,15 +827,34 @@
     // Cleanup temporary audio file when page unloads
     window.addEventListener('beforeunload', () => {
         if (window.tempAudioFilePath) {
-            // Async cleanup (fire and forget)
-            fetch('/api/cleanup-audio', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ file_path: window.tempAudioFilePath }),
-                keepalive: true  // Ensure request completes even if page unloads
-            }).catch(() => {
-                // Cleanup will happen on server via scheduled task anyway
-            });
+            const data = JSON.stringify({ file_path: window.tempAudioFilePath });
+
+            // Try sendBeacon first (most reliable for page unload)
+            if (navigator.sendBeacon) {
+                const blob = new Blob([data], { type: 'application/json' });
+                navigator.sendBeacon('/api/cleanup-audio', blob);
+            } else {
+                // Fallback to keepalive fetch for older browsers
+                fetch('/api/cleanup-audio', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: data,
+                    keepalive: true
+                }).catch(() => {
+                    console.warn('Cleanup request failed - server cleanup will handle it');
+                });
+            }
+        }
+    });
+
+    // Also cleanup when user switches away from tab
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && window.tempAudioFilePath) {
+            const data = JSON.stringify({ file_path: window.tempAudioFilePath });
+            if (navigator.sendBeacon) {
+                const blob = new Blob([data], { type: 'application/json' });
+                navigator.sendBeacon('/api/cleanup-audio', blob);
+            }
         }
     });
 

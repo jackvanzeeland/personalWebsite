@@ -25,6 +25,10 @@ function clearTypewriterTimeouts() {
 
 window.parseAndAnimateLyrics = async function (file) {
     console.info('Starting parseAndAnimateLyrics V2 for', file.name);
+
+    // Clear any existing timeouts from previous session
+    clearTypewriterTimeouts();
+
     const fileName = file.name;
     const nameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
     document.getElementById('upload-title').textContent = nameWithoutExt;

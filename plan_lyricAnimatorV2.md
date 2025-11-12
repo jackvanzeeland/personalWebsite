@@ -585,8 +585,8 @@ detailControl.addEventListener('change', (e) => {
 ### Major Issues Checklist
 
 **Memory & Performance:**
-- [ ] **Issue #8**: Memory Leak - Timeout Array Growth
-- [ ] **Issue #20**: Missing Cleanup on Page Unload
+- [x] **Issue #8**: Memory Leak - Timeout Array Growth
+- [x] **Issue #20**: Missing Cleanup on Page Unload
 - [ ] **Issue #30**: Time Display Flicker During Rapid Updates
 
 **Validation & Error Handling:**
@@ -671,7 +671,7 @@ detailControl.addEventListener('change', (e) => {
 
 #### Issue #8: Memory Leak - Timeout Array Growth
 
-- [ ] **Fixed and verified**
+- [x] **Fixed and verified**
 
 **File:** `static/js/lyrics-animator-v2.js`  
 **Lines:** 21-24  
@@ -736,7 +736,7 @@ if (lyricData.length === 0) {
 
 #### Issue #20: Missing Cleanup on Page Unload
 
-- [ ] **Fixed and verified**
+- [x] **Fixed and verified**
 
 **File:** `static/js/lyric-animator-ui-v2.js`  
 **Lines:** 818-830  
