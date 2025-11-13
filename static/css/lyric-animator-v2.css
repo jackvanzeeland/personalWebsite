@@ -446,6 +446,90 @@ button:active::after {
 }
 
 /* ==============================================
+   SMALLER MOBILE DEVICES (iPhone, smaller Android)
+   ============================================== */
+
+@media (max-width: 600px) {
+    #lyrics-container {
+        max-height: 35vh;  /* Viewport-relative: ~177px on iPhone SE */
+        min-height: 80px;
+        overflow-y: auto;  /* Enable vertical scrolling */
+        -webkit-overflow-scrolling: touch;  /* Smooth iOS scrolling */
+        padding: 0.75rem;
+    }
+
+    .karaoke-line {
+        font-size: 1.5rem;  /* Slightly smaller for mobile */
+    }
+
+    .karaoke-line.current {
+        font-size: 2rem;  /* Current line still prominent */
+    }
+
+    /* Ensure controls fit */
+    #controls {
+        padding: 0.75rem;
+    }
+
+    /* Adjust tab spacing */
+    .control-tabs {
+        gap: 0.25rem;
+    }
+
+    .tab-button {
+        padding: 0.5rem 1rem;
+        font-size: var(--text-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    #lyrics-container {
+        max-height: 30vh;  /* Even smaller for tiny screens */
+        min-height: 70px;
+        padding: 0.5rem;
+    }
+
+    .karaoke-line {
+        font-size: 1.25rem;
+    }
+
+    .karaoke-line.current {
+        font-size: 1.75rem;
+    }
+
+    /* Compact controls */
+    #controls {
+        padding: 0.5rem;
+    }
+
+    #time-display {
+        font-size: var(--text-sm);
+    }
+
+    /* Stack control tabs if needed */
+    .control-tabs {
+        flex-wrap: wrap;
+    }
+}
+
+/* iPhone SE and smaller (320px-375px) */
+@media (max-width: 375px) {
+    #lyrics-container {
+        max-height: 25vh;
+        padding: 0.5rem;
+    }
+
+    .karaoke-line.current {
+        font-size: 1.5rem;
+    }
+
+    #play-pause {
+        min-height: 48px;
+        min-width: 48px;
+    }
+}
+
+/* ==============================================
    MICRO-INTERACTIONS
    ============================================== */
 
