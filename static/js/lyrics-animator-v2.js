@@ -19,6 +19,13 @@ window.currentDisplayIndex = -1;
 window.currentAnimation = 'typewriter'; // Default animation
 window.currentLayout = 'classic'; // Default layout
 
+// Validate animation name on load
+const validAnimations = ['typewriter', 'slideIn', 'bounce', 'fadeWave', 'scalePop', 'rotateFlip', 'glowPulse'];
+if (window.currentAnimation && !validAnimations.includes(window.currentAnimation)) {
+    console.warn(`Invalid animation "${window.currentAnimation}" - resetting to typewriter`);
+    window.currentAnimation = 'typewriter';
+}
+
 // Time display throttling (Issue #30 fix)
 let lastTimeUpdate = 0;
 let lastDisplayedTime = -1;
@@ -188,7 +195,7 @@ window.parseAndAnimateLyrics = async function (file) {
 
     // Initialize button state
     if (buttonTextSpan) buttonTextSpan.textContent = 'Play';
-    if (buttonIconSpan) buttonIconSpan.textContent = '�';
+    if (buttonIconSpan) buttonIconSpan.textContent = '▶️';
 
     playPauseBtn.onclick = () => {
         window.isPlaying = !window.isPlaying;
@@ -196,12 +203,12 @@ window.parseAndAnimateLyrics = async function (file) {
         // Update button text, icon, and ARIA attributes
         if (window.isPlaying) {
             if (buttonTextSpan) buttonTextSpan.textContent = 'Pause';
-            if (buttonIconSpan) buttonIconSpan.textContent = '�';
+            if (buttonIconSpan) buttonIconSpan.textContent = '⏸️';
             playPauseBtn.setAttribute('aria-label', 'Pause lyrics animation');
             playPauseBtn.setAttribute('aria-pressed', 'true');
         } else {
             if (buttonTextSpan) buttonTextSpan.textContent = 'Play';
-            if (buttonIconSpan) buttonIconSpan.textContent = '�';
+            if (buttonIconSpan) buttonIconSpan.textContent = '▶️';
             playPauseBtn.setAttribute('aria-label', 'Play lyrics animation');
             playPauseBtn.setAttribute('aria-pressed', 'false');
         }
@@ -467,7 +474,7 @@ window.animateLyrics = function (lyricData) {
         const buttonIconSpan = playPauseBtn.querySelector('[aria-hidden]');
 
         if (buttonTextSpan) buttonTextSpan.textContent = 'Play';
-        if (buttonIconSpan) buttonIconSpan.textContent = '�';
+        if (buttonIconSpan) buttonIconSpan.textContent = '▶️';
         playPauseBtn.setAttribute('aria-label', 'Play lyrics animation');
         playPauseBtn.setAttribute('aria-pressed', 'false');
 

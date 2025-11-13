@@ -478,6 +478,11 @@ button:active:not(:disabled) {
 
 /* Smooth scrolling for multiline layout */
 #lyrics-container {
+    height: auto !important;
+    min-height: 100px;
+    max-height: 400px;
+    overflow: visible;
+    padding: 1rem;
     scroll-behavior: smooth;
 }
 
