@@ -7,9 +7,13 @@
     <title>Lyric Animator</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-    <!-- Conditional CSS loading based on version (defaults to v2) -->
+    <!-- Base styles (V1 CSS - always load for base styles) -->
     {% set lyric_version = session.get('lyric_animator_version', 'v2') %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator-' + lyric_version + '.css') }}?v={{ now.timestamp() }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator.css') }}?v={{ now.timestamp() }}" />
+    <!-- V2 enhancements (only load if V2 active) -->
+    {% if lyric_version == 'v2' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator-v2.css') }}?v={{ now.timestamp() }}" />
+    {% endif %}
     <!-- Accessibility styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/accessibility.css') }}?v={{ now.timestamp() }}" />
 </head>
