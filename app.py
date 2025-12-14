@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from datetime import datetime, timedelta
+from pathlib import Path
 from scripts.wordle import plot_key_values
 import json
 from scripts.log import log_text
@@ -620,6 +621,75 @@ def public_analytics():
         journey=get_journey_data(),
         now=datetime.now(),
     )
+
+
+# YouTube Audio Download Routes
+@app.route("/api/download-youtube-audio", methods=["POST"])
+def download_youtube_audio():
+    """Download audio from YouTube video for lyric animator"""
+    from utils.youtube_downloader import YouTubeDownloader
+
+    try:
+        data = request.get_json()
+        video_id = data.get("video_id", "").strip()
+
+        if not video_id:
+            return jsonify({"success": False, "message": "Video ID is required"}), 400
+
+        # Validate video ID format
+        if not YouTubeDownloader.validate_youtube_id(video_id):
+            return jsonify(
+                {"success": False, "message": "Invalid YouTube video ID format"}
+            ), 400
+
+        # Download audio
+        log_text(f"Downloading audio for YouTube video: {video_id}")
+        success, file_path, error_message = YouTubeDownloader.download_audio(video_id)
+
+        if success and file_path:
+            # Return file URL
+            file_url = url_for(
+                "static", filename=f"../data/temp_audio/{Path(file_path).name}"
+            )
+            log_text(f"YouTube audio downloaded successfully: {file_path}")
+
+            return jsonify(
+                {
+                    "success": True,
+                    "file_url": file_url,
+                    "file_path": file_path,
+                    "message": "Audio downloaded successfully",
+                }
+            ), 200
+        else:
+            log_text(f"YouTube audio download failed: {error_message}")
+            return jsonify(
+                {"success": False, "message": error_message or "Download failed"}
+            ), 500
+
+    except Exception as e:
+        log_text(f"YouTube download error: {e}")
+        return jsonify({"success": False, "message": f"Server error: {str(e)}"}), 500
+
+
+@app.route("/api/cleanup-audio", methods=["POST"])
+def cleanup_audio():
+    """Cleanup temporary audio file"""
+    from utils.youtube_downloader import YouTubeDownloader
+
+    try:
+        data = request.get_json()
+        file_path = data.get("file_path")
+
+        if file_path:
+            YouTubeDownloader.cleanup_file(file_path)
+            log_text(f"Cleaned up audio file: {file_path}")
+
+        return jsonify({"success": True}), 200
+
+    except Exception as e:
+        log_text(f"Cleanup error: {e}")
+        return jsonify({"success": False, "message": str(e)}), 500
 
 
 # Start Flask app
