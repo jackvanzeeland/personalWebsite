@@ -9,11 +9,14 @@ const AnalyticsLogger = (function() {
     const STORAGE_KEY = 'session_id';
     const BATCH_SIZE = 10;
     const BATCH_INTERVAL = 30000; // 30 seconds
+    const MAX_RETRY_ATTEMPTS = 3;
 
     let eventQueue = [];
     let sessionId = null;
     let pageStartTime = null;
     let maxScrollDepth = 0;
+    const reachedScrollMilestones = new Set(); // Track which milestones have been reached
+    const failedBatchRetries = new Map(); // Track retry attempts for failed batches
 
     /**
      * Generate or retrieve session ID
@@ -70,14 +73,29 @@ const AnalyticsLogger = (function() {
         const batch = [...eventQueue];
         eventQueue = [];
 
+        // Generate unique batch ID for retry tracking
+        const batchId = `batch_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const retryCount = failedBatchRetries.get(batchId) || 0;
+
         try {
             await APIClient.post('/api/analytics/events', {
                 events: batch
             });
+            // Success - remove from retry tracking if present
+            failedBatchRetries.delete(batchId);
         } catch (error) {
             console.error('Analytics batch failed:', error);
-            // Re-add to queue on failure
-            eventQueue.unshift(...batch);
+            
+            // Check retry limit
+            if (retryCount < MAX_RETRY_ATTEMPTS) {
+                // Re-add to queue and increment retry counter
+                eventQueue.unshift(...batch);
+                failedBatchRetries.set(batchId, retryCount + 1);
+            } else {
+                // Max retries exceeded - drop batch and clean up
+                console.warn(`Analytics batch dropped after ${MAX_RETRY_ATTEMPTS} attempts`);
+                failedBatchRetries.delete(batchId);
+            }
         }
     }
 
@@ -101,6 +119,7 @@ const AnalyticsLogger = (function() {
     function trackPageView() {
         pageStartTime = Date.now();
         maxScrollDepth = 0;
+        reachedScrollMilestones.clear(); // Reset milestone tracking on page change
 
         logEvent('page_view', {
             referrer: document.referrer,
@@ -175,13 +194,19 @@ const AnalyticsLogger = (function() {
         // Periodic batch sending
         setInterval(sendBatch, BATCH_INTERVAL);
 
-        // Track scroll depth at intervals
+        // Track scroll depth milestones (25%, 50%, 75%, 100%)
+        const scrollMilestones = [25, 50, 75, 100];
         window.addEventListener('scroll', () => {
             const currentDepth = getScrollDepth();
-            if (currentDepth > maxScrollDepth && currentDepth % 25 === 0) {
-                maxScrollDepth = currentDepth;
-                logEvent('scroll_depth', { depth: currentDepth });
-            }
+            maxScrollDepth = Math.max(maxScrollDepth, currentDepth);
+            
+            // Check each milestone
+            scrollMilestones.forEach(milestone => {
+                if (currentDepth >= milestone && !reachedScrollMilestones.has(milestone)) {
+                    reachedScrollMilestones.add(milestone);
+                    logEvent('scroll_depth', { depth: milestone });
+                }
+            });
         });
     }
 

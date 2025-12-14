@@ -119,16 +119,42 @@
                 body: JSON.stringify({ question })
             });
 
+            // Check response status before parsing JSON
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            // Validate Content-Type before parsing
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Expected JSON response but got ' + (contentType || 'unknown type'));
+            }
+
             const data = await response.json();
 
-            if (response.ok && data.answer) {
+            if (data.answer) {
                 addMessage('assistant', data.answer);
             } else {
-                addMessage('assistant', 'Sorry, I encountered an error. Please try again.');
+                addMessage('assistant', 'Sorry, I received an incomplete response. Please try again.');
             }
         } catch (error) {
             console.error('Portfolio AI error:', error);
-            addMessage('assistant', 'Sorry, I couldn\'t process your question. Please try again.');
+            
+            // More specific error messages
+            let errorMessage = 'Sorry, I couldn\'t process your question. ';
+            if (error.message.includes('HTTP 5')) {
+                errorMessage += 'The server encountered an error. Please try again later.';
+            } else if (error.message.includes('HTTP 4')) {
+                errorMessage += 'There was a problem with your request.';
+            } else if (error.message.includes('JSON')) {
+                errorMessage += 'The server response was invalid.';
+            } else if (error.message.includes('Failed to fetch')) {
+                errorMessage += 'Network error. Please check your connection.';
+            } else {
+                errorMessage += 'Please try again.';
+            }
+            
+            addMessage('assistant', errorMessage);
         } finally {
             setLoading(false);
         }

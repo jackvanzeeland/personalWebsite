@@ -5,6 +5,32 @@
 
 let videos=[], filteredVideos=[], charts={}, sortOrder={};
 
+// Cache DOM elements at module load
+const DOM = {
+  totalVideos: null,
+  totalLikes: null,
+  totalComments: null,
+  totalBookmarks: null,
+  totalShares: null,
+  averageLikes: null,
+  averageComments: null,
+  averageBookmarks: null,
+  averageShares: null
+};
+
+// Initialize DOM cache when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  DOM.totalVideos = document.getElementById('totalVideos');
+  DOM.totalLikes = document.getElementById('totalLikes');
+  DOM.totalComments = document.getElementById('totalComments');
+  DOM.totalBookmarks = document.getElementById('totalBookmarks');
+  DOM.totalShares = document.getElementById('totalShares');
+  DOM.averageLikes = document.getElementById('averageLikes');
+  DOM.averageComments = document.getElementById('averageComments');
+  DOM.averageBookmarks = document.getElementById('averageBookmarks');
+  DOM.averageShares = document.getElementById('averageShares');
+});
+
 document.getElementById('csvFile').addEventListener('change', (event)=>{
   const file=event.target.files[0]; if(!file) return;
   const reader=new FileReader();
@@ -89,20 +115,27 @@ function showDashboard(){
     totalShares:acc.totalShares+v.shares
   }),{totalVideos:0,totalLikes:0,totalComments:0,totalBookmarks:0,totalShares:0});
 
-  document.getElementById('totalVideos').textContent = Number(sum.totalVideos).toLocaleString();
-document.getElementById('totalLikes').textContent = Number(sum.totalLikes).toLocaleString();
-document.getElementById('totalComments').textContent = Number(sum.totalComments).toLocaleString();
-document.getElementById('totalBookmarks').textContent = Number(sum.totalBookmarks).toLocaleString();
-document.getElementById('totalShares').textContent = Number(sum.totalShares).toLocaleString();
+  // Use cached DOM elements
+  if (DOM.totalVideos) DOM.totalVideos.textContent = Number(sum.totalVideos).toLocaleString();
+  if (DOM.totalLikes) DOM.totalLikes.textContent = Number(sum.totalLikes).toLocaleString();
+  if (DOM.totalComments) DOM.totalComments.textContent = Number(sum.totalComments).toLocaleString();
+  if (DOM.totalBookmarks) DOM.totalBookmarks.textContent = Number(sum.totalBookmarks).toLocaleString();
+  if (DOM.totalShares) DOM.totalShares.textContent = Number(sum.totalShares).toLocaleString();
 
-document.getElementById('averageLikes').textContent =
-  Number((sum.totalLikes / sum.totalVideos).toFixed(2)).toLocaleString();
-document.getElementById('averageComments').textContent =
-  Number((sum.totalComments / sum.totalVideos).toFixed(2)).toLocaleString();
-document.getElementById('averageBookmarks').textContent =
-  Number((sum.totalBookmarks / sum.totalVideos).toFixed(2)).toLocaleString();
-document.getElementById('averageShares').textContent =
-  Number((sum.totalShares / sum.totalVideos).toFixed(2)).toLocaleString();
+  // Prevent division by zero - show 0 or N/A if no videos
+  const videoCount = sum.totalVideos || 1; // Fallback to 1 to prevent division by zero
+  if (DOM.averageLikes) {
+    DOM.averageLikes.textContent = sum.totalVideos === 0 ? '0' : Number((sum.totalLikes / videoCount).toFixed(2)).toLocaleString();
+  }
+  if (DOM.averageComments) {
+    DOM.averageComments.textContent = sum.totalVideos === 0 ? '0' : Number((sum.totalComments / videoCount).toFixed(2)).toLocaleString();
+  }
+  if (DOM.averageBookmarks) {
+    DOM.averageBookmarks.textContent = sum.totalVideos === 0 ? '0' : Number((sum.totalBookmarks / videoCount).toFixed(2)).toLocaleString();
+  }
+  if (DOM.averageShares) {
+    DOM.averageShares.textContent = sum.totalVideos === 0 ? '0' : Number((sum.totalShares / videoCount).toFixed(2)).toLocaleString();
+  }
 
 }
 

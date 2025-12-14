@@ -237,10 +237,15 @@ function createHistograms(data) {
     const fixedBins = 7;
 
     metrics.forEach((metric) => {
-        if (charts[metric]) charts[metric].destroy();
-
         const values = data.map(v => v[metric]).filter(v => v > 0);
-        if (values.length === 0) return;
+        if (values.length === 0) {
+            // Destroy chart if no data
+            if (charts[metric]) {
+                charts[metric].destroy();
+                charts[metric] = null;
+            }
+            return;
+        }
 
         const min = Math.min(...values);
         const max = Math.max(...values);
@@ -267,8 +272,27 @@ function createHistograms(data) {
             return `${formatNumber(start)} - ${formatNumber(end)}`;
         });
 
-        const ctx = document.getElementById(metric + 'Chart').getContext('2d');
-        charts[metric] = new Chart(ctx, {
+        // Update existing chart instead of destroying and recreating
+        if (charts[metric]) {
+            // Update chart data
+            charts[metric].data.labels = labels;
+            charts[metric].data.datasets[0].data = counts;
+            
+            // Update tooltip callbacks with new bin ranges
+            charts[metric].options.plugins.tooltip.callbacks = {
+                title: function(context) {
+                    return `Range: ${binRanges[context[0].dataIndex]}`;
+                },
+                label: function(context) {
+                    return `Videos: ${context.parsed.y}`;
+                }
+            };
+            
+            charts[metric].update();
+        } else {
+            // Create new chart only if it doesn't exist
+            const ctx = document.getElementById(metric + 'Chart').getContext('2d');
+            charts[metric] = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -332,7 +356,8 @@ function createHistograms(data) {
                     }
                 }
             }
-        });
+            });
+        }
     });
 }
 

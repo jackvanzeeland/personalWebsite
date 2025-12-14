@@ -78,7 +78,7 @@ body {
     }
 }
 
-#lyrics-container {
+.v1-active #lyrics-container {
     max-width: 90vw;
     width: 100%;
     min-width: 300px;
@@ -109,7 +109,7 @@ body {
     }
 }
 
-.karaoke-line {
+.v1-active .karaoke-line {
     position: absolute;
     width: 80%;
     left: 10%;
@@ -139,7 +139,7 @@ body {
     will-change: transform, opacity;
 }
 
-.karaoke-line.current {
+.v1-active .karaoke-line.current {
     opacity: 1;
     transform: translateY(-50%) translate3d(0, 0, 0) scale(1.05);
     filter: blur(0);
@@ -167,14 +167,14 @@ body {
     }
 }
 
-.karaoke-line.fade-out {
+.v1-active .karaoke-line.fade-out {
     opacity: 0;
     transform: translateY(-60%) scale(0.95);
     filter: blur(6px);
     z-index: 0;
 }
 
-.karaoke-char {
+.v1-active .karaoke-char {
     display: inline-block;
     opacity: 0;
     transform: translateY(20px) translate3d(0, 0, 0) scale(0.9);
@@ -189,7 +189,7 @@ body {
     backface-visibility: hidden;
 }
 
-.karaoke-char.visible {
+.v1-active .karaoke-char.visible {
     opacity: 1;
     transform: translateY(0) translate3d(0, 0, 0) scale(1);
 }
@@ -203,23 +203,23 @@ body {
 }
 
 @media (max-width: 600px) {
-    #lyrics-container {
+    .v1-active #lyrics-container {
         max-width: 90%;
         padding: 20px;
     }
 
-    .karaoke-line {
+    .v1-active .karaoke-line {
         font-size: 1em;
     }
 
-    #upload-btn,
-    #reset-btn {
+    .v1-active #upload-btn,
+    .v1-active #reset-btn {
         padding: 10px 20px;
         font-size: 16px;
     }
 }
 
-#controls {
+.v1-active #controls {
     display: none;
     /* Keep initial hidden state */
     text-align: center;
@@ -235,7 +235,7 @@ body {
     /* Clean, modern font */
 }
 
-#time-display {
+.v1-active #time-display {
     font-size: 1.2rem;
     font-weight: bold;
     color: rgba(var(--primary-rgb), 0.6);
@@ -245,7 +245,7 @@ body {
     /* Slight spacing for clarity */
 }
 
-#progress-bar {
+.v1-active #progress-bar {
     width: 80%;
     /* Maintain width from inline style */
     height: 8px;
@@ -258,7 +258,7 @@ body {
     margin: 10px 0;
 }
 
-#progress-bar::-webkit-slider-thumb {
+.v1-active #progress-bar::-webkit-slider-thumb {
     appearance: none;
     width: 16px;
     height: 16px;
@@ -273,7 +273,7 @@ body {
     /* Smooth hover transition */
 }
 
-#progress-bar::-moz-range-thumb {
+.v1-active #progress-bar::-moz-range-thumb {
     width: 16px;
     height: 16px;
     background: var(--primary);
@@ -283,22 +283,22 @@ body {
     transition: background 0.2s ease;
 }
 
-#progress-bar::-webkit-slider-thumb:hover {
+.v1-active #progress-bar::-webkit-slider-thumb:hover {
     background: var(--accent);
     /* Darker blue on hover */
 }
 
-#progress-bar::-moz-range-thumb:hover {
+.v1-active #progress-bar::-moz-range-thumb:hover {
     background: var(--accent);
 }
 
-#progress-bar:focus {
+.v1-active #progress-bar:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(var(--primary-rgb), 0.5);
     /* Focus ring */
 }
 
-#play-pause {
+.v1-active #play-pause {
     padding: 10px 20px;
     font-size: 1rem;
     font-weight: 600;
@@ -313,7 +313,7 @@ body {
     box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.5);
 }
 
-#play-pause:hover {
+.v1-active #play-pause:hover {
     background: linear-gradient(45deg, var(--primary), var(--accent));
     /* Darker green on hover */
     transform: scale(1.05);
@@ -321,12 +321,12 @@ body {
     box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.7);
 }
 
-#play-pause:active {
+.v1-active #play-pause:active {
     transform: scale(0.9);
     /* Pressed effect */
 }
 
-#play-pause:focus {
+.v1-active #play-pause:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(var(--accent-rgb), 0.5);
     /* Focus ring */
@@ -334,21 +334,21 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
-    #controls {
+    .v1-active #controls {
         padding: 10px;
         margin: 10px;
     }
 
-    #time-display {
+    .v1-active #time-display {
         font-size: 1rem;
     }
 
-    #progress-bar {
+    .v1-active #progress-bar {
         width: 90%;
         /* Wider on small screens */
     }
 
-    #play-pause {
+    .v1-active #play-pause {
         padding: 8px 16px;
         font-size: 0.9rem;
     }
@@ -367,7 +367,7 @@ body {
     }
 
     /* Increase touch target sizes for all inputs */
-    #v1-controls input[type="range"],
+    .v1-active #v1-controls input[type="range"],
     #v2-controls input[type="range"] {
         height: 44px;
         -webkit-appearance: none;
@@ -379,7 +379,7 @@ body {
     }
 
     /* Style range slider thumb for better touch targets */
-    #v1-controls input[type="range"]::-webkit-slider-thumb,
+    .v1-active #v1-controls input[type="range"]::-webkit-slider-thumb,
     #v2-controls input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
@@ -392,7 +392,7 @@ body {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
-    #v1-controls input[type="range"]::-moz-range-thumb,
+    .v1-active #v1-controls input[type="range"]::-moz-range-thumb,
     #v2-controls input[type="range"]::-moz-range-thumb {
         width: 24px;
         height: 24px;
@@ -404,7 +404,7 @@ body {
     }
 
     /* Increase size of select dropdowns */
-    #v1-controls select,
+    .v1-active #v1-controls select,
     #v2-controls select {
         min-height: 44px;
         font-size: 16px; /* Prevents zoom on iOS */
@@ -416,7 +416,7 @@ body {
     }
 
     /* Increase size of color inputs */
-    #v1-controls input[type="color"],
+    .v1-active #v1-controls input[type="color"],
     #v2-controls input[type="color"] {
         min-height: 44px;
         min-width: 80px;
@@ -434,7 +434,7 @@ body {
     }
 
     /* Stack labels and inputs vertically */
-    #v1-controls label,
+    .v1-active #v1-controls label,
     #v2-controls label {
         display: block;
         margin-top: 15px;
@@ -444,7 +444,7 @@ body {
     }
 
     /* Remove line breaks on mobile */
-    #v1-controls br,
+    .v1-active #v1-controls br,
     #v2-controls br {
         display: none;
     }
@@ -466,9 +466,9 @@ body {
     }
 
     /* Main buttons - ensure minimum touch target */
-    #upload-btn,
-    #reset-btn,
-    #play-pause {
+    .v1-active #upload-btn,
+    .v1-active #reset-btn,
+    .v1-active #play-pause {
         min-height: 44px;
         min-width: 120px;
         font-size: 16px;
@@ -495,27 +495,27 @@ body {
 
 /* Extra small screens */
 @media (max-width: 480px) {
-    #user-inputs {
+    .v1-active #user-inputs {
         max-height: 40vh;
         padding: 10px;
     }
 
-    #upload-title {
+    .v1-active #upload-title {
         font-size: 1.5rem;
     }
 
-    #upload-instructions {
+    .v1-active #upload-instructions {
         font-size: 0.85rem;
     }
 
-    #v1-controls label,
+    .v1-active #v1-controls label,
     #v2-controls label {
         font-size: 13px;
     }
 
     /* Reduce button text on very small screens */
-    #upload-btn,
-    #reset-btn {
+    .v1-active #upload-btn,
+    .v1-active #reset-btn {
         font-size: 14px;
         padding: 10px 20px;
     }

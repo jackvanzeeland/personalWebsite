@@ -1,17 +1,21 @@
-from flask import Flask, render_template, request, redirect, url_for,session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from datetime import datetime, timedelta
 from scripts.wordle import plot_key_values
 import json
 from scripts.log import log_text
 from scripts.matching import secret_santa
 import os
-from dotenv import load_dotenv # Import load_dotenv
+from dotenv import load_dotenv  # Import load_dotenv
 from config import Config
 from utils.project_loader import get_main_projects, get_ai_projects
 from utils import analytics_storage
-from utils.page_registry import get_all_trackable_pages, get_total_pages, is_trackable_page
+from utils.page_registry import (
+    get_all_trackable_pages,
+    get_total_pages,
+    is_trackable_page,
+)
 
-load_dotenv() # Load environment variables from .env file
+load_dotenv()  # Load environment variables from .env file
 
 # Validate configuration on startup
 Config.validate()
@@ -19,12 +23,16 @@ Config.validate()
 print("Starting app.py...")
 
 messages = []
+
+
 def get_recent_messages():
     now = datetime.utcnow()
     one_month_ago = now - timedelta(days=30)
 
     # Filter for messages in the last month
-    last_month_msgs = [m for m in messages if m["timestamp"] >= one_month_ago.timestamp() * 1000]
+    last_month_msgs = [
+        m for m in messages if m["timestamp"] >= one_month_ago.timestamp() * 1000
+    ]
 
     if len(last_month_msgs) >= 10:
         return last_month_msgs
@@ -38,6 +46,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.secret_key = Config.SECRET_KEY
 
+
 # Automatic Journey Tracking (Server-Side Source of Truth)
 @app.before_request
 def track_page_visit():
@@ -50,30 +59,35 @@ def track_page_visit():
     # Check if this page should be tracked
     if is_trackable_page(current_path):
         # Initialize session if needed
-        if 'visited_pages' not in session:
-            session['visited_pages'] = []
+        if "visited_pages" not in session:
+            session["visited_pages"] = []
 
         # Add page if not already visited
-        if current_path not in session['visited_pages']:
-            session['visited_pages'].append(current_path)
+        if current_path not in session["visited_pages"]:
+            session["visited_pages"].append(current_path)
             session.modified = True  # Ensure session is saved
-            print(f"Journey: Tracked {current_path} ({len(session['visited_pages'])}/{get_total_pages()})")
+            print(
+                f"Journey: Tracked {current_path} ({len(session['visited_pages'])}/{get_total_pages()})"
+            )
+
 
 # Journey Tracking Helper Functions
 def init_journey_session():
     """Initialize journey tracking in session"""
-    if 'visited_pages' not in session:
-        session['visited_pages'] = []
-    return session['visited_pages']
+    if "visited_pages" not in session:
+        session["visited_pages"] = []
+    return session["visited_pages"]
+
 
 def get_journey_data():
     """Get journey tracking data for templates"""
     visited = init_journey_session()
     return {
-        'visited_pages': visited,
-        'total_pages': get_total_pages(),
-        'all_pages': get_all_trackable_pages()
+        "visited_pages": visited,
+        "total_pages": get_total_pages(),
+        "all_pages": get_all_trackable_pages(),
     }
+
 
 # Removed chatBoard route - template ai-generated-chatboard.html was deleted and route was unused
 
@@ -81,13 +95,14 @@ def get_journey_data():
 import openai
 import time
 
+
 # OpenAI Assistant Helper Functions
 def get_or_create_thread(client, session):
     """
     Get existing thread or create new one
     Returns: thread_id (str)
     """
-    thread_id = session.get('openai_thread_id')
+    thread_id = session.get("openai_thread_id")
 
     if thread_id:
         # Verify thread exists
@@ -102,9 +117,10 @@ def get_or_create_thread(client, session):
 
     # Create new thread
     thread = client.beta.threads.create()
-    session['openai_thread_id'] = thread.id
+    session["openai_thread_id"] = thread.id
     log_text(f"Created new OpenAI thread: {thread.id}")
     return thread.id
+
 
 def send_message_to_thread(client, thread_id, message_content):
     """
@@ -112,12 +128,11 @@ def send_message_to_thread(client, thread_id, message_content):
     Returns: message object
     """
     message = client.beta.threads.messages.create(
-        thread_id=thread_id,
-        role="user",
-        content=message_content
+        thread_id=thread_id, role="user", content=message_content
     )
     log_text(f"Added message to thread {thread_id}: {message_content[:50]}...")
     return message
+
 
 def run_assistant_and_wait(client, thread_id, assistant_id, timeout=30):
     """
@@ -126,8 +141,7 @@ def run_assistant_and_wait(client, thread_id, assistant_id, timeout=30):
     Raises: TimeoutError if run doesn't complete in time
     """
     run = client.beta.threads.runs.create(
-        thread_id=thread_id,
-        assistant_id=assistant_id
+        thread_id=thread_id, assistant_id=assistant_id
     )
     log_text(f"Created run {run.id} for thread {thread_id}")
 
@@ -146,6 +160,7 @@ def run_assistant_and_wait(client, thread_id, assistant_id, timeout=30):
 
     return run
 
+
 def extract_assistant_response(client, thread_id):
     """
     Extract the latest assistant message from thread
@@ -156,23 +171,24 @@ def extract_assistant_response(client, thread_id):
     for msg in messages.data:
         if msg.role == "assistant":
             for content_block in msg.content:
-                if content_block.type == 'text':
+                if content_block.type == "text":
                     response_text = content_block.text.value
                     log_text(f"Assistant response: {response_text[:50]}...")
                     return response_text
 
     return None
 
-@app.route('/ask_openai_assistant', methods=['POST'])
+
+@app.route("/ask_openai_assistant", methods=["POST"])
 def ask_openai_assistant():
     """OpenAI Assistant endpoint - uses helper functions for clean separation"""
     try:
         # 1. Validate request
         data = request.get_json()
-        question = data.get('question', '').strip()
+        question = data.get("question", "").strip()
 
         if not question:
-            return jsonify({'answer': 'Please provide a question.'}), 400
+            return jsonify({"answer": "Please provide a question."}), 400
 
         # 2. Initialize OpenAI client
         client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
@@ -190,106 +206,179 @@ def ask_openai_assistant():
         response_text = extract_assistant_response(client, thread_id)
 
         if not response_text:
-            return jsonify({'answer': 'No response from assistant.'}), 500
+            return jsonify({"answer": "No response from assistant."}), 500
 
-        return jsonify({'answer': response_text}), 200
+        return jsonify({"answer": response_text}), 200
 
     except TimeoutError:
-        return jsonify({'answer': 'Request timed out. Please try again.'}), 504
+        return jsonify({"answer": "Request timed out. Please try again."}), 504
     except openai.APIStatusError as e:
         log_text(f"OpenAI API error: {e.status_code} - {e.response}")
-        return jsonify({'answer': f'An OpenAI API error occurred: {e.status_code}'}), 500
+        return jsonify(
+            {"answer": f"An OpenAI API error occurred: {e.status_code}"}
+        ), 500
     except Exception as e:
         log_text(f"An unexpected error occurred: {e}")
-        return jsonify({'answer': 'An unexpected error occurred. Please try again.'}), 500 
+        return jsonify(
+            {"answer": "An unexpected error occurred. Please try again."}
+        ), 500
 
- 
+
 # Projects now loaded from data/projects.json via utils.project_loader
 
+
 # Main route rendering all projects on home page
-@app.route('/')
+@app.route("/")
 def home():
     log_text("Navigate to Home")
     log_text(f"User IP: {request.remote_addr}")
     log_text(f"User Agent: {request.user_agent}")
-    return render_template('home.html', projects=get_main_projects(), journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "home.html",
+        projects=get_main_projects(),
+        journey=get_journey_data(),
+        now=datetime.now(),
+    )
+
 
 # About page route
-@app.route('/about')
+@app.route("/about")
 def about():
     log_text("Navigate to About")
-    return render_template('about.html', journey=get_journey_data(), now=datetime.now())
+    return render_template("about.html", journey=get_journey_data(), now=datetime.now())
 
-@app.route('/beyondTheCode')
+
+@app.route("/beyondTheCode")
 def beyondTheCode():
     log_text("Navigate to Beyond The Code")
-    return render_template('beyondTheCode.html', journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "beyondTheCode.html", journey=get_journey_data(), now=datetime.now()
+    )
+
 
 # Removed ai_innovations_portal route - template ai_innovations_portal.html was deleted and route was unused
 
-@app.route('/api/get_beyond_the_code_photos')
+
+@app.route("/api/get_beyond_the_code_photos")
 def get_beyond_the_code_photos():
     log_text("Fetching beyondTheCode photos...")
     photo_dir = Config.BEYOND_CODE_PHOTOS_DIR
     photos = []
     if os.path.exists(photo_dir):
         for filename in os.listdir(photo_dir):
-            if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
-                photos.append(url_for('static', filename=f'images/beyondTheCodePhotos/{filename}'))
+            if filename.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
+                photos.append(
+                    url_for("static", filename=f"images/beyondTheCodePhotos/{filename}")
+                )
     return jsonify(photos=photos)
 
 
-
 # Wordle project page route
-@app.route('/project/wordle', methods=['POST', 'GET'])
+@app.route("/project/wordle", methods=["POST", "GET"])
 def wordle():
     log_text("Navigate to Project.Wordle")
     todaysWord = None
     guesses = []
 
-    if request.method == 'POST':
+    if request.method == "POST":
         # Handling today's word input
-        todaysWord = request.form.get('todaysWord').lower()
-        log_text(f"Projects.Wordle - Retrieved Word {todaysWord}")
+        todaysWord = request.form.get("todaysWord")
+        if todaysWord:
+            todaysWord = todaysWord.lower()
+            log_text(f"Projects.Wordle - Retrieved Word {todaysWord}")
+        else:
+            log_text("Projects.Wordle - No word provided")
+            return render_template(
+                "wordle.html",
+                todaysWord=None,
+                guesses=[],
+                error="Please enter a word",
+                journey=get_journey_data(),
+                now=datetime.now(),
+            )
 
-        # Loading Wordle data from JSON file
+        # Loading Wordle data from JSON file with error handling
         log_text("Projects.Wordle - load wordleGuesses.json")
-        with open(Config.WORDLE_GUESSES_FILE) as f:
-            wordSolutions = json.load(f)
+        try:
+            with open(Config.WORDLE_GUESSES_FILE) as f:
+                wordSolutions = json.load(f)
+        except FileNotFoundError:
+            log_text(
+                f"Error: Wordle guesses file not found: {Config.WORDLE_GUESSES_FILE}"
+            )
+            return render_template(
+                "wordle.html",
+                todaysWord=todaysWord,
+                guesses=[],
+                error="Wordle data file not found. Please contact support.",
+                journey=get_journey_data(),
+                now=datetime.now(),
+            )
+        except json.JSONDecodeError as e:
+            log_text(f"Error: Invalid JSON in wordle guesses file: {e}")
+            return render_template(
+                "wordle.html",
+                todaysWord=todaysWord,
+                guesses=[],
+                error="Wordle data is corrupted. Please contact support.",
+                journey=get_journey_data(),
+                now=datetime.now(),
+            )
 
         if todaysWord in wordSolutions:
             guesses = wordSolutions[todaysWord].split(",")
             log_text(f"Projects.Wordle - Guesses: {guesses}")
-            plot_key_values(todaysWord)
 
-    return render_template('wordle.html', todaysWord=todaysWord, guesses=guesses, journey=get_journey_data(), now=datetime.now())
+            # Try to generate plot, but don't fail if it errors
+            try:
+                plot_key_values(todaysWord)
+            except Exception as e:
+                log_text(f"Error generating wordle plot: {e}")
+                # Continue without plot - don't break the page
+        else:
+            log_text(f"Word '{todaysWord}' not found in solutions database")
+
+    return render_template(
+        "wordle.html",
+        todaysWord=todaysWord,
+        guesses=guesses,
+        journey=get_journey_data(),
+        now=datetime.now(),
+    )
+
 
 # Other project routes
-@app.route('/project/budget')
+@app.route("/project/budget")
 def budget():
     log_text("navigate to Projects/budget")
-    return render_template("budget.html", journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "budget.html", journey=get_journey_data(), now=datetime.now()
+    )
 
-@app.route('/project/basketball')
+
+@app.route("/project/basketball")
 def basketball():
     log_text("Navigate to Projects/Basketball")
-    return render_template("basketball.html", journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "basketball.html", journey=get_journey_data(), now=datetime.now()
+    )
 
-@app.route('/project/matching', methods=['GET', 'POST'])
+
+@app.route("/project/matching", methods=["GET", "POST"])
 def matching():
     log_text("Navigate to Matching")
     error = None
-    names = session.get('names', [])
-    results = session.get('results', {})
+    names = session.get("names", [])
+    results = session.get("results", {})
     # Ensure results is always a JSON-serializable dictionary
     if not isinstance(results, dict):
         results = {}
 
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
-            names_input = request.form.get('names', '')
+            names_input = request.form.get("names", "")
             if names_input:
-                names = [name.strip() for name in names_input.split(',')]
+                names = [name.strip() for name in names_input.split(",")]
                 log_text(f"Projects.Matching - got names input {names}")
                 if len(names) < 2:
                     error = "Please enter at least 2 names"
@@ -300,14 +389,15 @@ def matching():
                     results = secret_santa(names)
                     log_text(f"secret_santa returned: {results}")
                     # Store in session
-                    session['names'] = names
-                    session['results'] = results
+                    session["names"] = names
+                    session["results"] = results
             log_text("Attempting to jsonify response...")
             response = jsonify(results=results, names=names, error=error)
             log_text("jsonify call completed. Returning response.")
             return response
         except Exception as e:
             import traceback
+
             error_message = str(e)
             if app.debug:
                 error_message += "\n" + traceback.format_exc()
@@ -320,111 +410,155 @@ def matching():
         names=names,
         results=results,
         error=error,
-        journey=get_journey_data(), now=datetime.now()
+        journey=get_journey_data(),
+        now=datetime.now(),
     )
 
 
-
-@app.route('/project/matching/clear', methods=['POST'])
+@app.route("/project/matching/clear", methods=["POST"])
 def clear_results():
     log_text("Clearing matching session data...")
     # Clear the session
     session.clear()
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
         return jsonify(success=True)
-    return redirect(url_for('matching'))
+    return redirect(url_for("matching"))
 
 
-
-@app.route('/project/superbowl')
+@app.route("/project/superbowl")
 def superbowl():
     log_text("Navigate to Projects/Superbowl")
-    return render_template("superbowl.html", journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "superbowl.html", journey=get_journey_data(), now=datetime.now()
+    )
 
-@app.route('/project/nebula')
+
+@app.route("/project/nebula")
 def nebula():
     log_text("Navigate to Projects/Nebula")
-    return render_template("nebula.html", journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "nebula.html", journey=get_journey_data(), now=datetime.now()
+    )
 
-@app.route('/project/htmlGems')
+
+@app.route("/project/htmlGems")
 def htmlGems():
     log_text("Navigate to HTML Gems")
-    return render_template("htmlGems.html", journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "htmlGems.html", journey=get_journey_data(), now=datetime.now()
+    )
 
-@app.route('/project/redditStories')
+
+@app.route("/project/redditStories")
 def redditStories():
     log_text("Navigate to Projects/Reddit Stories")
     return redirect("https://jackvanzeeland.github.io/redditStoriesApp/index.html")
 
-@app.route('/project/lyricAnimator')
+
+@app.route("/project/lyricAnimator")
 def lyricAnimator():
     log_text("Navigate to lyric animator")
-    return render_template('lyricAnimator.html', journey=get_journey_data(), now=datetime.now())
 
-@app.route('/analyticsViewer')
+    # Handle version switching via query parameter
+    version = request.args.get("version", session.get("lyric_animator_version", "v2"))
+    if version in ["v1", "v2"]:
+        session["lyric_animator_version"] = version
+        session.modified = True
+        log_text(f"Lyric animator version set to: {version}")
+
+    return render_template(
+        "lyricAnimator.html", journey=get_journey_data(), now=datetime.now()
+    )
+
+
+@app.route("/analyticsViewer")
 def analyticsViewer():
     log_text("Navigate to analytics viewer")
-    return render_template('analyticsViewer.html', journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "analyticsViewer.html", journey=get_journey_data(), now=datetime.now()
+    )
+
 
 # Case Study Routes
-@app.route('/case-study/wordle')
+@app.route("/case-study/wordle")
 def wordle_case_study():
     log_text("Navigate to Wordle Case Study")
-    return render_template('case-studies/wordle-case-study.html', journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "case-studies/wordle-case-study.html",
+        journey=get_journey_data(),
+        now=datetime.now(),
+    )
 
-@app.route('/case-study/secret-santa')
+
+@app.route("/case-study/secret-santa")
 def secret_santa_case_study():
     log_text("Navigate to Secret Santa Case Study")
-    return render_template('case-studies/secret-santa-case-study.html', journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "case-studies/secret-santa-case-study.html",
+        journey=get_journey_data(),
+        now=datetime.now(),
+    )
 
-@app.route('/case-study/basketball')
+
+@app.route("/case-study/basketball")
 def basketball_case_study():
     log_text("Navigate to Basketball Case Study")
-    return render_template('case-studies/basketball-case-study.html', journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "case-studies/basketball-case-study.html",
+        journey=get_journey_data(),
+        now=datetime.now(),
+    )
+
 
 # Journey Page
-@app.route('/journey')
+@app.route("/journey")
 def journey():
     log_text("Navigate to Journey Page")
-    return render_template('journey.html', journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "journey.html", journey=get_journey_data(), now=datetime.now()
+    )
 
-@app.route('/api/journey/reset', methods=['POST'])
+
+@app.route("/api/journey/reset", methods=["POST"])
 def reset_journey():
     """Reset user's journey progress (clear server session)"""
-    session['visited_pages'] = []
+    session["visited_pages"] = []
     session.modified = True
     log_text("Journey reset")
-    return jsonify({'status': 'success', 'message': 'Journey progress reset'})
+    return jsonify({"status": "success", "message": "Journey progress reset"})
+
 
 # Analytics Routes
-@app.route('/api/analytics/events', methods=['POST'])
+@app.route("/api/analytics/events", methods=["POST"])
 def analytics_events():
     """Receive and store analytics events from frontend"""
     try:
         data = request.get_json()
-        events = data.get('events', [])
+        events = data.get("events", [])
 
         if not events:
-            return jsonify({'status': 'error', 'message': 'No events provided'}), 400
+            return jsonify({"status": "error", "message": "No events provided"}), 400
 
         # Store events
         success = analytics_storage.store_events(events)
 
         if success:
-            return jsonify({'status': 'success', 'count': len(events)}), 200
+            return jsonify({"status": "success", "count": len(events)}), 200
         else:
-            return jsonify({'status': 'error', 'message': 'Failed to store events'}), 500
+            return jsonify(
+                {"status": "error", "message": "Failed to store events"}
+            ), 500
 
     except Exception as e:
         print(f"Analytics error: {e}")
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
-@app.route('/api/analytics/summary')
+@app.route("/api/analytics/summary")
 def analytics_summary():
     """Get analytics summary for dashboard"""
     try:
-        days = request.args.get('days', default=7, type=int)
+        days = request.args.get("days", default=7, type=int)
 
         # Limit to reasonable range
         if days < 1:
@@ -438,27 +572,30 @@ def analytics_summary():
 
     except Exception as e:
         print(f"Analytics summary error: {e}")
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 # Removed analytics_dashboard route - template analyticsViewerDashboard.html was deleted and route was unused
 # Use /analytics/public or /analyticsViewer instead
 
 
-@app.route('/api/analytics/public-summary')
+@app.route("/api/analytics/public-summary")
 def public_analytics_summary():
     """API endpoint for public analytics summary (used by footer badge)"""
     try:
         summary = analytics_storage.get_analytics_summary(days=30)
-        return jsonify({
-            'total_views': summary.get('page_views', 0),
-            'unique_visitors': summary.get('unique_sessions', 0)
-        }), 200
+        return jsonify(
+            {
+                "total_views": summary.get("page_views", 0),
+                "unique_visitors": summary.get("unique_sessions", 0),
+            }
+        ), 200
     except Exception as e:
         print(f"Public analytics summary error: {e}")
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/analytics/public')
+
+@app.route("/analytics/public")
 def public_analytics():
     """Public analytics page"""
     log_text("Navigate to Public Analytics")
@@ -469,14 +606,22 @@ def public_analytics():
 
     # Transform data for template
     data = {
-        'date_range': f'{days} days',
-        'total_views': summary.get('page_views', 0),
-        'unique_visitors': summary.get('unique_sessions', 0),
-        'popular_pages': summary.get('popular_pages', [])  # Already a list of tuples from analytics_storage
+        "date_range": f"{days} days",
+        "total_views": summary.get("page_views", 0),
+        "unique_visitors": summary.get("unique_sessions", 0),
+        "popular_pages": summary.get(
+            "popular_pages", []
+        ),  # Already a list of tuples from analytics_storage
     }
 
-    return render_template('publicAnalytics.html', data=data, journey=get_journey_data(), now=datetime.now())
+    return render_template(
+        "publicAnalytics.html",
+        data=data,
+        journey=get_journey_data(),
+        now=datetime.now(),
+    )
+
 
 # Start Flask app
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0")

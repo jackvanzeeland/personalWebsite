@@ -36,14 +36,14 @@
    ============================================== */
 
 /* Base character class - hidden by default */
-.karaoke-char {
+.v2-active .karaoke-char {
     opacity: 0;
     display: inline-block;
     transition: opacity 0.3s ease;
 }
 
 /* Visible state - shown when animation completes or shouldAnimate=false */
-.karaoke-char.visible {
+.v2-active .karaoke-char.visible {
     opacity: 1;
 }
 
@@ -52,7 +52,7 @@
    ============================================== */
 
 /* V2: Layered shadow for maximum readability */
-.karaoke-line.current {
+.v2-active .karaoke-line.current {
     /* Solid outline for definition against any background */
     text-shadow:
         -1px -1px 0 rgba(0, 0, 0, 0.8),
@@ -61,11 +61,11 @@
         1px 1px 0 rgba(0, 0, 0, 0.8),
         /* Soft glow for visual appeal */
         0 0 12px var(--glow),
-        0 0 20px rgba(var(--glow-rgb), 0.5) !important;
+        0 0 20px rgba(var(--glow-rgb), 0.5);
 }
 
 /* Context lyrics need subtle shadow too */
-.karaoke-line.multiline-context {
+.v2-active .karaoke-line.multiline-context {
     text-shadow:
         -1px -1px 0 rgba(0, 0, 0, 0.6),
         1px -1px 0 rgba(0, 0, 0, 0.6),
@@ -78,13 +78,13 @@
    DRAG-AND-DROP FILE UPLOAD
    ============================================== */
 
-#upload-area {
+.v2-active #upload-area {
     transition: all 0.3s ease;
     position: relative;
 }
 
 /* Normal state hint */
-#upload-area::before {
+.v2-active #upload-area::before {
     content: 'Or drag and drop an LRC file here';
     display: block;
     text-align: center;
@@ -95,7 +95,7 @@
 }
 
 /* Drag over state */
-#upload-area.drag-over {
+.v2-active #upload-area.drag-over {
     background: rgba(255, 142, 83, 0.1);
     border: 3px dashed var(--glow);
     border-radius: 16px;
@@ -104,7 +104,7 @@
     box-shadow: 0 0 30px rgba(var(--glow-rgb), 0.3);
 }
 
-#upload-area.drag-over::before {
+.v2-active #upload-area.drag-over::before {
     content: '=� Drop your LRC file here!';
     color: var(--glow);
     font-size: var(--text-lg);
@@ -122,7 +122,7 @@
 }
 
 /* Drag active (while dragging anywhere on page) */
-#upload-area.drag-active {
+.v2-active #upload-area.drag-active {
     background: rgba(255, 255, 255, 0.05);
     border: 2px dashed rgba(255, 142, 83, 0.5);
     border-radius: 16px;
@@ -130,7 +130,7 @@
 }
 
 /* Invalid file type feedback */
-#upload-area.drag-invalid {
+.v2-active #upload-area.drag-invalid {
     background: rgba(255, 107, 107, 0.1);
     border: 3px dashed #ff6b6b;
     border-radius: 16px;
@@ -138,7 +138,7 @@
     animation: lyricsV2-shake0.4s ease-in-out;
 }
 
-#upload-area.drag-invalid::before {
+.v2-active #upload-area.drag-invalid::before {
     content: 'L Only .lrc files are supported';
     color: #ff6b6b;
     font-size: var(--text-lg);
@@ -155,7 +155,7 @@
    PROGRESS BAR ENHANCEMENTS
    ============================================== */
 
-#progress-bar {
+.v2-active #progress-bar {
     position: relative;
     cursor: pointer;
     height: 12px;
@@ -167,13 +167,13 @@
     transition: all 0.2s ease;
 }
 
-#progress-bar:hover {
+.v2-active #progress-bar:hover {
     height: 16px;
     background: rgba(255, 255, 255, 0.15);
 }
 
 /* Webkit/Chrome thumb */
-#progress-bar::-webkit-slider-thumb {
+.v2-active #progress-bar::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -185,14 +185,14 @@
     transition: all 0.2s ease;
 }
 
-#progress-bar:hover::-webkit-slider-thumb {
+.v2-active #progress-bar:hover::-webkit-slider-thumb {
     width: 24px;
     height: 24px;
     box-shadow: 0 0 16px rgba(var(--glow-rgb), 0.8);
 }
 
 /* Firefox thumb */
-#progress-bar::-moz-range-thumb {
+.v2-active #progress-bar::-moz-range-thumb {
     width: 20px;
     height: 20px;
     background: var(--glow);
@@ -203,14 +203,14 @@
     transition: all 0.2s ease;
 }
 
-#progress-bar:hover::-moz-range-thumb {
+.v2-active #progress-bar:hover::-moz-range-thumb {
     width: 24px;
     height: 24px;
     box-shadow: 0 0 16px rgba(var(--glow-rgb), 0.8);
 }
 
 /* Progress bar track (filled portion) */
-#progress-bar::-webkit-slider-runnable-track {
+.v2-active #progress-bar::-webkit-slider-runnable-track {
     height: 12px;
     background: linear-gradient(90deg,
         var(--glow) 0%,
@@ -218,13 +218,13 @@
     border-radius: 6px;
 }
 
-#progress-bar::-moz-range-track {
+.v2-active #progress-bar::-moz-range-track {
     height: 12px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 6px;
 }
 
-#progress-bar::-moz-range-progress {
+.v2-active #progress-bar::-moz-range-progress {
     height: 12px;
     background: linear-gradient(90deg,
         var(--glow) 0%,
@@ -411,36 +411,36 @@ button:active::after {
 
 @media (max-width: 768px) {
     /* Larger touch targets for mobile */
-    button {
+    .v2-active button {
         min-height: 48px;
         min-width: 48px;
         padding: 0.75rem 1.5rem;
         font-size: var(--text-base);
     }
 
-    #play-pause {
+    .v2-active #play-pause {
         min-height: 56px;
         min-width: 56px;
         font-size: 1.25rem;
     }
 
     /* Larger progress bar on mobile */
-    #progress-bar {
+    .v2-active #progress-bar {
         height: 16px;
     }
 
-    #progress-bar::-webkit-slider-thumb {
+    .v2-active #progress-bar::-webkit-slider-thumb {
         width: 28px;
         height: 28px;
     }
 
-    #progress-bar::-moz-range-thumb {
+    .v2-active #progress-bar::-moz-range-thumb {
         width: 28px;
         height: 28px;
     }
 
     /* Adjust upload area hint */
-    #upload-area::before {
+    .v2-active #upload-area::before {
         font-size: var(--text-base);
     }
 }
@@ -450,7 +450,7 @@ button:active::after {
    ============================================== */
 
 @media (max-width: 600px) {
-    #lyrics-container {
+    .v2-active #lyrics-container {
         max-height: 35vh;  /* Viewport-relative: ~177px on iPhone SE */
         min-height: 80px;
         overflow-y: auto;  /* Enable vertical scrolling */
@@ -458,72 +458,72 @@ button:active::after {
         padding: 0.75rem;
     }
 
-    .karaoke-line {
+    .v2-active .karaoke-line {
         font-size: 1.5rem;  /* Slightly smaller for mobile */
     }
 
-    .karaoke-line.current {
+    .v2-active .karaoke-line.current {
         font-size: 2rem;  /* Current line still prominent */
     }
 
     /* Ensure controls fit */
-    #controls {
+    .v2-active #controls {
         padding: 0.75rem;
     }
 
     /* Adjust tab spacing */
-    .control-tabs {
+    .v2-active .control-tabs {
         gap: 0.25rem;
     }
 
-    .tab-button {
+    .v2-active .tab-button {
         padding: 0.5rem 1rem;
         font-size: var(--text-sm);
     }
 }
 
 @media (max-width: 480px) {
-    #lyrics-container {
+    .v2-active #lyrics-container {
         max-height: 30vh;  /* Even smaller for tiny screens */
         min-height: 70px;
         padding: 0.5rem;
     }
 
-    .karaoke-line {
+    .v2-active .karaoke-line {
         font-size: 1.25rem;
     }
 
-    .karaoke-line.current {
+    .v2-active .karaoke-line.current {
         font-size: 1.75rem;
     }
 
     /* Compact controls */
-    #controls {
+    .v2-active #controls {
         padding: 0.5rem;
     }
 
-    #time-display {
+    .v2-active #time-display {
         font-size: var(--text-sm);
     }
 
     /* Stack control tabs if needed */
-    .control-tabs {
+    .v2-active .control-tabs {
         flex-wrap: wrap;
     }
 }
 
 /* iPhone SE and smaller (320px-375px) */
 @media (max-width: 375px) {
-    #lyrics-container {
+    .v2-active #lyrics-container {
         max-height: 25vh;
         padding: 0.5rem;
     }
 
-    .karaoke-line.current {
+    .v2-active .karaoke-line.current {
         font-size: 1.5rem;
     }
 
-    #play-pause {
+    .v2-active #play-pause {
         min-height: 48px;
         min-width: 48px;
     }
@@ -561,11 +561,12 @@ button:active:not(:disabled) {
 }
 
 /* Smooth scrolling for multiline layout */
-#lyrics-container {
-    height: auto !important;
+.v2-active #lyrics-container {
+    height: auto;
     min-height: 100px;
     max-height: 400px;
-    overflow: visible;
+    overflow: hidden;
+    position: relative;
     padding: 1rem;
     scroll-behavior: smooth;
 }
@@ -574,14 +575,14 @@ button:active:not(:disabled) {
    V2 CONTROL PANELS (TABBED INTERFACE)
    ============================================== */
 
-.control-tabs {
+.v2-active .control-tabs {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.tab-button {
+.v2-active .tab-button {
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.6);
@@ -595,26 +596,26 @@ button:active:not(:disabled) {
     bottom: -2px;
 }
 
-.tab-button:hover {
+.v2-active .tab-button:hover {
     color: rgba(255, 255, 255, 0.9);
     background: rgba(255, 255, 255, 0.05);
 }
 
-.tab-button.active {
+.v2-active .tab-button.active {
     color: var(--glow);
     border-bottom-color: var(--glow);
 }
 
-.tab-panel {
+.v2-active .tab-panel {
     display: none;
     animation: fadeIn 0.3s ease;
 }
 
-.tab-panel.active {
+.v2-active .tab-panel.active {
     display: block;
 }
 
-.panel-description {
+.v2-active .panel-description {
     color: rgba(255, 255, 255, 0.6);
     font-size: var(--text-sm);
     margin-bottom: 1rem;

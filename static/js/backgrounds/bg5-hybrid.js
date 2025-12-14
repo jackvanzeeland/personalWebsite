@@ -231,10 +231,24 @@ window.BackgroundBG5 = (function() {
     }
 
     /**
-     * Convert hex to RGB
+     * Convert hex color to RGB with validation
      */
     function hexToRgb(hex) {
+        // Remove # if present
         hex = hex.replace('#', '');
+        
+        // Validate hex format (3 or 6 characters, hex digits only)
+        if (!/^[0-9A-Fa-f]{6}$/.test(hex) && !/^[0-9A-Fa-f]{3}$/.test(hex)) {
+            console.warn('Invalid hex color:', hex, '- using default');
+            // Return default theme color (orange)
+            return { r: 255, g: 142, b: 83 };
+        }
+        
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        
         return {
             r: parseInt(hex.substring(0, 2), 16),
             g: parseInt(hex.substring(2, 4), 16),

@@ -7,12 +7,14 @@
     <title>Lyric Animator</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/JVZlogo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator.css') }}?v={{ now.timestamp() }}" />
+    <!-- Conditional CSS loading based on version (defaults to v2) -->
+    {% set lyric_version = session.get('lyric_animator_version', 'v2') %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator-' + lyric_version + '.css') }}?v={{ now.timestamp() }}" />
     <!-- Accessibility styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/accessibility.css') }}?v={{ now.timestamp() }}" />
 </head>
 
-<body>
+<body class="{{ lyric_version }}-active">
     <!-- Skip navigation for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <a href="#controls" class="skip-link">Skip to playback controls</a>
@@ -622,12 +624,15 @@
         (function() {
             'use strict';
 
-            // Get version from localStorage or default to v1
-            let currentVersion = localStorage.getItem('lyricAnimatorVersion') || '1';
+            // Get version from server session (set by Jinja)
+            let currentVersion = '{{ lyric_version }}'.replace('v', '');  // Convert 'v2' to '2'
             const versionSelector = document.getElementById('version-selector');
             versionSelector.value = currentVersion;
+            
+            // Sync localStorage with server version
+            localStorage.setItem('lyricAnimatorVersion', currentVersion);
 
-            // Show/hide appropriate controls
+            // Show/hide appropriate controls AND toggle body classes
             function updateControlsVisibility() {
                 const v1Controls = document.getElementById('v1-controls');
                 const v2Controls = document.getElementById('v2-controls');
@@ -635,9 +640,17 @@
                 if (currentVersion === '1') {
                     v1Controls.style.display = 'block';
                     v2Controls.style.display = 'none';
+                    // Toggle CSS scope classes
+                    document.body.classList.remove('v2-active');
+                    document.body.classList.add('v1-active');
+                    console.log('Switched to V1 CSS scope');
                 } else {
                     v1Controls.style.display = 'none';
                     v2Controls.style.display = 'block';
+                    // Toggle CSS scope classes
+                    document.body.classList.remove('v1-active');
+                    document.body.classList.add('v2-active');
+                    console.log('Switched to V2 CSS scope');
                 }
             }
 
@@ -718,33 +731,13 @@
                     }
                 }
 
-                // Update version
+                // Update version in localStorage
                 currentVersion = newVersion;
                 localStorage.setItem('lyricAnimatorVersion', currentVersion);
 
-                // Clear session
-                if (window.audioElement) {
-                    window.audioElement.pause();
-                    window.audioElement.src = '';
-                }
-
-                if (lyricsContainer) {
-                    lyricsContainer.innerHTML = '';
-                }
-
-                // Reset state
-                if (window.lyricData) {
-                    window.lyricData = [];
-                }
-                if (window.currentDisplayIndex !== undefined) {
-                    window.currentDisplayIndex = -1;
-                }
-                if (window.currentTime !== undefined) {
-                    window.currentTime = 0;
-                }
-
-                // Reload page with new version
-                location.reload();
+                // Redirect to same page with version query parameter
+                // This will update the server session and reload with correct CSS
+                window.location.href = '{{ url_for("lyricAnimator") }}?version=v' + currentVersion;
             });
 
             // Initialize on page load
@@ -753,14 +746,7 @@
         })();
     </script>
 
-    <!-- V2 CSS (loaded conditionally) -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lyric-animator-v2.css') }}?v={{ now.timestamp() }}" id="v2-css">
-    <script>
-        // Hide v2 CSS if on v1
-        if (localStorage.getItem('lyricAnimatorVersion') === '1') {
-            document.getElementById('v2-css').disabled = true;
-        }
-    </script>
+    <!-- CSS already loaded conditionally in <head> based on session -->
 </body>
 
 </html>

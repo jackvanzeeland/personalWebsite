@@ -11,6 +11,9 @@
 (function() {
     'use strict';
 
+    // Store resize listener reference for cleanup
+    let resizeListener = null;
+
     /**
      * Initialize tracking for all project interactions
      * Can be called multiple times safely (removes old listeners)
@@ -120,11 +123,21 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('projectsFiltered', reinitializeAfterFilter);
 
+        // Create resize listener with timeout
         let resizeTimeout;
-        window.addEventListener('resize', function() {
+        const newResizeListener = function() {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(reinitializeAfterFilter, 250);
-        });
+        };
+
+        // Remove old listener if it exists
+        if (resizeListener) {
+            window.removeEventListener('resize', resizeListener);
+        }
+
+        // Add new listener and store reference
+        window.addEventListener('resize', newResizeListener);
+        resizeListener = newResizeListener;
     });
 
     // Expose init function for manual re-initialization

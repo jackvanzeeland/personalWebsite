@@ -49,7 +49,7 @@ A professional Flask-based portfolio website featuring interactive project demon
 
 ### Tech Stack
 
-- **Backend**: Flask 3.1.0, Flask-SocketIO 5.4.1, Python 3.12+
+- **Backend**: Flask 3.1.0, Python 3.12+
 - **AI/ML**: OpenAI API 1.78.1, Pandas 2.0.3 for data processing
 - **Frontend**: Vanilla JavaScript (ES6+), Particles.js, Chart.js
 - **Data**: JSON storage for projects and analytics, CSV for promo leads
@@ -224,3 +224,4 @@ Need just current directory?
 @sessions/CLAUDE.sessions.md
 
 This file provides instructions for Claude Code for working in the cc-sessions framework.
+
