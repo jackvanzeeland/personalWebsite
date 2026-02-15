@@ -153,6 +153,49 @@ Resources:
             return request;
         }
 
+  # OAI for woku project bucket
+  WokuOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "OAI for woku project"
+
+  # Bucket policy restricting woku access to CloudFront OAI
+  WokuBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: "woku"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowCloudFrontOAI
+            Effect: Allow
+            Principal:
+              CanonicalUser: !GetAtt WokuOriginAccessIdentity.S3CanonicalUserId
+            Action: s3:GetObject
+            Resource: "arn:aws:s3:::woku/*"
+
+  # CloudFront Function to strip /projects/woku prefix for woku origin
+  WokuRewriteFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: woku-url-rewrite
+      AutoPublish: true
+      FunctionConfig:
+        Comment: "Strip /projects/woku prefix and default to index.html"
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+            var request = event.request;
+            var uri = request.uri;
+            uri = uri.replace(/^\/projects\/woku/, '');
+            if (uri === '' || uri === '/') {
+                uri = '/index.html';
+            }
+            request.uri = uri;
+            return request;
+        }
+
   # CloudFront Distribution
   WebsiteDistribution:
     Type: AWS::CloudFront::Distribution
@@ -167,6 +210,10 @@ Resources:
             Id: SuperbowlS3Origin
             S3OriginConfig:
               OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${SuperbowlOriginAccessIdentity}"
+          - DomainName: "woku.s3.us-east-2.amazonaws.com"
+            Id: WokuS3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${WokuOriginAccessIdentity}"
         CacheBehaviors:
           # Exact path (no trailing slash)
           - PathPattern: "/projects/superbowl"
@@ -190,6 +237,30 @@ Resources:
             FunctionAssociations:
               - EventType: viewer-request
                 FunctionARN: !GetAtt SuperbowlRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+          # Woku - exact path (no trailing slash)
+          - PathPattern: "/projects/woku"
+            TargetOriginId: WokuS3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt WokuRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+          # Woku - wildcard (trailing slash + subpaths)
+          - PathPattern: "/projects/woku/*"
+            TargetOriginId: WokuS3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt WokuRewriteFunction.FunctionARN
             ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
             Compress: true
         DefaultCacheBehavior:

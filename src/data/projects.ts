@@ -77,6 +77,21 @@ export const PROJECTS: Project[] = [
     webpage_link: "/projects/superbowl/",
   },
   {
+    title: "Woku",
+    description:
+      "Developed a game that is a hybrid of Sudoku and Wordle. A Sudoku-style board is built from a 9-letter word. Players must figure out the word — they win by guessing it correctly or by solving a row/column that spells it out.",
+    technologies: ["TypeScript", "Vite"],
+    tags: ["Innovation", "Creative", "Interactive"],
+    github_link: "",
+    image: "woku.png",
+    page: "",
+    is_interactive: true,
+    youtube_link: "",
+    tiktok_link: "",
+    live_demo: "",
+    webpage_link: "/projects/woku/",
+  },
+  {
     title: "Reddit Stories",
     description:
       "Developed an automated social media bot in Python that retrieved top daily Reddit stories, converted them to speech, and paired audio with engaging Minecraft speed-run footage. The system generated subtitles from audio, compiled both full-length and short-form videos, and uploaded them automatically. The project gained over 20 subscribers and 50,000 views before decommissioning.",
