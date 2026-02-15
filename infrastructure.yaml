@@ -1,0 +1,309 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Portfolio Website Infrastructure"
+
+Parameters:
+  DomainName:
+    Type: String
+    Description: "Primary domain name (e.g., example.com)"
+    Default: "jackvanzeeland.com"
+
+Resources:
+  # S3 Bucket for static website hosting
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "jackvanzeeland-portfolio"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      VersioningConfiguration:
+        Status: Enabled
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: 404.html
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  # S3 Bucket policy for public read access
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource: !Sub "arn:aws:s3:::${WebsiteBucket}/*"
+
+  # CloudFront Origin Access Identity (optional, for enhanced security)
+  OriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "OAI for portfolio website"
+
+  # Security Headers Policy
+  SecurityHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub "${AWS::StackName}-security-headers"
+        SecurityHeadersConfig:
+          StrictTransportSecurity:
+            AccessControlMaxAgeSec: 63072000
+            IncludeSubdomains: true
+            Preload: true
+            Override: true
+          ContentTypeOptions:
+            Override: true
+          FrameOptions:
+            FrameOption: DENY
+            Override: true
+          ReferrerPolicy:
+            ReferrerPolicy: strict-origin-when-cross-origin
+            Override: true
+          XSSProtection:
+            ModeBlock: true
+            Protection: true
+            Override: true
+        CustomHeadersConfig:
+          Items:
+            - Header: Permissions-Policy
+              Value: "geolocation=(), microphone=(), camera=()"
+              Override: true
+
+  # ACM Certificate (requires manual DNS validation)
+  WebsiteCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      SubjectAlternativeNames:
+        - !Sub "www.${DomainName}"
+      ValidationMethod: DNS
+
+  # CloudFront Function for clean URLs (append .html to extensionless paths)
+  UrlRewriteFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: url-rewrite
+      AutoPublish: true
+      FunctionConfig:
+        Comment: "Append .html to extensionless URLs for clean URL routing"
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+            var request = event.request;
+            var uri = request.uri;
+            if (uri.includes('.')) return request;
+            if (uri.endsWith('/')) {
+                request.uri += 'index.html';
+            } else {
+                request.uri += '.html';
+            }
+            return request;
+        }
+
+  # OAI for superbowl-pickem project bucket
+  SuperbowlOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "OAI for superbowl-pickem project"
+
+  # Bucket policy restricting superbowl-pickem access to CloudFront OAI
+  SuperbowlBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: "superbowl-pickem"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowCloudFrontOAI
+            Effect: Allow
+            Principal:
+              CanonicalUser: !GetAtt SuperbowlOriginAccessIdentity.S3CanonicalUserId
+            Action: s3:GetObject
+            Resource: "arn:aws:s3:::superbowl-pickem/*"
+
+  # CloudFront Function to strip /projects/superbowl prefix for superbowl origin
+  SuperbowlRewriteFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: superbowl-url-rewrite
+      AutoPublish: true
+      FunctionConfig:
+        Comment: "Strip /projects/superbowl prefix and default to index.html"
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+            var request = event.request;
+            var uri = request.uri;
+            uri = uri.replace(/^\/projects\/superbowl/, '');
+            if (uri === '' || uri === '/') {
+                uri = '/index.html';
+            }
+            request.uri = uri;
+            return request;
+        }
+
+  # CloudFront Distribution
+  WebsiteDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !GetAtt WebsiteBucket.RegionalDomainName
+            Id: S3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessIdentity}"
+          - DomainName: "superbowl-pickem.s3.us-east-2.amazonaws.com"
+            Id: SuperbowlS3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${SuperbowlOriginAccessIdentity}"
+        CacheBehaviors:
+          # Exact path (no trailing slash)
+          - PathPattern: "/projects/superbowl"
+            TargetOriginId: SuperbowlS3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt SuperbowlRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+          # Wildcard (trailing slash + subpaths)
+          - PathPattern: "/projects/superbowl/*"
+            TargetOriginId: SuperbowlS3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt SuperbowlRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingOptimized
+          FunctionAssociations:
+            - EventType: viewer-request
+              FunctionARN: !GetAtt UrlRewriteFunction.FunctionARN
+          ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+          Compress: true
+        Aliases:
+          - !Ref DomainName
+          - !Sub "www.${DomainName}"
+        Enabled: true
+        HttpVersion: http2
+        PriceClass: PriceClass_100 # US, Canada, Europe
+        ViewerCertificate:
+          AcmCertificateArn: !Ref WebsiteCertificate
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ErrorCachingMinTTL: 300
+            ResponseCode: 404
+            ResponsePagePath: /404.html
+          - ErrorCode: 404
+            ErrorCachingMinTTL: 300
+            ResponseCode: 404
+            ResponsePagePath: /404.html
+        DefaultRootObject: index.html
+
+  # Route 53 DNS Records (uses existing hosted zone created by Route 53 Registrar)
+  DnsRecord:
+    Type: AWS::Route53::RecordSetGroup
+    Condition: UseRoute53
+    Properties:
+      HostedZoneId: Z01859081LLGLGPITI13X
+      RecordSets:
+        - Name: !Ref DomainName
+          Type: A
+          AliasTarget:
+            DNSName: !GetAtt WebsiteDistribution.DomainName
+            HostedZoneId: Z2FDTNDATAQYW2 # CloudFront Hosted Zone ID
+        - Name: !Sub "www.${DomainName}"
+          Type: A
+          AliasTarget:
+            DNSName: !GetAtt WebsiteDistribution.DomainName
+            HostedZoneId: Z2FDTNDATAQYW2
+
+  # CloudWatch Alarms
+  HighErrorRateAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "Portfolio-Website-High-Error-Rate-${DomainName}"
+      AlarmDescription: "High error rate detected"
+      MetricName: 4xxErrorRate
+      Namespace: AWS/CloudFront
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: DistributionId
+          Value: !Ref WebsiteDistribution
+
+  # S3 Logging Bucket (optional)
+  LoggingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "portfolio-website-logs-${AWS::AccountId}"
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+Conditions:
+  UseRoute53: !Not [!Equals [!Ref DomainName, ""]]
+
+Outputs:
+  WebsiteURL:
+    Description: "CloudFront Distribution URL"
+    Value: !GetAtt WebsiteDistribution.DomainName
+    Export:
+      Name: !Sub "${AWS::StackName}-WebsiteURL"
+
+  S3BucketName:
+    Description: "S3 Bucket Name"
+    Value: !Ref WebsiteBucket
+    Export:
+      Name: !Sub "${AWS::StackName}-S3BucketName"
+
+  DistributionId:
+    Description: "CloudFront Distribution ID"
+    Value: !Ref WebsiteDistribution
+    Export:
+      Name: !Sub "${AWS::StackName}-DistributionId"
+
+  CertificateArn:
+    Description: "ACM Certificate ARN"
+    Value: !Ref WebsiteCertificate
+    Export:
+      Name: !Sub "${AWS::StackName}-CertificateArn"
