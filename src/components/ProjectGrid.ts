@@ -305,10 +305,13 @@ function renderFilterDropdown(): void {
         list.querySelectorAll('li').forEach(li => li.classList.remove('active'));
         target.classList.add('active');
 
-        if (tag === 'all') {
+        if (tag === 'all' || tag === activeFilter) {
             activeFilter = null;
             btn.textContent = 'All Categories \u25be';
             btn.classList.remove('active');
+            // re-mark All Categories as active in the list
+            const allLi = list.querySelector('li[data-tag="all"]');
+            if (allLi) allLi.classList.add('active');
         } else {
             activeFilter = tag;
             btn.textContent = `${target.textContent} \u00d7`;
