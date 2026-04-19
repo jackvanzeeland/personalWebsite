@@ -58,7 +58,6 @@ export function createHeader(currentPage?: string): HTMLElement {
     // Navigation items
     const navItems: NavigationItem[] = [
         { label: 'Projects', href: '/pages/projects' },
-        { label: 'Artifacts', href: '/pages/artifacts' },
         { label: 'About', href: '/pages/about' },
         { label: 'Beyond the Code', href: '/pages/beyond-the-code' },
         { label: 'Journey', href: '/pages/journey' }
@@ -136,12 +135,6 @@ function isActivePage(href: string, currentPage: string): boolean {
     // AND on individual project pages (e.g. /pages/projects/wordle-solver.html)
     if (href === '/pages/projects') {
         return currentPage === '/pages/projects' || currentPage.startsWith('/pages/projects/');
-    }
-
-    // "Artifacts" nav item should be active on the artifacts listing page
-    // AND on individual artifact pages
-    if (href === '/pages/artifacts') {
-        return currentPage === '/pages/artifacts' || currentPage.startsWith('/pages/artifacts/');
     }
 
     // Match by path

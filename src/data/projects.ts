@@ -156,6 +156,51 @@ export const PROJECTS: Project[] = [
     webpage_link:
       "https://jackvanzeeland.github.io/redditStoriesApp/index.html",
   },
+  {
+    title: "QR Code Generator",
+    description:
+      "A bilingual (EN/ES) QR code generator supporting URLs, plain text, and contact vCards. Generate, download, and copy QR codes instantly.",
+    technologies: ["HTML5", "JavaScript", "QRious"],
+    tags: ["Tools", "Interactive", "JavaScript"],
+    github_link: "",
+    image: "professional-qr-code-contact.png",
+    page: "",
+    is_interactive: true,
+    youtube_link: "",
+    tiktok_link: "",
+    live_demo: "",
+    webpage_link: "/pages/artifacts/qr-code-generator",
+  },
+  {
+    title: "UiPath Queue Processor",
+    description:
+      "Upload UiPath Orchestrator queue CSV exports, flatten DynamicProperties JSON columns, select desired fields, and download a clean CSV.",
+    technologies: ["HTML5", "JavaScript", "Papa Parse"],
+    tags: ["Automation", "Tools", "JavaScript"],
+    github_link: "",
+    image: "uipath_logo.jpeg",
+    page: "",
+    is_interactive: false,
+    youtube_link: "",
+    tiktok_link: "",
+    live_demo: "",
+    webpage_link: "/pages/artifacts/uipath-queue-processor",
+  },
+  {
+    title: "HTML Gems Uncovered",
+    description:
+      "An interactive showcase of 18 underused HTML features and attributes that reduce JavaScript bloat and improve accessibility, with live examples.",
+    technologies: ["HTML5", "CSS3", "Web Standards"],
+    tags: ["Creative", "Interactive", "JavaScript"],
+    github_link: "",
+    image: "ai_generated_html.png",
+    page: "",
+    is_interactive: true,
+    youtube_link: "",
+    tiktok_link: "",
+    live_demo: "",
+    webpage_link: "/pages/artifacts/html-gems",
+  },
 ];
 
 export const getAllTags = (): string[] => {
