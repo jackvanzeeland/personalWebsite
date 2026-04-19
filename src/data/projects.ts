@@ -2,21 +2,6 @@ import type { Project } from "../types";
 
 export const PROJECTS: Project[] = [
   {
-    title: "Mortgage Simulator",
-    description:
-      "Built an interactive mortgage calculator that simulates loan payments, amortization schedules, and interest breakdowns. Users can adjust loan amount, interest rate, and term to visualize monthly payments and total cost over the life of the loan.",
-    technologies: ["React", "TypeScript", "Vite"],
-    tags: ["Finance", "Interactive", "Tools"],
-    github_link: "",
-    image: "mortgageSimulator.jpg",
-    page: "",
-    is_interactive: true,
-    youtube_link: "",
-    tiktok_link: "",
-    live_demo: "",
-    webpage_link: "/projects/mortgage-simulator/",
-  },
-  {
     title: "Budget Tracker",
     description:
       "Built a personal finance tracker with transaction history, budget categories, and data visualizations. Tracks spending across categories with monthly trend charts, donut breakdowns, and vendor analysis.",
@@ -26,6 +11,7 @@ export const PROJECTS: Project[] = [
     image: "budgetTracker.png",
     page: "",
     is_interactive: true,
+    featured: true,
     youtube_link: "",
     tiktok_link: "",
     live_demo: "",
@@ -41,6 +27,7 @@ export const PROJECTS: Project[] = [
     image: "woku.png",
     page: "",
     is_interactive: true,
+    featured: true,
     youtube_link: "",
     tiktok_link: "",
     live_demo: "",
@@ -56,10 +43,26 @@ export const PROJECTS: Project[] = [
     image: "superBowlMain.jpeg",
     page: "",
     is_interactive: false,
+    featured: true,
     youtube_link: "",
     tiktok_link: "",
     live_demo: "",
     webpage_link: "/projects/superbowl/",
+  },
+  {
+    title: "Mortgage Simulator",
+    description:
+      "Built an interactive mortgage calculator that simulates loan payments, amortization schedules, and interest breakdowns. Users can adjust loan amount, interest rate, and term to visualize monthly payments and total cost over the life of the loan.",
+    technologies: ["React", "TypeScript", "Vite"],
+    tags: ["Finance", "Interactive", "Tools"],
+    github_link: "",
+    image: "mortgageSimulator.jpg",
+    page: "",
+    is_interactive: true,
+    youtube_link: "",
+    tiktok_link: "",
+    live_demo: "",
+    webpage_link: "/projects/mortgage-simulator/",
   },
   {
     title: "Wordle Algorithm Solver",

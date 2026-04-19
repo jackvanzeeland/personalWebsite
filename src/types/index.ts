@@ -10,6 +10,7 @@ export interface Project {
     page: string;
     image: string;
     status?: string;
+    featured?: boolean;
     live_demo?: string;
     webpage_link?: string;
 }
