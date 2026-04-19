@@ -3,170 +3,350 @@ import { PROJECTS } from '../data/projects';
 import { unlockAchievement } from '../utils/journey';
 
 const projects: Project[] = PROJECTS;
-let filterTags: FilterTag[] = [];
+const featuredProjects: Project[] = projects.filter(p => p.featured);
+const restProjects: Project[] = projects.filter(p => !p.featured);
 
-// Make showProjectDetails globally available
-(window as any).showProjectDetails = function(_projectTitle: string) {
-    // Project detail navigation handled by routing
-};
+let filterTags: FilterTag[] = [];
+let activeFilter: string | null = null;
+
+// ─── Public API ────────────────────────────────────────────────────────────
 
 export async function loadProjects(): Promise<Project[]> {
-    // Return the imported projects directly
     return projects;
 }
 
 export function initializeFiltering(): void {
-    if (projects.length === 0) {
+    if (projects.length === 0) return;
+    extractFilterTags();
+    renderFilterDropdown();
+    renderPage();
+}
+
+// ─── Page orchestration ────────────────────────────────────────────────────
+
+function renderPage(): void {
+    const bentoEl = document.getElementById('bento-grid');
+    const divider = document.getElementById('more-work-divider');
+    const countEl = document.getElementById('filter-results-count');
+
+    if (activeFilter) {
+        // Filtered mode: hide bento, show flat compact grid
+        if (bentoEl) bentoEl.style.display = 'none';
+        if (divider) divider.style.display = 'none';
+        if (countEl) countEl.style.display = '';
+
+        const matches = getFilteredProjects();
+        renderCompactGrid(matches);
+
+        if (countEl) {
+            countEl.textContent = `Showing ${matches.length} of ${projects.length} projects`;
+        }
+    } else {
+        // All mode: bento + more-work divider + compact grid
+        if (bentoEl) bentoEl.style.display = '';
+        if (countEl) countEl.style.display = 'none';
+
+        renderBento();
+        renderCompactGrid(restProjects);
+
+        if (divider) divider.style.display = '';
+    }
+}
+
+// ─── Bento rendering ──────────────────────────────────────────────────────
+
+function renderBento(): void {
+    const bentoEl = document.getElementById('bento-grid');
+    if (!bentoEl) return;
+    bentoEl.replaceChildren();
+
+    if (featuredProjects.length === 0) return;
+
+    const [hero, ...sides] = featuredProjects;
+
+    bentoEl.appendChild(createBentoHeroCard(hero));
+
+    if (sides.length > 0) {
+        const stack = document.createElement('div');
+        stack.className = 'bento-stack';
+        sides.forEach(p => stack.appendChild(createBentoSideCard(p)));
+        bentoEl.appendChild(stack);
+    }
+}
+
+function createBentoHeroCard(project: Project): HTMLElement {
+    const link = getProjectLink(project);
+    const card = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
+    card.className = `bento-hero-card ${getCategoryClass(project.tags)}`;
+
+    if (link) {
+        (card as HTMLAnchorElement).href = link;
+        if (link.startsWith('http')) {
+            (card as HTMLAnchorElement).target = '_blank';
+            (card as HTMLAnchorElement).rel = 'noopener noreferrer';
+        }
+    }
+
+    // Image
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'bento-hero-image';
+    const img = document.createElement('img');
+    img.src = `/assets/images/${project.image}`;
+    img.alt = project.title;
+    img.loading = 'lazy';
+    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
+    imgWrapper.appendChild(img);
+    card.appendChild(imgWrapper);
+
+    // Content
+    const content = document.createElement('div');
+    content.className = 'bento-hero-content';
+
+    const title = document.createElement('h3');
+    title.className = 'bento-hero-title';
+    title.textContent = project.title;
+    content.appendChild(title);
+
+    const desc = document.createElement('p');
+    desc.className = 'bento-hero-desc';
+    desc.textContent = project.description;
+    content.appendChild(desc);
+
+    const footer = document.createElement('div');
+    footer.className = 'bento-hero-footer';
+
+    const techContainer = document.createElement('div');
+    techContainer.className = 'project-technologies';
+    project.technologies.slice(0, 5).forEach(tech => {
+        const tag = document.createElement('span');
+        tag.className = 'tech-tag';
+        tag.textContent = tech;
+        techContainer.appendChild(tag);
+    });
+    footer.appendChild(techContainer);
+
+    if (link) {
+        const cta = document.createElement('span');
+        cta.className = 'bento-hero-cta';
+        cta.textContent = 'View Project \u2192';
+        footer.appendChild(cta);
+    }
+
+    content.appendChild(footer);
+    card.appendChild(content);
+    return card;
+}
+
+function createBentoSideCard(project: Project): HTMLElement {
+    const link = getProjectLink(project);
+    const card = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
+    card.className = `bento-side-card ${getCategoryClass(project.tags)}`;
+
+    if (link) {
+        (card as HTMLAnchorElement).href = link;
+        if (link.startsWith('http')) {
+            (card as HTMLAnchorElement).target = '_blank';
+            (card as HTMLAnchorElement).rel = 'noopener noreferrer';
+        }
+    }
+
+    const img = document.createElement('img');
+    img.src = `/assets/images/${project.image}`;
+    img.alt = project.title;
+    img.loading = 'lazy';
+    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
+    card.appendChild(img);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'bento-side-overlay';
+
+    const title = document.createElement('h5');
+    title.className = 'bento-side-title';
+    title.textContent = project.title;
+    overlay.appendChild(title);
+
+    const techContainer = document.createElement('div');
+    techContainer.className = 'project-technologies';
+    project.technologies.slice(0, 3).forEach(tech => {
+        const tag = document.createElement('span');
+        tag.className = 'tech-tag-light';
+        tag.textContent = tech;
+        techContainer.appendChild(tag);
+    });
+    overlay.appendChild(techContainer);
+
+    card.appendChild(overlay);
+    return card;
+}
+
+// ─── Compact grid rendering ────────────────────────────────────────────────
+
+function renderCompactGrid(projectsList: Project[]): void {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
+    grid.replaceChildren();
+
+    if (projectsList.length === 0) {
+        const col = document.createElement('div');
+        col.className = 'col-12 text-center py-5';
+        const msg = document.createElement('p');
+        msg.className = 'text-muted';
+        msg.textContent = 'No projects match this filter.';
+        col.appendChild(msg);
+        grid.appendChild(col);
         return;
     }
-    extractFilterTags();
-    renderFilterButtons();
-    renderProjects(projects);
+
+    projectsList.forEach((project, index) => {
+        const col = document.createElement('div');
+        col.className = 'col-lg-3 col-md-6';
+        col.setAttribute('data-aos', 'fade-up');
+        col.setAttribute('data-aos-delay', Math.min(index * 80, 320).toString());
+        col.appendChild(createCompactCard(project));
+        grid.appendChild(col);
+    });
 }
+
+function createCompactCard(project: Project): HTMLElement {
+    const link = getProjectLink(project);
+    const card = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
+    card.className = `compact-card ${getCategoryClass(project.tags)} h-100`;
+
+    if (link) {
+        (card as HTMLAnchorElement).href = link;
+        if (link.startsWith('http')) {
+            (card as HTMLAnchorElement).target = '_blank';
+            (card as HTMLAnchorElement).rel = 'noopener noreferrer';
+        }
+    }
+
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'compact-card-img';
+    const img = document.createElement('img');
+    img.src = `/assets/images/${project.image}`;
+    img.alt = project.title;
+    img.loading = 'lazy';
+    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
+    imgWrapper.appendChild(img);
+    card.appendChild(imgWrapper);
+
+    const body = document.createElement('div');
+    body.className = 'compact-card-body';
+
+    const title = document.createElement('h6');
+    title.className = 'compact-card-title';
+    title.textContent = project.title;
+    body.appendChild(title);
+
+    const techContainer = document.createElement('div');
+    techContainer.className = 'project-technologies';
+    project.technologies.slice(0, 3).forEach(tech => {
+        const tag = document.createElement('span');
+        tag.className = 'tech-tag';
+        tag.textContent = tech;
+        techContainer.appendChild(tag);
+    });
+    body.appendChild(techContainer);
+
+    if (link) {
+        const cta = document.createElement('span');
+        cta.className = 'compact-cta';
+        cta.textContent = 'View \u2192';
+        body.appendChild(cta);
+    }
+
+    card.appendChild(body);
+    return card;
+}
+
+// ─── Filter dropdown ───────────────────────────────────────────────────────
+
+function renderFilterDropdown(): void {
+    const wrapper = document.getElementById('filter-dropdown-wrapper');
+    if (!wrapper) return;
+    wrapper.replaceChildren();
+
+    const btn = document.createElement('button');
+    btn.id = 'filter-dropdown-btn';
+    btn.className = 'filter-dropdown-btn';
+    btn.textContent = 'All Categories \u25be';
+    wrapper.appendChild(btn);
+
+    const list = document.createElement('ul');
+    list.id = 'filter-dropdown-list';
+    list.className = 'filter-dropdown-list';
+
+    const allItem = document.createElement('li');
+    allItem.textContent = 'All Categories';
+    allItem.dataset.tag = 'all';
+    allItem.className = 'active';
+    list.appendChild(allItem);
+
+    filterTags.forEach(tag => {
+        const item = document.createElement('li');
+        item.textContent = tag.name.charAt(0).toUpperCase() + tag.name.slice(1).toLowerCase();
+        item.dataset.tag = tag.name;
+        list.appendChild(item);
+    });
+
+    wrapper.appendChild(list);
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        list.classList.toggle('open');
+        btn.classList.toggle('open');
+    });
+
+    list.addEventListener('click', (e) => {
+        const target = e.target as HTMLLIElement;
+        const tag = target.dataset.tag;
+        if (!tag) return;
+
+        list.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+        target.classList.add('active');
+
+        if (tag === 'all') {
+            activeFilter = null;
+            btn.textContent = 'All Categories \u25be';
+            btn.classList.remove('active');
+        } else {
+            activeFilter = tag;
+            btn.textContent = `${target.textContent} \u00d7`;
+            btn.classList.add('active');
+        }
+
+        list.classList.remove('open');
+        btn.classList.remove('open');
+        renderPage();
+        unlockAchievement('filter_user');
+    });
+
+    document.addEventListener('click', () => {
+        list.classList.remove('open');
+        btn.classList.remove('open');
+    });
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────
 
 function extractFilterTags(): void {
     const tagCounts = new Map<string, number>();
-    
     projects.forEach(project => {
         project.tags.forEach(tag => {
             tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
         });
     });
-    
-    // Get all unique tags, sorted by frequency
-    const allTags = Array.from(tagCounts.entries())
+
+    filterTags = Array.from(tagCounts.entries())
         .sort((a, b) => b[1] - a[1])
-        .map(([name]) => name);
-    
-    filterTags = allTags.map(name => ({
-        name,
-        count: tagCounts.get(name) || 0,
-        active: false
-    }));
-}
-
-function renderFilterButtons(): void {
-    const filterContainer = document.getElementById('filter-buttons');
-    if (!filterContainer) return;
-    
-    // Clear existing buttons
-    filterContainer.innerHTML = '';
-    
-    // Add "All" button
-    const allButton = createFilterButton('All', projects.length, true);
-    filterContainer.appendChild(allButton);
-    
-    // Add tag buttons
-    filterTags.forEach(tag => {
-        const button = createFilterButton(tag.name, tag.count, tag.active);
-        filterContainer.appendChild(button);
-    });
-}
-
-function createFilterButton(tagName: string, count: number, isActive: boolean): HTMLButtonElement {
-    const button = document.createElement('button');
-    button.className = `filter-btn ${isActive ? 'active' : ''}`;
-
-    // Capitalize tag name for display
-    const displayName = tagName.charAt(0).toUpperCase() + tagName.slice(1).toLowerCase();
-
-    button.textContent = displayName + ' ';
-
-    const badge = document.createElement('span');
-    badge.className = 'badge';
-    badge.textContent = count.toString();
-    button.appendChild(badge);
-
-    button.addEventListener('click', () => toggleFilter(tagName, button));
-    return button;
-}
-
-function toggleFilter(tagName: string, button: HTMLButtonElement): void {
-    const isAll = tagName === 'All';
-    
-    // Update active states
-    if (isAll) {
-        // Deactivate all other filters
-        filterTags.forEach(tag => tag.active = false);
-        document.querySelectorAll('.filter-btn:not(:first-child)').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        button.classList.add('active');
-    } else {
-        // Toggle this filter
-        const tag = filterTags.find(t => t.name === tagName);
-        if (tag) {
-            tag.active = !tag.active;
-            button.classList.toggle('active');
-        }
-        
-        // Deactivate "All" button if any other filter is active
-        const allButton = document.querySelector('.filter-btn:first-child');
-        if (allButton) {
-            allButton.classList.remove('active');
-        }
-    }
-    
-    // Apply filters
-    const filteredProjects = getFilteredProjects();
-    renderProjects(filteredProjects);
-    
-    // Log filter change
-    logFilterChange(tagName, isAll);
-
-    // Unlock filter achievement
-    unlockAchievement('filter_user');
+        .map(([name, count]) => ({ name, count, active: false }));
 }
 
 function getFilteredProjects(): Project[] {
-    const activeFilters = filterTags.filter(tag => tag.active);
-    
-    if (activeFilters.length === 0) {
-        return projects;
-    }
-
-    return projects.filter(project => {
-        return activeFilters.some(filter =>
-            project.tags.some(projectTag =>
-                projectTag.toLowerCase().includes(filter.name.toLowerCase())
-            )
-        );
-    });
-}
-
-function renderProjects(projectsToRender: Project[]): void {
-    const projectsGrid = document.getElementById('projects-grid');
-    if (!projectsGrid) return;
-
-    projectsGrid.replaceChildren();
-
-    // Update live count
-    const countEl = document.getElementById('projects-count');
-    if (countEl) {
-        countEl.textContent = `Showing ${projectsToRender.length} of ${projects.length} projects`;
-    }
-
-    projectsToRender.forEach((project, index) => {
-        const projectCard = createProjectCard(project, index);
-        projectsGrid.appendChild(projectCard);
-    });
-
-    // Show message if no projects match
-    if (projectsToRender.length === 0) {
-        const col = document.createElement('div');
-        col.className = 'col-12 text-center py-5';
-
-        const heading = document.createElement('h4');
-        heading.textContent = 'No projects found';
-        col.appendChild(heading);
-
-        const message = document.createElement('p');
-        message.className = 'text-muted';
-        message.textContent = 'Try adjusting your filters';
-        col.appendChild(message);
-
-        projectsGrid.appendChild(col);
-    }
+    if (!activeFilter) return projects;
+    return projects.filter(project =>
+        project.tags.some(tag => tag.toLowerCase() === activeFilter!.toLowerCase())
+    );
 }
 
 function getProjectLink(project: Project): string | null {
@@ -184,101 +364,3 @@ function getCategoryClass(tags: string[]): string {
     if (primary === 'r') return 'cat-r';
     return 'cat-default';
 }
-
-function createProjectCard(project: Project, index: number): HTMLDivElement {
-    const isFeatured = index === 0;
-    const link = getProjectLink(project);
-
-    const wrapper = document.createElement('div');
-    wrapper.className = isFeatured ? 'col-12' : 'col-lg-4 col-md-6';
-    wrapper.setAttribute('data-aos', 'fade-up');
-    wrapper.setAttribute('data-aos-delay', Math.min(index * 80, 400).toString());
-
-    // Card is an <a> if linkable, otherwise a <div>
-    const projectCard = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
-    const categoryClass = getCategoryClass(project.tags);
-    projectCard.className = `project-card h-100 ${isFeatured ? 'project-card-featured' : ''} ${categoryClass}`;
-
-    if (link) {
-        (projectCard as HTMLAnchorElement).href = link;
-        if (project.webpage_link && project.webpage_link.startsWith('http')) {
-            (projectCard as HTMLAnchorElement).target = '_blank';
-            (projectCard as HTMLAnchorElement).rel = 'noopener noreferrer';
-        }
-    }
-
-    // Image
-    const imageContainer = document.createElement('div');
-    imageContainer.className = 'project-image';
-
-    const img = document.createElement('img');
-    img.src = `/assets/images/${project.image}`;
-    img.alt = project.title;
-    img.loading = 'lazy';
-    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
-    imageContainer.appendChild(img);
-
-    if (project.is_interactive) {
-        const badge = document.createElement('span');
-        badge.className = 'badge bg-success project-badge';
-        badge.textContent = 'Interactive';
-        imageContainer.appendChild(badge);
-    }
-
-    if (project.status === 'in_progress') {
-        const badge = document.createElement('span');
-        badge.className = 'badge bg-warning project-badge';
-        badge.textContent = 'In Progress';
-        imageContainer.appendChild(badge);
-    }
-
-    projectCard.appendChild(imageContainer);
-
-    // Content
-    const contentContainer = document.createElement('div');
-    contentContainer.className = 'project-content';
-
-    const title = document.createElement(isFeatured ? 'h3' : 'h5');
-    title.className = 'project-title';
-    title.textContent = project.title;
-    contentContainer.appendChild(title);
-
-    const description = document.createElement('p');
-    description.className = `project-description ${isFeatured ? 'project-description-featured' : ''}`;
-    description.textContent = project.description;
-    contentContainer.appendChild(description);
-
-    const techContainer = document.createElement('div');
-    techContainer.className = 'project-technologies';
-    project.technologies.slice(0, isFeatured ? 5 : 3).forEach(tech => {
-        const techTag = document.createElement('span');
-        techTag.className = 'tech-tag';
-        techTag.textContent = tech;
-        techContainer.appendChild(techTag);
-    });
-    contentContainer.appendChild(techContainer);
-
-    if (!link && project.status === 'in_progress') {
-        const comingSoon = document.createElement('span');
-        comingSoon.className = 'coming-soon-label';
-        comingSoon.textContent = 'Coming Soon';
-        contentContainer.appendChild(comingSoon);
-    }
-
-    projectCard.appendChild(contentContainer);
-
-    if (link) {
-        const cta = document.createElement('div');
-        cta.className = 'project-cta';
-        cta.textContent = isFeatured ? 'View Project \u2192' : '\u2192';
-        projectCard.appendChild(cta);
-    }
-
-    wrapper.appendChild(projectCard);
-    return wrapper;
-}
-
-function logFilterChange(_tagName: string, _isAll: boolean): void {
-    // Filter tracking placeholder
-}
-
