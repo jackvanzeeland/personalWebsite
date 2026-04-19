@@ -1,299 +1,419 @@
 /* ============================================
-   Project Cards
+   Category accent colors (shared across card types)
    ============================================ */
+.cat-default   { --card-accent: var(--accent-primary); }
+.cat-python    { --card-accent: #10b981; }
+.cat-automation{ --card-accent: #f59e0b; }
+.cat-finance   { --card-accent: #3b82f6; }
+.cat-creative  { --card-accent: #8b5cf6; }
+.cat-r         { --card-accent: #ef4444; }
 
-/* Category accent colors */
-.project-card { --card-accent: var(--accent-primary); }
-.project-card.cat-python     { --card-accent: #10b981; }
-.project-card.cat-automation { --card-accent: #f59e0b; }
-.project-card.cat-finance    { --card-accent: #3b82f6; }
-.project-card.cat-creative   { --card-accent: #8b5cf6; }
-.project-card.cat-r          { --card-accent: #ef4444; }
-
-.project-card {
-    background: var(--bg-primary);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.28s ease,
-                border-color 0.28s ease;
-    border: 1px solid var(--border-color);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-}
-
-/* Accent stripe at top */
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--card-accent);
-    z-index: 1;
-}
-
-a.project-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-xl);
-    border-color: color-mix(in srgb, var(--card-accent) 40%, var(--border-color));
-    text-decoration: none;
-    color: inherit;
+/* ============================================
+   Bento grid container
+   ============================================ */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.72fr;
+  gap: 1rem;
+  margin-bottom: 0;
 }
 
 /* ============================================
-   Standard card image
+   Bento hero card (left, large)
    ============================================ */
-
-.project-image {
-    position: relative;
-    height: 200px;
-    overflow: hidden;
-    background: var(--bg-tertiary);
+.bento-hero-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.28s ease,
+              border-color 0.28s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-.project-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
+.bento-hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent);
+  z-index: 1;
 }
 
-a.project-card:hover .project-image img {
-    transform: scale(1.05);
+.bento-hero-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+  border-color: color-mix(in srgb, var(--card-accent) 40%, var(--border-color));
+  text-decoration: none;
+  color: inherit;
 }
 
-.project-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 0.72rem;
-    padding: 0.22rem 0.55rem;
-    z-index: 2;
+.bento-hero-image {
+  height: 220px;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+
+.bento-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.bento-hero-card:hover .bento-hero-image img {
+  transform: scale(1.05);
+}
+
+.bento-hero-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-hero-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.bento-hero-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bento-hero-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bento-hero-cta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--card-accent);
+  white-space: nowrap;
+  transition: letter-spacing 0.2s ease;
+}
+
+.bento-hero-card:hover .bento-hero-cta {
+  letter-spacing: 0.02em;
 }
 
 /* ============================================
-   Card content
+   Bento right stack
    ============================================ */
-
-.project-content {
-    padding: 1.25rem 1.4rem 1rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.bento-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.project-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
+/* ============================================
+   Bento side cards (right column, image-fill with overlay)
+   ============================================ */
+.bento-side-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  text-decoration: none;
+  color: white;
+  display: block;
+  flex: 1;
+  min-height: 130px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.28s ease;
 }
 
-.project-description {
-    color: var(--text-secondary);
-    margin-bottom: 0.9rem;
-    flex: 1;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    /* Clamp to 3 lines */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.bento-side-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent);
+  z-index: 2;
 }
 
+.bento-side-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  text-decoration: none;
+  color: white;
+}
+
+.bento-side-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+.bento-side-card:hover img {
+  transform: scale(1.06);
+}
+
+.bento-side-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.5rem 1rem 0.85rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, transparent 100%);
+  z-index: 1;
+}
+
+.bento-side-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.3rem;
+}
+
+.tech-tag-light {
+  background: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.9);
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* ============================================
+   More Work divider
+   ============================================ */
+.more-work-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 2.5rem 0 2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.more-work-divider::before,
+.more-work-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+
+/* ============================================
+   Compact cards (remaining 7 or filtered results)
+   ============================================ */
+.compact-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  height: 100%;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+}
+
+.compact-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent);
+  z-index: 1;
+}
+
+.compact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: color-mix(in srgb, var(--card-accent) 40%, var(--border-color));
+  text-decoration: none;
+  color: inherit;
+}
+
+.compact-card-img {
+  height: 140px;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+
+.compact-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.compact-card:hover .compact-card-img img {
+  transform: scale(1.05);
+}
+
+.compact-card-body {
+  padding: 0.9rem 1rem 0.8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.compact-card-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.compact-cta {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--card-accent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: block;
+}
+
+.compact-card:hover .compact-cta {
+  opacity: 1;
+}
+
+/* ============================================
+   Filter dropdown
+   ============================================ */
+.filter-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-dropdown-btn {
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border-color);
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-dropdown-btn:hover,
+.filter-dropdown-btn.open {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.filter-dropdown-btn.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.filter-dropdown-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  list-style: none;
+  padding: 0.4rem 0;
+  margin: 0;
+  min-width: 180px;
+  z-index: 100;
+  display: none;
+}
+
+.filter-dropdown-list.open {
+  display: block;
+}
+
+.filter-dropdown-list li {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.filter-dropdown-list li:hover {
+  background: var(--bg-soft);
+  color: var(--accent-primary);
+}
+
+.filter-dropdown-list li.active {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+/* ============================================
+   Shared tech tags (used across all card types)
+   ============================================ */
 .project-technologies {
-    margin-bottom: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .tech-tag {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
-    padding: 0.2rem 0.55rem;
-    border-radius: 20px;
-    font-size: 0.72rem;
-    font-weight: 500;
-}
-
-.coming-soon-label {
-    display: inline-block;
-    margin-top: 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-/* CTA at bottom of linkable cards */
-.project-cta {
-    padding: 0.7rem 1.4rem;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--card-accent);
-    transition: color 0.2s ease, padding-left 0.2s ease;
-}
-
-a.project-card:hover .project-cta {
-    padding-left: 1.7rem;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 500;
 }
 
 /* ============================================
-   Featured card (first in any filtered set)
+   Responsive
    ============================================ */
+@media (max-width: 991px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
 
-.project-card-featured {
+  .bento-stack {
     flex-direction: row;
+  }
+
+  .bento-side-card {
+    min-height: 180px;
+  }
 }
 
-.project-card-featured .project-image {
-    width: 380px;
-    min-width: 280px;
-    flex-shrink: 0;
-    height: auto;
-    min-height: 260px;
-}
-
-.project-card-featured .project-content {
-    padding: 2rem;
-    justify-content: center;
-}
-
-.project-card-featured .project-title {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
-}
-
-.project-description-featured {
-    -webkit-line-clamp: 5 !important;
-    font-size: 0.95rem !important;
-}
-
-.project-card-featured .project-cta {
-    border-top: none;
-    padding: 0;
-    margin-top: 1.25rem;
-    font-size: 0.9rem;
-}
-
-a.project-card-featured:hover .project-cta {
-    padding-left: 0.3rem;
-}
-
-/* ============================================
-   Filter Bar
-   ============================================ */
-
-.projects-filter-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-}
-
-.projects-filter-inner {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.filter-label-text {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    white-space: nowrap;
-}
-
-.projects-count {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-}
-
-.filter-btn {
-    background: var(--bg-primary);
-    border: 1.5px solid var(--border-color);
-    border-radius: 20px;
-    padding: 0.35rem 0.85rem;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.22s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.filter-btn:hover {
-    border-color: var(--accent-primary);
-    color: var(--accent-primary);
-    transform: translateY(-1px);
-}
-
-.filter-btn.active {
-    background: var(--accent-primary);
-    border-color: var(--accent-primary);
-    color: white;
-}
-
-.filter-btn .badge {
-    background: rgba(255, 255, 255, 0.25);
-    color: white;
-    border-radius: 8px;
-    padding: 0.1rem 0.35rem;
-    font-size: 0.68rem;
-    min-width: 18px;
-    text-align: center;
-}
-
-.filter-btn:not(.active) .badge {
-    background: var(--bg-tertiary);
-    color: var(--text-muted);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .project-card-featured {
-        flex-direction: column;
-    }
-
-    .project-card-featured .project-image {
-        width: 100%;
-        height: 220px;
-    }
-
-    .project-card-featured .project-content {
-        padding: 1.25rem;
-    }
-
-    .project-card-featured .project-title {
-        font-size: 1.2rem;
-    }
-
-    .projects-filter-bar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+@media (max-width: 575px) {
+  .bento-stack {
+    flex-direction: column;
+  }
 }
 
 /* Project Detail Page Styles */
@@ -412,21 +532,21 @@ a.project-card-featured:hover .project-cta {
     .project-links {
         flex-direction: column;
     }
-    
+
     .project-links .btn {
         width: 100%;
         text-align: center;
     }
-    
+
     .project-section {
         padding: 1.5rem;
         margin-bottom: 2rem;
     }
-    
+
     .stat-number {
         font-size: 2rem;
     }
-    
+
     .feature-card {
         margin-bottom: 1rem;
     }
