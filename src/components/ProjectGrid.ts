@@ -8,6 +8,7 @@ const restProjects: Project[] = projects.filter(p => !p.featured);
 
 let filterTags: FilterTag[] = [];
 let activeFilter: string | null = null;
+let _dropdownCloseHandler: (() => void) | null = null;
 
 // ─── Public API ────────────────────────────────────────────────────────────
 
@@ -16,6 +17,7 @@ export async function loadProjects(): Promise<Project[]> {
 }
 
 export function initializeFiltering(): void {
+    activeFilter = null;
     if (projects.length === 0) return;
     extractFilterTags();
     renderFilterDropdown();
@@ -76,7 +78,7 @@ function renderBento(): void {
 
 function createBentoHeroCard(project: Project): HTMLElement {
     const link = getProjectLink(project);
-    const card = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
+    const card: HTMLElement = link ? document.createElement('a') : document.createElement('div');
     card.className = `bento-hero-card ${getCategoryClass(project.tags)}`;
 
     if (link) {
@@ -139,7 +141,7 @@ function createBentoHeroCard(project: Project): HTMLElement {
 
 function createBentoSideCard(project: Project): HTMLElement {
     const link = getProjectLink(project);
-    const card = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
+    const card: HTMLElement = link ? document.createElement('a') : document.createElement('div');
     card.className = `bento-side-card ${getCategoryClass(project.tags)}`;
 
     if (link) {
@@ -209,7 +211,7 @@ function renderCompactGrid(projectsList: Project[]): void {
 
 function createCompactCard(project: Project): HTMLElement {
     const link = getProjectLink(project);
-    const card = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
+    const card: HTMLElement = link ? document.createElement('a') : document.createElement('div');
     card.className = `compact-card ${getCategoryClass(project.tags)} h-100`;
 
     if (link) {
@@ -324,10 +326,14 @@ function renderFilterDropdown(): void {
         unlockAchievement('filter_user');
     });
 
-    document.addEventListener('click', () => {
+    if (_dropdownCloseHandler) {
+        document.removeEventListener('click', _dropdownCloseHandler);
+    }
+    _dropdownCloseHandler = () => {
         list.classList.remove('open');
         btn.classList.remove('open');
-    });
+    };
+    document.addEventListener('click', _dropdownCloseHandler);
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
