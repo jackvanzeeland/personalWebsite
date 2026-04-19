@@ -1,0 +1,86 @@
+/* Header Navigation Styles */
+.navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(26, 26, 46, 0.95) !important;
+}
+
+[data-theme="light"] .navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    padding: 0.25rem 0;
+}
+
+.navbar-brand-logo {
+    height: 54px;
+    width: auto;
+}
+
+.nav-link {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover {
+    background-color: var(--accent-primary);
+    color: white !important;
+    transform: translateY(-1px);
+}
+
+.navbar-toggler {
+    border-color: var(--text-primary);
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+[data-theme="light"] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+#theme-toggle {
+    background: none !important;
+    border: none !important;
+    padding: 0.5rem !important;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive Navigation */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: var(--bg-primary);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+        border: 1px solid var(--border-color);
+    }
+    
+    .navbar-nav {
+        width: 100%;
+    }
+    
+    .nav-link {
+        margin: 0.25rem 0;
+    }
+}

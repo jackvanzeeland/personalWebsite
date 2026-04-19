@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    
+    <!-- Homepage -->
+    <url>
+        <loc>https://jackvanzeeland.com/</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- About Page -->
+    <url>
+        <loc>https://jackvanzeeland.com/pages/about</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Beyond the Code Page -->
+    <url>
+        <loc>https://jackvanzeeland.com/pages/beyond-the-code</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    
+    
+    <!-- Projects Listing Page -->
+    <url>
+        <loc>https://jackvanzeeland.com/pages/projects</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Journey Page -->
+    <url>
+        <loc>https://jackvanzeeland.com/pages/journey</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Project Pages -->
+    <url>
+        <loc>https://jackvanzeeland.com/pages/projects/wordle-solver</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://jackvanzeeland.com/pages/projects/secret-santa</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://jackvanzeeland.com/pages/projects/basketball-optimization</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://jackvanzeeland.com/pages/projects/budgeting-automation</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Artifacts Listing Page -->
+    <url>
+        <loc>https://jackvanzeeland.com/pages/artifacts</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Artifact Pages -->
+    <url>
+        <loc>https://jackvanzeeland.com/pages/artifacts/html-gems</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://jackvanzeeland.com/pages/artifacts/qr-code-generator</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://jackvanzeeland.com/pages/artifacts/uipath-queue-processor</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://jackvanzeeland.com/pages/projects/lyric-animator</loc>
+        <lastmod>2025-01-31T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+</urlset>

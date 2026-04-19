@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UiPath Queue Processor - Upload Orchestrator queue CSV exports, flatten DynamicProperties JSON, and download clean CSVs.">
+    <title>UiPath Queue Processor - Jack Van Zeeland</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jackvanzeeland.com/pages/artifacts/uipath-queue-processor" />
+    <meta property="og:title" content="UiPath Queue Processor - Jack Van Zeeland" />
+    <meta property="og:description" content="Flatten UiPath Orchestrator queue CSV exports into clean data" />
+    <meta property="og:image" content="https://jackvanzeeland.com/assets/images/JVZLogo.png" />
+    <meta property="og:site_name" content="Jack Van Zeeland Portfolio" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://jackvanzeeland.com/assets/images/JVZLogo.png" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/src/styles/color-scheme.css">
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="/src/styles/components/header.css">
+    <link rel="stylesheet" href="/src/styles/components/footer.css">
+    <style>
+        .processor-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* --- Step Indicator with Connecting Lines --- */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        .step.active {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .step.completed {
+            color: var(--text-primary);
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.35s ease;
+            flex-shrink: 0;
+        }
+
+        .step.active .step-num {
+            border-color: var(--accent-primary);
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .step.completed .step-num {
+            border-color: var(--accent-success);
+            background: var(--accent-success);
+            color: white;
+        }
+
+        .step-connector {
+            width: 60px;
+            height: 2px;
+            background: var(--border-color);
+            margin: 0 0.75rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1px;
+        }
+
+        .step-connector .step-connector-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: var(--gradient-primary);
+            border-radius: 1px;
+            transition: width 0.5s ease;
+        }
+
+        .step-connector.filled .step-connector-fill {
+            width: 100%;
+        }
+
+        /* --- Upload Zone --- */
+        .upload-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--accent-primary);
+            background: rgba(14, 165, 233, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @keyframes uploadPulse {
+            0%, 100% { border-color: var(--border-color); }
+            50% { border-color: var(--accent-primary-light); }
+        }
+
+        .upload-zone:not(.file-loaded) {
+            animation: uploadPulse 3s ease-in-out infinite;
+        }
+
+        .upload-zone .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-primary);
+            opacity: 0.8;
+        }
+
+        .upload-zone p {
+            margin: 0.5rem 0 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- File Info Pill --- */
+        .file-info {
+            margin-top: 1rem;
+            padding: 0.6rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .file-info.visible {
+            display: inline-flex;
+        }
+
+        .file-info.success {
+            border-color: var(--accent-success);
+            color: var(--accent-success-dark);
+        }
+
+        .file-info i {
+            font-size: 0.9rem;
+        }
+
+        /* --- Column Selector --- */
+        .column-selector {
+            margin-top: 1.5rem;
+            display: none;
+            animation: fadeInPanel 0.35s ease;
+        }
+
+        @keyframes fadeInPanel {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .column-selector h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .column-search {
+            width: 100%;
+            padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .column-search:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+        }
+
+        .column-search-wrapper {
+            position: relative;
+        }
+
+        .column-search-wrapper i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-subtle);
+            font-size: 0.8rem;
+        }
+
+        .column-count {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .columns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        /* --- Column Chips (tech-tag inspired) --- */
+        .column-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            font-size: 0.82rem;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .column-checkbox:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .column-checkbox.selected {
+            border-color: var(--accent-primary);
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--accent-primary-dark);
+            font-weight: 500;
+        }
+
+        .column-checkbox.hidden {
+            display: none;
+        }
+
+        .column-checkbox input {
+            accent-color: var(--accent-primary);
+            flex-shrink: 0;
+        }
+
+        .select-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .select-actions button {
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .select-actions button:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* --- Preview Table --- */
+        .preview-section {
+            margin-top: 1.5rem;
+            display: none;
+            animation: fadeInPanel 0.35s ease;
+        }
+
+        .preview-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .preview-table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            max-height: 300px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .preview-table th {
+            background: var(--bg-secondary);
+            position: sticky;
+            top: 0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            z-index: 1;
+        }
+
+        .preview-table tbody tr:nth-child(even) td {
+            background: var(--bg-secondary);
+        }
+
+        .preview-table tbody tr:hover td {
+            background: rgba(14, 165, 233, 0.08);
+        }
+
+        /* --- Download Section --- */
+        .download-section {
+            margin-top: 1.5rem;
+            text-align: center;
+            display: none;
+            animation: fadeInPanel 0.35s ease;
+        }
+
+        .row-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-start-over {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.75rem;
+        }
+
+        .btn-start-over:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* --- Success Toast --- */
+        .success-toast {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-success);
+            color: var(--accent-success-dark);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            justify-content: center;
+            animation: fadeInPanel 0.3s ease;
+        }
+
+        .success-toast.visible {
+            display: inline-flex;
+        }
+
+        /* --- Empty State --- */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 576px) {
+            .step-indicator {
+                gap: 0;
+            }
+            .step span:not(.step-num) {
+                display: none;
+            }
+            .step-connector {
+                width: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main id="main-content">
+        <section class="py-5 page-hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                        <h1 class="display-5 fw-bold mb-3">UiPath Queue Processor</h1>
+                        <p class="lead text-muted mb-0">
+                            Upload Orchestrator queue CSV exports, flatten nested JSON properties, and download clean data.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-4">
+            <div class="container">
+                <div class="processor-container" data-aos="fade-up" data-aos-delay="100">
+
+                    <!-- Step Indicator -->
+                    <div class="step-indicator">
+                        <div class="step active" id="step1">
+                            <span class="step-num">1</span>
+                            <span>Upload CSV</span>
+                        </div>
+                        <div class="step-connector" id="connector1-2">
+                            <div class="step-connector-fill"></div>
+                        </div>
+                        <div class="step" id="step2">
+                            <span class="step-num">2</span>
+                            <span>Select Columns</span>
+                        </div>
+                        <div class="step-connector" id="connector2-3">
+                            <div class="step-connector-fill"></div>
+                        </div>
+                        <div class="step" id="step3">
+                            <span class="step-num">3</span>
+                            <span>Download</span>
+                        </div>
+                    </div>
+
+                    <!-- Upload Zone -->
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <strong>Drop your CSV file here or click to browse</strong>
+                        <p>Supports UiPath Orchestrator queue export files</p>
+                        <input type="file" id="file-input" accept=".csv" style="display: none;" />
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <div class="file-info" id="file-info">
+                            <i class="fa-solid fa-file-csv"></i>
+                            <span id="file-info-text"></span>
+                        </div>
+                    </div>
+
+                    <!-- Column Selector -->
+                    <div class="column-selector" id="column-selector">
+                        <h3>Select columns to include:</h3>
+                        <div class="column-search-wrapper">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" class="column-search" id="column-search" placeholder="Filter columns..." />
+                        </div>
+                        <div class="column-count" id="column-count"></div>
+                        <div class="select-actions">
+                            <button id="select-all-btn">Select All</button>
+                            <button id="deselect-all-btn">Deselect All</button>
+                        </div>
+                        <div class="columns-grid" id="columns-grid"></div>
+                        <button class="btn btn-primary w-100" id="process-btn">
+                            <i class="fa-solid fa-table-columns"></i> Process & Preview
+                        </button>
+                    </div>
+
+                    <!-- Preview -->
+                    <div class="preview-section" id="preview-section">
+                        <h3>Preview (first 10 rows):</h3>
+                        <div class="preview-table-wrapper">
+                            <table class="preview-table" id="preview-table"></table>
+                        </div>
+                    </div>
+
+                    <!-- Download -->
+                    <div class="download-section" id="download-section">
+                        <div class="row-count" id="row-count"></div>
+                        <button class="btn-download" id="download-btn">
+                            <i class="fa-solid fa-download"></i>
+                            Download Processed CSV
+                        </button>
+                        <div class="success-toast" id="success-toast">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Download complete!</span>
+                        </div>
+                        <div>
+                            <button class="btn-start-over" id="start-over-btn">
+                                <i class="fa-solid fa-arrow-rotate-left"></i>
+                                Start Over
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script type="module" src="/src/pages/project.ts"></script>
+    <script>
+    (function() {
+        var rawData = [];
+        var flatData = [];
+        var allColumns = [];
+        var selectedColumns = new Set();
+
+        var uploadZone = document.getElementById('upload-zone');
+        var fileInput = document.getElementById('file-input');
+        var fileInfo = document.getElementById('file-info');
+        var fileInfoText = document.getElementById('file-info-text');
+        var columnSelector = document.getElementById('column-selector');
+        var columnsGrid = document.getElementById('columns-grid');
+        var previewSection = document.getElementById('preview-section');
+        var previewTable = document.getElementById('preview-table');
+        var downloadSection = document.getElementById('download-section');
+        var columnSearch = document.getElementById('column-search');
+        var columnCount = document.getElementById('column-count');
+
+        // === Upload ===
+        uploadZone.addEventListener('click', function() { fileInput.click(); });
+
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', function() {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length) handleFile(fileInput.files[0]);
+        });
+
+        function handleFile(file) {
+            if (!file.name.endsWith('.csv')) {
+                alert('Please upload a CSV file.');
+                return;
+            }
+
+            fileInfo.classList.add('visible');
+            fileInfo.classList.remove('success');
+            fileInfoText.textContent = 'Parsing: ' + file.name + ' (' + formatBytes(file.size) + ')...';
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    rawData = results.data;
+                    flatData = flattenData(rawData);
+                    allColumns = flatData.length > 0 ? Object.keys(flatData[0]) : [];
+
+                    if (allColumns.length === 0) {
+                        fileInfoText.textContent = file.name + ' — No data found';
+                        return;
+                    }
+
+                    fileInfoText.textContent = file.name + ' — ' + rawData.length + ' rows, ' + allColumns.length + ' columns';
+                    fileInfo.classList.add('success');
+                    uploadZone.classList.add('file-loaded');
+
+                    setStep(2);
+                    renderColumnSelector();
+                },
+                error: function(err) {
+                    fileInfoText.textContent = 'Error: ' + err.message;
+                }
+            });
+        }
+
+        // === Flatten DynamicProperties JSON ===
+        function flattenData(data) {
+            return data.map(function(row) {
+                var flat = {};
+                Object.keys(row).forEach(function(key) {
+                    var val = row[key];
+                    if (isDynamicPropertiesColumn(key, val)) {
+                        try {
+                            var parsed = JSON.parse(val);
+                            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                                flattenObject(parsed, 'DP_', flat);
+                                return;
+                            }
+                        } catch (e) {
+                            // Not valid JSON, keep as-is
+                        }
+                    }
+                    flat[key] = val;
+                });
+                return flat;
+            });
+        }
+
+        function isDynamicPropertiesColumn(key, val) {
+            var lower = key.toLowerCase();
+            if (lower.includes('dynamicproperties') || lower.includes('specificcontent') || lower.includes('specific_content')) {
+                return true;
+            }
+            if (typeof val === 'string' && val.trim().startsWith('{') && val.trim().endsWith('}')) {
+                return true;
+            }
+            return false;
+        }
+
+        function flattenObject(obj, prefix, result) {
+            Object.keys(obj).forEach(function(k) {
+                var val = obj[k];
+                var newKey = prefix + k;
+                if (val && typeof val === 'object' && !Array.isArray(val)) {
+                    flattenObject(val, newKey + '_', result);
+                } else {
+                    result[newKey] = val === null || val === undefined ? '' : String(val);
+                }
+            });
+        }
+
+        // === Column Selector ===
+        function renderColumnSelector() {
+            columnSelector.style.display = '';
+            columnsGrid.innerHTML = '';
+            selectedColumns = new Set(allColumns);
+            columnSearch.value = '';
+            updateColumnCount();
+
+            allColumns.forEach(function(col) {
+                var label = document.createElement('label');
+                label.className = 'column-checkbox selected';
+                label.setAttribute('data-col', col.toLowerCase());
+
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = true;
+                checkbox.value = col;
+
+                checkbox.addEventListener('change', function() {
+                    if (checkbox.checked) {
+                        selectedColumns.add(col);
+                        label.classList.add('selected');
+                    } else {
+                        selectedColumns.delete(col);
+                        label.classList.remove('selected');
+                    }
+                    updateColumnCount();
+                });
+
+                var span = document.createElement('span');
+                span.textContent = col;
+
+                label.appendChild(checkbox);
+                label.appendChild(span);
+                columnsGrid.appendChild(label);
+            });
+        }
+
+        function updateColumnCount() {
+            columnCount.textContent = selectedColumns.size + ' of ' + allColumns.length + ' selected';
+        }
+
+        // Column search/filter
+        columnSearch.addEventListener('input', function() {
+            var query = columnSearch.value.toLowerCase();
+            document.querySelectorAll('#columns-grid .column-checkbox').forEach(function(label) {
+                var colName = label.getAttribute('data-col');
+                if (!query || colName.includes(query)) {
+                    label.classList.remove('hidden');
+                } else {
+                    label.classList.add('hidden');
+                }
+            });
+        });
+
+        document.getElementById('select-all-btn').addEventListener('click', function() {
+            document.querySelectorAll('#columns-grid .column-checkbox:not(.hidden) input').forEach(function(cb) {
+                cb.checked = true;
+                cb.parentElement.classList.add('selected');
+                selectedColumns.add(cb.value);
+            });
+            updateColumnCount();
+        });
+
+        document.getElementById('deselect-all-btn').addEventListener('click', function() {
+            document.querySelectorAll('#columns-grid .column-checkbox:not(.hidden) input').forEach(function(cb) {
+                cb.checked = false;
+                cb.parentElement.classList.remove('selected');
+                selectedColumns.delete(cb.value);
+            });
+            updateColumnCount();
+        });
+
+        // === Process & Preview ===
+        document.getElementById('process-btn').addEventListener('click', function() {
+            if (selectedColumns.size === 0) {
+                alert('Please select at least one column.');
+                return;
+            }
+
+            setStep(3);
+            renderPreview();
+            downloadSection.style.display = '';
+            document.getElementById('row-count').textContent = flatData.length + ' rows with ' + selectedColumns.size + ' columns selected';
+        });
+
+        function renderPreview() {
+            previewSection.style.display = '';
+            previewTable.innerHTML = '';
+
+            var cols = allColumns.filter(function(c) { return selectedColumns.has(c); });
+
+            if (cols.length === 0 || flatData.length === 0) {
+                previewTable.innerHTML = '<tbody><tr><td class="empty-state"><div><i class="fa-solid fa-table"></i><p>No data to preview</p></div></td></tr></tbody>';
+                return;
+            }
+
+            // Header
+            var thead = document.createElement('thead');
+            var headerRow = document.createElement('tr');
+            cols.forEach(function(col) {
+                var th = document.createElement('th');
+                th.textContent = col;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            previewTable.appendChild(thead);
+
+            // Body (first 10 rows)
+            var tbody = document.createElement('tbody');
+            var previewData = flatData.slice(0, 10);
+            previewData.forEach(function(row) {
+                var tr = document.createElement('tr');
+                cols.forEach(function(col) {
+                    var td = document.createElement('td');
+                    td.textContent = row[col] || '';
+                    td.title = row[col] || '';
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            previewTable.appendChild(tbody);
+        }
+
+        // === Download ===
+        document.getElementById('download-btn').addEventListener('click', function() {
+            var cols = allColumns.filter(function(c) { return selectedColumns.has(c); });
+            var output = flatData.map(function(row) {
+                var filtered = {};
+                cols.forEach(function(col) {
+                    filtered[col] = row[col] || '';
+                });
+                return filtered;
+            });
+
+            var csv = Papa.unparse(output);
+            var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            var url = URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = 'processed_queue_data.csv';
+            link.click();
+            URL.revokeObjectURL(url);
+
+            // Show success toast
+            var toast = document.getElementById('success-toast');
+            toast.classList.add('visible');
+            setTimeout(function() {
+                toast.classList.remove('visible');
+            }, 3000);
+        });
+
+        // === Start Over ===
+        document.getElementById('start-over-btn').addEventListener('click', function() {
+            rawData = [];
+            flatData = [];
+            allColumns = [];
+            selectedColumns = new Set();
+
+            fileInput.value = '';
+            fileInfo.classList.remove('visible', 'success');
+            fileInfoText.textContent = '';
+            uploadZone.classList.remove('file-loaded');
+            columnSelector.style.display = 'none';
+            columnsGrid.innerHTML = '';
+            columnSearch.value = '';
+            previewSection.style.display = 'none';
+            previewTable.innerHTML = '';
+            downloadSection.style.display = 'none';
+            document.getElementById('success-toast').classList.remove('visible');
+
+            setStep(1);
+        });
+
+        // === Step Indicator ===
+        function setStep(num) {
+            for (var i = 1; i <= 3; i++) {
+                var el = document.getElementById('step' + i);
+                el.className = 'step';
+                if (i < num) el.classList.add('completed');
+                else if (i === num) el.classList.add('active');
+            }
+            // Animate connector lines
+            var c12 = document.getElementById('connector1-2');
+            var c23 = document.getElementById('connector2-3');
+            if (num >= 2) c12.classList.add('filled'); else c12.classList.remove('filled');
+            if (num >= 3) c23.classList.add('filled'); else c23.classList.remove('filled');
+        }
+
+        // === Helpers ===
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+
+        // === Init AOS ===
+        if (typeof AOS !== 'undefined') {
+            AOS.init({ duration: 800, once: true });
+        }
+    })();
+    </script>
+</body>
+</html>

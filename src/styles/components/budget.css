@@ -1,0 +1,91 @@
+/* ─── Budgeting Automation — Page-Specific Styles ─── */
+
+/* Hero */
+.budget-hero {
+    padding: 140px 0 40px;
+}
+
+.budget-hero-icons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 1.25rem;
+}
+
+.hero-icon {
+    font-size: 2.8rem;
+    display: inline-block;
+    animation: iconFloat 2.4s ease-in-out infinite;
+}
+.hero-icon:nth-child(1) { animation-delay: 0s; }
+.hero-icon:nth-child(2) { animation-delay: 0.3s; }
+.hero-icon:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-8px) rotate(-4deg); }
+    75% { transform: translateY(-4px) rotate(4deg); }
+}
+
+.budget-hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #0f172a);
+}
+
+.budget-hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-secondary, #475569);
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* ─── Stats strip ─── */
+.budget-stats-strip {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 2rem 0 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border-color, #e2e8f0);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+}
+
+.budget-stat {
+    text-align: center;
+}
+
+.budget-stat-val {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary, #0f172a);
+    line-height: 1.1;
+}
+
+.budget-stat-lbl {
+    font-size: 0.8rem;
+    color: var(--text-muted, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 576px) {
+    .hero-icon {
+        font-size: 2rem;
+    }
+
+    .budget-hero-title {
+        font-size: 1.8rem;
+    }
+
+    .budget-stats-strip {
+        gap: 1.5rem;
+    }
+
+    .budget-stat-val {
+        font-size: 1.5rem;
+    }
+}

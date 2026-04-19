@@ -1,16 +1,11 @@
 {
-  "model": "sonnet",
   "hooks": {
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "terminal-notifier -title 'Claude Code' -subtitle 'Session Complete' -message \"Finished working in $(basename \"$PWD\")\" -sound default -timeout 10"
-          }
-        ]
-      }
-    ]
+    "Stop": [{
+      "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+      "hooks": [{
+        "type": "command",
+        "command": "bash \"/Users/JVZ/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Projects/personalWebsite/.claude/hooks/auto-commit.sh\""
+      }]
+    }]
   }
 }

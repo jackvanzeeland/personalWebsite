@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://jackvanzeeland.com/sitemap.xml
+
+# Block common non-content paths
+Disallow: /_*
+Disallow: /admin/
+Disallow: /api/
+Disallow: /.well-known/
+
+# Allow search engines to crawl all important content
+Allow: /pages/
+Allow: /assets/
+Allow: /src/
+
+# Crawl delay (optional)
+Crawl-delay: 1

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QR Code Generator - Create QR codes for URLs, text, and contact vCards. Bilingual EN/ES support.">
+    <title>QR Code Generator - Jack Van Zeeland</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jackvanzeeland.com/pages/artifacts/qr-code-generator" />
+    <meta property="og:title" content="QR Code Generator - Jack Van Zeeland" />
+    <meta property="og:description" content="Generate QR codes for URLs, text, and contact vCards" />
+    <meta property="og:image" content="https://jackvanzeeland.com/assets/images/JVZLogo.png" />
+    <meta property="og:site_name" content="Jack Van Zeeland Portfolio" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://jackvanzeeland.com/assets/images/JVZLogo.png" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/src/styles/color-scheme.css">
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="/src/styles/components/header.css">
+    <link rel="stylesheet" href="/src/styles/components/footer.css">
+    <style>
+        .qr-container {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* --- Tab Buttons --- */
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn i {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            transition: opacity 0.25s;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .tab-btn.active i {
+            opacity: 1;
+        }
+
+        /* --- Tab Panels --- */
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeInPanel 0.3s ease;
+        }
+
+        @keyframes fadeInPanel {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Form Fields --- */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.35rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+        }
+
+        /* --- Contact Grid --- */
+        .contact-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .contact-fields .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .section-label {
+            grid-column: 1 / -1;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-subtle);
+            margin-top: 0.5rem;
+            margin-bottom: -0.25rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-label:first-child {
+            margin-top: 0;
+        }
+
+        /* --- QR Output Card --- */
+        .qr-output {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 2rem;
+            background: rgba(248, 250, 252, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="dark"] .qr-output,
+        .dark .qr-output {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(51, 65, 85, 0.6);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-output canvas {
+            border-radius: 12px;
+            background: white;
+            padding: 16px;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* --- QR Scale-in Animation --- */
+        @keyframes qrScaleIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            60% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .qr-output.animate-in {
+            animation: qrScaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* --- QR Actions --- */
+        .qr-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .qr-actions button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .qr-actions button:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* --- Language Toggle --- */
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .lang-btn {
+            padding: 0.25rem 0.6rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* --- Status Message --- */
+        .status-msg {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            min-height: 1.2em;
+            transition: all 0.2s;
+        }
+
+        .status-msg.success {
+            color: var(--accent-success);
+        }
+
+        .status-msg.error {
+            color: var(--accent-danger);
+        }
+
+        .status-msg.info {
+            color: var(--accent-primary);
+        }
+
+        /* --- Button Row --- */
+        .btn-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .btn-row .btn-primary {
+            flex: 1;
+        }
+
+        .btn-clear {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-clear:hover {
+            border-color: var(--accent-danger);
+            color: var(--accent-danger);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 576px) {
+            .contact-fields {
+                grid-template-columns: 1fr;
+            }
+            .tab-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main id="main-content">
+        <section class="py-5 page-hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                        <h1 class="display-5 fw-bold mb-3">QR Code Generator</h1>
+                        <p class="lead text-muted mb-0" data-i18n="subtitle">
+                            Generate QR codes for URLs, text, or contact cards.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-4">
+            <div class="container">
+                <div class="qr-container" data-aos="fade-up" data-aos-delay="100">
+
+                    <!-- Language Toggle -->
+                    <div class="lang-toggle">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="es">ES</button>
+                    </div>
+
+                    <!-- Tab Buttons -->
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="url">
+                            <i class="fa-solid fa-link"></i>
+                            <span data-i18n="tabUrl">URL</span>
+                        </button>
+                        <button class="tab-btn" data-tab="text">
+                            <i class="fa-solid fa-font"></i>
+                            <span data-i18n="tabText">Text</span>
+                        </button>
+                        <button class="tab-btn" data-tab="contact">
+                            <i class="fa-solid fa-user"></i>
+                            <span data-i18n="tabContact">Contact</span>
+                        </button>
+                    </div>
+
+                    <!-- URL Tab -->
+                    <div class="tab-panel active" id="tab-url">
+                        <div class="form-group">
+                            <label for="url-input" data-i18n="urlLabel">Website URL</label>
+                            <input type="url" id="url-input" placeholder="https://example.com" />
+                        </div>
+                    </div>
+
+                    <!-- Text Tab -->
+                    <div class="tab-panel" id="tab-text">
+                        <div class="form-group">
+                            <label for="text-input" data-i18n="textLabel">Text Content</label>
+                            <textarea id="text-input" rows="4" placeholder="Enter any text..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Contact Tab -->
+                    <div class="tab-panel" id="tab-contact">
+                        <div class="contact-fields">
+                            <!-- Personal Info -->
+                            <div class="section-label" data-i18n="sectionPersonal">Personal</div>
+                            <div class="form-group">
+                                <label for="contact-first" data-i18n="firstName">First Name</label>
+                                <input type="text" id="contact-first" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-last" data-i18n="lastName">Last Name</label>
+                                <input type="text" id="contact-last" />
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="section-label" data-i18n="sectionContact">Contact</div>
+                            <div class="form-group">
+                                <label for="contact-phone" data-i18n="phone">Phone Number</label>
+                                <input type="tel" id="contact-phone" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email" data-i18n="personalEmail">Personal Email</label>
+                                <input type="email" id="contact-email" />
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="contact-work-email" data-i18n="workEmail">Work Email</label>
+                                <input type="email" id="contact-work-email" />
+                            </div>
+
+                            <!-- Professional -->
+                            <div class="section-label" data-i18n="sectionProfessional">Professional</div>
+                            <div class="form-group">
+                                <label for="contact-title" data-i18n="jobTitle">Job Title</label>
+                                <input type="text" id="contact-title" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-org" data-i18n="organization">Organization</label>
+                                <input type="text" id="contact-org" />
+                            </div>
+
+                            <!-- Location -->
+                            <div class="section-label" data-i18n="sectionLocation">Location</div>
+                            <div class="form-group">
+                                <label for="contact-city" data-i18n="city">City</label>
+                                <input type="text" id="contact-city" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-state" data-i18n="state">State</label>
+                                <input type="text" id="contact-state" />
+                            </div>
+
+                            <!-- Social & Web -->
+                            <div class="section-label" data-i18n="sectionSocial">Social & Web</div>
+                            <div class="form-group">
+                                <label for="contact-instagram" data-i18n="instagram">Instagram @</label>
+                                <input type="text" id="contact-instagram" placeholder="@username" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-linkedin" data-i18n="linkedin">LinkedIn URL</label>
+                                <input type="url" id="contact-linkedin" placeholder="https://linkedin.com/in/..." />
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="contact-website" data-i18n="website">Website</label>
+                                <input type="url" id="contact-website" placeholder="https://..." />
+                            </div>
+
+                            <!-- Other -->
+                            <div class="section-label" data-i18n="sectionOther">Other</div>
+                            <div class="form-group">
+                                <label for="contact-birthday" data-i18n="birthday">Birthday</label>
+                                <input type="date" id="contact-birthday" />
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="contact-notes" data-i18n="notes">Notes / Bio</label>
+                                <textarea id="contact-notes" rows="2" placeholder=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Button Row -->
+                    <div class="btn-row" id="btn-row">
+                        <button class="btn btn-primary" id="generate-btn" data-i18n="generate">
+                            <i class="fa-solid fa-qrcode"></i> Generate QR Code
+                        </button>
+                        <button class="btn-clear" id="clear-btn" style="display: none;" data-i18n="clear">
+                            <i class="fa-solid fa-eraser"></i> Clear
+                        </button>
+                    </div>
+
+                    <!-- QR Output -->
+                    <div class="qr-output" id="qr-output" style="display: none;">
+                        <canvas id="qr-canvas"></canvas>
+                        <div class="qr-actions">
+                            <button id="download-btn">
+                                <i class="fa-solid fa-download"></i>
+                                <span data-i18n="download">Download PNG</span>
+                            </button>
+                            <button id="copy-btn">
+                                <i class="fa-regular fa-clipboard"></i>
+                                <span data-i18n="copy">Copy to Clipboard</span>
+                            </button>
+                        </div>
+                        <div class="status-msg" id="status-msg"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+    <script type="module" src="/src/pages/project.ts"></script>
+    <script>
+    (function() {
+        // === i18n ===
+        var translations = {
+            en: {
+                subtitle: 'Generate QR codes for URLs, text, or contact cards.',
+                tabUrl: 'URL', tabText: 'Text', tabContact: 'Contact',
+                urlLabel: 'Website URL', textLabel: 'Text Content',
+                sectionPersonal: 'Personal', sectionContact: 'Contact',
+                sectionProfessional: 'Professional', sectionLocation: 'Location',
+                sectionSocial: 'Social & Web', sectionOther: 'Other',
+                firstName: 'First Name', lastName: 'Last Name',
+                phone: 'Phone Number', personalEmail: 'Personal Email',
+                workEmail: 'Work Email', jobTitle: 'Job Title',
+                organization: 'Organization', city: 'City', state: 'State',
+                instagram: 'Instagram @', linkedin: 'LinkedIn URL',
+                website: 'Website', birthday: 'Birthday', notes: 'Notes / Bio',
+                generate: 'Generate QR Code', clear: 'Clear',
+                download: 'Download PNG', copy: 'Copy to Clipboard',
+                copied: 'Copied!', noData: 'Please enter some data first.',
+                downloadReady: 'Download started!', cleared: 'Form cleared.'
+            },
+            es: {
+                subtitle: 'Genera codigos QR para URLs, texto o tarjetas de contacto.',
+                tabUrl: 'URL', tabText: 'Texto', tabContact: 'Contacto',
+                urlLabel: 'URL del sitio web', textLabel: 'Contenido de texto',
+                sectionPersonal: 'Personal', sectionContact: 'Contacto',
+                sectionProfessional: 'Profesional', sectionLocation: 'Ubicacion',
+                sectionSocial: 'Redes y Web', sectionOther: 'Otro',
+                firstName: 'Nombre', lastName: 'Apellido',
+                phone: 'Numero de telefono', personalEmail: 'Correo personal',
+                workEmail: 'Correo de trabajo', jobTitle: 'Cargo',
+                organization: 'Organizacion', city: 'Ciudad', state: 'Estado',
+                instagram: 'Instagram @', linkedin: 'URL de LinkedIn',
+                website: 'Sitio web', birthday: 'Cumpleanos', notes: 'Notas / Bio',
+                generate: 'Generar codigo QR', clear: 'Limpiar',
+                download: 'Descargar PNG', copy: 'Copiar al portapapeles',
+                copied: 'Copiado!', noData: 'Por favor ingresa algunos datos primero.',
+                downloadReady: 'Descarga iniciada!', cleared: 'Formulario limpio.'
+            }
+        };
+
+        var currentLang = 'en';
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    // Preserve icons inside buttons
+                    var icon = el.querySelector('i');
+                    if (icon) {
+                        var iconHtml = icon.outerHTML;
+                        el.innerHTML = iconHtml + ' ' + translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                applyLanguage(btn.getAttribute('data-lang'));
+            });
+        });
+
+        // === Tabs ===
+        var activeTab = 'url';
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                activeTab = btn.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+                document.getElementById('tab-' + activeTab).classList.add('active');
+
+                // Show/hide clear button for contact tab
+                document.getElementById('clear-btn').style.display = activeTab === 'contact' ? '' : 'none';
+            });
+        });
+
+        // === QR Generation ===
+        var qrInstance = null;
+        var debounceTimer = null;
+
+        function getContactFields() {
+            return {
+                first: document.getElementById('contact-first').value.trim(),
+                last: document.getElementById('contact-last').value.trim(),
+                phone: document.getElementById('contact-phone').value.trim(),
+                email: document.getElementById('contact-email').value.trim(),
+                workEmail: document.getElementById('contact-work-email').value.trim(),
+                title: document.getElementById('contact-title').value.trim(),
+                org: document.getElementById('contact-org').value.trim(),
+                city: document.getElementById('contact-city').value.trim(),
+                state: document.getElementById('contact-state').value.trim(),
+                instagram: document.getElementById('contact-instagram').value.trim(),
+                linkedin: document.getElementById('contact-linkedin').value.trim(),
+                website: document.getElementById('contact-website').value.trim(),
+                birthday: document.getElementById('contact-birthday').value,
+                notes: document.getElementById('contact-notes').value.trim()
+            };
+        }
+
+        function buildVCard(c) {
+            if (!c.first && !c.last && !c.phone && !c.email) return '';
+
+            var lines = ['BEGIN:VCARD', 'VERSION:3.0'];
+
+            if (c.first || c.last) {
+                lines.push('N:' + c.last + ';' + c.first + ';;;');
+                lines.push('FN:' + (c.first + ' ' + c.last).trim());
+            }
+            if (c.org) lines.push('ORG:' + c.org);
+            if (c.title) lines.push('TITLE:' + c.title);
+            if (c.phone) lines.push('TEL;TYPE=CELL:' + c.phone);
+            if (c.email) lines.push('EMAIL;TYPE=HOME:' + c.email);
+            if (c.workEmail) lines.push('EMAIL;TYPE=WORK:' + c.workEmail);
+            if (c.city || c.state) lines.push('ADR;TYPE=HOME:;;' + c.city + ';' + c.state + ';;;');
+            if (c.birthday) {
+                var bday = c.birthday.replace(/-/g, '');
+                lines.push('BDAY:' + bday);
+            }
+            if (c.website) lines.push('URL:' + c.website);
+            if (c.instagram) lines.push('X-SOCIALPROFILE;TYPE=instagram:' + c.instagram);
+            if (c.linkedin) lines.push('URL;TYPE=LinkedIn:' + c.linkedin);
+            if (c.notes) lines.push('NOTE:' + c.notes);
+
+            lines.push('END:VCARD');
+            return lines.join('\n');
+        }
+
+        function getQRData() {
+            if (activeTab === 'url') {
+                return document.getElementById('url-input').value.trim();
+            } else if (activeTab === 'text') {
+                return document.getElementById('text-input').value.trim();
+            } else {
+                return buildVCard(getContactFields());
+            }
+        }
+
+        function generateQR() {
+            var data = getQRData();
+            var outputEl = document.getElementById('qr-output');
+            var statusMsg = document.getElementById('status-msg');
+
+            if (!data) {
+                outputEl.style.display = 'none';
+                return;
+            }
+
+            statusMsg.textContent = '';
+            statusMsg.className = 'status-msg';
+
+            var canvas = document.getElementById('qr-canvas');
+            qrInstance = new QRious({
+                element: canvas,
+                value: data,
+                size: 256,
+                backgroundAlpha: 1,
+                foreground: '#000000',
+                background: '#ffffff',
+                level: 'M'
+            });
+
+            // Animate in
+            outputEl.style.display = '';
+            outputEl.classList.remove('animate-in');
+            // Force reflow to restart animation
+            void outputEl.offsetWidth;
+            outputEl.classList.add('animate-in');
+        }
+
+        function debouncedGenerate() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(generateQR, 500);
+        }
+
+        // Attach real-time preview to all inputs
+        document.querySelectorAll('#tab-url input, #tab-text textarea, #tab-contact input, #tab-contact textarea').forEach(function(input) {
+            input.addEventListener('input', debouncedGenerate);
+        });
+
+        // Generate button as fallback
+        document.getElementById('generate-btn').addEventListener('click', function() {
+            var data = getQRData();
+            var statusMsg = document.getElementById('status-msg');
+
+            if (!data) {
+                statusMsg.textContent = translations[currentLang].noData;
+                statusMsg.className = 'status-msg error';
+                return;
+            }
+            generateQR();
+        });
+
+        // === Clear Button ===
+        document.getElementById('clear-btn').addEventListener('click', function() {
+            document.querySelectorAll('#tab-contact input, #tab-contact textarea').forEach(function(input) {
+                input.value = '';
+            });
+            document.getElementById('qr-output').style.display = 'none';
+            var statusMsg = document.getElementById('status-msg');
+            statusMsg.textContent = translations[currentLang].cleared;
+            statusMsg.className = 'status-msg info';
+        });
+
+        // === Download ===
+        document.getElementById('download-btn').addEventListener('click', function() {
+            var canvas = document.getElementById('qr-canvas');
+            var link = document.createElement('a');
+            link.download = 'qr-code.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            var statusMsg = document.getElementById('status-msg');
+            statusMsg.textContent = '\u2705 ' + translations[currentLang].downloadReady;
+            statusMsg.className = 'status-msg success';
+        });
+
+        // === Copy ===
+        document.getElementById('copy-btn').addEventListener('click', function() {
+            var canvas = document.getElementById('qr-canvas');
+            canvas.toBlob(function(blob) {
+                var item = new ClipboardItem({ 'image/png': blob });
+                navigator.clipboard.write([item]).then(function() {
+                    var statusMsg = document.getElementById('status-msg');
+                    statusMsg.textContent = '\u2705 ' + translations[currentLang].copied;
+                    statusMsg.className = 'status-msg success';
+                });
+            });
+        });
+
+        // === Init AOS ===
+        if (typeof AOS !== 'undefined') {
+            AOS.init({ duration: 800, once: true });
+        }
+    })();
+    </script>
+</body>
+</html>

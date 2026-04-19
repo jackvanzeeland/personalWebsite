@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgeting Automation - Jack Van Zeeland</title>
+    <meta name="description" content="UiPath-powered automation bot for bank statement processing and categorization with 95% accuracy">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jackvanzeeland.com/pages/projects/budgeting-automation" />
+    <meta property="og:title" content="Budgeting Automation - Jack Van Zeeland" />
+    <meta property="og:description" content="UiPath-powered automation bot for bank statement processing and categorization with 95% accuracy" />
+    <meta property="og:image" content="https://jackvanzeeland.com/assets/images/JVZLogo.png" />
+    <meta property="og:site_name" content="Jack Van Zeeland Portfolio" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://jackvanzeeland.com/assets/images/JVZLogo.png" />
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/color-scheme.css" />
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="/src/styles/components/header.css">
+    <link rel="stylesheet" href="/src/styles/components/footer.css">
+    <link rel="stylesheet" href="/src/styles/components/projects.css">
+    <link rel="stylesheet" href="/src/styles/components/budget.css">
+</head>
+<body>
+    <!-- Header and particles will be injected by Layout component -->
+
+    <main id="main-content">
+        <!-- Hero — finance-themed -->
+        <section class="budget-hero">
+            <div class="container">
+                <div class="text-center" data-aos="fade-up">
+                    <div class="budget-hero-icons" aria-hidden="true">
+                        <span class="hero-icon">&#128176;</span>
+                        <span class="hero-icon">&#129534;</span>
+                        <span class="hero-icon">&#128200;</span>
+                    </div>
+                    <h1 class="budget-hero-title">Budgeting Automation</h1>
+                    <p class="budget-hero-sub">UiPath bot that processes bank statements and categorizes transactions with 95% accuracy</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Description -->
+        <section class="py-4" data-aos="fade-up">
+            <div class="container">
+                <div class="col-lg-8 mx-auto">
+                    <p>
+                        Built out of frustration with manual budgeting, this UiPath RPA bot reads bank statement
+                        CSVs and PDFs, classifies each transaction into budget categories, and outputs a formatted
+                        Excel report. It handles multiple bank formats and adapts to new merchants over time.
+                    </p>
+                    <p>
+                        The bot cut monthly budgeting from hours of tedious data entry down to about 5 minutes of
+                        review. It processes statements from 3+ different banks and maintains 95% categorization
+                        accuracy across thousands of transactions.
+                    </p>
+
+                    <div class="budget-stats-strip">
+                        <div class="budget-stat">
+                            <span class="budget-stat-val">95%</span>
+                            <span class="budget-stat-lbl">Accuracy</span>
+                        </div>
+                        <div class="budget-stat">
+                            <span class="budget-stat-val">5 min</span>
+                            <span class="budget-stat-lbl">Monthly processing</span>
+                        </div>
+                        <div class="budget-stat">
+                            <span class="budget-stat-val">3+</span>
+                            <span class="budget-stat-lbl">Bank formats</span>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-5 mb-3">Built with</h3>
+                    <div class="d-flex flex-wrap gap-2 mb-5">
+                        <span class="tech-tag">UiPath</span>
+                        <span class="tech-tag">RPA</span>
+                        <span class="tech-tag">Excel Integration</span>
+                        <span class="tech-tag">OCR</span>
+                        <span class="tech-tag">Process Automation</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="container mb-5">
+            <div class="project-navigation text-center">
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="/#projects" class="btn btn-outline-primary btn-lg">Back to Projects</a>
+                    <a href="/pages/projects/basketball-optimization" class="btn btn-outline-success btn-lg">Next Project</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be injected by Layout component -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script type="module" src="/src/pages/project.ts"></script>
+</body>
+</html>

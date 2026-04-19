@@ -1,0 +1,243 @@
+[
+  {
+    "title": "Wordle Algorithm Solver",
+    "description": "A sophisticated algorithm that analyzes Wordle patterns and recommends optimal guesses. Features include frequency analysis, letter positioning analysis, and strategic word recommendations that achieve an 87% win rate.",
+    "technologies": [
+      "Python",
+      "Algorithm Design",
+      "Data Analysis",
+      "Matplotlib"
+    ],
+    "tags": ["algorithms", "games"],
+    "is_interactive": true,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "wordle-solver",
+    "image": "wordle.jpg"
+  },
+  {
+    "title": "Budgeting Automation",
+    "description": "UiPath-powered automation bot that processes bank statements, categorizes transactions, and generates monthly budget reports with 95% accuracy. Reduces manual budgeting time from 4 hours to 15 minutes per month.",
+    "technologies": ["UiPath", "Automation", "Excel Integration"],
+    "tags": ["automation", "finance"],
+    "is_interactive": false,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "budgeting-automation",
+    "image": "budget.jpg"
+  },
+  {
+    "title": "Basketball Lineup Optimization",
+    "description": "Advanced R-based statistical analysis tool that optimizes basketball team lineups using player performance metrics and historical game statistics. Provides data-driven recommendations for optimal player combinations.",
+    "technologies": ["R", "Statistics", "Data Science", "ggplot2"],
+    "tags": ["sports"],
+    "is_interactive": false,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "basketball-optimization",
+    "image": "basketball.jpg"
+  },
+  {
+    "title": "Secret Santa Matching",
+    "description": "Constraint-based algorithm for fair and random Secret Santa assignments with private matching. Ensures no one gets themselves while preventing duplicate matches from previous years.",
+    "technologies": ["JavaScript", "Algorithm Design", "Web App"],
+    "tags": ["algorithms", "interactive"],
+    "is_interactive": true,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "secret-santa",
+    "image": "secret-santa.jpg"
+  },
+  {
+    "title": "Super Bowl Competition",
+    "description": "Comprehensive prop bet scoring system for Super Bowl parties and competitions. Features real-time scoring, leaderboards, automated winner calculations, and detailed analytics on prediction accuracy. Supports custom prop bets and multiple scoring systems.",
+    "technologies": [
+      "Python",
+      "Flask",
+      "Web Development",
+      "Database",
+      "Real-time Updates"
+    ],
+    "tags": ["sports", "scoring", "database", "competition"],
+    "is_interactive": true,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "super-bowl",
+    "image": "superbowl.jpg",
+    "detailed_description": "The Super Bowl Competition system transforms game day parties into engaging predictive competitions. This platform manages participant registrations, tracks predictions across 50+ prop bets, provides real-time scoring updates during the game, displays live leaderboards with position changes, calculates detailed accuracy statistics and insights, and generates printable result sheets for distribution. The system supports custom point values and scoring rules.",
+    "project_highlights": [
+      "Real-time scoring for 50+ prop bets",
+      "Live leaderboard with automatic updates",
+      "Customizable scoring systems and point values",
+      "Comprehensive analytics and prediction accuracy tracking"
+    ],
+    "technical_challenges": [
+      "Implementing real-time data updates and scoring",
+      "Managing concurrent user interactions during live events",
+      "Creating flexible and customizable scoring systems",
+      "Handling complex game state and prediction tracking"
+    ]
+  },
+  {
+    "title": "Reddit Stories Bot",
+    "description": "Automated social media content generator that creates engaging video content from Reddit stories using AI. Features sentiment analysis, content optimization for different platforms, and automated posting schedules. Generated over 1M+ views across platforms.",
+    "technologies": [
+      "Python",
+      "Reddit API",
+      "Social Media APIs",
+      "AI/ML",
+      "Content Generation"
+    ],
+    "tags": ["automation", "social-media", "api", "content"],
+    "is_interactive": false,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "reddit-bot",
+    "image": "reddit.jpg",
+    "detailed_description": "The Reddit Stories Bot revolutionizes content creation by transforming user-generated stories into viral social media content. The system monitors trending subreddits for high-quality stories, performs sentiment analysis to identify engaging content, generates optimized text for different platform requirements, creates voice narration using text-to-speech with appropriate tone and emotion, schedules posts for optimal engagement times, and tracks performance metrics across all platforms.",
+    "project_highlights": [
+      "1M+ views generated across social media platforms",
+      "Automated content generation and optimization",
+      "Multi-platform integration and scheduling",
+      "Sentiment analysis and engagement prediction"
+    ],
+    "technical_challenges": [
+      "Integrating multiple social media APIs",
+      "Implementing effective sentiment analysis algorithms",
+      "Creating engaging automated content generation",
+      "Optimizing posting schedules for maximum engagement"
+    ]
+  },
+  {
+    "title": "Lyric Animator",
+    "description": "Advanced music visualization application with synchronized lyrics, particle effects, and modular animations. Features real-time audio analysis, multiple visualization modes, and support for custom lyric timing. Includes beat detection and reactive visual effects that respond to music intensity.",
+    "technologies": [
+      "JavaScript",
+      "Web Audio API",
+      "Canvas",
+      "Animation",
+      "Audio Processing"
+    ],
+    "tags": ["music", "animation", "audio", "interactive"],
+    "is_interactive": true,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "lyric-animator",
+    "image": "lyric-animator.jpg",
+    "detailed_description": "The Lyric Animator represents the fusion of music, technology, and visual art into an immersive experience. This application features real-time audio frequency analysis and beat detection, synchronized lyric display with precise timing accuracy, multiple particle effect systems including fireworks and wave patterns, modular animation framework for custom visualizations, support for custom lyrics with JSON-based timing, and reactive visual effects that respond to music intensity and frequency ranges.",
+    "project_highlights": [
+      "Real-time audio analysis with 60fps animations",
+      "Multiple visualization modes and particle effects",
+      "Precise lyric synchronization down to milliseconds",
+      "Modular architecture for custom animations"
+    ],
+    "technical_challenges": [
+      "Implementing real-time audio analysis and beat detection",
+      "Creating smooth 60fps animations with complex particle systems",
+      "Achieving precise lyric synchronization with variable timing",
+      "Designing modular and extensible animation framework"
+    ]
+  },
+  {
+    "title": "HTML Gems",
+    "description": "Interactive showcase of modern HTML5 features and cutting-edge web standards. Demonstrates advanced CSS animations, Web Components, Canvas API, and emerging web technologies with live, interactive examples that users can experiment with and learn from.",
+    "technologies": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Web Components",
+      "Canvas API"
+    ],
+    "tags": ["html", "web", "interactive", "showcase"],
+    "is_interactive": true,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "html-gems",
+    "image": "html-gems.jpg",
+    "detailed_description": "HTML Gems is an educational showcase that pushes the boundaries of modern web capabilities. This interactive platform demonstrates 20+ cutting-edge HTML5 features including advanced CSS animations and transforms, Web Components with shadow DOM, Canvas API for graphics and animations, Web Workers for background processing, LocalStorage and IndexedDB for data persistence, and emerging CSS Grid and Flexbox layouts. Each gem includes live code examples, editable demonstrations, and detailed explanations of the underlying technologies.",
+    "project_highlights": [
+      "20+ interactive HTML5 feature demonstrations",
+      "Live code editing with instant preview",
+      "Educational content with detailed explanations",
+      "Cutting-edge web standards showcase"
+    ],
+    "technical_challenges": [
+      "Implementing secure and reliable code execution environments",
+      "Creating intuitive user interfaces for technical demonstrations",
+      "Ensuring cross-browser compatibility for advanced features",
+      "Balancing educational content with interactive functionality"
+    ]
+  },
+  {
+    "title": "Nebula Personal Assistant",
+    "description": "AI-powered personal assistant with task management, scheduling, and natural language processing. Features voice commands, smart reminders, and proactive task suggestions. Integrates with calendar, email, and productivity tools for seamless workflow management.",
+    "technologies": [
+      "Python",
+      "AI/ML",
+      "NLP",
+      "Task Management",
+      "Voice Recognition"
+    ],
+    "tags": ["ai", "assistant", "productivity", "in-progress"],
+    "is_interactive": false,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "nebula-assistant",
+    "image": "nebula.jpg",
+    "status": "in_progress",
+    "detailed_description": "Nebula Personal Assistant represents the future of personal productivity through artificial intelligence. This advanced assistant understands natural language commands and queries, manages tasks and appointments with intelligent prioritization, provides proactive suggestions based on user behavior patterns, integrates with external services like calendars and email, supports voice commands and text-based interactions, and learns and adapts to individual user preferences and habits over time.",
+    "project_highlights": [
+      "Natural language processing for intuitive interactions",
+      "Proactive task suggestions and smart prioritization",
+      "Multi-service integration for seamless workflow",
+      "Adaptive learning based on user behavior patterns"
+    ],
+    "technical_challenges": [
+      "Implementing accurate natural language understanding",
+      "Creating secure integrations with multiple external services",
+      "Developing effective machine learning models for personalization",
+      "Balancing feature richness with performance and reliability"
+    ]
+  },
+  {
+    "title": "Run Genius",
+    "description": "Mobile application for runners with GPS tracking, performance analytics, and personalized training plans. Features social elements, achievement systems, and comprehensive running metrics. Includes route discovery, pace analysis, and race training programs for all skill levels.",
+    "technologies": [
+      "Mobile Dev",
+      "GPS",
+      "Analytics",
+      "Fitness",
+      "Social Features"
+    ],
+    "tags": ["mobile", "fitness", "analytics", "in-progress"],
+    "is_interactive": false,
+    "github_link": "",
+    "youtube_link": "",
+    "tiktok_link": "",
+    "page": "run-genius",
+    "image": "run-genius.jpg",
+    "status": "in_progress",
+    "detailed_description": "Run Genius is transforming how runners track, analyze, and improve their performance through technology. This comprehensive mobile application provides accurate GPS tracking with real-time pace and distance metrics, advanced performance analytics with trend analysis and insights, personalized training plans adapted to individual goals and fitness levels, social features including challenges and community leaderboards, route discovery and sharing with user-generated content, and achievement systems with badges and milestones to motivate continued improvement.",
+    "project_highlights": [
+      "Advanced GPS tracking with accurate pace metrics",
+      "Personalized training plans for all skill levels",
+      "Social features and community engagement",
+      "Comprehensive performance analytics and insights"
+    ],
+    "technical_challenges": [
+      "Implementing accurate GPS tracking and battery optimization",
+      "Creating effective training algorithms and personalization",
+      "Building social features and community engagement systems",
+      "Ensuring data accuracy and reliable performance metrics"
+    ]
+  }
+]

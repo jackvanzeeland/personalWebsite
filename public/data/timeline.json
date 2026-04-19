@@ -1,0 +1,125 @@
+{
+  "timelineItems": [
+    {
+      "id": "uw_madison_degree",
+      "title": "Bachelor's Degree - Data Science & Finance",
+      "organization": "University of Wisconsin - Madison",
+      "type": "education",
+      "startDate": "2021-09-01",
+      "endDate": "2025-05-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-danger"
+    },
+    {
+      "id": "orbis_intern",
+      "title": "Quality Intern",
+      "organization": "Orbis Corporation",
+      "type": "work",
+      "startDate": "2023-05-01",
+      "endDate": "2023-08-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-info"
+    },
+    {
+      "id": "linkedin_rpa",
+      "title": "Robotic Process Automation (RPA)",
+      "organization": "LinkedIn",
+      "type": "certification",
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "linkedin_process_mining",
+      "title": "Process Mining for Robotic Process Automation",
+      "organization": "LinkedIn",
+      "type": "certification",
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "linkedin_power_automate",
+      "title": "Microsoft Power Automate - Advanced Business Automation",
+      "organization": "LinkedIn",
+      "type": "certification",
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "linkedin_intro_rpa",
+      "title": "Introducting Robotic Process Automation",
+      "organization": "LinkedIn",
+      "type": "certification",
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "uipath_academy",
+      "title": "Automation Developer Associate Training",
+      "organization": "UiPath Academy",
+      "type": "certification",
+      "startDate": "2024-02-01",
+      "endDate": "2024-02-29",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "echo_rpa_intern",
+      "title": "RPA Developer Intern",
+      "organization": "Echo Global Logistics",
+      "type": "work",
+      "startDate": "2024-02-01",
+      "endDate": "2025-05-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-info"
+    },
+    {
+      "id": "microsoft_copilot",
+      "title": "Microsoft Copilot for Productivity",
+      "organization": "Microsoft",
+      "type": "certification",
+      "startDate": "2024-12-01",
+      "endDate": "2024-12-31",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "echo_engineer",
+      "title": "Business Automation Engineer",
+      "organization": "Echo Global Logistics",
+      "type": "work",
+      "startDate": "2025-06-01",
+      "endDate": "2025-12-31",
+      "isPresent": true,
+      "description": "TBD",
+      "badgeColor": "bg-info"
+    },
+    {
+      "id": "uipath_professional",
+      "title": "Automation Developer Professional",
+      "organization": "UiPath",
+      "type": "certification",
+      "startDate": "2026-02-01",
+      "endDate": "2026-02-29",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    }
+  ]
+}

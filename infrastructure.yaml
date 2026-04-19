@@ -196,6 +196,70 @@ Resources:
             return request;
         }
 
+  # OAI for mortgage-simulator project bucket
+  MortgageSimulatorOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "OAI for mortgage-simulator project"
+
+  # Bucket policy restricting mortgage-simulator access to CloudFront OAI
+  MortgageSimulatorBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: "mortgagesimulator-jvz"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowCloudFrontOAI
+            Effect: Allow
+            Principal:
+              CanonicalUser: !GetAtt MortgageSimulatorOriginAccessIdentity.S3CanonicalUserId
+            Action: s3:GetObject
+            Resource: "arn:aws:s3:::mortgagesimulator-jvz/*"
+
+  # CloudFront Function to strip /projects/mortgage-simulator prefix
+  MortgageSimulatorRewriteFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: mortgage-simulator-url-rewrite
+      AutoPublish: true
+      FunctionConfig:
+        Comment: "Strip /projects/mortgage-simulator prefix and default to index.html"
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+            var request = event.request;
+            var uri = request.uri;
+            uri = uri.replace(/^\/projects\/mortgage-simulator/, '');
+            if (uri === '' || uri === '/') {
+                uri = '/index.html';
+            }
+            request.uri = uri;
+            return request;
+        }
+
+  # CloudFront Function to strip /projects/budget-tracker prefix for Vercel origin
+  BudgetTrackerRewriteFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: budget-tracker-url-rewrite
+      AutoPublish: true
+      FunctionConfig:
+        Comment: "Strip /projects/budget-tracker prefix and default to root"
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+            var request = event.request;
+            var uri = request.uri;
+            uri = uri.replace(/^\/projects\/budget-tracker/, '');
+            if (uri === '' || uri === '/') {
+                uri = '/';
+            }
+            request.uri = uri;
+            return request;
+        }
+
   # CloudFront Distribution
   WebsiteDistribution:
     Type: AWS::CloudFront::Distribution
@@ -214,6 +278,14 @@ Resources:
             Id: WokuS3Origin
             S3OriginConfig:
               OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${WokuOriginAccessIdentity}"
+          - DomainName: "mortgagesimulator-jvz.s3.us-east-1.amazonaws.com"
+            Id: MortgageSimulatorS3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${MortgageSimulatorOriginAccessIdentity}"
+          - DomainName: "budgeting-viz.vercel.app"
+            Id: BudgetTrackerVercelOrigin
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
         CacheBehaviors:
           # Exact path (no trailing slash)
           - PathPattern: "/projects/superbowl"
@@ -261,6 +333,54 @@ Resources:
             FunctionAssociations:
               - EventType: viewer-request
                 FunctionARN: !GetAtt WokuRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+          # Mortgage Simulator - exact path (no trailing slash)
+          - PathPattern: "/projects/mortgage-simulator"
+            TargetOriginId: MortgageSimulatorS3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt MortgageSimulatorRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+          # Mortgage Simulator - wildcard (trailing slash + subpaths)
+          - PathPattern: "/projects/mortgage-simulator/*"
+            TargetOriginId: MortgageSimulatorS3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt MortgageSimulatorRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+          # Budget Tracker (Vercel) - exact path (no trailing slash)
+          - PathPattern: "/projects/budget-tracker"
+            TargetOriginId: BudgetTrackerVercelOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt BudgetTrackerRewriteFunction.FunctionARN
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+            Compress: true
+          # Budget Tracker (Vercel) - wildcard (trailing slash + subpaths)
+          - PathPattern: "/projects/budget-tracker/*"
+            TargetOriginId: BudgetTrackerVercelOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt BudgetTrackerRewriteFunction.FunctionARN
             ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
             Compress: true
         DefaultCacheBehavior:

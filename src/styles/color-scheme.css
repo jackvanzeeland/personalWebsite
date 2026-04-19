@@ -1,0 +1,157 @@
+/* Professional Color Scheme - Modern Blue/Teal Palette */
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+:root {
+  /* Light Theme Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-soft: #e8f4f8;
+  
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #4b5563;
+  --text-subtle: #94a3b8;
+  
+  /* Primary Brand Colors - Professional Blue/Teal */
+  --accent-primary: #0ea5e9;
+  --accent-primary-light: #7dd3fc;
+  --accent-primary-dark: #0284c7;
+  --accent-primary-hover: #0c4a6e;
+  
+  /* Secondary Colors */
+  --accent-secondary: #10b981;
+  --accent-secondary-light: #6ee7b7;
+  --accent-secondary-dark: #059669;
+  
+  /* Accent Colors for Different Elements */
+  --accent-success: #10b981;
+  --accent-success-light: #6ee7b7;
+  --accent-success-dark: #059669;
+  
+  --accent-warning: #f59e0b;
+  --accent-warning-light: #fcd34d;
+  --accent-warning-dark: #d97706;
+  
+  --accent-danger: #ef4444;
+  --accent-danger-light: #f87171;
+  --accent-danger-dark: #dc2626;
+  
+  --accent-info: #3b82f6;
+  --accent-info-light: #60a5fa;
+  --accent-info-dark: #1d4ed8;
+  
+  /* Neutral Grays */
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --divider-color: #e5e7eb;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  
+  /* Gradient Definitions */
+  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  --gradient-secondary: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-accent: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+  --gradient-hero: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+  --gradient-subtle: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 100%);
+  
+  /* Hero Section Gradients */
+  --hero-gradient-start: #0ea5e9;
+  --hero-gradient-end: #6366f1;
+  --hero-overlay: rgba(15, 23, 42, 0.3);
+  
+
+  
+  /* Professional Color Combinations */
+  --color-combo-1-primary: #0ea5e9;
+  --color-combo-1-secondary: #0f172a;
+  
+  --color-combo-2-primary: #10b981;
+  --color-combo-2-secondary: #064e3b;
+  
+  --color-combo-3-primary: #f59e0b;
+  --color-combo-3-secondary: #78350f;
+  
+  /* Status Colors */
+  --status-success: #10b981;
+  --status-warning: #f59e0b;
+  --status-error: #ef4444;
+  --status-info: #3b82f6;
+  
+  /* Semantic Colors */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+}
+
+/* Dark Theme Colors */
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-soft: #1e293b;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  
+  /* Dark theme accent colors - slightly more vibrant */
+  --accent-primary: #38bdf8;
+  --accent-primary-light: #7dd3fc;
+  --accent-primary-dark: #0284c7;
+  --accent-primary-hover: #0c4a6e;
+  
+  --accent-secondary: #34d399;
+  --accent-secondary-light: #6ee7b7;
+  --accent-secondary-dark: #059669;
+  
+  --border-color: #334155;
+  --border-hover: #475569;
+  --divider-color: #475569;
+  
+  /* Dark theme shadows - stronger for visibility on dark backgrounds */
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 0 0 1px rgb(255 255 255 / 0.03);
+  --shadow-md: 0 4px 8px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 20px -3px rgb(0 0 0 / 0.4), 0 4px 8px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 30px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.6);
+  
+  /* Dark theme gradients */
+  --gradient-primary: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  --gradient-secondary: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  --gradient-accent: linear-gradient(135deg, #60a5fa 0%, #38bdf8 100%);
+  --gradient-hero: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+  --gradient-subtle: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  
+  /* Dark theme hero */
+  --hero-gradient-start: #38bdf8;
+  --hero-gradient-end: #818cf8;
+  --hero-overlay: rgba(248, 250, 252, 0.1);
+}
+
+/* Bootstrap dark mode overrides */
+[data-theme="dark"] .text-muted {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--bg-secondary) !important;
+}
