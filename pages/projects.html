@@ -80,16 +80,25 @@
       <section class="py-5">
         <div class="container">
 
-          <!-- Filter Bar -->
-          <div class="projects-filter-bar mb-5" data-aos="fade-up">
-            <div class="projects-filter-inner">
-              <span class="filter-label-text">Filter by</span>
-              <div id="filter-buttons" class="d-flex flex-wrap gap-2"></div>
-            </div>
-            <p id="projects-count" class="projects-count mb-0"></p>
+          <!-- Filter Dropdown (right-aligned) -->
+          <div class="d-flex justify-content-end mb-4" data-aos="fade-up">
+            <div id="filter-dropdown-wrapper"></div>
           </div>
 
-          <div id="projects-grid" class="row g-4"></div>
+          <!-- Bento Grid (featured 3, unfiltered mode only) -->
+          <div id="bento-grid" class="bento-grid"></div>
+
+          <!-- More Work Divider (shown between bento and compact grid) -->
+          <div id="more-work-divider" class="more-work-divider" style="display: none;">
+            <span>More Work</span>
+          </div>
+
+          <!-- Filter Results Count (shown in filtered mode) -->
+          <p id="filter-results-count" class="text-muted small mb-3" style="display: none;"></p>
+
+          <!-- Compact Grid (remaining 7 or all filtered results) -->
+          <div id="projects-grid" class="row g-3"></div>
+
         </div>
       </section>
     </main>
