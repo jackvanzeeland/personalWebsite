@@ -137,14 +137,20 @@ function getFilteredProjects(): Project[] {
 function renderProjects(projectsToRender: Project[]): void {
     const projectsGrid = document.getElementById('projects-grid');
     if (!projectsGrid) return;
-    
-    projectsGrid.innerHTML = '';
-    
+
+    projectsGrid.replaceChildren();
+
+    // Update live count
+    const countEl = document.getElementById('projects-count');
+    if (countEl) {
+        countEl.textContent = `Showing ${projectsToRender.length} of ${projects.length} projects`;
+    }
+
     projectsToRender.forEach((project, index) => {
         const projectCard = createProjectCard(project, index);
         projectsGrid.appendChild(projectCard);
     });
-    
+
     // Show message if no projects match
     if (projectsToRender.length === 0) {
         const col = document.createElement('div');
@@ -163,64 +169,88 @@ function renderProjects(projectsToRender: Project[]): void {
     }
 }
 
+function getProjectLink(project: Project): string | null {
+    if (project.webpage_link) return project.webpage_link;
+    if (project.page && project.status !== 'in_progress') return `/pages/projects/${project.page}`;
+    return null;
+}
+
+function getCategoryClass(tags: string[]): string {
+    const primary = (tags[0] || '').toLowerCase();
+    if (primary === 'python') return 'cat-python';
+    if (primary === 'automation') return 'cat-automation';
+    if (primary === 'finance') return 'cat-finance';
+    if (primary === 'innovation' || primary === 'creative') return 'cat-creative';
+    if (primary === 'r') return 'cat-r';
+    return 'cat-default';
+}
+
 function createProjectCard(project: Project, index: number): HTMLDivElement {
-    const card = document.createElement('div');
-    card.className = 'col-lg-4 col-md-6';
-    card.setAttribute('data-aos', 'fade-up');
-    card.setAttribute('data-aos-delay', (index * 100).toString());
+    const isFeatured = index === 0;
+    const link = getProjectLink(project);
 
-    // Create project card container
-    const projectCard = document.createElement('div');
-    projectCard.className = 'project-card h-100';
+    const wrapper = document.createElement('div');
+    wrapper.className = isFeatured ? 'col-12' : 'col-lg-4 col-md-6';
+    wrapper.setAttribute('data-aos', 'fade-up');
+    wrapper.setAttribute('data-aos-delay', Math.min(index * 80, 400).toString());
 
-    // Create image container
+    // Card is an <a> if linkable, otherwise a <div>
+    const projectCard = document.createElement(link ? 'a' : 'div') as HTMLAnchorElement & HTMLDivElement;
+    const categoryClass = getCategoryClass(project.tags);
+    projectCard.className = `project-card h-100 ${isFeatured ? 'project-card-featured' : ''} ${categoryClass}`;
+
+    if (link) {
+        (projectCard as HTMLAnchorElement).href = link;
+        if (project.webpage_link && project.webpage_link.startsWith('http')) {
+            (projectCard as HTMLAnchorElement).target = '_blank';
+            (projectCard as HTMLAnchorElement).rel = 'noopener noreferrer';
+        }
+    }
+
+    // Image
     const imageContainer = document.createElement('div');
     imageContainer.className = 'project-image';
 
     const img = document.createElement('img');
     img.src = `/assets/images/${project.image}`;
-    img.alt = `Screenshot of ${project.title} - ${project.description.substring(0, 50)}...`;
+    img.alt = project.title;
     img.loading = 'lazy';
-    img.addEventListener('error', () => {
-        img.src = '/assets/images/placeholder.svg';
-    });
+    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
     imageContainer.appendChild(img);
 
-    // Add badges
     if (project.is_interactive) {
         const badge = document.createElement('span');
-        badge.className = 'badge bg-success';
+        badge.className = 'badge bg-success project-badge';
         badge.textContent = 'Interactive';
         imageContainer.appendChild(badge);
     }
 
     if (project.status === 'in_progress') {
         const badge = document.createElement('span');
-        badge.className = 'badge bg-warning';
+        badge.className = 'badge bg-warning project-badge';
         badge.textContent = 'In Progress';
         imageContainer.appendChild(badge);
     }
 
     projectCard.appendChild(imageContainer);
 
-    // Create content container
+    // Content
     const contentContainer = document.createElement('div');
     contentContainer.className = 'project-content';
 
-    const title = document.createElement('h5');
+    const title = document.createElement(isFeatured ? 'h3' : 'h5');
     title.className = 'project-title';
     title.textContent = project.title;
     contentContainer.appendChild(title);
 
     const description = document.createElement('p');
-    description.className = 'project-description';
+    description.className = `project-description ${isFeatured ? 'project-description-featured' : ''}`;
     description.textContent = project.description;
     contentContainer.appendChild(description);
 
-    // Technologies
     const techContainer = document.createElement('div');
     techContainer.className = 'project-technologies';
-    project.technologies.slice(0, 3).forEach(tech => {
+    project.technologies.slice(0, isFeatured ? 5 : 3).forEach(tech => {
         const techTag = document.createElement('span');
         techTag.className = 'tech-tag';
         techTag.textContent = tech;
@@ -228,37 +258,24 @@ function createProjectCard(project: Project, index: number): HTMLDivElement {
     });
     contentContainer.appendChild(techContainer);
 
-    // Links
-    const linksContainer = document.createElement('div');
-    linksContainer.className = 'project-links';
-
-    if (project.webpage_link) {
-        const viewLink = document.createElement('a');
-        viewLink.href = project.webpage_link;
-        viewLink.className = 'btn btn-primary btn-sm';
-        viewLink.textContent = 'View Project';
-        viewLink.target = '_blank';
-        viewLink.rel = 'noopener noreferrer';
-        linksContainer.appendChild(viewLink);
-    } else if (project.page && project.status !== 'in_progress') {
-        const viewLink = document.createElement('a');
-        viewLink.href = `/pages/projects/${project.page}`;
-        viewLink.className = 'btn btn-primary btn-sm';
-        viewLink.textContent = 'View Project';
-        linksContainer.appendChild(viewLink);
-    } else if (project.status === 'in_progress') {
-        const comingSoon = document.createElement('button');
-        comingSoon.className = 'btn btn-outline-secondary btn-sm';
+    if (!link && project.status === 'in_progress') {
+        const comingSoon = document.createElement('span');
+        comingSoon.className = 'coming-soon-label';
         comingSoon.textContent = 'Coming Soon';
-        comingSoon.disabled = true;
-        linksContainer.appendChild(comingSoon);
+        contentContainer.appendChild(comingSoon);
     }
 
-    contentContainer.appendChild(linksContainer);
     projectCard.appendChild(contentContainer);
-    card.appendChild(projectCard);
 
-    return card;
+    if (link) {
+        const cta = document.createElement('div');
+        cta.className = 'project-cta';
+        cta.textContent = isFeatured ? 'View Project \u2192' : '\u2192';
+        projectCard.appendChild(cta);
+    }
+
+    wrapper.appendChild(projectCard);
+    return wrapper;
 }
 
 function logFilterChange(_tagName: string, _isAll: boolean): void {

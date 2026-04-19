@@ -1,135 +1,253 @@
-/* Project Cards and Grid Styles */
+/* ============================================
+   Project Cards
+   ============================================ */
+
+/* Category accent colors */
+.project-card { --card-accent: var(--accent-primary); }
+.project-card.cat-python     { --card-accent: #10b981; }
+.project-card.cat-automation { --card-accent: #f59e0b; }
+.project-card.cat-finance    { --card-accent: #3b82f6; }
+.project-card.cat-creative   { --card-accent: #8b5cf6; }
+.project-card.cat-r          { --card-accent: #ef4444; }
+
 .project-card {
     background: var(--bg-primary);
-    border-radius: 15px;
+    border-radius: 14px;
     overflow: hidden;
     box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.28s ease,
+                border-color 0.28s ease;
     border: 1px solid var(--border-color);
     height: 100%;
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+/* Accent stripe at top */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--card-accent);
+    z-index: 1;
 }
+
+a.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+    border-color: color-mix(in srgb, var(--card-accent) 40%, var(--border-color));
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ============================================
+   Standard card image
+   ============================================ */
 
 .project-image {
     position: relative;
     height: 200px;
     overflow: hidden;
+    background: var(--bg-tertiary);
 }
 
 .project-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
-.project-card:hover .project-image img {
+a.project-card:hover .project-image img {
     transform: scale(1.05);
 }
 
-.project-image .badge {
+.project-badge {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
+    font-size: 0.72rem;
+    padding: 0.22rem 0.55rem;
+    z-index: 2;
 }
 
+/* ============================================
+   Card content
+   ============================================ */
+
 .project-content {
-    padding: 1.5rem;
+    padding: 1.25rem 1.4rem 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .project-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
     color: var(--text-primary);
 }
 
 .project-description {
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.9rem;
     flex: 1;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    /* Clamp to 3 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .project-technologies {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .tech-tag {
     background: var(--bg-tertiary);
     color: var(--text-secondary);
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
     font-weight: 500;
 }
 
-.project-links {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-/* Filter Section Styles */
-.filter-section {
-    background: var(--bg-secondary);
-    border-radius: 15px;
-    padding: 2rem;
-    border: 1px solid var(--border-color);
-}
-
-.filter-container {
-    text-align: center;
-}
-
-.filter-label {
+.coming-soon-label {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.filter-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+/* CTA at bottom of linkable cards */
+.project-cta {
+    padding: 0.7rem 1.4rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--card-accent);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+a.project-card:hover .project-cta {
+    padding-left: 1.7rem;
+}
+
+/* ============================================
+   Featured card (first in any filtered set)
+   ============================================ */
+
+.project-card-featured {
+    flex-direction: row;
+}
+
+.project-card-featured .project-image {
+    width: 380px;
+    min-width: 280px;
+    flex-shrink: 0;
+    height: auto;
+    min-height: 260px;
+}
+
+.project-card-featured .project-content {
+    padding: 2rem;
     justify-content: center;
+}
+
+.project-card-featured .project-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.project-description-featured {
+    -webkit-line-clamp: 5 !important;
+    font-size: 0.95rem !important;
+}
+
+.project-card-featured .project-cta {
+    border-top: none;
+    padding: 0;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+}
+
+a.project-card-featured:hover .project-cta {
+    padding-left: 0.3rem;
+}
+
+/* ============================================
+   Filter Bar
+   ============================================ */
+
+.projects-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
+.projects-filter-inner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.filter-label-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.projects-count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    white-space: nowrap;
 }
 
 .filter-btn {
     background: var(--bg-primary);
-    border: 2px solid var(--border-color);
-    border-radius: 25px;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.22s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .filter-btn:hover {
     border-color: var(--accent-primary);
-    background: var(--accent-primary);
-    color: white;
-    transform: translateY(-2px);
+    color: var(--accent-primary);
+    transform: translateY(-1px);
 }
 
 .filter-btn.active {
@@ -139,41 +257,42 @@
 }
 
 .filter-btn .badge {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
     color: white;
-    border-radius: 10px;
-    padding: 0.125rem 0.375rem;
-    font-size: 0.7rem;
-    min-width: 20px;
+    border-radius: 8px;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.68rem;
+    min-width: 18px;
     text-align: center;
 }
 
 .filter-btn:not(.active) .badge {
     background: var(--bg-tertiary);
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-    .filter-buttons {
-        justify-content: center;
+    .project-card-featured {
+        flex-direction: column;
     }
-    
-    .filter-btn {
-        font-size: 0.8rem;
-        padding: 0.375rem 0.75rem;
+
+    .project-card-featured .project-image {
+        width: 100%;
+        height: 220px;
     }
-    
-    .project-content {
-        padding: 1rem;
+
+    .project-card-featured .project-content {
+        padding: 1.25rem;
     }
-    
-    .project-title {
-        font-size: 1.1rem;
+
+    .project-card-featured .project-title {
+        font-size: 1.2rem;
     }
-    
-    .project-description {
-        font-size: 0.85rem;
+
+    .projects-filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
