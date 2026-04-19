@@ -1,7 +1,8 @@
 import { unlockAchievement } from './journey';
 
 export function initializeTheme(): void {
-    const savedTheme = (localStorage.getItem('theme') || 'light') as 'light' | 'dark';
+    const systemPrefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const savedTheme = (localStorage.getItem('theme') ?? systemPrefers) as 'light' | 'dark';
     setTheme(savedTheme);
     
     // Add theme toggle listener

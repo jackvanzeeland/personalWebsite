@@ -7,9 +7,9 @@ body {
 
 :root {
   /* Light Theme Colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-tertiary: #f1f5f9;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-tertiary: #e8eef4;
   --bg-soft: #e8f4f8;
   
   /* Text Colors */

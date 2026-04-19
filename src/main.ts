@@ -13,16 +13,45 @@ function cleanupAnalyticsData(): void {
     console.log('🧹 Analytics data cleaned up');
 }
 
+// Typewriter effect for hero section
+function initTypewriter(): void {
+    const el = document.getElementById('typewriter-text');
+    if (!el) return;
+
+    const phrases = [
+        'I automate the repetitive.',
+        'I build tools people keep using.',
+        'I turn algorithms into answers.',
+        'I ship projects that scale.',
+    ];
+    let i = 0;
+
+    function cycle() {
+        (el as HTMLElement).style.opacity = '0';
+        setTimeout(() => {
+            i = (i + 1) % phrases.length;
+            (el as HTMLElement).textContent = phrases[i];
+            (el as HTMLElement).style.opacity = '1';
+            setTimeout(cycle, 3400);
+        }, 420);
+    }
+
+    setTimeout(cycle, 3400);
+}
+
 // Initialize application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Portfolio application initializing...');
-    
+
     // Clean up old analytics data
     cleanupAnalyticsData();
-    
+
     // Initialize layout (header, footer, AOS, theme)
     initializeLayout();
-    
+
+    // Hero typewriter
+    initTypewriter();
+
     console.log('🎉 Portfolio initialization complete!');
 });
 

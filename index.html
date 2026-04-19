@@ -107,68 +107,154 @@
     <main id="main-content">
       <!-- Hero Section -->
       <section id="hero" class="hero-section">
-        <div class="container text-center">
-          <h1 class="display-3 fw-bold text-white mb-4" data-aos="fade-up">
-            Jack Van Zeeland
-          </h1>
-          <p
-            class="lead text-white mb-4"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            Software Engineer | Automation Expert | Problem Solver
-          </p>
-          <div class="hero-buttons" data-aos="fade-up" data-aos-delay="200">
-            <a href="/pages/projects" class="btn btn-primary btn-lg me-3"
-              >View Projects</a
-            >
-            <a href="/pages/about" class="btn btn-outline-primary btn-lg"
-              >Learn More</a
-            >
+        <div class="container">
+          <div class="row align-items-center hero-content-row">
+
+            <!-- Left: Text -->
+            <div class="col-lg-7" data-aos="fade-right">
+              <p class="hero-eyebrow text-white">Hey, I'm</p>
+              <h1 class="hero-name fw-bold text-white mb-3">
+                Jack Van Zeeland
+              </h1>
+              <div class="hero-typewriter mb-3">
+                <span id="typewriter-text">I automate the repetitive.</span>
+              </div>
+              <p class="hero-subtext mb-4">
+                Software engineer focused on automation, AI tooling, and building
+                things that are actually useful.
+              </p>
+
+              <!-- Stats Bar -->
+              <div class="hero-stats mb-5" data-aos="fade-up" data-aos-delay="200">
+                <div class="hero-stat">
+                  <span class="hero-stat-number">10+</span>
+                  <span class="hero-stat-label">Projects Built</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                  <span class="hero-stat-number">87%</span>
+                  <span class="hero-stat-label">Algorithm Win Rate</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                  <span class="hero-stat-number">50K+</span>
+                  <span class="hero-stat-label">Video Views</span>
+                </div>
+              </div>
+
+              <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+                <a href="/pages/projects" class="btn btn-primary btn-lg me-3">View My Work</a>
+                <a href="/pages/about" class="btn btn-outline-light btn-lg">About Me</a>
+              </div>
+            </div>
+
+            <!-- Right: Profile Photo -->
+            <div class="col-lg-5 text-center d-none d-lg-flex justify-content-center" data-aos="fade-left" data-aos-delay="150">
+              <div class="hero-avatar-wrapper">
+                <img
+                  src="/assets/images/profile.jpg"
+                  alt="Jack Van Zeeland"
+                  class="hero-avatar"
+                  onerror="this.parentElement.style.display='none'"
+                />
+              </div>
+            </div>
+
           </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="hero-scroll-indicator">
+          <span class="hero-scroll-label">Scroll to explore</span>
+          <div class="scroll-arrow"></div>
         </div>
       </section>
 
-
-
-      <!-- Skills Section -->
-      <section id="skills" class="py-5 bg-section-alt">
+      <!-- Featured Work Section -->
+      <section id="featured" class="featured-section">
         <div class="container">
-          <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold" data-aos="fade-up">Technical Skills</h2>
-            <p class="lead text-muted" data-aos="fade-up" data-aos-delay="100">
-              Technologies and tools I work with
-            </p>
+          <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">Featured Work</h2>
+            <p class="lead text-muted">A few things I've built</p>
           </div>
-          <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up">
-              <div class="skill-card text-center">
-                <div class="skill-icon mb-3" role="img" aria-label="Python">🐍</div>
-                <h5>Python</h5>
-                <p class="text-muted">Flask, Data Analysis, Automation</p>
-              </div>
+          <div class="row g-4">
+
+            <!-- Woku -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
+              <a href="/projects/woku/" class="featured-project-card">
+                <div class="featured-project-img-wrapper">
+                  <img src="/assets/images/woku.png" alt="Woku game" class="featured-project-img" />
+                </div>
+                <div class="featured-project-body">
+                  <h3 class="featured-project-title">Woku</h3>
+                  <p class="featured-project-desc">
+                    A hybrid of Sudoku and Wordle — a 9-letter word is embedded in a Sudoku-style board.
+                    Guess the word or solve your way to it.
+                  </p>
+                  <div class="featured-project-tags">
+                    <span class="featured-tag">TypeScript</span>
+                    <span class="featured-tag">Interactive</span>
+                    <span class="featured-tag">Creative</span>
+                  </div>
+                </div>
+                <div class="featured-project-footer">
+                  Play it &rarr;
+                </div>
+              </a>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="skill-card text-center">
-                <div class="skill-icon mb-3" role="img" aria-label="AI and Machine Learning">🤖</div>
-                <h5>AI & ML</h5>
-                <p class="text-muted">OpenAI API, Algorithm Design</p>
-              </div>
+
+            <!-- Budget Tracker -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+              <a href="/projects/budget-tracker/" class="featured-project-card">
+                <div class="featured-project-img-wrapper">
+                  <img src="/assets/images/budgetTracker.png" alt="Budget Tracker" class="featured-project-img" />
+                </div>
+                <div class="featured-project-body">
+                  <h3 class="featured-project-title">Budget Tracker</h3>
+                  <p class="featured-project-desc">
+                    Personal finance tracker with transaction history, monthly trend charts,
+                    donut breakdowns, and vendor analysis. Built with React and Supabase.
+                  </p>
+                  <div class="featured-project-tags">
+                    <span class="featured-tag">React</span>
+                    <span class="featured-tag">Supabase</span>
+                    <span class="featured-tag">Data</span>
+                  </div>
+                </div>
+                <div class="featured-project-footer">
+                  Open app &rarr;
+                </div>
+              </a>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-              <div class="skill-card text-center">
-                <div class="skill-icon mb-3" role="img" aria-label="Automation">⚙️</div>
-                <h5>Automation</h5>
-                <p class="text-muted">UiPath, Process Optimization</p>
-              </div>
+
+            <!-- Wordle Solver -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+              <a href="/pages/projects/wordle-solver.html" class="featured-project-card">
+                <div class="featured-project-img-wrapper">
+                  <img src="/assets/images/wordleMain.png" alt="Wordle Algorithm Solver" class="featured-project-img" />
+                </div>
+                <div class="featured-project-body">
+                  <h3 class="featured-project-title">Wordle Algorithm Solver</h3>
+                  <p class="featured-project-desc">
+                    An algorithm that recommends the optimal next Wordle guess. It outperformed
+                    or tied my manual attempts in 87% of games (46 of 53).
+                  </p>
+                  <div class="featured-project-tags">
+                    <span class="featured-tag">Python</span>
+                    <span class="featured-tag">Algorithm</span>
+                    <span class="featured-tag">AI</span>
+                  </div>
+                </div>
+                <div class="featured-project-footer">
+                  Try it &rarr;
+                </div>
+              </a>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
-              <div class="skill-card text-center">
-                <div class="skill-icon mb-3" role="img" aria-label="Data Science">📊</div>
-                <h5>Data Science</h5>
-                <p class="text-muted">R, Statistics, Analytics</p>
-              </div>
-            </div>
+
+          </div>
+
+          <div class="text-center mt-5" data-aos="fade-up">
+            <a href="/pages/projects" class="btn btn-outline-primary btn-lg">See all projects</a>
           </div>
         </div>
       </section>
