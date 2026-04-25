@@ -1,0 +1,5 @@
+[     104ms] [LOG] 📂 Projects page initializing... @ http://localhost:3001/src/pages/projects.ts:8
+[     108ms] [LOG] Theme updated to: light @ http://localhost:3001/src/utils/theme.ts:32
+[     108ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3001/src/utils/theme.ts:23
+[     108ms] [LOG] ✅ Layout initialized @ http://localhost:3001/src/components/Layout.ts:24
+[     108ms] [LOG] ✅ Projects page ready @ http://localhost:3001/src/pages/projects.ts:12

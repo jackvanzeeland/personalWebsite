@@ -1,0 +1,5 @@
+[      96ms] [LOG] 🧩 Artifacts page initializing... @ http://localhost:3001/src/pages/artifacts.ts:8
+[      99ms] [LOG] Theme updated to: light @ http://localhost:3001/src/utils/theme.ts:32
+[      99ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3001/src/utils/theme.ts:23
+[      99ms] [LOG] ✅ Layout initialized @ http://localhost:3001/src/components/Layout.ts:24
+[      99ms] [LOG] ✅ Artifacts page ready @ http://localhost:3001/src/pages/artifacts.ts:11

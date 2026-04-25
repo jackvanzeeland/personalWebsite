@@ -1,0 +1,76 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - link "Skip to main content" [ref=e2] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "JVZ" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "JVZ" [ref=e6]
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Projects" [ref=e10] [cursor=pointer]:
+              - /url: /pages/projects
+          - listitem [ref=e11]:
+            - link "About" [ref=e12] [cursor=pointer]:
+              - /url: /pages/about
+          - listitem [ref=e13]:
+            - link "Beyond the Code" [ref=e14] [cursor=pointer]:
+              - /url: /pages/beyond-the-code
+          - listitem [ref=e15]:
+            - link "Journey" [ref=e16] [cursor=pointer]:
+              - /url: /pages/journey
+          - listitem [ref=e17]:
+            - button "Switch to dark mode" [ref=e18] [cursor=pointer]: 🌙
+  - main [ref=e19]:
+    - generic [ref=e23]:
+      - generic [ref=e24]: Tools & Demos
+      - heading "Artifacts" [level=1] [ref=e25]
+      - paragraph [ref=e26]: Small, self-contained tools and demos — many built with AI assistance. Standalone utilities that solve real problems.
+    - generic [ref=e29]:
+      - generic [ref=e31]:
+        - img "Screenshot of QR Code Generator" [ref=e33]
+        - generic [ref=e34]:
+          - heading "QR Code Generator" [level=5] [ref=e35]
+          - paragraph [ref=e36]: A bilingual (EN/ES) QR code generator supporting URLs, plain text, and contact vCards. Generate, download, and copy QR codes instantly.
+          - generic [ref=e37]:
+            - generic [ref=e38]: HTML5
+            - generic [ref=e39]: JavaScript
+            - generic [ref=e40]: QRious
+          - link "View Artifact" [ref=e42] [cursor=pointer]:
+            - /url: /pages/artifacts/qr-code-generator
+      - generic [ref=e44]:
+        - img "Screenshot of UiPath Queue Processor" [ref=e46]
+        - generic [ref=e47]:
+          - heading "UiPath Queue Processor" [level=5] [ref=e48]
+          - paragraph [ref=e49]: Upload UiPath Orchestrator queue CSV exports, flatten DynamicProperties JSON columns, select desired fields, and download a clean CSV.
+          - generic [ref=e50]:
+            - generic [ref=e51]: HTML5
+            - generic [ref=e52]: JavaScript
+            - generic [ref=e53]: Papa Parse
+          - link "View Artifact" [ref=e55] [cursor=pointer]:
+            - /url: /pages/artifacts/uipath-queue-processor
+      - generic [ref=e57]:
+        - img "Screenshot of HTML Gems Uncovered" [ref=e59]
+        - generic [ref=e60]:
+          - heading "HTML Gems Uncovered" [level=5] [ref=e61]
+          - paragraph [ref=e62]: An interactive showcase of 18 underused HTML features and attributes that reduce JavaScript bloat and improve accessibility. Explore native browser capabilities from <details> to <dialog>, complete with live examples.
+          - generic [ref=e63]:
+            - generic [ref=e64]: HTML5
+            - generic [ref=e65]: CSS3
+            - generic [ref=e66]: Web Standards
+          - link "View Artifact" [ref=e68] [cursor=pointer]:
+            - /url: /pages/artifacts/html-gems
+  - contentinfo [ref=e69]:
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - heading "Jack Van Zeeland" [level=5] [ref=e73]
+          - paragraph [ref=e74]: Software Engineer & Problem Solver
+        - generic [ref=e76]:
+          - link "LinkedIn" [ref=e77] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/
+          - link "GitHub" [ref=e78] [cursor=pointer]:
+            - /url: https://github.com/jackvanzeeland
+      - separator [ref=e79]
+      - generic [ref=e80]: © 2026 Jack Van Zeeland. All rights reserved.

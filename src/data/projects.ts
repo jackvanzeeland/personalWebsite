@@ -40,7 +40,7 @@ export const PROJECTS: Project[] = [
     technologies: ["Python", "Creative"],
     tags: ["Python", "Data", "Sports"],
     github_link: "",
-    image: "superBowlMain.jpeg",
+    image: "superBowlMain.png",
     page: "",
     is_interactive: false,
     featured: true,

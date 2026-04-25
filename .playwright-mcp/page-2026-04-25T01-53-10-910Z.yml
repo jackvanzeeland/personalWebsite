@@ -1,0 +1,174 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - link "Skip to main content" [ref=e2] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "JVZ" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "JVZ" [ref=e6]
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Projects" [ref=e10] [cursor=pointer]:
+              - /url: /pages/projects
+          - listitem [ref=e11]:
+            - link "About" [ref=e12] [cursor=pointer]:
+              - /url: /pages/about
+          - listitem [ref=e13]:
+            - link "Beyond the Code" [ref=e14] [cursor=pointer]:
+              - /url: /pages/beyond-the-code
+          - listitem [ref=e15]:
+            - link "Journey" [ref=e16] [cursor=pointer]:
+              - /url: /pages/journey
+          - listitem [ref=e17]:
+            - button "Switch to dark mode" [ref=e18] [cursor=pointer]: 🌙
+  - main [ref=e19]:
+    - generic [ref=e23]:
+      - generic [ref=e24]: Portfolio
+      - heading "Projects" [level=1] [ref=e25]
+      - paragraph [ref=e26]: 13 projects spanning automation, AI, data analysis, and interactive tools. Use the filters below to explore by category.
+    - generic [ref=e28]:
+      - button "All Categories ▾" [ref=e31] [cursor=pointer]
+      - generic [ref=e32]:
+        - link "Budget Tracker Budget Tracker Built a personal finance tracker with transaction history, budget categories, and data visualizations. Tracks spending across categories with monthly trend charts, donut breakdowns, and vendor analysis. React TypeScript Supabase View Project →" [ref=e33] [cursor=pointer]:
+          - /url: /projects/budget-tracker/
+          - img "Budget Tracker" [ref=e35]
+          - generic [ref=e36]:
+            - heading "Budget Tracker" [level=3] [ref=e37]
+            - paragraph [ref=e38]: Built a personal finance tracker with transaction history, budget categories, and data visualizations. Tracks spending across categories with monthly trend charts, donut breakdowns, and vendor analysis.
+            - generic [ref=e39]:
+              - generic [ref=e40]:
+                - generic [ref=e41]: React
+                - generic [ref=e42]: TypeScript
+                - generic [ref=e43]: Supabase
+              - generic [ref=e44]: View Project →
+        - generic [ref=e45]:
+          - link "Woku Woku TypeScript Vite" [ref=e46] [cursor=pointer]:
+            - /url: /projects/woku/
+            - img "Woku" [ref=e47]
+            - generic [ref=e48]:
+              - heading "Woku" [level=5] [ref=e49]
+              - generic [ref=e50]:
+                - generic [ref=e51]: TypeScript
+                - generic [ref=e52]: Vite
+          - link "Super Bowl Competition Super Bowl Competition Python Creative" [ref=e53] [cursor=pointer]:
+            - /url: /projects/superbowl/
+            - img "Super Bowl Competition" [ref=e54]
+            - generic [ref=e55]:
+              - heading "Super Bowl Competition" [level=5] [ref=e56]
+              - generic [ref=e57]:
+                - generic [ref=e58]: Python
+                - generic [ref=e59]: Creative
+      - generic [ref=e61]: More Work
+      - generic [ref=e62]:
+        - link "Mortgage Simulator Mortgage Simulator React TypeScript Vite View →" [ref=e64] [cursor=pointer]:
+          - /url: /projects/mortgage-simulator/
+          - img "Mortgage Simulator" [ref=e66]
+          - generic [ref=e67]:
+            - heading "Mortgage Simulator" [level=6] [ref=e68]
+            - generic [ref=e69]:
+              - generic [ref=e70]: React
+              - generic [ref=e71]: TypeScript
+              - generic [ref=e72]: Vite
+            - generic [ref=e73]: View →
+        - link "Wordle Algorithm Solver Wordle Algorithm Solver Python Regex View →" [ref=e75] [cursor=pointer]:
+          - /url: /pages/projects/wordle-solver
+          - img "Wordle Algorithm Solver" [ref=e77]
+          - generic [ref=e78]:
+            - heading "Wordle Algorithm Solver" [level=6] [ref=e79]
+            - generic [ref=e80]:
+              - generic [ref=e81]: Python
+              - generic [ref=e82]: Regex
+            - generic [ref=e83]: View →
+        - link "Secret Santa Matching Secret Santa Matching Python Problem Solving View →" [ref=e85] [cursor=pointer]:
+          - /url: /pages/projects/secret-santa
+          - img "Secret Santa Matching" [ref=e87]
+          - generic [ref=e88]:
+            - heading "Secret Santa Matching" [level=6] [ref=e89]
+            - generic [ref=e90]:
+              - generic [ref=e91]: Python
+              - generic [ref=e92]: Problem Solving
+            - generic [ref=e93]: View →
+        - link "Lyric Animator Lyric Animator HTML CSS JavaScript View →" [ref=e95] [cursor=pointer]:
+          - /url: /pages/projects/lyric-animator
+          - img "Lyric Animator" [ref=e97]
+          - generic [ref=e98]:
+            - heading "Lyric Animator" [level=6] [ref=e99]
+            - generic [ref=e100]:
+              - generic [ref=e101]: HTML
+              - generic [ref=e102]: CSS
+              - generic [ref=e103]: JavaScript
+            - generic [ref=e104]: View →
+        - link "Budgeting Automation Budgeting Automation UiPath Automation Data Manipulation View →" [ref=e106] [cursor=pointer]:
+          - /url: /pages/projects/budgeting-automation
+          - img "Budgeting Automation" [ref=e108]
+          - generic [ref=e109]:
+            - heading "Budgeting Automation" [level=6] [ref=e110]
+            - generic [ref=e111]:
+              - generic [ref=e112]: UiPath
+              - generic [ref=e113]: Automation
+              - generic [ref=e114]: Data Manipulation
+            - generic [ref=e115]: View →
+        - link "Basketball Lineup Optimization Basketball Lineup Optimization R Programming Problem Solving Data Manipulation View →" [ref=e117] [cursor=pointer]:
+          - /url: /pages/projects/basketball-optimization
+          - img "Basketball Lineup Optimization" [ref=e119]
+          - generic [ref=e120]:
+            - heading "Basketball Lineup Optimization" [level=6] [ref=e121]
+            - generic [ref=e122]:
+              - generic [ref=e123]: R Programming
+              - generic [ref=e124]: Problem Solving
+              - generic [ref=e125]: Data Manipulation
+            - generic [ref=e126]: View →
+        - link "Reddit Stories Reddit Stories Python YouTube TikTok View →" [ref=e128] [cursor=pointer]:
+          - /url: https://jackvanzeeland.github.io/redditStoriesApp/index.html
+          - img "Reddit Stories" [ref=e130]
+          - generic [ref=e131]:
+            - heading "Reddit Stories" [level=6] [ref=e132]
+            - generic [ref=e133]:
+              - generic [ref=e134]: Python
+              - generic [ref=e135]: YouTube
+              - generic [ref=e136]: TikTok
+            - generic [ref=e137]: View →
+        - link "QR Code Generator QR Code Generator HTML5 JavaScript QRious View →" [ref=e139] [cursor=pointer]:
+          - /url: /pages/artifacts/qr-code-generator
+          - img "QR Code Generator" [ref=e141]
+          - generic [ref=e142]:
+            - heading "QR Code Generator" [level=6] [ref=e143]
+            - generic [ref=e144]:
+              - generic [ref=e145]: HTML5
+              - generic [ref=e146]: JavaScript
+              - generic [ref=e147]: QRious
+            - generic [ref=e148]: View →
+        - link "UiPath Queue Processor UiPath Queue Processor HTML5 JavaScript Papa Parse View →" [ref=e150] [cursor=pointer]:
+          - /url: /pages/artifacts/uipath-queue-processor
+          - img "UiPath Queue Processor" [ref=e152]
+          - generic [ref=e153]:
+            - heading "UiPath Queue Processor" [level=6] [ref=e154]
+            - generic [ref=e155]:
+              - generic [ref=e156]: HTML5
+              - generic [ref=e157]: JavaScript
+              - generic [ref=e158]: Papa Parse
+            - generic [ref=e159]: View →
+        - link "HTML Gems Uncovered HTML Gems Uncovered HTML5 CSS3 Web Standards View →" [ref=e161] [cursor=pointer]:
+          - /url: /pages/artifacts/html-gems
+          - img "HTML Gems Uncovered" [ref=e163]
+          - generic [ref=e164]:
+            - heading "HTML Gems Uncovered" [level=6] [ref=e165]
+            - generic [ref=e166]:
+              - generic [ref=e167]: HTML5
+              - generic [ref=e168]: CSS3
+              - generic [ref=e169]: Web Standards
+            - generic [ref=e170]: View →
+  - contentinfo [ref=e171]:
+    - generic [ref=e172]:
+      - generic [ref=e173]:
+        - generic [ref=e174]:
+          - heading "Jack Van Zeeland" [level=5] [ref=e175]
+          - paragraph [ref=e176]: Software Engineer & Problem Solver
+        - generic [ref=e178]:
+          - link "LinkedIn" [ref=e179] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/
+          - link "GitHub" [ref=e180] [cursor=pointer]:
+            - /url: https://github.com/jackvanzeeland
+      - separator [ref=e181]
+      - generic [ref=e182]: © 2026 Jack Van Zeeland. All rights reserved.

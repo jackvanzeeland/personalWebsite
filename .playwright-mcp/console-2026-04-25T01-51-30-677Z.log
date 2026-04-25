@@ -1,0 +1,14 @@
+[     231ms] [LOG] 📂 Projects page initializing... @ http://localhost:3001/src/pages/projects.ts:8
+[     256ms] [LOG] Theme updated to: light @ http://localhost:3001/src/utils/theme.ts:32
+[     256ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3001/src/utils/theme.ts:23
+[     258ms] [LOG] ✅ Layout initialized @ http://localhost:3001/src/components/Layout.ts:24
+[     262ms] [LOG] ✅ Projects page ready @ http://localhost:3001/src/pages/projects.ts:12
+[    6563ms] [ERROR] The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element. @ http://localhost:3001/projects/woku/:25
+[    6563ms] [ERROR] X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>. @ http://localhost:3001/projects/woku/:27
+[    6589ms] [LOG] 🚀 Portfolio application initializing... @ http://localhost:3001/src/main.ts:33
+[    6589ms] [LOG] 🧹 Analytics data cleaned up @ http://localhost:3001/src/main.ts:9
+[    6599ms] [LOG] Theme updated to: light @ http://localhost:3001/src/utils/theme.ts:32
+[    6599ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3001/src/utils/theme.ts:23
+[    6599ms] [LOG] ✅ Layout initialized @ http://localhost:3001/src/components/Layout.ts:24
+[    6599ms] [LOG] 🎉 Portfolio initialization complete! @ http://localhost:3001/src/main.ts:37
+[    6601ms] [LOG] 📊 Page load time: 0ms @ http://localhost:3001/src/main.ts:92

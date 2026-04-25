@@ -1706,3 +1706,13 @@ body, .navbar, .card, .project-card, .feature-card, footer,
 .dot-pulse {
   animation: pulse 2s infinite;
 }
+
+/* Page entrance animation */
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+body {
+  animation: page-fade-in 0.22s ease-out both;
+}

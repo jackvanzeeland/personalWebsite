@@ -1,0 +1,14 @@
+[     106ms] [LOG] 📂 Projects page initializing... @ http://localhost:3001/src/pages/projects.ts:8
+[     112ms] [LOG] Theme updated to: light @ http://localhost:3001/src/utils/theme.ts:32
+[     112ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3001/src/utils/theme.ts:23
+[     112ms] [LOG] ✅ Layout initialized @ http://localhost:3001/src/components/Layout.ts:24
+[     113ms] [LOG] ✅ Projects page ready @ http://localhost:3001/src/pages/projects.ts:12
+[    1756ms] [ERROR] The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element. @ http://localhost:3001/projects/superbowl/:25
+[    1756ms] [ERROR] X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>. @ http://localhost:3001/projects/superbowl/:27
+[    1786ms] [LOG] 🚀 Portfolio application initializing... @ http://localhost:3001/src/main.ts:33
+[    1787ms] [LOG] 🧹 Analytics data cleaned up @ http://localhost:3001/src/main.ts:9
+[    1790ms] [LOG] Theme updated to: light @ http://localhost:3001/src/utils/theme.ts:32
+[    1790ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3001/src/utils/theme.ts:23
+[    1790ms] [LOG] ✅ Layout initialized @ http://localhost:3001/src/components/Layout.ts:24
+[    1790ms] [LOG] 🎉 Portfolio initialization complete! @ http://localhost:3001/src/main.ts:37
+[    1791ms] [LOG] 📊 Page load time: 0ms @ http://localhost:3001/src/main.ts:92
