@@ -1,5 +1,6 @@
 import { Artifact } from '../types';
 import { ARTIFACTS } from '../data/artifacts';
+import AOS from 'aos';
 
 export function renderArtifacts(): void {
     const grid = document.getElementById('artifacts-grid');
@@ -11,6 +12,8 @@ export function renderArtifacts(): void {
         const card = createArtifactCard(artifact, index);
         grid.appendChild(card);
     });
+
+    AOS.refresh();
 }
 
 function createArtifactCard(artifact: Artifact, index: number): HTMLDivElement {

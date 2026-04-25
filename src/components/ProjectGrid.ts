@@ -1,6 +1,7 @@
 import { Project, FilterTag } from '../types';
 import { PROJECTS } from '../data/projects';
 import { unlockAchievement } from '../utils/journey';
+import AOS from 'aos';
 
 const projects: Project[] = PROJECTS;
 const featuredProjects: Project[] = projects.filter(p => p.featured);
@@ -22,6 +23,7 @@ export function initializeFiltering(): void {
     extractFilterTags();
     renderFilterDropdown();
     renderPage();
+    AOS.refresh();
 }
 
 // ─── Page orchestration ────────────────────────────────────────────────────
@@ -323,6 +325,7 @@ function renderFilterDropdown(): void {
         list.classList.remove('open');
         btn.classList.remove('open');
         renderPage();
+        AOS.refresh();
         unlockAchievement('filter_user');
     });
 
