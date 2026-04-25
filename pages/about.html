@@ -58,6 +58,8 @@
   <body>
     <!-- Header and particles will be injected by Layout component -->
 
+    <div id="skeleton-nav" aria-hidden="true"></div>
+
     <main id="main-content">
       <!-- Hero Section -->
       <section class="py-5 page-hero">
@@ -153,7 +155,11 @@
                   <div class="row">
                     <div class="col-md-12">
                       <ul class="skill-list" id="programming-skills">
-                        <!-- Skills will be populated from resume data -->
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
                       </ul>
                     </div>
                   </div>
@@ -162,7 +168,11 @@
                   <div class="row">
                     <div class="col-md-12">
                       <ul class="skill-list" id="automation-skills">
-                        <!-- Skills will be populated from resume data -->
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
                       </ul>
                     </div>
                   </div>
@@ -171,7 +181,11 @@
                   <div class="row">
                     <div class="col-md-12">
                       <ul class="skill-list" id="data-skills">
-                        <!-- Skills will be populated from resume data -->
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
+                        <li class="skeleton skeleton-skill-item"></li>
                       </ul>
                     </div>
                   </div>
@@ -233,9 +247,20 @@
                   role="region"
                   aria-label="Professional timeline"
                 >
-                  <div class="text-center text-muted py-5">
-                    <i class="fas fa-spinner fa-spin fa-2x mb-3"></i>
-                    <p>Loading timeline...</p>
+                  <div class="temporal-timeline-wrapper">
+                    <div class="year-section mb-5">
+                      <div class="skeleton year-header" style="height:68px;"></div>
+                      <div class="year-events ps-3 ps-md-4 border-start border-3 border-secondary mt-3">
+                        <div class="skeleton mb-3" style="height:100px; border-radius:12px;"></div>
+                        <div class="skeleton mb-3" style="height:100px; border-radius:12px;"></div>
+                      </div>
+                    </div>
+                    <div class="year-section mb-5">
+                      <div class="skeleton year-header" style="height:68px;"></div>
+                      <div class="year-events ps-3 ps-md-4 border-start border-3 border-secondary mt-3">
+                        <div class="skeleton mb-3" style="height:100px; border-radius:12px;"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

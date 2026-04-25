@@ -1716,3 +1716,53 @@ body, .navbar, .card, .project-card, .feature-card, footer,
 body {
   animation: page-fade-in 0.22s ease-out both;
 }
+
+/* ─── Skeleton Loading ──────────────────────────────────────────────────── */
+
+@keyframes skeleton-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.skeleton {
+  background-color: var(--bg-secondary);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bg-tertiary) 80%, transparent) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-line  { height: 13px; margin-bottom: 8px; border-radius: 4px; }
+.skeleton-line.w-55  { width: 55%; }
+.skeleton-line.w-75  { width: 75%; }
+.skeleton-line.w-100 { width: 100%; }
+.skeleton-tag   { display: inline-block; height: 22px; width: 58px; border-radius: 20px; }
+.skeleton-btn   { height: 32px; width: 120px; border-radius: 20px; }
+
+/* Skeleton nav — fixed, below real navbar's z-index 1030 */
+#skeleton-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1029;
+}
+
+/* Skill-list skeleton items — suppress the ::before bullet */
+.skill-list .skeleton-skill-item { height: 50px; border-radius: 8px; list-style: none; }
+.skill-list .skeleton-skill-item::before { display: none; }

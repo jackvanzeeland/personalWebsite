@@ -158,4 +158,7 @@ export function initializeHeader(): void {
     } else {
         body.appendChild(header);
     }
+
+    // Remove skeleton nav placeholder now that real header is mounted
+    document.getElementById('skeleton-nav')?.remove();
 }

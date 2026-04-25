@@ -1,0 +1,197 @@
+[     -26ms] [ERROR] The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element. @ http://localhost:3000/:25
+[     -26ms] [ERROR] X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>. @ http://localhost:3000/:27
+[      70ms] [LOG] 🚀 Portfolio application initializing... @ http://localhost:3000/src/main.ts:33
+[      71ms] [LOG] 🧹 Analytics data cleaned up @ http://localhost:3000/src/main.ts:9
+[      86ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[      86ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[      86ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[      86ms] [LOG] 🎉 Portfolio initialization complete! @ http://localhost:3000/src/main.ts:37
+[      91ms] [LOG] 📊 Page load time: 0ms @ http://localhost:3000/src/main.ts:92
+[    3480ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts:8
+[    3485ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[    3485ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[    3485ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[    3486ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts:12
+[    4699ms] [LOG] 📄 About page initializing... @ http://localhost:3000/src/pages/about.ts:6
+[    4702ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[    4702ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[    4702ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[    4702ms] [LOG] ✅ About page ready @ http://localhost:3000/src/pages/about.ts:8
+[    5778ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ http://localhost:3000/pages/beyond-the-code:210
+[    5817ms] [LOG] 📄 Beyond the Code page initializing... @ http://localhost:3000/src/pages/beyond-the-code.ts:9
+[    5821ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[    5822ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[    5822ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[    5822ms] [LOG] ✅ Beyond the Code page ready @ http://localhost:3000/src/pages/beyond-the-code.ts:11
+[    7181ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts:8
+[    7184ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[    7184ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[    7184ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[    7185ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts:12
+[   10898ms] [LOG] 📄 About page initializing... @ http://localhost:3000/src/pages/about.ts:6
+[   10901ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   10901ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   10901ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   10901ms] [LOG] ✅ About page ready @ http://localhost:3000/src/pages/about.ts:8
+[   11646ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts:8
+[   11650ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   11650ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   11650ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   11651ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts:12
+[   41922ms] [ERROR] The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element. @ http://localhost:3000/:25
+[   41922ms] [ERROR] X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>. @ http://localhost:3000/:27
+[   41952ms] [LOG] 🚀 Portfolio application initializing... @ http://localhost:3000/src/main.ts:33
+[   41952ms] [LOG] 🧹 Analytics data cleaned up @ http://localhost:3000/src/main.ts:9
+[   41956ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   41956ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   41956ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   41956ms] [LOG] 🎉 Portfolio initialization complete! @ http://localhost:3000/src/main.ts:37
+[   41958ms] [LOG] 📊 Page load time: 0ms @ http://localhost:3000/src/main.ts:92
+[   58508ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts:8
+[   58511ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   58511ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   58511ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   58513ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts:12
+[   61986ms] [LOG] 🚀 Project page initializing... @ http://localhost:3000/src/pages/project.ts:6
+[   61988ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   61988ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   61988ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   61988ms] [LOG] 📂 Project page ready: secret-santa @ http://localhost:3000/src/pages/project.ts:9
+[   65454ms] [LOG] 📄 About page initializing... @ http://localhost:3000/src/pages/about.ts:6
+[   65456ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   65456ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   65456ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   65456ms] [LOG] ✅ About page ready @ http://localhost:3000/src/pages/about.ts:8
+[   66342ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts:8
+[   66345ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   66345ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   66345ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   66346ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts:12
+[   73005ms] [LOG] 🚀 Project page initializing... @ http://localhost:3000/src/pages/project.ts:6
+[   73007ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   73008ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   73008ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   73008ms] [LOG] 📂 Project page ready: wordle-solver @ http://localhost:3000/src/pages/project.ts:9
+[   81930ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts:8
+[   81934ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   81934ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   81934ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   81935ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts:12
+[   99954ms] [LOG] 🚀 Project page initializing... @ http://localhost:3000/src/pages/project.ts:6
+[   99956ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[   99956ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[   99956ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[   99956ms] [LOG] 📂 Project page ready: budgeting-automation @ http://localhost:3000/src/pages/project.ts:9
+[  107881ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts:8
+[  107884ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[  107884ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[  107885ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[  107885ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts:12
+[ 1539839ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1539844ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1539844ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1539844ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1539845ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1541024ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1541028ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1541028ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1541028ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1541029ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1553849ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1553853ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1553853ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1553853ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1553855ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1591899ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1591903ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1591903ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1591904ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1591906ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1595923ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1595926ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1595926ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1595927ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1595928ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1600564ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1600567ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1600567ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1600567ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1600569ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1628751ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1628755ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1628755ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1628755ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1628756ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1674368ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:8
+[ 1674374ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1674374ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1674374ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts:24
+[ 1674376ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083785368:12
+[ 1676319ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083954626:8
+[ 1676323ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1676323ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1676323ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1676324ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083954626:12
+[ 1677088ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ http://localhost:3000/pages/beyond-the-code:212
+[ 1677122ms] [LOG] 📄 Beyond the Code page initializing... @ http://localhost:3000/src/pages/beyond-the-code.ts?t=1777083954626:9
+[ 1677126ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1677126ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1677126ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1677126ms] [LOG] ✅ Beyond the Code page ready @ http://localhost:3000/src/pages/beyond-the-code.ts?t=1777083954626:11
+[ 1678063ms] [LOG] 📄 Journey page initializing... @ http://localhost:3000/src/pages/journey.ts:6
+[ 1678076ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1678076ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1678078ms] [LOG] 🏆 Achievement Unlocked: Project Explorer (first_project) @ http://localhost:3000/src/utils/journey.ts:179
+[ 1678078ms] [LOG] 🏆 Achievement Unlocked: Interactive User (interactive_user) @ http://localhost:3000/src/utils/journey.ts:179
+[ 1678079ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1678079ms] [LOG] ✅ Journey page ready @ http://localhost:3000/src/pages/journey.ts:8
+[ 1678740ms] [LOG] 📄 About page initializing... @ http://localhost:3000/src/pages/about.ts?t=1777083954626:6
+[ 1678744ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1678744ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1678745ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1678745ms] [LOG] ✅ About page ready @ http://localhost:3000/src/pages/about.ts?t=1777083954626:8
+[ 1680104ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083954626:8
+[ 1680107ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1680107ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1680108ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1680110ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083954626:12
+[ 1683086ms] [ERROR] The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element. @ http://localhost:3000/projects/mortgage-simulator/:25
+[ 1683087ms] [ERROR] X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>. @ http://localhost:3000/projects/mortgage-simulator/:27
+[ 1683113ms] [LOG] 🚀 Portfolio application initializing... @ http://localhost:3000/src/main.ts:33
+[ 1683113ms] [LOG] 🧹 Analytics data cleaned up @ http://localhost:3000/src/main.ts:9
+[ 1683116ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1683116ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1683116ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1683116ms] [LOG] 🎉 Portfolio initialization complete! @ http://localhost:3000/src/main.ts:37
+[ 1683118ms] [LOG] 📊 Page load time: 0ms @ http://localhost:3000/src/main.ts:92
+[ 1685142ms] [LOG] 📂 Projects page initializing... @ http://localhost:3000/src/pages/projects.ts?t=1777083954626:8
+[ 1685146ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1685146ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1685146ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1685148ms] [LOG] ✅ Projects page ready @ http://localhost:3000/src/pages/projects.ts?t=1777083954626:12
+[ 1786318ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ http://localhost:3000/pages/beyond-the-code:212
+[ 1786365ms] [LOG] 📄 Beyond the Code page initializing... @ http://localhost:3000/src/pages/beyond-the-code.ts?t=1777083954626:9
+[ 1786368ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1786368ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1786369ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1786369ms] [LOG] ✅ Beyond the Code page ready @ http://localhost:3000/src/pages/beyond-the-code.ts?t=1777083954626:11
+[ 1787233ms] [LOG] 📄 About page initializing... @ http://localhost:3000/src/pages/about.ts?t=1777083954626:6
+[ 1787237ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1787237ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1787238ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1787238ms] [LOG] ✅ About page ready @ http://localhost:3000/src/pages/about.ts?t=1777083954626:8
+[ 1792194ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ http://localhost:3000/pages/beyond-the-code:212
+[ 1792217ms] [LOG] 📄 Beyond the Code page initializing... @ http://localhost:3000/src/pages/beyond-the-code.ts?t=1777083954626:9
+[ 1792220ms] [LOG] Theme updated to: light @ http://localhost:3000/src/utils/theme.ts:32
+[ 1792220ms] [LOG] 🎨 Theme changed to: light @ http://localhost:3000/src/utils/theme.ts:23
+[ 1792221ms] [LOG] ✅ Layout initialized @ http://localhost:3000/src/components/Layout.ts?t=1777083954626:24
+[ 1792221ms] [LOG] ✅ Beyond the Code page ready @ http://localhost:3000/src/pages/beyond-the-code.ts?t=1777083954626:11
+[ 1793113ms] [ERROR] ErrorUtils caught an error:
+
+route config was null
+
+Subsequent non-fatal errors won't be logged; see https://fburl.com/debugjs. {column: 17870, clientTime: 1777084071, extra: Object, guardList: Array(1), hash: 00csv2} @ https://static.cdninstagram.com/rsrc.php/v4/yx/r/NMze55AvPSR.js:77
+[ 1796297ms] [LOG] 📸 Photo next: Cabin Weekend @ http://localhost:3000/src/components/PhotoGallery.js:258
+[ 1796830ms] [LOG] 📸 Photo next: College Graduation @ http://localhost:3000/src/components/PhotoGallery.js:258
+[ 1797880ms] [LOG] 📸 Photo next: Spring Break 2025 - Cabo @ http://localhost:3000/src/components/PhotoGallery.js:258
+[ 1800113ms] [LOG] 📸 Photo next: Banff Road Trip @ http://localhost:3000/src/components/PhotoGallery.js:258
