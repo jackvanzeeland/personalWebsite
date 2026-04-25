@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [
     viteStaticCopy({
       targets: [
-        { src: 'assets/images', dest: 'assets' },
-        { src: 'assets/files', dest: 'assets' }
+        { src: 'assets/images', dest: '' },
+        { src: 'assets/files', dest: '' }
       ]
     })
   ],
