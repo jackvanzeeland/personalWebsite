@@ -17,6 +17,17 @@
   }
 }
 
+/* Hero "JVZ" monogram particles — above the hero ::before overlay (z 1),
+   below the content .container (z 2) */
+.hero-particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
 /*
  * Sections that re-state the page background would hide the ambient layer.
  * Only relax them while the canvas is actually mounted, so fallback devices

@@ -5,6 +5,46 @@ import './styles/components/footer.css';
 import './styles/components/ux-enhancements.css';
 
 import { initializeLayout } from './components/Layout';
+import { getGraphicsTier } from './utils/capabilities';
+
+// Hero "JVZ" particle monogram — lazy, capability-gated, never blocks paint
+function scheduleHeroParticles(): void {
+    const section = document.getElementById('hero');
+    if (!section) return;
+
+    const mount = (): void => {
+        const tier = getGraphicsTier();
+        if (tier === 'none') return;
+        import('./components/background/HeroParticles')
+            .then(({ createHeroParticles }) => createHeroParticles(section, tier))
+            .catch(() => { /* progressive enhancement only */ });
+    };
+
+    const whenIdle = (): void => {
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(mount, { timeout: 3000 });
+        } else {
+            setTimeout(mount, 400);
+        }
+    };
+
+    if (getGraphicsTier() === 'low') {
+        // Match the ambient layer: on weak devices wait for first interaction
+        const events: (keyof WindowEventMap)[] = ['scroll', 'pointerdown', 'keydown'];
+        const onFirst = (): void => {
+            events.forEach(e => window.removeEventListener(e, onFirst));
+            whenIdle();
+        };
+        events.forEach(e => window.addEventListener(e, onFirst, { passive: true }));
+        return;
+    }
+
+    if (document.readyState === 'complete') {
+        whenIdle();
+    } else {
+        window.addEventListener('load', whenIdle, { once: true });
+    }
+}
 
 // Clean up analytics localStorage data
 function cleanupAnalyticsData(): void {
@@ -51,6 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hero typewriter
     initTypewriter();
+
+    // Hero particle monogram
+    scheduleHeroParticles();
 
     console.log('🎉 Portfolio initialization complete!');
 });
