@@ -4,6 +4,8 @@
  * Automatically highlights active page
  */
 
+import { createOptimizedPicture } from '../utils/optimizedImage';
+
 export interface NavigationItem {
     label: string;
     href: string;
@@ -32,10 +34,12 @@ export function createHeader(currentPage?: string): HTMLElement {
     brand.className = 'navbar-brand';
     brand.href = '/';
 
-    const brandImg = document.createElement('img');
-    brandImg.src = '/assets/images/JVZLogo.png';
-    brandImg.alt = 'JVZ';
-    brandImg.className = 'navbar-brand-logo';
+    const brandImg = createOptimizedPicture('/assets/images/JVZLogo.png', {
+        alt: 'JVZ',
+        className: 'navbar-brand-logo',
+        sizes: '54px',
+        loading: 'eager'
+    });
     brand.appendChild(brandImg);
 
     container.appendChild(brand);

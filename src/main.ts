@@ -5,7 +5,33 @@ import './styles/components/footer.css';
 import './styles/components/ux-enhancements.css';
 
 import { initializeLayout } from './components/Layout';
-import { getGraphicsTier } from './utils/capabilities';
+import { getGraphicsTier, prefersReducedMotion } from './utils/capabilities';
+
+// Cursor-glow on featured cards + magnetic hero buttons (fine pointers only)
+function initMicroInteractions(): void {
+    if (prefersReducedMotion() || !window.matchMedia('(pointer: fine)').matches) return;
+
+    document.querySelectorAll<HTMLElement>('.featured-project-card').forEach((card) => {
+        card.addEventListener('pointermove', (e) => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+            card.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+        }, { passive: true });
+    });
+
+    document.querySelectorAll<HTMLElement>('.hero-buttons .btn').forEach((btn) => {
+        const strength = 5;
+        btn.addEventListener('pointermove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+            const dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+            btn.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
+        }, { passive: true });
+        btn.addEventListener('pointerleave', () => {
+            btn.style.transform = '';
+        }, { passive: true });
+    });
+}
 
 // Hero "JVZ" particle monogram — lazy, capability-gated, never blocks paint
 function scheduleHeroParticles(): void {
@@ -94,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hero particle monogram
     scheduleHeroParticles();
+
+    // Micro-interactions (cursor glow, magnetic buttons)
+    initMicroInteractions();
 
     console.log('🎉 Portfolio initialization complete!');
 });

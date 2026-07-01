@@ -334,3 +334,32 @@
     scroll-behavior: auto !important;
   }
 }
+/* ── Cursor-tracking glow on featured cards (JS sets --mx / --my) ── */
+.featured-project-card {
+  position: relative;
+}
+
+.featured-project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent-primary) 13%, transparent),
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.featured-project-card:hover::after {
+  opacity: 1;
+}
+
+/* Magnetic hero buttons — transform driven by JS, eased here */
+.hero-buttons .btn {
+  transition: transform 0.18s ease-out, box-shadow 0.3s ease;
+  will-change: transform;
+}

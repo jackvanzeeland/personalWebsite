@@ -33,7 +33,9 @@ npm run build
 - **Vite** - Fast build tool and dev server
 - **Bootstrap 5** - Responsive CSS framework
 - **AOS** - Animate On Scroll library
-- **Particles.js** - Background particle effects
+- **three.js** - Ambient WebGL particle background + interactive "JVZ" hero monogram (lazy-loaded, capability-gated)
+- **GSAP ScrollTrigger** - Cinematic scroll-driven career timeline (About page)
+- **sharp** - Build-time image pipeline (AVIF/WebP responsive variants via `scripts/optimize-images.mjs`)
 
 ### Deployment
 - **AWS S3** - Static file hosting
@@ -84,7 +86,10 @@ portfolio-static/
 - ✅ Performance optimized with lazy loading
 
 ### Interactive Features
-- ✅ Background particle effects
+- ✅ Ambient WebGL particle background themed from the design tokens (pauses when hidden, honors reduced-motion, falls back cleanly without WebGL)
+- ✅ Interactive "JVZ" particle monogram in the homepage hero (reacts to cursor)
+- ✅ Cinematic scroll timeline with GSAP ScrollTrigger on the About page
+- ✅ Cross-document View Transitions between pages (Chrome/Safari, progressive)
 - ✅ Achievement system with unlock notifications
 - ✅ User journey tracking and progress visualization
 - ✅ Analytics tracking (client-side)
