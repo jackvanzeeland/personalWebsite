@@ -41,9 +41,8 @@ export function toggleTheme(): void {
     unlockAchievement('theme_switcher');
 }
 
-// Update background for theme
+// Notify listeners (e.g. the ambient WebGL background) without coupling
+// theme.ts to any specific consumer.
 export function updateBackgroundForTheme(theme: 'light' | 'dark'): void {
-    // This function is now handled by BackgroundEffects module
-    // The new professional background system will be used instead
-    console.log(`Theme updated to: ${theme}`);
+    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
 }

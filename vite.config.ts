@@ -43,7 +43,9 @@ export default defineConfig({
         manualChunks: {
           vendor: ['bootstrap'],
           animations: ['aos'],
-          charts: ['chart.js']
+          charts: ['chart.js'],
+          three: ['three'],
+          gsap: ['gsap']
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
@@ -79,6 +81,6 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['bootstrap', 'aos', 'chart.js']
+    include: ['bootstrap', 'aos', 'chart.js', 'three', 'gsap']
   }
 })

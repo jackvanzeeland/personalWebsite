@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cleanupAnalyticsData();
 
     // Initialize layout (header, footer, AOS, theme)
-    initializeLayout();
+    initializeLayout({ background: { intensity: 'full' } });
 
     // Hero typewriter
     initTypewriter();
