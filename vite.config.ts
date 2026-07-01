@@ -45,7 +45,7 @@ export default defineConfig({
           animations: ['aos'],
           charts: ['chart.js'],
           three: ['three'],
-          gsap: ['gsap']
+          gsap: ['gsap', 'gsap/ScrollTrigger']
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',

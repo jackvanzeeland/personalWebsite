@@ -15,6 +15,18 @@ export interface Project {
     webpage_link?: string;
 }
 
+export interface TimelineItem {
+    id: string;
+    title: string;
+    organization: string;
+    type: 'education' | 'work' | 'certification';
+    startDate: string;
+    endDate: string;
+    isPresent: boolean;
+    description: string;
+    badgeColor?: string;
+}
+
 export interface JourneyData {
     home?: boolean;
     about?: boolean;

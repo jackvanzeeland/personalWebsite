@@ -1,0 +1,47 @@
+/* Career timeline — cinematic scroll layer (About page)
+   Applied only when TimelineCinematic mounts (.timeline-cinematic);
+   the plain layout is the reduced-motion / low-tier fallback. */
+
+.timeline-cinematic {
+  position: relative;
+}
+
+/* Glowing progress spine drawn by scroll (GSAP scaleY scrub) */
+.timeline-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(
+    180deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 55%,
+    var(--accent-primary-light) 100%
+  );
+  box-shadow: 0 0 12px var(--accent-primary);
+  transform-origin: top center;
+  transform: scaleY(0);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Sticky year headers while their section scrolls through */
+.timeline-cinematic .year-header {
+  position: sticky;
+  top: 84px;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Cards start hidden only once the cinematic layer owns them
+   (gsap sets autoAlpha; this avoids a flash before the tween registers) */
+.timeline-cinematic .timeline-event-card {
+  will-change: transform, opacity;
+}
+
+.timeline-cinematic .timeline-dot {
+  z-index: 2;
+}
