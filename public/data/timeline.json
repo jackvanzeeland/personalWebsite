@@ -120,6 +120,50 @@
       "isPresent": false,
       "description": "TBD",
       "badgeColor": "bg-warning"
+    },
+    {
+      "id": "anthropic_ai_fluency",
+      "title": "AI Fluency Framework & Foundations",
+      "organization": "Anthropic",
+      "type": "certification",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-29",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "anthropic_claude_101",
+      "title": "Claude 101",
+      "organization": "Anthropic",
+      "type": "certification",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-29",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "anthropic_claude_code_101",
+      "title": "Claude code 101",
+      "organization": "Anthropic",
+      "type": "certification",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-29",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "anthropic_claude_code_in_action",
+      "title": "Claude Code in Action",
+      "organization": "Anthropic",
+      "type": "certification",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-29",
+      "isPresent": false,
+      "description": "TBD",
+      "badgeColor": "bg-warning"
     }
   ]
 }
