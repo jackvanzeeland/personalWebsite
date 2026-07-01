@@ -1,7 +1,20 @@
 import { Project, FilterTag } from '../types';
 import { PROJECTS } from '../data/projects';
 import { unlockAchievement } from '../utils/journey';
+import { createOptimizedPicture } from '../utils/optimizedImage';
 import AOS from 'aos';
+
+/** Card image with AVIF/WebP variants when available; falls back to placeholder on error. */
+function createProjectImage(project: Project, sizes: string): HTMLElement {
+    return createOptimizedPicture(`/assets/images/${project.image}`, {
+        alt: project.title,
+        sizes,
+        onError: (img) => {
+            img.closest('picture')?.querySelectorAll('source').forEach(s => s.remove());
+            img.src = '/assets/images/placeholder.svg';
+        }
+    });
+}
 
 const projects: Project[] = PROJECTS;
 const featuredProjects: Project[] = projects.filter(p => p.featured);
@@ -94,12 +107,7 @@ function createBentoHeroCard(project: Project): HTMLElement {
     // Image
     const imgWrapper = document.createElement('div');
     imgWrapper.className = 'bento-hero-image';
-    const img = document.createElement('img');
-    img.src = `/assets/images/${project.image}`;
-    img.alt = project.title;
-    img.loading = 'lazy';
-    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
-    imgWrapper.appendChild(img);
+    imgWrapper.appendChild(createProjectImage(project, '(min-width: 992px) 66vw, 100vw'));
     card.appendChild(imgWrapper);
 
     // Content
@@ -154,12 +162,7 @@ function createBentoSideCard(project: Project): HTMLElement {
         }
     }
 
-    const img = document.createElement('img');
-    img.src = `/assets/images/${project.image}`;
-    img.alt = project.title;
-    img.loading = 'lazy';
-    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
-    card.appendChild(img);
+    card.appendChild(createProjectImage(project, '(min-width: 992px) 33vw, 100vw'));
 
     const overlay = document.createElement('div');
     overlay.className = 'bento-side-overlay';
@@ -226,12 +229,7 @@ function createCompactCard(project: Project): HTMLElement {
 
     const imgWrapper = document.createElement('div');
     imgWrapper.className = 'compact-card-img';
-    const img = document.createElement('img');
-    img.src = `/assets/images/${project.image}`;
-    img.alt = project.title;
-    img.loading = 'lazy';
-    img.addEventListener('error', () => { img.src = '/assets/images/placeholder.svg'; });
-    imgWrapper.appendChild(img);
+    imgWrapper.appendChild(createProjectImage(project, '(min-width: 992px) 25vw, (min-width: 768px) 50vw, 100vw'));
     card.appendChild(imgWrapper);
 
     const body = document.createElement('div');

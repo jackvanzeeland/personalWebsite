@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beyond the Code - Jack Van Zeeland</title>
+
+    <!-- Theme boot: set data-theme before first paint to avoid dark-mode flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { /* default light theme */ }
+      })();
+    </script>
     <meta name="description" content="Get to know Jack Van Zeeland beyond the code - sports, fitness, personal interests, photos, and favorite media recommendations.">
 
     <meta name="theme-color" content="#0ea5e9" />

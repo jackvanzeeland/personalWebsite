@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Journey - Jack Van Zeeland</title>
+
+    <!-- Theme boot: set data-theme before first paint to avoid dark-mode flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { /* default light theme */ }
+      })();
+    </script>
     <meta name="description" content="Track your personal journey through the portfolio site, discover achievements, and explore new areas">
 
     <meta name="theme-color" content="#0ea5e9" />

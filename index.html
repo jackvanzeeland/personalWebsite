@@ -50,6 +50,17 @@
 
     <title>Jack Van Zeeland - Software Engineer Portfolio</title>
 
+    <!-- Theme boot: set data-theme before first paint to avoid dark-mode flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { /* default light theme */ }
+      })();
+    </script>
+
     <!-- Structured Data -->
     <script type="application/ld+json">
       {
@@ -153,12 +164,27 @@
             <!-- Right: Profile Photo -->
             <div class="col-lg-5 text-center d-none d-lg-flex justify-content-center" data-aos="fade-left" data-aos-delay="150">
               <div class="hero-avatar-wrapper">
-                <img
-                  src="/assets/images/profile.jpg"
-                  alt="Jack Van Zeeland"
-                  class="hero-avatar"
-                  onerror="this.parentElement.style.display='none'"
-                />
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/assets/images/opt/profile-480.avif 480w, /assets/images/opt/profile-828.avif 828w"
+                    sizes="(min-width: 992px) 400px, 0px"
+                  />
+                  <source
+                    type="image/webp"
+                    srcset="/assets/images/opt/profile-480.webp 480w, /assets/images/opt/profile-828.webp 828w"
+                    sizes="(min-width: 992px) 400px, 0px"
+                  />
+                  <img
+                    src="/assets/images/profile.jpg"
+                    alt="Jack Van Zeeland"
+                    class="hero-avatar"
+                    width="828"
+                    height="548"
+                    fetchpriority="high"
+                    onerror="this.parentElement.parentElement.style.display='none'"
+                  />
+                </picture>
               </div>
             </div>
 
@@ -185,7 +211,19 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
               <a href="/projects/woku/" class="featured-project-card">
                 <div class="featured-project-img-wrapper">
-                  <img src="/assets/images/woku.png" alt="Woku game" class="featured-project-img" />
+                  <picture>
+                    <source
+                      type="image/avif"
+                      srcset="/assets/images/opt/woku-480.avif 480w, /assets/images/opt/woku-960.avif 960w, /assets/images/opt/woku-1296.avif 1296w"
+                      sizes="(min-width: 992px) 400px, (min-width: 768px) 50vw, 100vw"
+                    />
+                    <source
+                      type="image/webp"
+                      srcset="/assets/images/opt/woku-480.webp 480w, /assets/images/opt/woku-960.webp 960w, /assets/images/opt/woku-1296.webp 1296w"
+                      sizes="(min-width: 992px) 400px, (min-width: 768px) 50vw, 100vw"
+                    />
+                    <img src="/assets/images/woku.png" alt="Woku game" class="featured-project-img" width="1296" height="816" loading="lazy" />
+                  </picture>
                 </div>
                 <div class="featured-project-body">
                   <h3 class="featured-project-title">Woku</h3>
@@ -209,7 +247,19 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
               <a href="/projects/budget-tracker/" class="featured-project-card">
                 <div class="featured-project-img-wrapper">
-                  <img src="/assets/images/budgetTracker.png" alt="Budget Tracker" class="featured-project-img" />
+                  <picture>
+                    <source
+                      type="image/avif"
+                      srcset="/assets/images/opt/budgetTracker-480.avif 480w, /assets/images/opt/budgetTracker-960.avif 960w, /assets/images/opt/budgetTracker-1600.avif 1600w"
+                      sizes="(min-width: 992px) 400px, (min-width: 768px) 50vw, 100vw"
+                    />
+                    <source
+                      type="image/webp"
+                      srcset="/assets/images/opt/budgetTracker-480.webp 480w, /assets/images/opt/budgetTracker-960.webp 960w, /assets/images/opt/budgetTracker-1600.webp 1600w"
+                      sizes="(min-width: 992px) 400px, (min-width: 768px) 50vw, 100vw"
+                    />
+                    <img src="/assets/images/budgetTracker.png" alt="Budget Tracker" class="featured-project-img" width="1792" height="592" loading="lazy" />
+                  </picture>
                 </div>
                 <div class="featured-project-body">
                   <h3 class="featured-project-title">Budget Tracker</h3>
@@ -233,7 +283,7 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
               <a href="/pages/projects/wordle-solver.html" class="featured-project-card">
                 <div class="featured-project-img-wrapper">
-                  <img src="/assets/images/wordleMain.png" alt="Wordle Algorithm Solver" class="featured-project-img" />
+                  <img src="/assets/images/wordleMain.png" alt="Wordle Algorithm Solver" class="featured-project-img" width="1200" height="630" loading="lazy" />
                 </div>
                 <div class="featured-project-body">
                   <h3 class="featured-project-title">Wordle Algorithm Solver</h3>

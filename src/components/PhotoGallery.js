@@ -1,5 +1,7 @@
 // Photo Gallery Component for Beyond the Code page
 
+import { optimizedPictureHTML } from "../utils/optimizedImage";
+
 // Type definitions
 class Photo {
   constructor(id, title, description, category, image, date) {
@@ -140,10 +142,11 @@ class PhotoGallery {
   createPhotoHTML(photo) {
     return `
             <div class="photo-wrapper">
-                <img src="${photo.image}" 
-                     alt="${photo.title}" 
-                     class="photo-image img-fluid rounded shadow-lg"
-                     loading="lazy">
+                ${optimizedPictureHTML(photo.image, {
+                  alt: photo.title,
+                  className: "photo-image img-fluid rounded shadow-lg",
+                  sizes: "(min-width: 768px) 720px, 100vw",
+                })}
                 <div class="photo-overlay">
                     <div class="photo-category">${photo.category}</div>
                 </div>

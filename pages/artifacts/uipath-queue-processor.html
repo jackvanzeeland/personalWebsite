@@ -6,6 +6,17 @@
     <meta name="description" content="UiPath Queue Processor - Upload Orchestrator queue CSV exports, flatten DynamicProperties JSON, and download clean CSVs.">
     <title>UiPath Queue Processor - Jack Van Zeeland</title>
 
+    <!-- Theme boot: set data-theme before first paint to avoid dark-mode flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { /* default light theme */ }
+      })();
+    </script>
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://jackvanzeeland.com/pages/artifacts/uipath-queue-processor" />
     <meta property="og:title" content="UiPath Queue Processor - Jack Van Zeeland" />

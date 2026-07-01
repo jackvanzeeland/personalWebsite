@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About Jack Van Zeeland - Software Engineer & Problem Solver</title>
+
+    <!-- Theme boot: set data-theme before first paint to avoid dark-mode flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { /* default light theme */ }
+      })();
+    </script>
     <meta
       name="description"
       content="Learn about Jack Van Zeeland, a passionate software engineer specializing in automation, data analysis, and building intelligent solutions that make everyday tasks easier and more efficient."
@@ -69,12 +80,27 @@
             <!-- Profile Photo -->
             <div class="col-lg-3 col-md-4 text-center" data-aos="fade-right">
               <div class="about-avatar-wrapper">
-                <img
-                  src="/assets/images/profile.jpg"
-                  alt="Jack Van Zeeland"
-                  class="about-avatar"
-                  onerror="this.parentElement.style.display='none'"
-                />
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/assets/images/opt/profile-480.avif 480w, /assets/images/opt/profile-828.avif 828w"
+                    sizes="(min-width: 768px) 250px, 60vw"
+                  />
+                  <source
+                    type="image/webp"
+                    srcset="/assets/images/opt/profile-480.webp 480w, /assets/images/opt/profile-828.webp 828w"
+                    sizes="(min-width: 768px) 250px, 60vw"
+                  />
+                  <img
+                    src="/assets/images/profile.jpg"
+                    alt="Jack Van Zeeland"
+                    class="about-avatar"
+                    width="828"
+                    height="548"
+                    fetchpriority="high"
+                    onerror="this.parentElement.parentElement.style.display='none'"
+                  />
+                </picture>
               </div>
             </div>
 

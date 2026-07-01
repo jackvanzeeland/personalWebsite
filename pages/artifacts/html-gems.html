@@ -6,6 +6,17 @@
     <meta name="description" content="HTML Gems Uncovered - Interactive showcase of underused HTML features">
     <title>HTML Gems Uncovered - Jack Van Zeeland</title>
 
+    <!-- Theme boot: set data-theme before first paint to avoid dark-mode flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { /* default light theme */ }
+      })();
+    </script>
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://jackvanzeeland.com/pages/artifacts/html-gems" />
