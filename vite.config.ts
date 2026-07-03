@@ -28,22 +28,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        '404': resolve(__dirname, '404.html'),
-        about: resolve(__dirname, 'pages/about.html'),
-        'beyond-the-code': resolve(__dirname, 'pages/beyond-the-code.html'),
-        journey: resolve(__dirname, 'pages/journey.html'),
-        projects: resolve(__dirname, 'pages/projects.html'),
-
-        'wordle-solver': resolve(__dirname, 'pages/projects/wordle-solver.html'),
-        'budgeting-automation': resolve(__dirname, 'pages/projects/budgeting-automation.html'),
-        'basketball-optimization': resolve(__dirname, 'pages/projects/basketball-optimization.html'),
-        'secret-santa': resolve(__dirname, 'pages/projects/secret-santa.html'),
-        'lyric-animator': resolve(__dirname, 'pages/projects/lyric-animator.html'),
-
-        'artifacts': resolve(__dirname, 'pages/artifacts.html'),
-        'qr-code-generator': resolve(__dirname, 'pages/artifacts/qr-code-generator.html'),
-        'uipath-queue-processor': resolve(__dirname, 'pages/artifacts/uipath-queue-processor.html'),
-        'html-gems': resolve(__dirname, 'pages/artifacts/html-gems.html')
+        '404': resolve(__dirname, '404.html')
       },
       output: {
         manualChunks: {
