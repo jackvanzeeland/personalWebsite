@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
@@ -14,6 +15,10 @@ export default defineConfig({
   ],
   root: '.',
   base: '/',
+  test: {
+    environment: 'happy-dom',
+    include: ['tests/**/*.test.ts']
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
