@@ -1,0 +1,83 @@
+<h2>How should the 3D scene and your content relate?</h2>
+<p class="subtitle">All three are dark-cinematic with one persistent three.js scene — they differ in how you move through the site. Click the one that feels right.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="camera-journey" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#050810;padding:0;position:relative;height:220px;overflow:hidden;">
+      <!-- one world, camera flies between anchored panels -->
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%, rgba(14,165,233,.18), transparent 50%), radial-gradient(ellipse at 75% 70%, rgba(99,102,241,.15), transparent 45%);"></div>
+      <svg viewBox="0 0 400 220" style="position:absolute;inset:0;width:100%;height:100%;">
+        <path d="M 60 60 C 140 30, 220 120, 340 170" stroke="rgba(125,211,252,.5)" stroke-dasharray="5 6" fill="none" stroke-width="2"/>
+        <circle cx="60" cy="60" r="5" fill="#38bdf8"/>
+        <circle cx="205" cy="88" r="5" fill="#34d399"/>
+        <circle cx="340" cy="170" r="5" fill="#818cf8"/>
+        <text x="72" y="52" fill="#cbd5e1" font-size="11" font-family="monospace">HOME</text>
+        <text x="217" y="80" fill="#cbd5e1" font-size="11" font-family="monospace">PROJECTS</text>
+        <text x="268" y="178" fill="#cbd5e1" font-size="11" font-family="monospace">TIMELINE</text>
+      </svg>
+      <div style="position:absolute;left:18px;bottom:16px;width:130px;padding:8px;border:1px solid rgba(125,211,252,.4);border-radius:6px;background:rgba(8,15,30,.75);color:#e2e8f0;font-size:9px;">Content panels float anchored inside the 3D world; camera flies between them</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Camera journey through one world</h3>
+      <p>Routes are camera positions in a single 3D space. Navigation literally flies you to the next place; content panels live "in" the world. Maximum immersion, but content readability and mobile behavior are hardest to get right, and long text fights the metaphor.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="morphing-stage" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#050810;padding:0;position:relative;height:220px;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%, rgba(14,165,233,.16), transparent 55%);"></div>
+      <svg viewBox="0 0 400 220" style="position:absolute;inset:0;width:100%;height:100%;">
+        <!-- left: monogram formation -->
+        <g fill="#38bdf8" opacity=".9">
+          <circle cx="40" cy="60" r="2"/><circle cx="48" cy="52" r="2"/><circle cx="56" cy="60" r="2"/><circle cx="48" cy="68" r="2"/><circle cx="44" cy="76" r="2"/><circle cx="52" cy="76" r="2"/>
+        </g>
+        <text x="30" y="100" fill="#64748b" font-size="9" font-family="monospace">/home → JVZ</text>
+        <!-- middle: constellation -->
+        <g stroke="rgba(52,211,153,.5)" fill="#34d399">
+          <line x1="170" y1="40" x2="195" y2="70"/><line x1="195" y1="70" x2="180" y2="100"/><line x1="180" y1="100" x2="210" y2="120"/>
+          <circle cx="170" cy="40" r="3"/><circle cx="195" cy="70" r="3"/><circle cx="180" cy="100" r="3"/><circle cx="210" cy="120" r="3"/>
+        </g>
+        <text x="155" y="145" fill="#64748b" font-size="9" font-family="monospace">/journey → constellation</text>
+        <!-- right: grid nodes -->
+        <g fill="#818cf8">
+          <circle cx="310" cy="50" r="3"/><circle cx="335" cy="50" r="3"/><circle cx="360" cy="50" r="3"/>
+          <circle cx="310" cy="75" r="3"/><circle cx="335" cy="75" r="3"/><circle cx="360" cy="75" r="3"/>
+        </g>
+        <text x="295" y="100" fill="#64748b" font-size="9" font-family="monospace">/projects → lattice</text>
+        <path d="M 75 64 C 110 64, 130 75, 155 78" stroke="rgba(148,163,184,.5)" fill="none" marker-end="none" stroke-dasharray="3 4"/>
+        <path d="M 225 85 C 255 80, 270 68, 292 63" stroke="rgba(148,163,184,.5)" fill="none" stroke-dasharray="3 4"/>
+      </svg>
+      <div style="position:absolute;left:18px;bottom:14px;right:18px;padding:8px;border:1px solid rgba(148,163,184,.3);border-radius:6px;background:rgba(8,15,30,.8);color:#e2e8f0;font-size:9px;">One particle system, always fullscreen behind. Each route melts it into a new formation; your content scrolls over it as clean readable panels</div>
+    </div>
+    <div class="card-body">
+      <h3>B — Morphing particle stage</h3>
+      <p>The scene is a persistent fullscreen backdrop; navigating morphs the particles into a signature formation per section (JVZ monogram → career constellation → project lattice). Content stays real, readable, scrollable DOM. Strong wow on every navigation, robust on mobile, best content preservation.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="scroll-film" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#050810;padding:0;position:relative;height:220px;overflow:hidden;">
+      <svg viewBox="0 0 400 220" style="position:absolute;inset:0;width:100%;height:100%;">
+        <rect x="150" y="10" width="100" height="44" rx="4" fill="rgba(14,165,233,.15)" stroke="rgba(56,189,248,.5)"/>
+        <rect x="150" y="64" width="100" height="44" rx="4" fill="rgba(52,211,153,.12)" stroke="rgba(52,211,153,.4)"/>
+        <rect x="150" y="118" width="100" height="44" rx="4" fill="rgba(129,140,248,.12)" stroke="rgba(129,140,248,.4)"/>
+        <rect x="150" y="172" width="100" height="38" rx="4" fill="rgba(148,163,184,.1)" stroke="rgba(148,163,184,.35)"/>
+        <text x="163" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">INTRO</text>
+        <text x="163" y="90" fill="#cbd5e1" font-size="10" font-family="monospace">WORK</text>
+        <text x="163" y="144" fill="#cbd5e1" font-size="10" font-family="monospace">STORY</text>
+        <text x="163" y="195" fill="#cbd5e1" font-size="10" font-family="monospace">CONTACT</text>
+        <path d="M 270 20 C 300 60, 300 160, 270 200" stroke="rgba(125,211,252,.6)" fill="none" stroke-width="2" stroke-dasharray="4 5"/>
+        <text x="285" y="115" fill="#64748b" font-size="9" font-family="monospace">scroll = camera scrub</text>
+      </svg>
+      <div style="position:absolute;left:18px;bottom:14px;width:120px;padding:8px;border:1px solid rgba(148,163,184,.3);border-radius:6px;background:rgba(8,15,30,.8);color:#e2e8f0;font-size:9px;">One long scroll story; deeper pages are simple "rooms"</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Scroll-film + rooms</h3>
+      <p>The homepage becomes one long scroll-driven cinematic — scrolling scrubs the camera through your story (intro → work → journey → contact). Detail pages (Wordle, project pages) are quieter rooms. Great narrative control, but the wow concentrates on the homepage; inner pages feel more ordinary.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px;">B is my recommendation: it delivers a signature moment on <em>every</em> navigation, keeps all your content as real accessible HTML, and is the most achievable at high quality. A is the most spectacular but riskiest; C spends the magic mostly on the homepage.</p>
