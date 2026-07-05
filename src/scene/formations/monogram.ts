@@ -77,12 +77,15 @@ export function monogramBuilder(count: number, aspect: number): Formation {
     const scale = Math.min((SPREAD * Math.min(aspect, 1.9)) / w, 26 / h);
 
     const targets = new Float32Array(count * 3);
+    // Push the monogram toward the right half so it doesn't hide behind
+    // the hero headline (which occupies the left column on desktop).
+    const xShift = aspect > 1.1 ? SPREAD * 0.28 : 0;
     // ~85% form the glyphs, the rest stay ambient dust around them
     const glyphCount = Math.floor(count * 0.85);
     for (let i = 0; i < count; i++) {
         if (i < glyphCount) {
             const [gx, gy] = pts[Math.floor(rand() * pts.length)];
-            targets[i * 3] = (gx - minX - w / 2) * scale + (rand() - 0.5) * 0.6;
+            targets[i * 3] = (gx - minX - w / 2) * scale + xShift + (rand() - 0.5) * 0.6;
             targets[i * 3 + 1] = -(gy - minY - h / 2) * scale + (rand() - 0.5) * 0.6;
             targets[i * 3 + 2] = (rand() - 0.5) * 6;
         } else {
