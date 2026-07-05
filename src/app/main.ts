@@ -7,11 +7,13 @@
 import '../styles/redesign/tokens.css';
 import '../styles/redesign/base.css';
 import '../styles/redesign/nav.css';
+import '../styles/redesign/scene.css';
 
 import { startRouter, RouteName, RouteMatch } from './router';
 import { renderNav } from './nav';
 import type { View } from './views/types';
 import { markPageAsVisited } from '../utils/journey';
+import { scheduleScene } from '../scene/stage';
 
 const viewLoaders: Record<Exclude<RouteName, 'notFound'>, () => Promise<{ default: View }>> = {
     home: () => import('./views/home'),
@@ -75,4 +77,5 @@ document.addEventListener('DOMContentLoaded', () => {
     startRouter((match) => {
         void showRoute(match);
     });
+    scheduleScene();
 });
