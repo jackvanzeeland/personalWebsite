@@ -1,0 +1,35 @@
+/* /contact */
+
+.contact {
+  padding-top: clamp(140px, 26vh, 260px);
+  padding-bottom: 120px;
+  max-width: 720px;
+  text-align: center;
+  margin-inline: auto;
+}
+
+.contact h1 {
+  font-size: clamp(38px, 6vw, 60px);
+}
+
+.contact-sub {
+  color: var(--text-dim);
+  font-size: 16px;
+  max-width: 480px;
+  margin: 0 auto 36px;
+}
+
+.contact-links {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-location {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--text-faint);
+  margin-top: 48px;
+}

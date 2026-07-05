@@ -4,7 +4,7 @@
  * Replaces the old <details> tags with a more polished UX
  */
 
-class MediaAccordion {
+export class MediaAccordion {
     constructor() {
         this.accordionItems = [];
         this.init();
@@ -159,10 +159,4 @@ class MediaAccordion {
 }
 
 // Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        new MediaAccordion();
-    });
-} else {
-    new MediaAccordion();
-}
+// SPA: instantiated by the beyond view after its DOM mounts

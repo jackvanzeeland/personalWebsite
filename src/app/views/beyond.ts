@@ -1,20 +1,36 @@
-/** Placeholder view — replaced by the real implementation in its plan task. */
+/**
+ * /beyond — life outside the terminal: sports, media picks, photos, Instagram.
+ * Markup extracted verbatim from the old page; the three gallery components
+ * are the original classes, instantiated after the DOM mounts.
+ */
+
 import type { View } from './types';
+import { requestFormation } from '../../scene/stage';
+import { nebulaBuilder } from '../../scene/formations/nebula';
+import { BEYOND_MARKUP } from './beyondMarkup';
+import { PhotoGallery } from '../../components/PhotoGallery';
+import { InstagramGallery } from '../../components/InstagramGallery';
+import { MediaAccordion } from '../../components/MediaAccordion';
+import '../../styles/redesign/beyond.css';
 
 const view: View = {
-    mount(el) {
-        const wrap = document.createElement('section');
-        wrap.className = 'container-x';
-        wrap.style.paddingTop = '20vh';
-        const eyebrow = document.createElement('p');
-        eyebrow.className = 'eyebrow';
-        eyebrow.textContent = '// UNDER CONSTRUCTION';
-        const h = document.createElement('h1');
-        h.textContent = 'beyond';
-        wrap.append(eyebrow, h);
-        el.appendChild(wrap);
+    mount(root) {
+        requestFormation(nebulaBuilder);
+
+        const section = document.createElement('section');
+        section.className = 'beyond container-x';
+        // Trusted compile-time constant extracted from our own repo markup
+        section.innerHTML = BEYOND_MARKUP;
+        root.appendChild(section);
+
+        new PhotoGallery();
+        new InstagramGallery();
+        new MediaAccordion();
     },
-    unmount() { /* nothing to clean up */ }
+
+    unmount() {
+        /* component listeners live on removed nodes */
+    }
 };
 
 export default view;

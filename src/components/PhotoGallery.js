@@ -74,7 +74,7 @@ const REAL_PHOTOS = [
   ),
 ];
 
-class PhotoGallery {
+export class PhotoGallery {
   constructor() {
     this.currentPhotoIndex = 0;
     this.photos = REAL_PHOTOS;
@@ -266,7 +266,7 @@ class PhotoGallery {
 }
 
 // Initialize the photo gallery
-new PhotoGallery();
+// SPA: instantiated by the beyond view after its DOM mounts
 
 // Add custom styles for the gallery
 const galleryStyles = document.createElement("style");

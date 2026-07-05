@@ -95,8 +95,6 @@ instagramStyles.textContent = `
 document.head.appendChild(instagramStyles);
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new InstagramGallery();
-});
+// SPA: instantiated by the beyond view after its DOM mounts
 
 export { InstagramGallery };
