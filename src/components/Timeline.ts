@@ -9,6 +9,7 @@
  */
 
 import { TimelineItem } from '../types';
+import { parseLocalDate } from '../utils/dates';
 
 type FilterType = 'all' | TimelineItem['type'];
 
@@ -96,12 +97,12 @@ function renderTemporalTimeline(items: TimelineItem[], container: HTMLElement): 
     const today = new Date();
 
     const sortedItems = [...items].sort(
-        (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+        (a, b) => parseLocalDate(b.startDate).getTime() - parseLocalDate(a.startDate).getTime()
     );
 
     const itemsByYear: Record<string, TimelineItem[]> = {};
     sortedItems.forEach((item) => {
-        const year = String(new Date(item.startDate).getFullYear());
+        const year = String(parseLocalDate(item.startDate).getFullYear());
         (itemsByYear[year] ??= []).push(item);
     });
 
@@ -207,8 +208,8 @@ function renderEventCard(item: TimelineItem, today: Date): string {
 }
 
 function calculateDuration(startDate: string, endDate: string, isPresent: boolean, today: Date): string {
-    const start = new Date(startDate);
-    const end = isPresent ? today : new Date(endDate);
+    const start = parseLocalDate(startDate);
+    const end = isPresent ? today : parseLocalDate(endDate);
 
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
         console.warn(`Invalid dates: start=${startDate}, end=${endDate}`);
@@ -255,7 +256,7 @@ function getTypeColor(type: TimelineItem['type']): string {
 }
 
 function formatMonthYear(dateString: string): string {
-    const date = new Date(dateString + '-01');
+    const date = parseLocalDate(dateString);
     if (isNaN(date.getTime())) {
         console.warn(`Invalid date string: ${dateString}`);
         return 'Invalid date';
@@ -264,7 +265,7 @@ function formatMonthYear(dateString: string): string {
 }
 
 function formatDate(dateString: string): string {
-    const date = new Date(dateString);
+    const date = parseLocalDate(dateString);
     if (isNaN(date.getTime())) {
         console.warn(`Invalid date string: ${dateString}`);
         return 'Invalid date';
