@@ -1,9 +1,9 @@
 /* Home view */
 
 .home-hero {
-  padding-top: clamp(120px, 22vh, 220px);
+  padding-top: clamp(110px, 18vh, 180px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 48px;
 }
@@ -12,13 +12,17 @@
   max-width: 620px;
 }
 
+/* Portrait anchors the upper-right; the JVZ particle monogram forms in
+   the lower-right quadrant beneath it (see scene/formations/monogram.ts) —
+   each element owns its own zone. */
 .home-avatar {
   flex: 0 0 auto;
+  margin-top: 34px; /* optically aligns with the headline */
 }
 
 .home-avatar img {
-  width: clamp(180px, 24vw, 320px);
-  height: clamp(180px, 24vw, 320px);
+  width: clamp(170px, 18vw, 250px);
+  height: clamp(170px, 18vw, 250px);
   object-fit: cover;
   border-radius: 50%;
   border: 1px solid var(--line);

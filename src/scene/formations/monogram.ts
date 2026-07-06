@@ -60,6 +60,14 @@ function canvasPoints(text: string): [number, number][] | null {
     }
 }
 
+/**
+ * Half of the world-space height visible at z=0 with the SceneDirector's
+ * camera (fov 55°, z 55): 55 * tan(27.5°) ≈ 28.6. Placement is computed
+ * from real viewport bounds so the monogram lands in guaranteed-empty
+ * screen zones instead of behind the hero content.
+ */
+const VIEW_HALF_H = 28.6;
+
 export function monogramBuilder(count: number, aspect: number): Formation {
     const rand = seededRandom(1001);
     const pts = canvasPoints('JVZ') ?? blockLetterPoints('JVZ');
@@ -74,19 +82,36 @@ export function monogramBuilder(count: number, aspect: number): Formation {
     }
     const w = Math.max(maxX - minX, 1);
     const h = Math.max(maxY - minY, 1);
-    const scale = Math.min((SPREAD * Math.min(aspect, 1.9)) / w, 26 / h);
+
+    const halfH = VIEW_HALF_H;
+    const halfW = halfH * aspect;
+
+    // Hero zones: desktop puts text upper-left and the portrait upper-right,
+    // leaving the lower-right quadrant free — the monogram owns it. On
+    // narrow screens the content stacks down the middle, so the monogram
+    // sits lower-center behind the CTAs/stats, full width.
+    let cx: number, cy: number, fitW: number, fitH: number;
+    if (aspect > 1.1) {
+        cx = halfW * 0.38;
+        cy = -halfH * 0.42;
+        fitW = halfW * 0.78;
+        fitH = halfH * 0.62;
+    } else {
+        cx = 0;
+        cy = -halfH * 0.2;
+        fitW = halfW * 1.7;
+        fitH = halfH * 0.7;
+    }
+    const scale = Math.min(fitW / w, fitH / h);
 
     const targets = new Float32Array(count * 3);
-    // Push the monogram toward the right half so it doesn't hide behind
-    // the hero headline (which occupies the left column on desktop).
-    const xShift = aspect > 1.1 ? SPREAD * 0.28 : 0;
     // ~85% form the glyphs, the rest stay ambient dust around them
     const glyphCount = Math.floor(count * 0.85);
     for (let i = 0; i < count; i++) {
         if (i < glyphCount) {
             const [gx, gy] = pts[Math.floor(rand() * pts.length)];
-            targets[i * 3] = (gx - minX - w / 2) * scale + xShift + (rand() - 0.5) * 0.6;
-            targets[i * 3 + 1] = -(gy - minY - h / 2) * scale + (rand() - 0.5) * 0.6;
+            targets[i * 3] = (gx - minX - w / 2) * scale + cx + (rand() - 0.5) * 0.6;
+            targets[i * 3 + 1] = -(gy - minY - h / 2) * scale + cy + (rand() - 0.5) * 0.6;
             targets[i * 3 + 2] = (rand() - 0.5) * 6;
         } else {
             targets[i * 3] = (rand() - 0.5) * SPREAD * 2.4;
