@@ -72,7 +72,7 @@ const view: View = {
       }),
     );
 
-    hero.append(heroText, avatarWrap);
+    hero.append(avatarWrap, heroText);
 
     // Selected work panel
     const panelWrap = el("section", "home-featured container-x");

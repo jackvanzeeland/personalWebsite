@@ -2,22 +2,21 @@
 
 .home-hero {
   padding-top: clamp(110px, 18vh, 180px);
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 48px;
+  position: relative;
 }
 
 .home-hero-text {
   max-width: 620px;
 }
 
-/* Portrait anchors the upper-right; the JVZ particle monogram forms in
-   the lower-right quadrant beneath it (see scene/formations/monogram.ts) —
-   each element owns its own zone. */
+/* Portrait sits centered on the same vertical axis as the JVZ monogram
+   below it (the monogram's world-space center maps to 69vw — see
+   scene/formations/monogram.ts), reading as photo-over-signature. */
 .home-avatar {
-  flex: 0 0 auto;
-  margin-top: 34px; /* optically aligns with the headline */
+  position: absolute;
+  left: 69vw;
+  transform: translateX(-50%);
+  top: clamp(96px, 16vh, 168px);
 }
 
 .home-avatar img {
@@ -170,9 +169,16 @@
 @media (max-width: 900px) {
   .home-hero {
     padding-top: 110px;
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    gap: 26px;
+  }
+
+  /* Stacked flow: centered portrait above the content; the monogram
+     forms lower-center behind the CTAs on narrow screens. */
+  .home-avatar {
+    position: static;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 26px;
   }
 
   .home-avatar img {
