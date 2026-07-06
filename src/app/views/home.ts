@@ -7,7 +7,6 @@
 import type { View } from "./types";
 import { requestFormation } from "../../scene/stage";
 import { monogramBuilder } from "../../scene/formations/monogram";
-import { WORK_ITEMS, workItemHref } from "../../data/workItems";
 import { createOptimizedPicture } from "../../utils/optimizedImage";
 import "../../styles/redesign/home.css";
 
@@ -74,42 +73,7 @@ const view: View = {
 
     hero.append(avatarWrap, heroText);
 
-    // Selected work panel
-    const panelWrap = el("section", "home-featured container-x");
-    const panel = el("div", "panel home-featured-panel");
-    panel.appendChild(el("div", "home-featured-label", "SELECTED PROJECTS"));
-    const grid = el("div", "home-featured-grid");
-
-    const featured = WORK_ITEMS.filter((p) => p.featured).slice(0, 3);
-    for (const project of featured) {
-      const card = el("a", "home-featured-card");
-      const dest = workItemHref(project);
-      card.href = dest.href;
-      if (dest.external) card.setAttribute("data-external", "");
-      const imgWrap = el("div", "home-featured-img");
-      imgWrap.appendChild(
-        createOptimizedPicture(`/assets/images/${project.image}`, {
-          alt: project.title,
-          sizes: "(min-width: 900px) 340px, 100vw",
-        }),
-      );
-      const body = el("div", "home-featured-body");
-      body.append(
-        el("h3", "home-featured-title", project.title),
-        el("p", "home-featured-desc", project.description),
-      );
-      const tags = el("div", "home-featured-tags");
-      project.technologies
-        .slice(0, 3)
-        .forEach((t) => tags.appendChild(el("span", "home-tag", t)));
-      body.appendChild(tags);
-      card.append(imgWrap, body);
-      grid.appendChild(card);
-    }
-    panel.appendChild(grid);
-    panelWrap.appendChild(panel);
-
-    root.append(hero, panelWrap);
+    root.append(hero);
   },
 
   unmount() {

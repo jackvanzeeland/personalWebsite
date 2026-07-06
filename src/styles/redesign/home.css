@@ -2,6 +2,7 @@
 
 .home-hero {
   padding-top: clamp(110px, 18vh, 180px);
+  padding-bottom: clamp(72px, 14vh, 140px);
   position: relative;
 }
 
@@ -84,80 +85,6 @@
   margin-top: 4px;
 }
 
-/* Selected work */
-
-.home-featured {
-  margin-top: clamp(72px, 14vh, 140px);
-  padding-bottom: 96px;
-}
-
-.home-featured-panel {
-  padding: 26px 30px 30px;
-}
-
-.home-featured-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  color: var(--text-faint);
-  margin-bottom: 18px;
-}
-
-.home-featured-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.home-featured-card {
-  display: block;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  overflow: hidden;
-  background: rgba(148, 163, 184, 0.04);
-  color: inherit;
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.3s ease;
-}
-
-.home-featured-card:hover {
-  text-decoration: none;
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 24px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-
-.home-featured-img img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
-.home-featured-body {
-  padding: 16px 18px 18px;
-}
-
-.home-featured-title {
-  font-size: 17px;
-  margin-bottom: 6px;
-}
-
-.home-featured-desc {
-  font-size: 13px;
-  color: var(--text-dim);
-  line-height: 1.55;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 12px;
-}
-
-.home-featured-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
 .home-tag {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -187,9 +114,5 @@
   .home-avatar img {
     width: 140px;
     height: 140px;
-  }
-
-  .home-featured-grid {
-    grid-template-columns: 1fr;
   }
 }
