@@ -5,7 +5,12 @@
 import type { View } from "./types";
 import { requestFormation } from "../../scene/stage";
 import { latticeBuilder } from "../../scene/formations/lattice";
-import { WORK_ITEMS, allWorkTags, WorkItem, workItemHref } from "../../data/workItems";
+import {
+  WORK_ITEMS,
+  allWorkTags,
+  WorkItem,
+  workItemHref,
+} from "../../data/workItems";
 import { createOptimizedPicture } from "../../utils/optimizedImage";
 import "../../styles/redesign/work.css";
 
@@ -24,7 +29,7 @@ function renderCard(item: WorkItem): HTMLAnchorElement {
   const card = el("a", "work-card panel");
   const dest = workItemHref(item);
   card.href = dest.href;
-  if (dest.external) card.setAttribute('data-external', '');
+  if (dest.external) card.setAttribute("data-external", "");
   card.dataset.tags = item.tags.join("|");
   card.setAttribute("data-reveal", "");
 
@@ -77,7 +82,7 @@ const view: View = {
       el(
         "p",
         "work-sub",
-        "Side projects, experiments, and tools from my free time — built because I wanted them to exist. Some run right here in the page. (What I build at my day job gets its own section soon.)",
+        "Side projects, experiments, and tools from my free time — built because I wanted them to exist. Some run right here in the page.",
       ),
     );
 
