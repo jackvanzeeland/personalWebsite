@@ -14,14 +14,34 @@
   font-size: clamp(34px, 5vw, 52px);
 }
 
+.journey-intro {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
 .journey-bio {
   color: var(--text-dim);
   font-size: 16px;
   max-width: 640px;
+  margin: 0;
+  flex: 1;
 }
 
 .journey-resume {
-  margin: 10px 0 40px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  background: var(--bg-raise);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+@media (max-width: 720px) {
+  .journey-intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
 }
 
 /* Skills */

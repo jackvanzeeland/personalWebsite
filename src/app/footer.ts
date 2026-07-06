@@ -1,5 +1,13 @@
 /** Minimal mono footer, rendered once by the shell. */
 
+import { icon, IconName } from './icons';
+
+const LINKS: [string, string, IconName][] = [
+    ['https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/', 'LINKEDIN', 'linkedin'],
+    ['https://github.com/jackvanzeeland', 'GITHUB', 'github'],
+    ['mailto:jack.vanzeeland@outlook.com', 'EMAIL', 'mail']
+];
+
 export function renderFooter(): HTMLElement {
     const footer = document.createElement('div');
     footer.className = 'site-footer container-x';
@@ -11,14 +19,12 @@ export function renderFooter(): HTMLElement {
     left.textContent = `© ${new Date().getFullYear()} JACK VAN ZEELAND`;
 
     const right = document.createElement('span');
-    for (const [href, label] of [
-        ['https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/', 'LINKEDIN'],
-        ['https://github.com/jackvanzeeland', 'GITHUB'],
-        ['mailto:jack.vanzeeland@outlook.com', 'EMAIL']
-    ]) {
+    right.className = 'site-footer-links';
+    for (const [href, label, iconName] of LINKS) {
         const a = document.createElement('a');
         a.href = href;
-        a.textContent = label;
+        a.appendChild(icon(iconName, 13));
+        a.appendChild(document.createTextNode(label));
         if (!href.startsWith('mailto:')) {
             a.setAttribute('data-external', '');
             a.target = '_blank';

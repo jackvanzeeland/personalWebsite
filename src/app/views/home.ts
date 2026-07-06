@@ -33,6 +33,7 @@ const view: View = {
     requestFormation(monogramBuilder);
 
     const hero = el("section", "home-hero container-x");
+    const heroText = el("div", "home-hero-text");
 
     const eyebrow = el("p", "eyebrow", "// SOFTWARE ENGINEER — CHICAGO");
     const h1 = el("h1", "home-name");
@@ -44,7 +45,7 @@ const view: View = {
     );
 
     const ctas = el("div", "home-ctas");
-    const work = el("a", "btn-glow", "Explore the work →");
+    const work = el("a", "btn-glow", "Explore the projects →");
     work.href = "/projects";
     const journey = el("a", "btn-ghost", "The journey");
     journey.href = "/journey";
@@ -60,12 +61,23 @@ const view: View = {
       stats.appendChild(stat);
     }
 
-    hero.append(eyebrow, h1, sub, ctas, stats);
+    heroText.append(eyebrow, h1, sub, ctas, stats);
+
+    const avatarWrap = el("div", "home-avatar");
+    avatarWrap.appendChild(
+      createOptimizedPicture("/assets/images/profile.jpg", {
+        alt: "Jack Van Zeeland",
+        sizes: "(min-width: 900px) 320px, 160px",
+        loading: "eager",
+      }),
+    );
+
+    hero.append(heroText, avatarWrap);
 
     // Selected work panel
     const panelWrap = el("section", "home-featured container-x");
     const panel = el("div", "panel home-featured-panel");
-    panel.appendChild(el("div", "home-featured-label", "SELECTED WORK"));
+    panel.appendChild(el("div", "home-featured-label", "SELECTED PROJECTS"));
     const grid = el("div", "home-featured-grid");
 
     const featured = WORK_ITEMS.filter((p) => p.featured).slice(0, 3);

@@ -61,18 +61,23 @@ const view: View = {
 
         section.append(
             el('p', 'eyebrow', '// THE JOURNEY'),
-            el('h1', undefined, 'How I got here'),
+            el('h1', undefined, 'How I got here')
+        );
+
+        // Bio with the resume button sitting to its right
+        const intro = el('div', 'journey-intro');
+        intro.appendChild(
             el(
                 'p',
                 'journey-bio',
                 'I’m a software engineer focused on automation, data analysis, and building intelligent solutions that make everyday tasks easier and more efficient. Data science and finance degree from UW–Madison; automation engineering at Echo Global Logistics in Chicago.'
             )
         );
-
         const resume = el('a', 'btn-ghost journey-resume', 'Download resume ↓');
         resume.href = '/assets/files/resume.pdf';
         resume.setAttribute('download', 'jack-van-zeeland-resume.pdf');
-        section.appendChild(resume);
+        intro.appendChild(resume);
+        section.appendChild(intro);
 
         // Skills
         const skillsPanel = el('div', 'panel journey-skills');

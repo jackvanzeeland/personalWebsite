@@ -8,8 +8,25 @@
   margin-inline: auto;
 }
 
+.contact-avatar img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  box-shadow:
+    0 0 0 5px rgba(10, 16, 32, 0.6),
+    0 0 44px color-mix(in srgb, var(--accent) 25%, transparent);
+  margin: 0 auto 22px;
+}
+
 .contact h1 {
   font-size: clamp(38px, 6vw, 60px);
+}
+
+.contact-links .icon {
+  vertical-align: -2px;
+  margin-right: 9px;
 }
 
 .contact-sub {

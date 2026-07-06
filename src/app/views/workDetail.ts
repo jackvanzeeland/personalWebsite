@@ -103,7 +103,7 @@ const view: View = {
         requestFormation(latticeBuilder);
 
         const section = el('section', 'detail container-x');
-        const back = el('a', 'detail-back', '← All work');
+        const back = el('a', 'detail-back', '← All projects');
         back.href = '/projects';
         section.appendChild(back);
 

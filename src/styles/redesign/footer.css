@@ -23,6 +23,16 @@
   margin-left: 22px;
 }
 
+.site-footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.site-footer-links .icon {
+  flex: 0 0 auto;
+}
+
 .site-footer-line a:hover {
   color: var(--accent);
   text-decoration: none;

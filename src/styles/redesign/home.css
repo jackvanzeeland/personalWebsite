@@ -2,8 +2,29 @@
 
 .home-hero {
   padding-top: clamp(120px, 22vh, 220px);
-  max-width: 720px;
-  margin-left: max(calc((100vw - 1120px) / 2), 24px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.home-hero-text {
+  max-width: 620px;
+}
+
+.home-avatar {
+  flex: 0 0 auto;
+}
+
+.home-avatar img {
+  width: clamp(180px, 24vw, 320px);
+  height: clamp(180px, 24vw, 320px);
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  box-shadow:
+    0 0 0 6px rgba(10, 16, 32, 0.6),
+    0 0 60px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 .home-hero .eyebrow {
@@ -144,8 +165,15 @@
 
 @media (max-width: 900px) {
   .home-hero {
-    margin-left: auto;
-    padding-top: 120px;
+    padding-top: 110px;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 26px;
+  }
+
+  .home-avatar img {
+    width: 140px;
+    height: 140px;
   }
 
   .home-featured-grid {

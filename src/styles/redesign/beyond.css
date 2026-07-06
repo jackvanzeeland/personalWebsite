@@ -211,11 +211,42 @@
   margin-inline: auto;
 }
 
-.beyond #photo-gallery img {
-  border-radius: 12px;
-  border: 1px solid var(--line);
+/* Fixed frame: every photo letterboxes into the same 3:2 stage on black,
+   so slide changes never resize or shift the page. */
+.beyond .photo-display,
+.beyond .photo-wrapper {
+  width: 100%;
 }
 
+.beyond .photo-wrapper {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  background: #000;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beyond .photo-wrapper picture {
+  display: contents;
+}
+
+.beyond #photo-gallery img.photo-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+  border: none;
+  margin: 0 auto;
+  box-shadow: none;
+}
+
+.beyond .instagram-embed-container,
 .beyond #instagram-feed {
   display: flex;
   justify-content: center;

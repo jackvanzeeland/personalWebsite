@@ -72,12 +72,12 @@ const view: View = {
 
     const section = el("section", "work container-x");
     section.append(
-      el("p", "eyebrow", "// THE WORK"),
-      el("h1", undefined, "Things I have built"),
+      el("p", "eyebrow", "// PERSONAL PROJECTS"),
+      el("h1", undefined, "Built for the fun of it"),
       el(
         "p",
         "work-sub",
-        "Projects, artifacts, and tools you can use right here. Filter by what interests you.",
+        "Side projects, experiments, and tools from my free time — built because I wanted them to exist. Some run right here in the page. (What I build at my day job gets its own section soon.)",
       ),
     );
 

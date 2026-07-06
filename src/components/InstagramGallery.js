@@ -13,7 +13,10 @@ class InstagramGallery {
     }
 
     init() {
-        this.instagramFeed = document.getElementById('instagram-feed');
+        // SPA markup may carry the blockquote without the old wrapper id
+        this.instagramFeed =
+            document.getElementById('instagram-feed') ||
+            document.querySelector('.instagram-media');
         if (!this.instagramFeed) return;
 
         // Only load profile embed, no recent posts
