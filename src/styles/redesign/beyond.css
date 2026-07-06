@@ -171,6 +171,7 @@
 .beyond .accordion-panel {
   transition: max-height 0.35s ease;
   background: rgba(4, 7, 15, 0.4);
+  overflow: hidden;
 }
 
 .beyond .media-grid {
