@@ -21,4 +21,10 @@
   --font-display: 'Space Grotesk', -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --font-body: -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Legacy aliases consumed by ported tool stylesheets (wordle, santa) */
+  --text-primary: var(--text);
+  --text-secondary: var(--text-dim);
+  --text-muted: var(--text-dim);
+  --border-color: var(--line);
 }

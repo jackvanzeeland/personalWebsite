@@ -17,9 +17,9 @@ const ACHIEVEMENTS: Achievement[] = [
     },
     {
         id: 'theme_switcher',
-        title: 'Theme Master',
-        description: 'Switch between light and dark themes',
-        icon: '🌓',
+        title: 'Void Dweller',
+        description: 'Embrace the dark (granted to everyone — there is only dark now)',
+        icon: '🌑',
         unlocked: false
     },
     {
@@ -124,30 +124,29 @@ export function saveAchievements(achievements: Achievement[]): void {
 export function markPageAsVisited(): void {
     const path = window.location.pathname;
     const journeyData = getJourneyData();
-    
-    // Map path to journey key
-    if (path === '/' || path === '/index.html') {
+
+    // Map SPA routes to journey keys (legacy keys preserved so existing
+    // visitors keep their progress)
+    if (path === '/') {
         journeyData.home = true;
-    } else if (path.includes('about')) {
+    } else if (path === '/journey') {
         journeyData.about = true;
-    } else if (path.includes('beyond-the-code')) {
-        journeyData.beyondTheCode = true;
-    } else if (path.includes('journey')) {
         journeyData.journey = true;
-    } else if (path === '/pages/projects' || path === '/pages/projects.html') {
+    } else if (path === '/beyond') {
+        journeyData.beyondTheCode = true;
+    } else if (path === '/work') {
         journeyData.projects_page = true;
-    } else if (path.includes('projects')) {
-        // Extract project name from path
-        const projectName = path.split('/').pop()?.replace('.html', '') || '';
+    } else if (path.startsWith('/work/')) {
+        const projectName = path.split('/').pop() || '';
         if (projectName && !journeyData.projects?.includes(projectName)) {
             journeyData.projects = journeyData.projects || [];
             journeyData.projects.push(projectName);
         }
     }
-    
+
     journeyData.lastVisited = new Date().toISOString();
     saveJourneyData(journeyData);
-    
+
     // Check for achievements
     checkAchievements();
 }

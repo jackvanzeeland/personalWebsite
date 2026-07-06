@@ -8,9 +8,12 @@ import '../styles/redesign/tokens.css';
 import '../styles/redesign/base.css';
 import '../styles/redesign/nav.css';
 import '../styles/redesign/scene.css';
+import '../styles/redesign/footer.css';
 
 import { startRouter, RouteName, RouteMatch } from './router';
 import { renderNav } from './nav';
+import { renderFooter } from './footer';
+import { initAchievementTracker } from './achievementTracker';
 import type { View } from './views/types';
 import { markPageAsVisited } from '../utils/journey';
 import { scheduleScene } from '../scene/stage';
@@ -74,8 +77,10 @@ async function showRoute(match: RouteMatch): Promise<void> {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('footer-root')?.replaceChildren(renderFooter());
     startRouter((match) => {
         void showRoute(match);
     });
     scheduleScene();
+    initAchievementTracker();
 });

@@ -32,9 +32,6 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          vendor: ['bootstrap'],
-          animations: ['aos'],
-          charts: ['chart.js'],
           three: ['three'],
           gsap: ['gsap', 'gsap/ScrollTrigger']
         },
@@ -72,6 +69,6 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['bootstrap', 'aos', 'chart.js', 'three', 'gsap']
+    include: ['three', 'gsap']
   }
 })
