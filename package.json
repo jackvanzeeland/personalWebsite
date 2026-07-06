@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/optimize-images.mjs && tsc && vite build",
+    "build": "node scripts/optimize-images.mjs && node scripts/generate-redirects.mjs && node scripts/generate-sitemap.mjs && tsc && vite build",
     "optimize:images": "node scripts/optimize-images.mjs",
     "preview": "vite preview",
     "test": "vitest run --passWithNoTests",

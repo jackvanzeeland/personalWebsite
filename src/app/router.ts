@@ -78,23 +78,7 @@ export const routeMeta: Record<RouteName, { title: string; description: string; 
     }
 };
 
-/** Old-site URLs → new SPA paths. Keys are normalized (no .html, no trailing /). */
-const LEGACY_MAP: Record<string, string> = {
-    '/index': '/',
-    '/pages/about': '/journey',
-    '/pages/journey': '/journey',
-    '/pages/projects': '/work',
-    '/pages/artifacts': '/work',
-    '/pages/beyond-the-code': '/beyond',
-    '/pages/projects/wordle-solver': '/work/wordle-solver',
-    '/pages/projects/secret-santa': '/work/secret-santa',
-    '/pages/projects/lyric-animator': '/work/lyric-animator',
-    '/pages/projects/budgeting-automation': '/work/budgeting-automation',
-    '/pages/projects/basketball-optimization': '/work/basketball-optimization',
-    '/pages/artifacts/qr-code-generator': '/work/qr-code-generator',
-    '/pages/artifacts/uipath-queue-processor': '/work/uipath-queue-processor',
-    '/pages/artifacts/html-gems': '/work/html-gems'
-};
+import { LEGACY_MAP } from './legacyRedirects.mjs';
 
 export function getLegacyMap(): Readonly<Record<string, string>> {
     return LEGACY_MAP;
