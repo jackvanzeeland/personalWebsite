@@ -85,6 +85,12 @@ button {
 
 /* ── Shared primitives ─────────────────────────────────────────── */
 
+/* Views mount asynchronously; reserving the viewport keeps the footer
+   below the fold so late content never shifts it (CLS 0). */
+#view-root {
+  min-height: 100vh;
+}
+
 .container-x {
   width: min(1120px, 100% - 48px);
   margin-inline: auto;
