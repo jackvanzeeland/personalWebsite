@@ -14,9 +14,11 @@
    scene/formations/monogram.ts), reading as photo-over-signature. */
 .home-avatar {
   position: absolute;
-  left: 69vw;
+  /* 69vw in viewport space, corrected for the centered container offset */
+  left: calc(69vw - (100vw - min(1120px, 100vw - 48px)) / 2);
   transform: translateX(-50%);
   top: clamp(96px, 16vh, 168px);
+  width: max-content; /* defeat absolute shrink-to-fit squashing the circle */
 }
 
 .home-avatar img {
@@ -176,6 +178,7 @@
   .home-avatar {
     position: static;
     transform: none;
+    width: auto;
     display: flex;
     justify-content: center;
     margin-bottom: 26px;
