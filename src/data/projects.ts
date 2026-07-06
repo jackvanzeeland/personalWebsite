@@ -15,7 +15,7 @@ export const PROJECTS: Project[] = [
     youtube_link: "",
     tiktok_link: "",
     live_demo: "",
-    webpage_link: "/projects/budget-tracker/",
+    webpage_link: "https://budget.jackvanzeeland.com/",
   },
   {
     title: "Woku",
@@ -31,7 +31,7 @@ export const PROJECTS: Project[] = [
     youtube_link: "",
     tiktok_link: "",
     live_demo: "",
-    webpage_link: "/projects/woku/",
+    webpage_link: "https://woku.jackvanzeeland.com/",
   },
   {
     title: "Super Bowl Competition",
@@ -107,7 +107,7 @@ export const PROJECTS: Project[] = [
     youtube_link: "",
     tiktok_link: "",
     live_demo: "",
-    webpage_link: "/pages/projects/lyric-animator",
+    webpage_link: "",
   },
   {
     title: "Budgeting Automation",

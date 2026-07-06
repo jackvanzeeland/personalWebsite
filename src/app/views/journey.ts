@@ -97,7 +97,7 @@ const view: View = {
         timelineWrap.appendChild(el('h2', 'journey-timeline-heading', 'Timeline'));
         const filterRow = el('div', 'journey-filters');
         for (const [key, label] of FILTERS) {
-            const btn = el('button', 'filter-btn work-chip', label + ' ');
+            const btn = el('button', 'filter-btn', label + ' ');
             btn.setAttribute('data-filter', key);
             if (key === 'all') btn.classList.add('active');
             const badge = el('span', 'journey-count');

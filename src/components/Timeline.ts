@@ -283,19 +283,8 @@ function setupFilters(): void {
 
     filterButtons.forEach((button) => {
         const listener = (): void => {
-            filterButtons.forEach((btn) => {
-                btn.classList.remove('active', 'btn-dark');
-                const type = btn.getAttribute('data-filter');
-                if (type === 'education') btn.className = 'btn btn-outline-primary filter-btn';
-                else if (type === 'work') btn.className = 'btn btn-outline-success filter-btn';
-                else if (type === 'certification') btn.className = 'btn btn-outline-warning filter-btn';
-                else btn.className = 'btn btn-outline-dark filter-btn';
-            });
-
+            filterButtons.forEach((btn) => btn.classList.remove('active'));
             button.classList.add('active');
-            if (button.getAttribute('data-filter') === 'all') {
-                button.className = 'btn btn-dark filter-btn active';
-            }
 
             const filterType = (button.getAttribute('data-filter') ?? 'all') as FilterType;
             currentFilter = filterType;
