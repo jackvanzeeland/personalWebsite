@@ -206,6 +206,13 @@
 
 /* Photo gallery + Instagram */
 
+/* The photo slideshow and Instagram card have different amounts of
+   heading/intro copy above them, so top-aligning the columns leaves
+   the two frames sitting at different heights. Center them instead. */
+.beyond .life-moments-row {
+  align-items: center;
+}
+
 .beyond .photo-container {
   position: relative;
   max-width: 760px;
