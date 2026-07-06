@@ -21,6 +21,8 @@ const view: View = {
         section.className = 'beyond container-x';
         // Trusted compile-time constant extracted from our own repo markup
         section.innerHTML = BEYOND_MARKUP;
+        section.querySelectorAll('.sport-card, .media-accordion, .photo-container')
+            .forEach((el) => el.setAttribute('data-reveal', ''));
         root.appendChild(section);
 
         new PhotoGallery();

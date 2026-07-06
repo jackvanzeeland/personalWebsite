@@ -9,6 +9,7 @@ import '../styles/redesign/base.css';
 import '../styles/redesign/nav.css';
 import '../styles/redesign/scene.css';
 import '../styles/redesign/footer.css';
+import '../styles/redesign/reveal.css';
 
 import { startRouter, RouteName, RouteMatch } from './router';
 import { renderNav } from './nav';
@@ -16,6 +17,7 @@ import { renderFooter } from './footer';
 import { initAchievementTracker } from './achievementTracker';
 import type { View } from './views/types';
 import { markPageAsVisited } from '../utils/journey';
+import { initReveals } from '../utils/reveal';
 import { scheduleScene } from '../scene/stage';
 
 const viewLoaders: Record<Exclude<RouteName, 'notFound'>, () => Promise<{ default: View }>> = {
@@ -70,6 +72,7 @@ async function showRoute(match: RouteMatch): Promise<void> {
         if (token !== mountToken) return;
         currentView = module.default;
         await currentView.mount(viewRoot, match.params);
+        initReveals(viewRoot);
         markPageAsVisited();
     } catch (err) {
         console.error('View failed to load:', err);

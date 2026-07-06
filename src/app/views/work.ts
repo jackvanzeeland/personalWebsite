@@ -24,6 +24,7 @@ function renderCard(item: WorkItem): HTMLAnchorElement {
     const card = el('a', 'work-card panel');
     card.href = `/work/${item.slug}`;
     card.dataset.tags = item.tags.join('|');
+    card.setAttribute('data-reveal', '');
 
     const imgWrap = el('div', 'work-card-img');
     if (item.image) {

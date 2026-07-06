@@ -76,6 +76,7 @@ const view: View = {
 
         // Skills
         const skillsPanel = el('div', 'panel journey-skills');
+        skillsPanel.setAttribute('data-reveal', '');
         for (const [id, label] of SKILL_SECTIONS) {
             const block = el('div', 'journey-skill-block');
             block.appendChild(el('div', 'journey-skill-label', label.toUpperCase()));
