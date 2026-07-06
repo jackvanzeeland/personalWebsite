@@ -33,8 +33,8 @@ interface RouteDef {
 
 const ROUTES: RouteDef[] = [
     { name: 'home', pattern: /^\/$/ },
-    { name: 'work', pattern: /^\/work$/ },
-    { name: 'workDetail', pattern: /^\/work\/([a-z0-9-]+)$/, paramNames: ['slug'] },
+    { name: 'work', pattern: /^\/projects$/ },
+    { name: 'workDetail', pattern: /^\/projects\/([a-z0-9-]+)$/, paramNames: ['slug'] },
     { name: 'journey', pattern: /^\/journey$/ },
     { name: 'beyond', pattern: /^\/beyond$/ },
     { name: 'contact', pattern: /^\/contact$/ }

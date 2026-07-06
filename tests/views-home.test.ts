@@ -15,7 +15,7 @@ describe('home view', () => {
         const ctas = [...root.querySelectorAll('a.btn-glow, a.btn-ghost')].map(
             (a) => a.getAttribute('href')
         );
-        expect(ctas).toContain('/work');
+        expect(ctas).toContain('/projects');
         expect(ctas).toContain('/journey');
 
         expect(root.querySelectorAll('.home-featured-card').length).toBe(3);

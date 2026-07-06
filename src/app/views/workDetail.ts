@@ -104,7 +104,7 @@ const view: View = {
 
         const section = el('section', 'detail container-x');
         const back = el('a', 'detail-back', '← All work');
-        back.href = '/work';
+        back.href = '/projects';
         section.appendChild(back);
 
         const item = getWorkItem(params.slug ?? '');

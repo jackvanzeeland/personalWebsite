@@ -10,7 +10,7 @@ describe('work detail view', () => {
         const root = document.getElementById('view-root')!;
         await workDetail.mount(root, { slug: 'does-not-exist' });
         expect(root.textContent).toContain('No such project');
-        expect(root.querySelector('a[href="/work"]')).toBeTruthy();
+        expect(root.querySelector('a[href="/projects"]')).toBeTruthy();
         workDetail.unmount();
     });
 
@@ -18,7 +18,7 @@ describe('work detail view', () => {
         const root = document.getElementById('view-root')!;
         await workDetail.mount(root, { slug: 'budgeting-automation' });
         expect(root.querySelector('h1')?.textContent).toContain('Budgeting Automation');
-        expect(root.querySelector('a[href="/work"]')).toBeTruthy();
+        expect(root.querySelector('a[href="/projects"]')).toBeTruthy();
         workDetail.unmount();
     });
 

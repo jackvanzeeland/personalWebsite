@@ -7,7 +7,7 @@ signature formation for each section.
 ## The experience
 
 - **One living scene**: ~4,000 particles behind every page. Navigating morphs
-  them — the "JVZ" monogram on home, a project lattice on `/work`, a career
+  them — the "JVZ" monogram on home, a project lattice on `/projects`, a career
   constellation built from the actual timeline data on `/journey`, a photo
   nebula on `/beyond`, a signal wave on `/contact` — with a staggered ease
   and an accent recolor per section.
@@ -64,6 +64,6 @@ applied via CloudFormation (`infrastructure.yaml`).
 
 ## Performance
 
-Lighthouse mobile (build-time gate): **100** on `/`, `/work`, `/journey` —
+Lighthouse mobile (build-time gate): **100** on `/`, `/projects`, `/journey` —
 LCP ≤ 1.7s, CLS 0. three.js and gsap ship as async chunks after first paint;
 the entry bundle is ~16KB raw.

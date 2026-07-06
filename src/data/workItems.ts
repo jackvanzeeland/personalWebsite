@@ -101,6 +101,19 @@ function buildWorkItems(): WorkItem[] {
 
 export const WORK_ITEMS: WorkItem[] = buildWorkItems();
 
+/**
+ * Card destination for an item. Items whose app lives under a dedicated
+ * CloudFront behavior (/projects/woku etc.) link straight to the app —
+ * the SPA route /projects/:slug must not shadow those paths.
+ */
+export function workItemHref(item: WorkItem): { href: string; external: boolean } {
+    const external = item.links.external;
+    if (external && external.startsWith('/projects/')) {
+        return { href: external, external: true };
+    }
+    return { href: `/projects/${item.slug}`, external: false };
+}
+
 export function getWorkItem(slug: string): WorkItem | undefined {
     return WORK_ITEMS.find((item) => item.slug === slug);
 }

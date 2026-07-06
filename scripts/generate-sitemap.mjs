@@ -13,7 +13,7 @@ const BASE = 'https://jackvanzeeland.com';
 
 const ROUTES = [
     { path: '/', priority: '1.0' },
-    { path: '/work', priority: '0.9' },
+    { path: '/projects', priority: '0.9' },
     { path: '/journey', priority: '0.8' },
     { path: '/beyond', priority: '0.6' },
     { path: '/contact', priority: '0.7' }

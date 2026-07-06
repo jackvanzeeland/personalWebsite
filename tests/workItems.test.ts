@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { WORK_ITEMS, getWorkItem, allWorkTags } from '../src/data/workItems';
+import { WORK_ITEMS, getWorkItem, allWorkTags, workItemHref } from '../src/data/workItems';
 import { PROJECTS } from '../src/data/projects';
 import { ARTIFACTS } from '../src/data/artifacts';
 
@@ -33,6 +33,13 @@ describe('WORK_ITEMS adapter', () => {
 
     it('getWorkItem returns undefined for unknown slugs', () => {
         expect(getWorkItem('does-not-exist')).toBeUndefined();
+    });
+
+    it('apps hosted under /projects/* CloudFront behaviors link out directly', () => {
+        const woku = WORK_ITEMS.find((i) => i.title === 'Woku')!;
+        expect(workItemHref(woku)).toEqual({ href: '/projects/woku/', external: true });
+        const wordle = getWorkItem('wordle-solver')!;
+        expect(workItemHref(wordle)).toEqual({ href: '/projects/wordle-solver', external: false });
     });
 
     it('allWorkTags is deduped and sorted', () => {
