@@ -65,6 +65,10 @@
   flex-wrap: wrap;
 }
 
+.home-stat {
+  text-align: center;
+}
+
 .home-stat-num {
   font-size: 24px;
   color: var(--accent-cyan);
