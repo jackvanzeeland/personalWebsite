@@ -3,7 +3,7 @@
 /* Space Grotesk — self-hosted latin variable font (22KB), display type */
 @font-face {
   font-family: 'Space Grotesk';
-  src: url('/assets/fonts/SpaceGrotesk-latin-var.woff2') format('woff2');
+  src: url('/fonts/SpaceGrotesk-latin-var.woff2') format('woff2');
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
