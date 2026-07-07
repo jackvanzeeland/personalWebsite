@@ -2,9 +2,10 @@ import { JourneyData, Achievement } from '../types';
 
 const JOURNEY_PAGES = [
     'home',
-    'about',
+    'journey',
     'beyondTheCode',
-    'journey'
+    'projects_page',
+    'contact'
 ];
 
 const ACHIEVEMENTS: Achievement[] = [
@@ -13,13 +14,6 @@ const ACHIEVEMENTS: Achievement[] = [
         title: 'Project Explorer',
         description: 'View your first project',
         icon: '🔍',
-        unlocked: false
-    },
-    {
-        id: 'theme_switcher',
-        title: 'Void Dweller',
-        description: 'Embrace the dark (granted to everyone — there is only dark now)',
-        icon: '🌑',
         unlocked: false
     },
     {
@@ -34,13 +28,6 @@ const ACHIEVEMENTS: Achievement[] = [
         title: 'Page Navigator',
         description: 'Visit 3 different pages',
         icon: '🧭',
-        unlocked: false
-    },
-    {
-        id: 'scroll_master',
-        title: 'Deep Diver',
-        description: 'Scroll to the bottom of the home page',
-        icon: '📜',
         unlocked: false
     },
     {
@@ -76,12 +63,23 @@ function saveJourneyData(data: JourneyData): void {
 
 export function getAchievements(): Achievement[] {
     const stored: Achievement[] = JSON.parse(localStorage.getItem('achievements') || '[]');
-    if (stored.length > 0) return stored;
+    if (stored.length === 0) {
+        // First visit: seed the catalog so unlocks have something to act on
+        const seeded = ACHIEVEMENTS.map(ach => ({ ...ach }));
+        saveAchievements(seeded);
+        return seeded;
+    }
 
-    // First visit: seed the catalog so unlocks have something to act on
-    const seeded = ACHIEVEMENTS.map(ach => ({ ...ach }));
-    saveAchievements(seeded);
-    return seeded;
+    // Reconcile stored progress against the current catalog: keep unlock
+    // state for achievements that still exist, drop retired ones, and add
+    // any new ones that weren't in storage yet.
+    const byId = new Map(stored.map(ach => [ach.id, ach]));
+    const reconciled = ACHIEVEMENTS.map(ach => {
+        const existing = byId.get(ach.id);
+        return existing ? { ...ach, unlocked: existing.unlocked, unlockedAt: existing.unlockedAt } : { ...ach };
+    });
+    saveAchievements(reconciled);
+    return reconciled;
 }
 
 function saveAchievements(achievements: Achievement[]): void {
@@ -97,12 +95,13 @@ export function markPageAsVisited(): void {
     if (path === '/') {
         journeyData.home = true;
     } else if (path === '/journey') {
-        journeyData.about = true;
         journeyData.journey = true;
     } else if (path === '/beyond') {
         journeyData.beyondTheCode = true;
     } else if (path === '/projects') {
         journeyData.projects_page = true;
+    } else if (path === '/contact') {
+        journeyData.contact = true;
     } else if (path.startsWith('/projects/')) {
         const projectName = path.split('/').pop() || '';
         if (projectName && !journeyData.projects?.includes(projectName)) {
@@ -132,14 +131,6 @@ function checkAchievements(): void {
                 case 'page_explorer': {
                     const visitedPages = JOURNEY_PAGES.filter(page => journeyData[page as keyof JourneyData]);
                     shouldUnlock = visitedPages.length >= 3;
-                    break;
-                }
-                case 'scroll_master': {
-                    // This is checked in scroll tracking - need to check if user has scrolled enough
-                    const scrollPercent = Math.round(
-                        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-                    );
-                    shouldUnlock = scrollPercent >= 90; // 90% scroll depth
                     break;
                 }
                 case 'first_project':

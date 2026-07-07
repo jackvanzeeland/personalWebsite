@@ -29,10 +29,10 @@ export interface TimelineItem {
 
 export interface JourneyData {
     home?: boolean;
-    about?: boolean;
     beyondTheCode?: boolean;
     journey?: boolean;
     projects_page?: boolean;
+    contact?: boolean;
     projects?: string[];
     achievements?: string[];
     lastVisited?: string;

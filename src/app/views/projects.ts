@@ -12,6 +12,7 @@ import {
   workItemHref,
 } from "../../data/workItems";
 import { createOptimizedPicture, resolveImageSrc } from "../../utils/optimizedImage";
+import { unlockAchievement } from "../../utils/journey";
 import "../../styles/redesign/work.css";
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -128,6 +129,7 @@ const view: View = {
       if (!chip) return;
       chips.forEach((c) => c.classList.toggle("active", c === chip));
       applyFilter(chip.dataset.tag ?? null);
+      unlockAchievement("filter_user");
     });
 
     root.appendChild(section);
