@@ -24,8 +24,8 @@ describe('redirect map sync', () => {
 
     it('infrastructure.yaml embeds the same map', () => {
         const yaml = readFileSync(resolve(__dirname, '../infrastructure.yaml'), 'utf8');
-        for (const from of Object.keys(LEGACY_MAP)) {
-            expect(yaml).toContain(`"${from}"`);
+        for (const [from, to] of Object.entries(LEGACY_MAP)) {
+            expect(yaml).toContain(`"${from}": "${to}"`);
         }
     });
 });
