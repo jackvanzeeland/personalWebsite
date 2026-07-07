@@ -57,14 +57,20 @@ export function initLyricAnimatorCore(signal) {
             document.body.appendChild(el);
             setTimeout(function() { el.remove(); }, 1600);
         }
-        // Random shooting stars every 4-10s
+        // Random shooting stars every 4-10s — chain stops on unmount, or it
+        // would keep appending stars to document.body on every other page.
+        var shootingStarTimer = null;
         (function scheduleShootingStar() {
             var delay = Math.random() * 6000 + 4000;
-            setTimeout(function() {
+            shootingStarTimer = setTimeout(function() {
+                if (signal.aborted) return;
                 spawnShootingStar();
                 scheduleShootingStar();
             }, delay);
         })();
+        signal.addEventListener('abort', function() {
+            clearTimeout(shootingStarTimer);
+        });
 
         // ── State ──
         var lyricData = null;
@@ -221,6 +227,16 @@ export function initLyricAnimatorCore(signal) {
 
         themeColor.addEventListener('input', function() { applyTheme(this.value); });
 
+        // Theme vars live inline on <html>; drop them on unmount so the
+        // lyric palette can't bleed into the rest of the site. --accent is
+        // NOT removed: the router owns it and has already set the next
+        // route's value by the time this abort handler runs — removing it
+        // would expose this stylesheet's :root fallback site-wide.
+        signal.addEventListener('abort', function() {
+            ['--primary', '--primary-rgb', '--accent-rgb', '--glow', '--glow-rgb']
+                .forEach(function(prop) { document.documentElement.style.removeProperty(prop); });
+        });
+
         // ── LRC Parser ──
         function parseLRC(text) {
             var lines = text.split('\n');
@@ -301,6 +317,10 @@ export function initLyricAnimatorCore(signal) {
                 controls.style.display = 'block';
                 controls.offsetHeight;
                 controls.classList.add('visible');
+
+                // Inside the detail page the controls land below the fold —
+                // bring the whole playback view (lyrics + controls) on screen.
+                controls.scrollIntoView({ behavior: 'smooth', block: 'end' });
             }, 400);
         }
 
@@ -579,6 +599,23 @@ export function initLyricAnimatorCore(signal) {
         fileInput.addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 parseAndAnimateLyrics(e.target.files[0]);
+            }
+        });
+
+        // Drag-and-drop — without preventDefault the browser navigates to
+        // the dropped file, dumping the user out of the site entirely.
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', function() {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer && e.dataTransfer.files.length) {
+                parseAndAnimateLyrics(e.dataTransfer.files[0]);
             }
         });
         playPauseBtn.addEventListener('click', togglePlayback);

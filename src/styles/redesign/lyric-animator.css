@@ -179,6 +179,11 @@
             transform: translateY(-20px);
             pointer-events: none;
         }
+        .upload-area.dragover {
+            border-color: var(--glow);
+            background: rgba(255,255,255,0.08);
+            transform: scale(1.02);
+        }
         .upload-area::before {
             content: '';
             position: absolute;
