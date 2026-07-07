@@ -67,7 +67,7 @@ export class ResumeManager {
 
     private async loadResumeData(): Promise<void> {
         try {
-            const response = await fetch('/assets/files/resume.json');
+            const response = await fetch('/files/resume.json');
             if (response.ok) {
                 this.resumeData = await response.json();
             } else {

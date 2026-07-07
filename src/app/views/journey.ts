@@ -74,7 +74,7 @@ const view: View = {
             )
         );
         const resume = el('a', 'btn-ghost journey-resume', 'Download resume ↓');
-        resume.href = '/assets/files/resume.pdf';
+        resume.href = '/files/resume.pdf';
         resume.setAttribute('download', 'jack-van-zeeland-resume.pdf');
         intro.appendChild(resume);
         section.appendChild(intro);
