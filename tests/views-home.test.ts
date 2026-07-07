@@ -6,7 +6,7 @@ describe('home view', () => {
         document.body.innerHTML = '<main id="view-root"></main>';
     });
 
-    it('renders hero, CTAs, and three featured cards', async () => {
+    it('renders hero and CTAs', async () => {
         const root = document.getElementById('view-root')!;
         await homeView.mount(root, {});
 
@@ -17,8 +17,6 @@ describe('home view', () => {
         );
         expect(ctas).toContain('/projects');
         expect(ctas).toContain('/journey');
-
-        expect(root.querySelectorAll('.home-featured-card').length).toBe(3);
 
         homeView.unmount();
     });

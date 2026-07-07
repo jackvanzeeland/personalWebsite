@@ -4,7 +4,7 @@
  * Existing visitors' progress carries over (same localStorage keys).
  */
 
-import { getAchievements, unlockAchievement } from '../utils/journey';
+import { checkTimeBasedAchievements, getAchievements, unlockAchievement } from '../utils/journey';
 
 function refreshCount(button: HTMLButtonElement): void {
     const achievements = getAchievements();
@@ -45,6 +45,7 @@ function renderPanel(): HTMLElement {
 export function initAchievementTracker(): void {
     // Everyone lives in the dark now — grant the retired theme achievement
     unlockAchievement('theme_switcher');
+    checkTimeBasedAchievements();
 
     const wrap = document.createElement('div');
     wrap.className = 'achievement-tracker';

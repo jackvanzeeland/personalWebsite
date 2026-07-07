@@ -23,7 +23,6 @@ signature formation for each section.
   router (`src/app/router.ts`) drives view modules with `mount`/`unmount`
 - **three.js** — `src/scene/SceneDirector.ts` owns the renderer; formations
   live in `src/scene/formations/` (deterministic, unit-tested)
-- **GSAP** — retained for scroll choreography where needed
 - **sharp** — build-time image pipeline (`scripts/optimize-images.mjs`)
   emitting AVIF/WebP responsive variants
 - **vitest + happy-dom** — router, formations, data adapters, timeline
@@ -65,5 +64,5 @@ applied via CloudFormation (`infrastructure.yaml`).
 ## Performance
 
 Lighthouse mobile (build-time gate): **100** on `/`, `/projects`, `/journey` —
-LCP ≤ 1.7s, CLS 0. three.js and gsap ship as async chunks after first paint;
+LCP ≤ 1.7s, CLS 0. three.js ships as an async chunk after first paint;
 the entry bundle is ~16KB raw.

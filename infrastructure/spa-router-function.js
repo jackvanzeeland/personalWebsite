@@ -18,6 +18,8 @@ var LEGACY_MAP = {
   "/pages/artifacts/html-gems": "/projects/html-gems"
 };
 
+// CloudFront invokes handler() by name; there is no in-file caller.
+// eslint-disable-next-line no-unused-vars
 function handler(event) {
   var request = event.request;
   var uri = request.uri;

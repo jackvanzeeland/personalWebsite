@@ -15,7 +15,6 @@
     "deploy:prod": "./deploy.sh production"
   },
   "dependencies": {
-    "gsap": "^3.15.0",
     "three": "^0.185.1"
   },
   "devDependencies": {

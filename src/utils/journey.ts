@@ -66,58 +66,25 @@ const ACHIEVEMENTS: Achievement[] = [
     }
 ];
 
-export function initializeJourney(): void {
-    initializeJourneyData();
-    initializeAchievements();
-    updateJourneyProgress();
-    checkTimeBasedAchievements();
-}
-
-function initializeJourneyData(): void {
-    let journeyData = getJourneyData();
-    
-    // Initialize if doesn't exist
-    if (!journeyData.lastVisited) {
-        journeyData = {
-            home: window.location.pathname === '/',
-            about: false,
-            beyondTheCode: false,
-            journey: false,
-            projects: [],
-            achievements: [],
-            lastVisited: new Date().toISOString(),
-            progress: 0
-        };
-        saveJourneyData(journeyData);
-    }
-    
-    // Mark current page as visited
-    markPageAsVisited();
-}
-
-function initializeAchievements(): void {
-    let achievements = getAchievements();
-    
-    // Initialize if doesn't exist
-    if (achievements.length === 0) {
-        achievements = ACHIEVEMENTS.map(ach => ({ ...ach }));
-        localStorage.setItem('achievements', JSON.stringify(achievements));
-    }
-}
-
-export function getJourneyData(): JourneyData {
+function getJourneyData(): JourneyData {
     return JSON.parse(localStorage.getItem('journeyData') || '{}');
 }
 
-export function saveJourneyData(data: JourneyData): void {
+function saveJourneyData(data: JourneyData): void {
     localStorage.setItem('journeyData', JSON.stringify(data));
 }
 
 export function getAchievements(): Achievement[] {
-    return JSON.parse(localStorage.getItem('achievements') || '[]');
+    const stored: Achievement[] = JSON.parse(localStorage.getItem('achievements') || '[]');
+    if (stored.length > 0) return stored;
+
+    // First visit: seed the catalog so unlocks have something to act on
+    const seeded = ACHIEVEMENTS.map(ach => ({ ...ach }));
+    saveAchievements(seeded);
+    return seeded;
 }
 
-export function saveAchievements(achievements: Achievement[]): void {
+function saveAchievements(achievements: Achievement[]): void {
     localStorage.setItem('achievements', JSON.stringify(achievements));
 }
 
@@ -134,9 +101,9 @@ export function markPageAsVisited(): void {
         journeyData.journey = true;
     } else if (path === '/beyond') {
         journeyData.beyondTheCode = true;
-    } else if (path === '/work') {
+    } else if (path === '/projects') {
         journeyData.projects_page = true;
-    } else if (path.startsWith('/work/')) {
+    } else if (path.startsWith('/projects/')) {
         const projectName = path.split('/').pop() || '';
         if (projectName && !journeyData.projects?.includes(projectName)) {
             journeyData.projects = journeyData.projects || [];
@@ -149,18 +116,6 @@ export function markPageAsVisited(): void {
 
     // Check for achievements
     checkAchievements();
-}
-
-function updateJourneyProgress(): void {
-    const journeyData = getJourneyData();
-    const visitedPages = JOURNEY_PAGES.filter(page => journeyData[page as keyof JourneyData]);
-    const progress = Math.round((visitedPages.length / JOURNEY_PAGES.length) * 100);
-
-    journeyData.progress = progress;
-    saveJourneyData(journeyData);
-
-    // Note: Progress bar updates are handled by JourneyDashboard.js on the journey page
-    // This function only updates the stored progress value
 }
 
 function checkAchievements(): void {
@@ -220,7 +175,7 @@ function checkAchievements(): void {
     }
 }
 
-function checkTimeBasedAchievements(): void {
+export function checkTimeBasedAchievements(): void {
     const hour = new Date().getHours();
     const achievements = getAchievements();
     const newUnlocks: Achievement[] = [];

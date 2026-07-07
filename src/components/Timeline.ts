@@ -10,21 +10,12 @@
 
 import { TimelineItem } from '../types';
 import { parseLocalDate } from '../utils/dates';
+import { escapeHtml } from '../utils/escapeHtml';
 
 type FilterType = 'all' | TimelineItem['type'];
 
 let currentFilter: FilterType = 'all';
 const filterListeners = new Map<Element, EventListener>();
-
-function escapeHtml(unsafe: unknown): string {
-    if (!unsafe) return '';
-    return String(unsafe)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
 
 export async function initializeTimeline(): Promise<void> {
     const container = document.getElementById('timeline-container');

@@ -32,8 +32,7 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          three: ['three'],
-          gsap: ['gsap', 'gsap/ScrollTrigger']
+          three: ['three']
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
@@ -69,6 +68,6 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['three', 'gsap']
+    include: ['three']
   }
 })

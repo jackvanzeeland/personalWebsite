@@ -36,10 +36,17 @@ describe('WORK_ITEMS adapter', () => {
     });
 
     it('apps hosted under /projects/* CloudFront behaviors link out directly', () => {
-        const woku = WORK_ITEMS.find((i) => i.title === 'Woku')!;
-        expect(workItemHref(woku)).toEqual({ href: '/projects/woku/', external: true });
+        const superbowl = WORK_ITEMS.find((i) => i.title === 'Super Bowl Competition')!;
+        expect(workItemHref(superbowl)).toEqual({ href: '/projects/superbowl/', external: true });
         const wordle = getWorkItem('wordle-solver')!;
         expect(workItemHref(wordle)).toEqual({ href: '/projects/wordle-solver', external: false });
+    });
+
+    it('apps moved to their own subdomains route to the internal detail view', () => {
+        // Woku lives at woku.jackvanzeeland.com now; its card should open the
+        // detail page (which links out), same as the other subdomain apps.
+        const woku = WORK_ITEMS.find((i) => i.title === 'Woku')!;
+        expect(workItemHref(woku)).toEqual({ href: '/projects/woku', external: false });
     });
 
     it('allWorkTags is deduped and sorted', () => {

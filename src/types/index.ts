@@ -61,12 +61,6 @@ export interface Theme {
     };
 }
 
-export type FilterTag = {
-    name: string;
-    count: number;
-    active: boolean;
-};
-
 export interface Artifact {
     title: string;
     description: string;
