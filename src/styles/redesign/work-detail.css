@@ -1,0 +1,80 @@
+/* /work/:slug detail view */
+
+.detail {
+  padding-top: clamp(110px, 15vh, 150px);
+  padding-bottom: 96px;
+  max-width: 960px;
+}
+
+.detail-back {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+}
+
+.detail-back:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.detail h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  margin-top: 10px;
+}
+
+.detail-desc {
+  color: var(--text-dim);
+  font-size: 16px;
+  max-width: 640px;
+}
+
+.detail-tech {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 18px 0 26px;
+}
+
+.detail-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.detail-shot {
+  overflow: hidden;
+  padding: 0;
+}
+
+.detail-shot img {
+  width: 100%;
+  display: block;
+}
+
+.detail-demo {
+  padding: 30px 32px 36px;
+  margin-top: 8px;
+}
+
+.detail-demo-heading {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.detail-demo-desc {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+/* The lyric animator brings its own full-bleed universe */
+.detail-lyric {
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}

@@ -1,0 +1,122 @@
+/* Home view */
+
+.home-hero {
+  padding-top: clamp(110px, 18vh, 180px);
+  padding-bottom: clamp(72px, 14vh, 140px);
+  position: relative;
+}
+
+.home-hero-text {
+  max-width: 620px;
+}
+
+/* Portrait sits centered on the same vertical axis as the JVZ monogram
+   below it (the monogram's world-space center maps to 69vw — see
+   scene/formations/monogram.ts), reading as photo-over-signature. */
+.home-avatar {
+  position: absolute;
+  /* 69vw in viewport space, corrected for the centered container offset */
+  left: calc(69vw - (100vw - min(1120px, 100vw - 48px)) / 2);
+  transform: translateX(-50%);
+  top: clamp(96px, 16vh, 168px);
+  width: max-content; /* defeat absolute shrink-to-fit squashing the circle */
+}
+
+.home-avatar img {
+  width: clamp(170px, 18vw, 250px);
+  height: clamp(170px, 18vw, 250px);
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  box-shadow:
+    0 0 0 6px rgba(10, 16, 32, 0.6),
+    0 0 60px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.home-hero .eyebrow {
+  color: var(--accent-teal);
+  margin-bottom: 18px;
+}
+
+.home-name {
+  font-size: clamp(44px, 7vw, 72px);
+  font-weight: 700;
+}
+
+.home-sub {
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 440px;
+}
+
+.home-ctas {
+  display: flex;
+  gap: 14px;
+  margin-top: 34px;
+  flex-wrap: wrap;
+}
+
+.home-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 56px;
+  font-family: var(--font-mono);
+  flex-wrap: wrap;
+}
+
+.home-stat {
+  text-align: center;
+}
+
+.home-stat-num {
+  font-size: 24px;
+  color: var(--accent-cyan);
+}
+
+.home-stat:nth-child(2) .home-stat-num {
+  color: var(--accent-teal);
+}
+
+.home-stat:nth-child(3) .home-stat-num {
+  color: var(--accent-indigo);
+}
+
+.home-stat-label {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+.home-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    padding-top: 110px;
+  }
+
+  /* Stacked flow: centered portrait above the content; the monogram
+     forms lower-center behind the CTAs on narrow screens. */
+  .home-avatar {
+    position: static;
+    transform: none;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 26px;
+  }
+
+  .home-avatar img {
+    width: 140px;
+    height: 140px;
+  }
+}

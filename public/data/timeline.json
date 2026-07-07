@@ -8,7 +8,7 @@
       "startDate": "2021-09-01",
       "endDate": "2025-05-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Double major in Data Science and Finance. Coursework spanning machine learning, data science programming, business analytics, corporate finance, and investment theory — the foundation for turning data into decisions.",
       "badgeColor": "bg-danger"
     },
     {
@@ -19,7 +19,7 @@
       "startDate": "2023-05-01",
       "endDate": "2023-08-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Analyzed industrial machine inputs and sensor data in R to predict maintenance needs, developing optimized production ranges that measurably improved machine efficiency.",
       "badgeColor": "bg-info"
     },
     {
@@ -30,7 +30,7 @@
       "startDate": "2024-01-01",
       "endDate": "2024-01-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Foundations of robotic process automation: identifying automation candidates, designing bots, and measuring business impact.",
       "badgeColor": "bg-warning"
     },
     {
@@ -41,7 +41,7 @@
       "startDate": "2024-01-01",
       "endDate": "2024-01-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Using process mining to discover, analyze, and prioritize the workflows that benefit most from automation.",
       "badgeColor": "bg-warning"
     },
     {
@@ -52,18 +52,18 @@
       "startDate": "2024-01-01",
       "endDate": "2024-01-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Advanced business automation with Microsoft Power Automate: multi-step flows, approvals, and enterprise system integrations.",
       "badgeColor": "bg-warning"
     },
     {
       "id": "linkedin_intro_rpa",
-      "title": "Introducting Robotic Process Automation",
+      "title": "Introducing Robotic Process Automation",
       "organization": "LinkedIn",
       "type": "certification",
       "startDate": "2024-01-01",
       "endDate": "2024-01-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "A first map of the RPA landscape — tools, use cases, and how software robots reshape repetitive work.",
       "badgeColor": "bg-warning"
     },
     {
@@ -74,7 +74,7 @@
       "startDate": "2024-02-01",
       "endDate": "2024-02-29",
       "isPresent": false,
-      "description": "TBD",
+      "description": "UiPath's developer track: Studio, Orchestrator, resilient selectors, and production-grade automation design patterns.",
       "badgeColor": "bg-warning"
     },
     {
@@ -85,7 +85,7 @@
       "startDate": "2024-02-01",
       "endDate": "2025-05-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Developed 14 automation solutions saving ~35,000 hours annually (~$3.2M in value). Audited and improved 5 existing automations and built data extraction pipelines integrated with AWS S3.",
       "badgeColor": "bg-info"
     },
     {
@@ -96,7 +96,7 @@
       "startDate": "2024-12-01",
       "endDate": "2024-12-31",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Applying Microsoft Copilot across the productivity suite to accelerate everyday development and business workflows.",
       "badgeColor": "bg-warning"
     },
     {
@@ -107,7 +107,7 @@
       "startDate": "2025-06-01",
       "endDate": "2025-12-31",
       "isPresent": true,
-      "description": "TBD",
+      "description": "Promoted from intern to engineer. Built 8 automation solutions saving ~13,000 hours and $400K annually, shipped a Copilot agent that cut support ticket response time by 40%, and mentored two interns.",
       "badgeColor": "bg-info"
     },
     {
@@ -118,7 +118,7 @@
       "startDate": "2026-02-01",
       "endDate": "2026-02-29",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Professional-level certification for automation developers — advanced orchestration, REFramework, and enterprise deployment.",
       "badgeColor": "bg-warning"
     },
     {
@@ -129,7 +129,7 @@
       "startDate": "2026-06-01",
       "endDate": "2026-06-29",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Anthropic's framework for working effectively with AI: delegation, description, discernment, and diligence.",
       "badgeColor": "bg-warning"
     },
     {
@@ -140,18 +140,18 @@
       "startDate": "2026-06-01",
       "endDate": "2026-06-29",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Working with Claude: prompting techniques, tool use, and building AI-assisted workflows.",
       "badgeColor": "bg-warning"
     },
     {
       "id": "anthropic_claude_code_101",
-      "title": "Claude code 101",
+      "title": "Claude Code 101",
       "organization": "Anthropic",
       "type": "certification",
       "startDate": "2026-06-01",
       "endDate": "2026-06-29",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Claude Code fundamentals — agentic coding workflows straight from the terminal.",
       "badgeColor": "bg-warning"
     },
     {
@@ -162,7 +162,7 @@
       "startDate": "2026-06-01",
       "endDate": "2026-06-29",
       "isPresent": false,
-      "description": "TBD",
+      "description": "Hands-on patterns for shipping real software with Claude Code: planning, implementation, and verification loops.",
       "badgeColor": "bg-warning"
     }
   ]

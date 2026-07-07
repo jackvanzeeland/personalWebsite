@@ -7,6 +7,16 @@ export default [
   { ignores: ['dist/**', 'node_modules/**', 'sessions/**', '*.config.js', 'src/**/*.js'] },
   js.configs.recommended,
   {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.node
+      }
+    }
+  },
+  {
     files: ['src/**/*.ts'],
     languageOptions: {
       parser: typescriptParser,

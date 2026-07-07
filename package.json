@@ -4,28 +4,29 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "node scripts/optimize-images.mjs && node scripts/generate-redirects.mjs && node scripts/generate-sitemap.mjs && tsc && vite build",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "deploy": "./deploy.sh",
     "deploy:prod": "./deploy.sh production"
   },
   "dependencies": {
-    "aos": "^2.3.4",
-    "bootstrap": "^5.3.3",
-    "chart.js": "^4.4.0"
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@eslint/js": "^8.54.0",
-    "@types/aos": "^3.0.4",
-    "@types/bootstrap": "^5.2.10",
     "@types/node": "^20.10.0",
+    "@types/three": "^0.185.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.54.0",
     "globals": "^13.24.0",
+    "happy-dom": "^20.10.6",
+    "sharp": "^0.35.3",
     "typescript": "^5.2.2",
     "vite": "^6.4.2",
     "vite-plugin-static-copy": "^4.1.0",

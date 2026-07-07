@@ -1,0 +1,30 @@
+/* Dark cinematic design tokens — the only theme.
+   Spec: docs/superpowers/specs/2026-07-03-dark-cinematic-redesign-design.md */
+
+:root {
+  --bg: #04070f;
+  --bg-raise: #0a1020;
+  --panel: rgba(10, 16, 32, 0.62);
+  --line: rgba(148, 163, 184, 0.16);
+  --text: #e2e8f0;
+  --text-bright: #f1f5f9;
+  --text-dim: #94a3b8;
+  --text-faint: #64748b;
+
+  --accent-cyan: #38bdf8;
+  --accent-teal: #34d399;
+  --accent-indigo: #818cf8;
+  --accent-warm: #fbbf24;
+  /* Router sets this per route (see routeMeta in src/app/router.ts) */
+  --accent: var(--accent-cyan);
+
+  --font-display: 'Space Grotesk', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-body: -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Legacy aliases consumed by ported tool stylesheets (wordle, santa) */
+  --text-primary: var(--text);
+  --text-secondary: var(--text-dim);
+  --text-muted: var(--text-dim);
+  --border-color: var(--line);
+}

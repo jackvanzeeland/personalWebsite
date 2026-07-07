@@ -1,0 +1,261 @@
+/* /beyond — extracted legacy markup, restyled dark.
+   Includes a scoped shim for the Bootstrap-era utility classes the
+   extracted markup still uses, so Bootstrap itself can be removed. */
+
+.beyond {
+  padding-top: clamp(90px, 12vh, 130px);
+  padding-bottom: 96px;
+}
+
+/* ── Grid/utility shim (scoped) ── */
+
+.beyond .container {
+  width: 100%;
+}
+
+.beyond .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 0;
+  margin-inline: -10px;
+}
+
+.beyond .row > * {
+  padding-inline: 10px;
+}
+
+.beyond .col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.beyond .col-lg-8,
+.beyond .col-lg-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.beyond .col-lg-8.mx-auto {
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+.beyond .text-center { text-align: center; }
+.beyond .text-muted { color: var(--text-dim); }
+.beyond .lead { font-size: 17px; line-height: 1.7; color: var(--text-dim); }
+.beyond .py-5 { padding-block: 44px; }
+.beyond .p-4 { padding: 22px; }
+.beyond .h-100 { height: 100%; }
+.beyond .mb-3 { margin-bottom: 12px; }
+.beyond .mb-4 { margin-bottom: 18px; }
+.beyond .mb-5 { margin-bottom: 32px; }
+.beyond .fw-bold { font-weight: 700; }
+.beyond .display-4 { font-size: clamp(34px, 5vw, 52px); }
+.beyond .bg-section-alt { background: transparent; }
+
+@media (max-width: 720px) {
+  .beyond .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ── Page chrome ── */
+
+.beyond .page-hero {
+  padding-top: 30px;
+}
+
+.beyond .page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 14px;
+}
+
+.beyond .separator {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin: 22px auto 0;
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.beyond h2 {
+  font-size: 28px;
+}
+
+/* Sport cards */
+
+.beyond .sport-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.beyond .sport-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.beyond .sport-icon {
+  font-size: 30px;
+}
+
+.beyond .sport-card h4 {
+  font-size: 18px;
+}
+
+.beyond .sport-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.beyond .sport-details small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+/* Media accordion */
+
+.beyond .media-accordion {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.beyond .accordion-item + .accordion-item {
+  border-top: 1px solid var(--line);
+}
+
+.beyond .accordion-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+  background: rgba(148, 163, 184, 0.04);
+  border: none;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.beyond .accordion-header:hover {
+  background: rgba(148, 163, 184, 0.09);
+}
+
+.beyond .accordion-title {
+  flex: 1;
+}
+
+.beyond .accordion-chevron {
+  color: var(--text-faint);
+  transition: transform 0.25s ease;
+}
+
+.beyond .accordion-header[aria-expanded='true'] .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+.beyond .accordion-panel {
+  transition: max-height 0.35s ease;
+  background: rgba(4, 7, 15, 0.4);
+  overflow: hidden;
+}
+
+.beyond .media-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 20px;
+}
+
+@media (max-width: 720px) {
+  .beyond .media-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.beyond .media-item iframe {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.beyond .embed-responsive-16by9 {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.beyond .embed-responsive-16by9 iframe {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+/* Photo gallery + Instagram */
+
+/* The photo slideshow and Instagram card have different amounts of
+   heading/intro copy above them, so top-aligning the columns leaves
+   the two frames sitting at different heights. Center them instead. */
+.beyond .life-moments-row {
+  align-items: center;
+}
+
+.beyond .photo-container {
+  position: relative;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+/* Fixed frame: every photo letterboxes into the same 3:2 stage on black,
+   so slide changes never resize or shift the page. */
+.beyond .photo-display,
+.beyond .photo-wrapper {
+  width: 100%;
+}
+
+.beyond .photo-wrapper {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  background: #000;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beyond .photo-wrapper picture {
+  display: contents;
+}
+
+.beyond #photo-gallery img.photo-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+  border: none;
+  margin: 0 auto;
+  box-shadow: none;
+}
+
+.beyond .instagram-embed-container,
+.beyond #instagram-feed {
+  display: flex;
+  justify-content: center;
+}

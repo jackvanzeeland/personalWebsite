@@ -15,12 +15,24 @@ export interface Project {
     webpage_link?: string;
 }
 
+export interface TimelineItem {
+    id: string;
+    title: string;
+    organization: string;
+    type: 'education' | 'work' | 'certification';
+    startDate: string;
+    endDate: string;
+    isPresent: boolean;
+    description: string;
+    badgeColor?: string;
+}
+
 export interface JourneyData {
     home?: boolean;
-    about?: boolean;
     beyondTheCode?: boolean;
     journey?: boolean;
     projects_page?: boolean;
+    contact?: boolean;
     projects?: string[];
     achievements?: string[];
     lastVisited?: string;
@@ -48,12 +60,6 @@ export interface Theme {
         accent: string;
     };
 }
-
-export type FilterTag = {
-    name: string;
-    count: number;
-    active: boolean;
-};
 
 export interface Artifact {
     title: string;

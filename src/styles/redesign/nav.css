@@ -1,0 +1,111 @@
+/* Fixed minimal navigation */
+
+#nav-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.site-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(4, 7, 15, 0.85), rgba(4, 7, 15, 0));
+}
+
+.site-nav-brand {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.site-nav-brand:hover {
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--accent-cyan);
+}
+
+.site-nav-links {
+  display: flex;
+  gap: 28px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+}
+
+.site-nav-links a {
+  color: var(--text-dim);
+  transition: color 0.2s ease;
+}
+
+.site-nav-links a:hover {
+  color: var(--text-bright);
+  text-decoration: none;
+}
+
+.site-nav-links a[aria-current='page'] {
+  color: var(--text-bright);
+  text-shadow: 0 0 14px var(--accent);
+}
+
+.site-nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 8px;
+}
+
+.site-nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+@media (max-width: 720px) {
+  .site-nav {
+    padding: 14px 20px;
+  }
+
+  .site-nav-toggle {
+    display: flex;
+  }
+
+  .site-nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 0 16px;
+    background: rgba(4, 7, 15, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    display: none;
+  }
+
+  .site-nav.open .site-nav-links {
+    display: flex;
+  }
+
+  .site-nav-links a {
+    padding: 12px 24px;
+    font-size: 13px;
+  }
+
+  .site-nav.open .site-nav-toggle span:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .site-nav.open .site-nav-toggle span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+}

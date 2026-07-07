@@ -2,9 +2,10 @@ import { JourneyData, Achievement } from '../types';
 
 const JOURNEY_PAGES = [
     'home',
-    'about',
+    'journey',
     'beyondTheCode',
-    'journey'
+    'projects_page',
+    'contact'
 ];
 
 const ACHIEVEMENTS: Achievement[] = [
@@ -13,13 +14,6 @@ const ACHIEVEMENTS: Achievement[] = [
         title: 'Project Explorer',
         description: 'View your first project',
         icon: '🔍',
-        unlocked: false
-    },
-    {
-        id: 'theme_switcher',
-        title: 'Theme Master',
-        description: 'Switch between light and dark themes',
-        icon: '🌓',
         unlocked: false
     },
     {
@@ -34,13 +28,6 @@ const ACHIEVEMENTS: Achievement[] = [
         title: 'Page Navigator',
         description: 'Visit 3 different pages',
         icon: '🧭',
-        unlocked: false
-    },
-    {
-        id: 'scroll_master',
-        title: 'Deep Diver',
-        description: 'Scroll to the bottom of the home page',
-        icon: '📜',
         unlocked: false
     },
     {
@@ -66,102 +53,68 @@ const ACHIEVEMENTS: Achievement[] = [
     }
 ];
 
-export function initializeJourney(): void {
-    initializeJourneyData();
-    initializeAchievements();
-    updateJourneyProgress();
-    checkTimeBasedAchievements();
-}
-
-function initializeJourneyData(): void {
-    let journeyData = getJourneyData();
-    
-    // Initialize if doesn't exist
-    if (!journeyData.lastVisited) {
-        journeyData = {
-            home: window.location.pathname === '/',
-            about: false,
-            beyondTheCode: false,
-            journey: false,
-            projects: [],
-            achievements: [],
-            lastVisited: new Date().toISOString(),
-            progress: 0
-        };
-        saveJourneyData(journeyData);
-    }
-    
-    // Mark current page as visited
-    markPageAsVisited();
-}
-
-function initializeAchievements(): void {
-    let achievements = getAchievements();
-    
-    // Initialize if doesn't exist
-    if (achievements.length === 0) {
-        achievements = ACHIEVEMENTS.map(ach => ({ ...ach }));
-        localStorage.setItem('achievements', JSON.stringify(achievements));
-    }
-}
-
-export function getJourneyData(): JourneyData {
+function getJourneyData(): JourneyData {
     return JSON.parse(localStorage.getItem('journeyData') || '{}');
 }
 
-export function saveJourneyData(data: JourneyData): void {
+function saveJourneyData(data: JourneyData): void {
     localStorage.setItem('journeyData', JSON.stringify(data));
 }
 
 export function getAchievements(): Achievement[] {
-    return JSON.parse(localStorage.getItem('achievements') || '[]');
+    const stored: Achievement[] = JSON.parse(localStorage.getItem('achievements') || '[]');
+    if (stored.length === 0) {
+        // First visit: seed the catalog so unlocks have something to act on
+        const seeded = ACHIEVEMENTS.map(ach => ({ ...ach }));
+        saveAchievements(seeded);
+        return seeded;
+    }
+
+    // Reconcile stored progress against the current catalog: keep unlock
+    // state for achievements that still exist, drop retired ones, and add
+    // any new ones that weren't in storage yet.
+    const byId = new Map(stored.map(ach => [ach.id, ach]));
+    const reconciled = ACHIEVEMENTS.map(ach => {
+        const existing = byId.get(ach.id);
+        return existing ? { ...ach, unlocked: existing.unlocked, unlockedAt: existing.unlockedAt } : { ...ach };
+    });
+    saveAchievements(reconciled);
+    return reconciled;
 }
 
-export function saveAchievements(achievements: Achievement[]): void {
+function saveAchievements(achievements: Achievement[]): void {
     localStorage.setItem('achievements', JSON.stringify(achievements));
 }
 
 export function markPageAsVisited(): void {
     const path = window.location.pathname;
     const journeyData = getJourneyData();
-    
-    // Map path to journey key
-    if (path === '/' || path === '/index.html') {
+
+    // Map SPA routes to journey keys (legacy keys preserved so existing
+    // visitors keep their progress)
+    if (path === '/') {
         journeyData.home = true;
-    } else if (path.includes('about')) {
-        journeyData.about = true;
-    } else if (path.includes('beyond-the-code')) {
-        journeyData.beyondTheCode = true;
-    } else if (path.includes('journey')) {
+    } else if (path === '/journey') {
         journeyData.journey = true;
-    } else if (path === '/pages/projects' || path === '/pages/projects.html') {
+    } else if (path === '/beyond') {
+        journeyData.beyondTheCode = true;
+    } else if (path === '/projects') {
         journeyData.projects_page = true;
-    } else if (path.includes('projects')) {
-        // Extract project name from path
-        const projectName = path.split('/').pop()?.replace('.html', '') || '';
+    } else if (path === '/contact') {
+        journeyData.contact = true;
+    } else if (path.startsWith('/projects/')) {
+        const projectName = path.split('/').pop() || '';
         if (projectName && !journeyData.projects?.includes(projectName)) {
             journeyData.projects = journeyData.projects || [];
             journeyData.projects.push(projectName);
         }
     }
-    
+
     journeyData.lastVisited = new Date().toISOString();
     saveJourneyData(journeyData);
-    
+
     // Check for achievements
     checkAchievements();
-}
-
-function updateJourneyProgress(): void {
-    const journeyData = getJourneyData();
-    const visitedPages = JOURNEY_PAGES.filter(page => journeyData[page as keyof JourneyData]);
-    const progress = Math.round((visitedPages.length / JOURNEY_PAGES.length) * 100);
-
-    journeyData.progress = progress;
-    saveJourneyData(journeyData);
-
-    // Note: Progress bar updates are handled by JourneyDashboard.js on the journey page
-    // This function only updates the stored progress value
 }
 
 function checkAchievements(): void {
@@ -178,14 +131,6 @@ function checkAchievements(): void {
                 case 'page_explorer': {
                     const visitedPages = JOURNEY_PAGES.filter(page => journeyData[page as keyof JourneyData]);
                     shouldUnlock = visitedPages.length >= 3;
-                    break;
-                }
-                case 'scroll_master': {
-                    // This is checked in scroll tracking - need to check if user has scrolled enough
-                    const scrollPercent = Math.round(
-                        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-                    );
-                    shouldUnlock = scrollPercent >= 90; // 90% scroll depth
                     break;
                 }
                 case 'first_project':
@@ -221,7 +166,7 @@ function checkAchievements(): void {
     }
 }
 
-function checkTimeBasedAchievements(): void {
+export function checkTimeBasedAchievements(): void {
     const hour = new Date().getHours();
     const achievements = getAchievements();
     const newUnlocks: Achievement[] = [];

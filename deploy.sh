@@ -5,11 +5,11 @@
 
 set -e
 
-# Configuration
+# Configuration (override via environment, see .env.example)
 ENVIRONMENT=${1:-development}
-AWS_REGION="us-east-1"
-S3_BUCKET="jackvanzeeland-portfolio"
-CLOUDFRONT_DISTRIBUTION_ID="E2LPQ1BMRDTQER"
+AWS_REGION="${AWS_REGION:-us-east-1}"
+S3_BUCKET="${S3_BUCKET:-jackvanzeeland-portfolio}"
+CLOUDFRONT_DISTRIBUTION_ID="${CLOUDFRONT_DISTRIBUTION_ID:-E2LPQ1BMRDTQER}"
 
 # Colors for output
 RED='\033[0;31m'

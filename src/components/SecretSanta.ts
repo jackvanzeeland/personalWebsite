@@ -1,3 +1,5 @@
+import { escapeHtml } from '../utils/escapeHtml';
+
 // Secret Santa matching functionality
 export class SecretSanta {
     private names: string[] = [];
@@ -47,8 +49,8 @@ export class SecretSanta {
         const pill = document.createElement('span');
         pill.className = 'santa-name-pill';
         pill.innerHTML = `
-            ${name}
-            <button class="remove-name" aria-label="Remove ${name}">&times;</button>
+            ${escapeHtml(name)}
+            <button class="remove-name" aria-label="Remove ${escapeHtml(name)}">&times;</button>
         `;
 
         const removeBtn = pill.querySelector('.remove-name');
@@ -120,12 +122,12 @@ export class SecretSanta {
                         <div class="match-card">
                             <div class="match-giver">
                                 <span class="label">Giver</span>
-                                <span class="name giver-name">${giver}</span>
+                                <span class="name giver-name">${escapeHtml(giver)}</span>
                             </div>
                             <div class="match-arrow">&rarr;</div>
                             <div class="match-receiver">
                                 <span class="label">Receiver</span>
-                                <span class="name receiver-name">${receiver}</span>
+                                <span class="name receiver-name">${escapeHtml(receiver)}</span>
                             </div>
                         </div>
                     `).join('')}

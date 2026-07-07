@@ -53,10 +53,16 @@ export interface CertificationItem {
 
 export class ResumeManager {
     private resumeData: ResumeData | null = null;
+    private loadPromise: Promise<void>;
 
     constructor() {
-        this.loadResumeData();
+        this.loadPromise = this.loadResumeData();
         this.setupEventListeners();
+    }
+
+    /** Resolves once resume data (or its fallback) is available. */
+    public ensureLoaded(): Promise<void> {
+        return this.loadPromise;
     }
 
     private async loadResumeData(): Promise<void> {
