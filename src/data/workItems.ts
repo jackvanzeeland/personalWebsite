@@ -8,7 +8,13 @@ import { PROJECTS } from './projects';
 import { ARTIFACTS } from './artifacts';
 import type { Project } from '../types';
 
-export type WorkTool = 'wordle-solver' | 'secret-santa' | 'lyric-animator';
+export type WorkTool =
+    | 'wordle-solver'
+    | 'secret-santa'
+    | 'lyric-animator'
+    | 'qr-code-generator'
+    | 'uipath-queue-processor'
+    | 'html-gems';
 
 export interface WorkItem {
     slug: string;
@@ -33,7 +39,10 @@ export interface WorkItem {
 const TOOLS: Record<string, WorkTool> = {
     'wordle-solver': 'wordle-solver',
     'secret-santa': 'secret-santa',
-    'lyric-animator': 'lyric-animator'
+    'lyric-animator': 'lyric-animator',
+    'qr-code-generator': 'qr-code-generator',
+    'uipath-queue-processor': 'uipath-queue-processor',
+    'html-gems': 'html-gems'
 };
 
 function slugify(text: string): string {
@@ -81,6 +90,7 @@ function buildWorkItems(): WorkItem[] {
         if (existing) {
             existing.kind = 'artifact';
             existing.slug = artifact.page;
+            existing.tool = TOOLS[artifact.page];
             if (!existing.tags.includes('Artifact')) existing.tags = [...existing.tags, 'Artifact'];
             continue;
         }
@@ -93,7 +103,8 @@ function buildWorkItems(): WorkItem[] {
             tags: ['Artifact'],
             image: artifact.image || undefined,
             featured: false,
-            links: {}
+            links: {},
+            tool: TOOLS[artifact.page]
         });
     }
     return items;

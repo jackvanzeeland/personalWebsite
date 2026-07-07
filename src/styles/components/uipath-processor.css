@@ -1,0 +1,390 @@
+/* UiPath Queue Processor tool — dark-theme port of the retired standalone page. */
+
+.uip-tool {
+    max-width: 900px;
+}
+
+/* --- Step indicator --- */
+.uip-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.uip-step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.uip-step.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.uip-step.completed {
+    color: var(--text);
+}
+
+.uip-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.35s ease;
+    flex-shrink: 0;
+}
+
+.uip-step.active .uip-step-num {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--bg);
+}
+
+.uip-step.completed .uip-step-num {
+    border-color: var(--accent-teal);
+    background: var(--accent-teal);
+    color: var(--bg);
+}
+
+.uip-connector {
+    width: 60px;
+    height: 2px;
+    background: var(--line);
+    margin: 0 0.75rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1px;
+}
+
+.uip-connector-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: width 0.5s ease;
+}
+
+.uip-connector.filled .uip-connector-fill {
+    width: 100%;
+}
+
+/* --- Upload zone --- */
+.uip-upload-zone {
+    border: 2px dashed var(--line);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--bg-raise);
+    color: var(--text);
+}
+
+.uip-upload-zone:hover,
+.uip-upload-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.06);
+    transform: translateY(-2px);
+}
+
+@keyframes uip-upload-pulse {
+    0%, 100% { border-color: var(--line); }
+    50% { border-color: var(--accent); }
+}
+
+.uip-upload-zone:not(.file-loaded) {
+    animation: uip-upload-pulse 3s ease-in-out infinite;
+}
+
+.uip-upload-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+    opacity: 0.8;
+}
+
+.uip-upload-zone p {
+    margin: 0.5rem 0 0;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+/* --- File info pill --- */
+.uip-file-info-row {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.uip-file-info {
+    padding: 0.6rem 1rem;
+    background: var(--bg-raise);
+    border: 1px solid var(--line);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: var(--text);
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.uip-file-info.visible {
+    display: inline-flex;
+}
+
+.uip-file-info.success {
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+}
+
+/* --- Column selector --- */
+.uip-column-selector {
+    margin-top: 1.5rem;
+    display: none;
+    animation: uip-fade-in 0.35s ease;
+}
+
+@keyframes uip-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.uip-column-selector h3,
+.uip-preview-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-bright);
+}
+
+.uip-column-search {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-raise);
+    color: var(--text);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.uip-column-search:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+.uip-column-count {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+}
+
+.uip-select-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.uip-select-actions button {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg-raise);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.uip-select-actions button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.uip-columns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+.uip-column-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 50px;
+    background: var(--bg-raise);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.2s ease;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.uip-column-checkbox:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.uip-column-checkbox.selected {
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.uip-column-checkbox.hidden {
+    display: none;
+}
+
+.uip-column-checkbox input {
+    accent-color: var(--accent);
+    flex-shrink: 0;
+}
+
+.uip-process-btn {
+    width: 100%;
+    text-align: center;
+}
+
+/* --- Preview table --- */
+.uip-preview-section {
+    margin-top: 1.5rem;
+    display: none;
+    animation: uip-fade-in 0.35s ease;
+}
+
+.uip-preview-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.uip-preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    color: var(--text);
+}
+
+.uip-preview-table th,
+.uip-preview-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.uip-preview-table th {
+    background: var(--bg-raise);
+    position: sticky;
+    top: 0;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    z-index: 1;
+    color: var(--text-bright);
+}
+
+.uip-preview-table tbody tr:nth-child(even) td {
+    background: rgba(148, 163, 184, 0.04);
+}
+
+.uip-preview-table tbody tr:hover td {
+    background: rgba(56, 189, 248, 0.08);
+}
+
+.uip-empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+/* --- Download section --- */
+.uip-download-section {
+    margin-top: 1.5rem;
+    text-align: center;
+    display: none;
+    animation: uip-fade-in 0.35s ease;
+}
+
+.uip-row-count {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+}
+
+.uip-success-toast {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid var(--accent-teal);
+    color: var(--accent-teal);
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+    justify-content: center;
+    animation: uip-fade-in 0.3s ease;
+}
+
+.uip-success-toast.visible {
+    display: inline-flex;
+}
+
+.uip-start-over {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-raise);
+    color: var(--text);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.75rem;
+}
+
+.uip-start-over:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+@media (max-width: 576px) {
+    .uip-step span:not(.uip-step-num) {
+        display: none;
+    }
+    .uip-connector {
+        width: 40px;
+    }
+}

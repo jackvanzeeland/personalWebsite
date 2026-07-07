@@ -17,6 +17,9 @@ import '../../styles/redesign/work-detail.css';
 import '../../styles/components/wordle.css';
 import '../../styles/components/secret-santa.css';
 import '../../styles/redesign/lyric-animator.css';
+import '../../styles/components/qr-generator.css';
+import '../../styles/components/uipath-processor.css';
+import '../../styles/components/html-gems.css';
 
 function el<K extends keyof HTMLElementTagNameMap>(
     tag: K,
@@ -95,6 +98,51 @@ async function mountTool(item: WorkItem, host: HTMLElement): Promise<void> {
             controller.abort();
             resumeScene();
         };
+        return;
+    }
+
+    if (item.tool === 'qr-code-generator') {
+        const [{ QR_MARKUP }, { initQrGenerator }] = await Promise.all([
+            import('./tools/qrMarkup'),
+            import('./tools/qrCore')
+        ]);
+        const wrap = el('div', 'panel detail-demo qr-tool');
+        wrap.innerHTML = QR_MARKUP;
+        host.appendChild(wrap);
+        const controller = new AbortController();
+        initQrGenerator(wrap, controller.signal);
+        cleanupTool = () => controller.abort();
+        return;
+    }
+
+    if (item.tool === 'uipath-queue-processor') {
+        const [{ UIPATH_MARKUP }, { initUipathProcessor }] = await Promise.all([
+            import('./tools/uipathMarkup'),
+            import('./tools/uipathCore')
+        ]);
+        const wrap = el('div', 'panel detail-demo uip-tool');
+        wrap.innerHTML = UIPATH_MARKUP;
+        host.appendChild(wrap);
+        const controller = new AbortController();
+        initUipathProcessor(wrap, controller.signal);
+        cleanupTool = () => controller.abort();
+        return;
+    }
+
+    if (item.tool === 'html-gems') {
+        const [{ GEMS_LAYOUT }, { GEMS_CARDS }, { initHtmlGems }] = await Promise.all([
+            import('./tools/htmlGemsLayout'),
+            import('./tools/htmlGemsCards'),
+            import('./tools/htmlGemsCore')
+        ]);
+        const wrap = el('div', 'detail-gems');
+        wrap.innerHTML = GEMS_LAYOUT;
+        const content = wrap.querySelector<HTMLElement>('.html-gems-content');
+        if (content) content.innerHTML = GEMS_CARDS;
+        host.appendChild(wrap);
+        const controller = new AbortController();
+        initHtmlGems(wrap, controller.signal);
+        cleanupTool = () => controller.abort();
     }
 }
 

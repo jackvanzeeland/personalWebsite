@@ -37,4 +37,30 @@ describe('work detail view', () => {
         expect(root.querySelector('#generate-matches')).toBeTruthy();
         workDetail.unmount();
     });
+
+    it('mounts the QR generator DOM for the tool slug', async () => {
+        const root = document.getElementById('view-root')!;
+        await workDetail.mount(root, { slug: 'qr-code-generator' });
+        expect(root.querySelector('#qr-canvas')).toBeTruthy();
+        expect(root.querySelector('#generate-btn')).toBeTruthy();
+        expect(root.querySelector('a[href="/pages/artifacts/qr-code-generator"]')).toBeNull();
+        workDetail.unmount();
+    });
+
+    it('mounts the UiPath processor DOM for the tool slug', async () => {
+        const root = document.getElementById('view-root')!;
+        await workDetail.mount(root, { slug: 'uipath-queue-processor' });
+        expect(root.querySelector('#upload-zone')).toBeTruthy();
+        expect(root.querySelector('#columns-grid')).toBeTruthy();
+        workDetail.unmount();
+    });
+
+    it('mounts all 18 HTML gem cards for the tool slug', async () => {
+        const root = document.getElementById('view-root')!;
+        await workDetail.mount(root, { slug: 'html-gems' });
+        expect(root.querySelectorAll('.html-gem-card').length).toBe(18);
+        expect(root.querySelector('#html-gems-toc')).toBeTruthy();
+        expect(root.querySelector('a[href="/pages/artifacts/html-gems"]')).toBeNull();
+        workDetail.unmount();
+    });
 });

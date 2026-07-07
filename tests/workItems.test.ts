@@ -28,7 +28,19 @@ describe('WORK_ITEMS adapter', () => {
         expect(getWorkItem('wordle-solver')?.tool).toBe('wordle-solver');
         expect(getWorkItem('secret-santa')?.tool).toBe('secret-santa');
         expect(getWorkItem('lyric-animator')?.tool).toBe('lyric-animator');
-        expect(getWorkItem('qr-code-generator')?.tool).toBeUndefined();
+        expect(getWorkItem('qr-code-generator')?.tool).toBe('qr-code-generator');
+        expect(getWorkItem('uipath-queue-processor')?.tool).toBe('uipath-queue-processor');
+        expect(getWorkItem('html-gems')?.tool).toBe('html-gems');
+    });
+
+    it('artifact tools carry no stale external link (regression: /pages/artifacts/*)', () => {
+        // A stale webpage_link here rendered an "Open the app ↗" button that
+        // 301-redirected back to the same detail page.
+        for (const slug of ['qr-code-generator', 'uipath-queue-processor', 'html-gems']) {
+            const item = getWorkItem(slug)!;
+            expect(item.links.external).toBeUndefined();
+            expect(workItemHref(item)).toEqual({ href: `/projects/${slug}`, external: false });
+        }
     });
 
     it('getWorkItem returns undefined for unknown slugs', () => {
