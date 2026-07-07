@@ -11,7 +11,7 @@ import {
   WorkItem,
   workItemHref,
 } from "../../data/workItems";
-import { createOptimizedPicture } from "../../utils/optimizedImage";
+import { createOptimizedPicture, resolveImageSrc } from "../../utils/optimizedImage";
 import "../../styles/redesign/work.css";
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -36,7 +36,7 @@ function renderCard(item: WorkItem): HTMLAnchorElement {
   const imgWrap = el("div", "work-card-img");
   if (item.image) {
     imgWrap.appendChild(
-      createOptimizedPicture(`/assets/images/${item.image}`, {
+      createOptimizedPicture(resolveImageSrc(item.image), {
         alt: item.title,
         sizes: "(min-width: 900px) 350px, 100vw",
       }),

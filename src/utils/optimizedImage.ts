@@ -10,6 +10,16 @@ import { imageManifest } from '../generated/imageManifest';
 
 const OPT_BASE = '/assets/images/opt';
 
+/**
+ * Project images are usually a bare filename resolved under /assets/images/
+ * and run through the build-time optimizer. A few entries point at a live
+ * app's own hosted icon instead — those are already-absolute URLs and must
+ * be used as-is (no local variants exist for them).
+ */
+export function resolveImageSrc(image: string): string {
+    return /^https?:\/\//.test(image) ? image : `/assets/images/${image}`;
+}
+
 interface OptimizedImageOptions {
     alt: string;
     className?: string;

@@ -24,7 +24,7 @@ function el<K extends keyof HTMLElementTagNameMap>(
 const STATS: [string, string][] = [
   ["22", "AUTOMATIONS"],
   ["48K+", "HOURS SAVED"],
-  ["13", "PERSONAL PROJECTS"],
+  ["16", "PERSONAL PROJECTS"],
 ];
 
 const view: View = {

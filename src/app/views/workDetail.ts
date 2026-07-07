@@ -12,7 +12,7 @@ import type { View } from './types';
 import { requestFormation, pauseScene, resumeScene } from '../../scene/stage';
 import { latticeBuilder } from '../../scene/formations/lattice';
 import { getWorkItem, WorkItem } from '../../data/workItems';
-import { createOptimizedPicture } from '../../utils/optimizedImage';
+import { createOptimizedPicture, resolveImageSrc } from '../../utils/optimizedImage';
 import '../../styles/redesign/work-detail.css';
 import '../../styles/components/wordle.css';
 import '../../styles/components/secret-santa.css';
@@ -159,7 +159,7 @@ const view: View = {
         if (item.image) {
             const shot = el('div', 'panel detail-shot');
             shot.appendChild(
-                createOptimizedPicture(`/assets/images/${item.image}`, {
+                createOptimizedPicture(resolveImageSrc(item.image), {
                     alt: item.title,
                     sizes: '(min-width: 1000px) 920px, 100vw'
                 })
