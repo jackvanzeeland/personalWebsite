@@ -11,7 +11,9 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets',
+    // 'bundle' = Vite's hashed build output; distinct from public/ static files
+    // (and from the retired top-level assets/ source folder)
+    assetsDir: 'bundle',
     sourcemap: false, // Disable sourcemaps for production
     minify: 'esbuild', // Use esbuild for faster builds
     target: 'es2015',
@@ -24,17 +26,17 @@ export default defineConfig({
         manualChunks: {
           three: ['three']
         },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
+        chunkFileNames: 'bundle/js/[name]-[hash].js',
+        entryFileNames: 'bundle/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
           const extType = assetInfo.name?.split('.').pop() || ''
           if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            return 'assets/images/[name]-[hash][extname]'
+            return 'bundle/images/[name]-[hash][extname]'
           }
           if (/woff|woff2|eot|ttf|otf/i.test(extType)) {
-            return 'assets/fonts/[name]-[hash][extname]'
+            return 'bundle/fonts/[name]-[hash][extname]'
           }
-          return 'assets/[name]-[hash][extname]'
+          return 'bundle/[name]-[hash][extname]'
         }
       }
     },

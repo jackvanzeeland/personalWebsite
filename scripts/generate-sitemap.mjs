@@ -33,5 +33,5 @@ ${ROUTES.map(
 </urlset>
 `;
 
-await fs.writeFile(path.join(ROOT, 'sitemap.xml'), xml);
+await fs.writeFile(path.join(ROOT, 'public/sitemap.xml'), xml);
 console.log(`generate-sitemap: ${ROUTES.length} routes`);
