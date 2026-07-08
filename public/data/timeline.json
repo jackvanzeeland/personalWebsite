@@ -164,6 +164,28 @@
       "isPresent": false,
       "description": "Hands-on patterns for shipping real software with Claude Code: planning, implementation, and verification loops.",
       "badgeColor": "bg-warning"
+    },
+    {
+      "id": "anthropic_claude_platform_101",
+      "title": "Claude Platform 101",
+      "organization": "Anthropic",
+      "type": "certification",
+      "startDate": "2026-07-01",
+      "endDate": "2026-07-29",
+      "isPresent": false,
+      "description": "Claude Platform fundamentals — building and deploying agentic workflows with the Claude API.",
+      "badgeColor": "bg-warning"
+    },
+    {
+      "id": "anthropic_ai_fluency_students",
+      "title": "AI Fluency for Students",
+      "organization": "Anthropic",
+      "type": "certification",
+      "startDate": "2026-07-01",
+      "endDate": "2026-07-29",
+      "isPresent": false,
+      "description": "Anthropic's AI Fluency for Students: a practical framework for working effectively with AI in academic and research contexts.",
+      "badgeColor": "bg-warning"
     }
   ]
 }
