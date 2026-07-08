@@ -172,7 +172,24 @@ const view: View = {
         kindRow.appendChild(el('span', `work-kind work-kind-${item.kind}`, item.kind.toUpperCase()));
         if (item.tool) kindRow.appendChild(el('span', 'work-kind work-kind-live', '● INTERACTIVE'));
 
-        section.append(kindRow, el('h1', undefined, item.title), el('p', 'detail-desc', item.description));
+        const headerText = el('div', 'detail-header-text');
+        headerText.append(kindRow, el('h1', undefined, item.title));
+
+        const header = el('div', 'detail-header');
+        header.appendChild(headerText);
+
+        if (item.image && !item.tool) {
+            const shot = el('div', 'panel detail-shot');
+            shot.appendChild(
+                createOptimizedPicture(resolveImageSrc(item.image), {
+                    alt: item.title,
+                    sizes: '220px'
+                })
+            );
+            header.appendChild(shot);
+        }
+
+        section.append(header, el('p', 'detail-desc', item.description));
 
         if (item.originStory) {
             const story = el('div', 'detail-story');
@@ -209,17 +226,6 @@ const view: View = {
             root.appendChild(section);
             await mountTool(item, toolHost);
             return;
-        }
-
-        if (item.image) {
-            const shot = el('div', 'panel detail-shot');
-            shot.appendChild(
-                createOptimizedPicture(resolveImageSrc(item.image), {
-                    alt: item.title,
-                    sizes: '300px'
-                })
-            );
-            section.appendChild(shot);
         }
 
         root.appendChild(section);

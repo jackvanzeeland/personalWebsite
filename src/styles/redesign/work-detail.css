@@ -25,6 +25,28 @@
   margin-top: 10px;
 }
 
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.detail-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .detail-header {
+    flex-direction: column;
+  }
+
+  .detail-shot {
+    margin: 0 auto;
+  }
+}
+
 .detail-desc {
   color: var(--text-dim);
   font-size: 16px;
@@ -93,8 +115,8 @@
 .detail-shot {
   overflow: hidden;
   padding: 0;
-  max-width: 300px;
-  margin: 0 auto;
+  width: 220px;
+  flex-shrink: 0;
 }
 
 .detail-shot img {
