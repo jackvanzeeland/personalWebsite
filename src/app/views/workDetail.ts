@@ -174,6 +174,13 @@ const view: View = {
 
         section.append(kindRow, el('h1', undefined, item.title), el('p', 'detail-desc', item.description));
 
+        if (item.originStory) {
+            const story = el('div', 'detail-story');
+            story.appendChild(el('h2', 'detail-story-heading', 'The origin story'));
+            story.appendChild(el('p', 'detail-story-text', item.originStory));
+            section.appendChild(story);
+        }
+
         const tech = el('div', 'detail-tech');
         item.technologies.forEach((t) => tech.appendChild(el('span', 'work-tag', t)));
         section.appendChild(tech);
@@ -209,7 +216,7 @@ const view: View = {
             shot.appendChild(
                 createOptimizedPicture(resolveImageSrc(item.image), {
                     alt: item.title,
-                    sizes: '(min-width: 1000px) 920px, 100vw'
+                    sizes: '300px'
                 })
             );
             section.appendChild(shot);

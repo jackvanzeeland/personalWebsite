@@ -31,6 +31,18 @@
   max-width: 640px;
 }
 
+.detail-story-heading {
+  font-size: 22px;
+  margin: 32px 0 6px;
+}
+
+.detail-story-text {
+  color: var(--text-dim);
+  font-size: 14px;
+  max-width: 640px;
+  line-height: 1.6;
+}
+
 .work-card-kind {
   display: flex;
   gap: 10px;
@@ -81,10 +93,13 @@
 .detail-shot {
   overflow: hidden;
   padding: 0;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
 .detail-shot img {
   width: 100%;
+  height: auto;
   display: block;
 }
 

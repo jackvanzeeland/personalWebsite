@@ -1,6 +1,7 @@
 export interface Project {
     title: string;
     description: string;
+    originStory?: string;
     technologies: string[];
     tags: string[];
     is_interactive: boolean;
