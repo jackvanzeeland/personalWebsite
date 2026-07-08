@@ -12,7 +12,6 @@ Disallow: /.well-known/
 
 # Allow search engines to crawl all important content
 Allow: /pages/
-Allow: /assets/
 Allow: /src/
 
 # Crawl delay (optional)

@@ -1,18 +1,8 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
-  plugins: [
-    viteStaticCopy({
-      targets: [
-        { src: 'assets/images', dest: '' },
-        { src: 'assets/files', dest: '' },
-        { src: 'assets/fonts', dest: '' }
-      ]
-    })
-  ],
   root: '.',
   base: '/',
   test: {
