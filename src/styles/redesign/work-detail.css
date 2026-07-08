@@ -52,15 +52,53 @@
   font-size: 16px;
 }
 
-.detail-story-heading {
-  font-size: 22px;
-  margin: 32px 0 6px;
+.detail-story {
+  margin: 24px 0 26px;
+}
+
+.detail-story-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--text-bright);
+  font-size: 15px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.detail-story-summary::-webkit-details-marker {
+  display: none;
+}
+
+.detail-story-summary::marker {
+  content: "";
+}
+
+.detail-story-summary:hover {
+  color: var(--accent);
+}
+
+.detail-story-chevron {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--accent-teal);
+  transition: transform 0.2s ease;
+}
+
+.detail-story[open] .detail-story-chevron {
+  transform: rotate(90deg);
 }
 
 .detail-story-text {
   color: var(--text-dim);
   font-size: 14px;
   line-height: 1.6;
+  padding: 0 18px 20px;
+  margin: 0;
 }
 
 .work-card-kind {

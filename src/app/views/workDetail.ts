@@ -193,9 +193,11 @@ const view: View = {
     );
 
     if (item.originStory) {
-      const story = el("div", "detail-story");
-      story.appendChild(el("h2", "detail-story-heading", "The origin story"));
-      story.appendChild(el("p", "detail-story-text", item.originStory));
+      const story = el("details", "panel detail-story");
+      const summary = el("summary", "detail-story-summary");
+      summary.appendChild(el("span", "detail-story-label", "The origin story"));
+      summary.appendChild(el("span", "detail-story-chevron", "›"));
+      story.append(summary, el("p", "detail-story-text", item.originStory));
       main.appendChild(story);
     }
 
