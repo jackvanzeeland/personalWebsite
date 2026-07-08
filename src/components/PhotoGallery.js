@@ -21,7 +21,7 @@ const REAL_PHOTOS = [
     "1st Half Marathon",
     "Celebrating my first half marathon.",
     "Achievement",
-    "/assets/images/beyondTheCodePhotos/IMG_2178.JPG",
+    "/images/beyondTheCodePhotos/IMG_2178.JPG",
     "2023-07-13",
   ),
   new Photo(
@@ -29,7 +29,7 @@ const REAL_PHOTOS = [
     "Cabin Weekend",
     "Relaxing weekend getaway at the cabin.",
     "Nature",
-    "/assets/images/beyondTheCodePhotos/IMG_4961.HEIC.jpg",
+    "/images/beyondTheCodePhotos/IMG_4961.HEIC.jpg",
     "2024-07-21",
   ),
   new Photo(
@@ -37,7 +37,7 @@ const REAL_PHOTOS = [
     "College Graduation",
     "My last jump around at Camp Randall.",
     "Achievement",
-    "/assets/images/beyondTheCodePhotos/IMG_8128.HEIC.jpg",
+    "/images/beyondTheCodePhotos/IMG_8128.HEIC.jpg",
     "2025-05-10",
   ),
   new Photo(
@@ -45,7 +45,7 @@ const REAL_PHOTOS = [
     "Spring Break 2025 - Cabo",
     "Booze cruise with good friends.",
     "Good Times",
-    "/assets/images/beyondTheCodePhotos/IMG_3741.JPG",
+    "/images/beyondTheCodePhotos/IMG_3741.JPG",
     "2025-03-22",
   ),
   new Photo(
@@ -53,7 +53,7 @@ const REAL_PHOTOS = [
     "Banff Road Trip",
     "Spontaneous adventure in the mountains.",
     "Adventure",
-    "/assets/images/beyondTheCodePhotos/IMG_1118.JPG",
+    "/images/beyondTheCodePhotos/IMG_1118.JPG",
     "2023-07-14",
   ),
   new Photo(
@@ -61,7 +61,7 @@ const REAL_PHOTOS = [
     "Regional Champions",
     "Winning the regional championship.",
     "Achievement",
-    "/assets/images/beyondTheCodePhotos/26E3874A-57D3-49E4-8A02-6B55724F9348.HEIC.jpg",
+    "/images/beyondTheCodePhotos/26E3874A-57D3-49E4-8A02-6B55724F9348.HEIC.jpg",
     "2020-03-07",
   ),
   new Photo(
@@ -69,7 +69,7 @@ const REAL_PHOTOS = [
     "Packer Game Day",
     "I don't wanna work. I just wanna bang on the drum all day.",
     "Good Times",
-    "/assets/images/beyondTheCodePhotos/IMG_9057.HEIC.jpg",
+    "/images/beyondTheCodePhotos/IMG_9057.HEIC.jpg",
     "2024-07-21",
   ),
 ];
