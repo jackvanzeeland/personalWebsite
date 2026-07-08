@@ -47,7 +47,7 @@ const view: View = {
 
         const avatar = el('div', 'contact-avatar');
         avatar.appendChild(
-            createOptimizedPicture('/assets/images/profile.jpg', {
+            createOptimizedPicture('/images/profile.jpg', {
                 alt: 'Jack Van Zeeland',
                 sizes: '140px',
                 loading: 'eager'
@@ -70,7 +70,7 @@ const view: View = {
             iconLink('mailto:jack.vanzeeland@outlook.com', 'jack.vanzeeland@outlook.com', 'mail', { glow: true }),
             iconLink('https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/', 'LinkedIn', 'linkedin', { external: true }),
             iconLink('https://github.com/jackvanzeeland', 'GitHub', 'github', { external: true }),
-            iconLink('/assets/files/resume.pdf', 'Resume ↓', null, { download: 'jack-van-zeeland-resume.pdf' })
+            iconLink('/files/resume.pdf', 'Resume ↓', null, { download: 'jack-van-zeeland-resume.pdf' })
         );
 
         section.appendChild(links);

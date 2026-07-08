@@ -64,7 +64,7 @@ const view: View = {
 
     const avatarWrap = el("div", "home-avatar");
     avatarWrap.appendChild(
-      createOptimizedPicture("/assets/images/profile.jpg", {
+      createOptimizedPicture("/images/profile.jpg", {
         alt: "Jack Van Zeeland",
         sizes: "(min-width: 900px) 320px, 160px",
         loading: "eager",

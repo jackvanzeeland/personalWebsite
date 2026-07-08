@@ -2,22 +2,22 @@
  * Runtime helpers for the build-time image pipeline (scripts/optimize-images.mjs).
  *
  * Images listed in the generated manifest have AVIF/WebP variants under
- * /assets/images/opt/. These helpers wrap an <img> in a <picture> with the
+ * /images/opt/. These helpers wrap an <img> in a <picture> with the
  * right srcsets; images without variants fall back to a plain <img>.
  */
 
 import { imageManifest } from '../generated/imageManifest';
 
-const OPT_BASE = '/assets/images/opt';
+const OPT_BASE = '/images/opt';
 
 /**
- * Project images are usually a bare filename resolved under /assets/images/
+ * Project images are usually a bare filename resolved under /images/
  * and run through the build-time optimizer. A few entries point at a live
  * app's own hosted icon instead — those are already-absolute URLs and must
  * be used as-is (no local variants exist for them).
  */
 export function resolveImageSrc(image: string): string {
-    return /^https?:\/\//.test(image) ? image : `/assets/images/${image}`;
+    return /^https?:\/\//.test(image) ? image : `/images/${image}`;
 }
 
 interface OptimizedImageOptions {
@@ -30,7 +30,7 @@ interface OptimizedImageOptions {
 
 function variantStem(src: string): string {
     return src
-        .replace('/assets/images/', '')
+        .replace('/images/', '')
         .replace(/\.(png|jpe?g)$/i, '');
 }
 
@@ -41,7 +41,7 @@ function srcset(src: string, ext: 'avif' | 'webp', widths: number[]): string {
 
 /**
  * Create a <picture> (or plain <img> when no variants exist) for the given
- * original image path, e.g. "/assets/images/woku.png".
+ * original image path, e.g. "/images/woku.png".
  */
 export function createOptimizedPicture(src: string, options: OptimizedImageOptions): HTMLElement {
     const { alt, className, sizes = '100vw', loading = 'lazy', onError } = options;

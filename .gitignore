@@ -51,7 +51,7 @@ logs/gunicorn.pid
 node_modules/
 
 # Generated image variants (rebuilt by scripts/optimize-images.mjs)
-assets/images/opt/
+public/images/opt/
 
 # Playwright MCP session artifacts
 .playwright-mcp/

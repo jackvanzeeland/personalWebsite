@@ -27,8 +27,8 @@ export class WordleSolver {
     private async loadData(): Promise<void> {
         try {
             const [guessRes, remainRes] = await Promise.all([
-                fetch('/assets/files/wordleGuesses.json'),
-                fetch('/assets/files/wordleRemaining.json')
+                fetch('/files/wordleGuesses.json'),
+                fetch('/files/wordleRemaining.json')
             ]);
             if (!guessRes.ok || !remainRes.ok) throw new Error('Fetch failed');
             this.guessData = await guessRes.json();
