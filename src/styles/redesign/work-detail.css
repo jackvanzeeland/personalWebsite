@@ -25,20 +25,20 @@
   margin-top: 10px;
 }
 
-.detail-header {
+.detail-layout {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 28px;
+  gap: 32px;
 }
 
-.detail-header-text {
-  flex: 1;
+.detail-main {
+  flex: 0 1 640px;
   min-width: 0;
 }
 
-@media (max-width: 640px) {
-  .detail-header {
+@media (max-width: 860px) {
+  .detail-layout {
     flex-direction: column;
   }
 
@@ -50,7 +50,6 @@
 .detail-desc {
   color: var(--text-dim);
   font-size: 16px;
-  max-width: 640px;
 }
 
 .detail-story-heading {
@@ -61,7 +60,6 @@
 .detail-story-text {
   color: var(--text-dim);
   font-size: 14px;
-  max-width: 640px;
   line-height: 1.6;
 }
 

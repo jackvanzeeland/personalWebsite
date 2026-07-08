@@ -172,35 +172,19 @@ const view: View = {
         kindRow.appendChild(el('span', `work-kind work-kind-${item.kind}`, item.kind.toUpperCase()));
         if (item.tool) kindRow.appendChild(el('span', 'work-kind work-kind-live', '● INTERACTIVE'));
 
-        const headerText = el('div', 'detail-header-text');
-        headerText.append(kindRow, el('h1', undefined, item.title));
-
-        const header = el('div', 'detail-header');
-        header.appendChild(headerText);
-
-        if (item.image && !item.tool) {
-            const shot = el('div', 'panel detail-shot');
-            shot.appendChild(
-                createOptimizedPicture(resolveImageSrc(item.image), {
-                    alt: item.title,
-                    sizes: '220px'
-                })
-            );
-            header.appendChild(shot);
-        }
-
-        section.append(header, el('p', 'detail-desc', item.description));
+        const main = el('div', 'detail-main');
+        main.append(kindRow, el('h1', undefined, item.title), el('p', 'detail-desc', item.description));
 
         if (item.originStory) {
             const story = el('div', 'detail-story');
             story.appendChild(el('h2', 'detail-story-heading', 'The origin story'));
             story.appendChild(el('p', 'detail-story-text', item.originStory));
-            section.appendChild(story);
+            main.appendChild(story);
         }
 
         const tech = el('div', 'detail-tech');
         item.technologies.forEach((t) => tech.appendChild(el('span', 'work-tag', t)));
-        section.appendChild(tech);
+        main.appendChild(tech);
 
         const links = el('div', 'detail-links');
         const addLink = (href: string | undefined, label: string, glow = false): void => {
@@ -216,7 +200,23 @@ const view: View = {
         addLink(item.links.github, 'GitHub ↗');
         addLink(item.links.youtube, 'YouTube ↗');
         addLink(item.links.tiktok, 'TikTok ↗');
-        if (links.childElementCount > 0) section.appendChild(links);
+        if (links.childElementCount > 0) main.appendChild(links);
+
+        const layout = el('div', 'detail-layout');
+        layout.appendChild(main);
+
+        if (item.image && !item.tool) {
+            const shot = el('div', 'panel detail-shot');
+            shot.appendChild(
+                createOptimizedPicture(resolveImageSrc(item.image), {
+                    alt: item.title,
+                    sizes: '220px'
+                })
+            );
+            layout.appendChild(shot);
+        }
+
+        section.appendChild(layout);
 
         if (item.tool) {
             const toolHost = el('div', 'detail-tool-host');
