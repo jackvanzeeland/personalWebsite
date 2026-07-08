@@ -175,7 +175,7 @@ const view: View = {
         section.append(kindRow, el('h1', undefined, item.title), el('p', 'detail-desc', item.description));
 
         const tech = el('div', 'detail-tech');
-        item.technologies.forEach((t) => tech.appendChild(el('span', 'home-tag', t)));
+        item.technologies.forEach((t) => tech.appendChild(el('span', 'work-tag', t)));
         section.appendChild(tech);
 
         const links = el('div', 'detail-links');

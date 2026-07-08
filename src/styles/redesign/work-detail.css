@@ -31,11 +31,44 @@
   max-width: 640px;
 }
 
+.work-card-kind {
+  display: flex;
+  gap: 10px;
+}
+
+.work-kind {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+}
+
+.work-kind-project {
+  color: var(--accent-indigo);
+}
+
+.work-kind-artifact {
+  color: var(--accent-teal);
+}
+
+.work-kind-live {
+  color: var(--accent-cyan);
+}
+
 .detail-tech {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   margin: 18px 0 26px;
+}
+
+.work-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 3px;
+  padding: 3px 8px;
 }
 
 .detail-links {

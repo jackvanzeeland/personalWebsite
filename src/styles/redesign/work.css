@@ -148,6 +148,16 @@
   flex-wrap: wrap;
 }
 
+.work-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+
 .work-count {
   font-family: var(--font-mono);
   font-size: 11px;

@@ -65,7 +65,7 @@ function renderCard(item: WorkItem): HTMLAnchorElement {
   const tech = el("div", "work-card-tech");
   item.technologies
     .slice(0, 4)
-    .forEach((t) => tech.appendChild(el("span", "home-tag", t)));
+    .forEach((t) => tech.appendChild(el("span", "work-tag", t)));
   body.appendChild(tech);
 
   card.append(imgWrap, body);
