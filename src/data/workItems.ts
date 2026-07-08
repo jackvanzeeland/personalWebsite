@@ -1,11 +1,10 @@
 /**
- * Unified work catalog: PROJECTS + ARTIFACTS normalized into one list
- * for the /work lattice and /work/:slug detail views.
- * Projects.ts / artifacts.ts stay the untouched sources of truth.
+ * Unified work catalog: PROJECTS normalized into WorkItems for the
+ * /work lattice and /work/:slug detail views. Projects tagged
+ * "Artifact" are treated as artifact-kind work items.
  */
 
 import { PROJECTS } from './projects';
-import { ARTIFACTS } from './artifacts';
 import type { Project } from '../types';
 
 export type WorkTool =
@@ -60,7 +59,7 @@ function fromProject(project: Project): WorkItem {
     const slug = projectSlug(project);
     return {
         slug,
-        kind: 'project',
+        kind: project.tags.includes('Artifact') ? 'artifact' : 'project',
         title: project.title,
         description: project.description,
         technologies: project.technologies,
@@ -78,39 +77,7 @@ function fromProject(project: Project): WorkItem {
     };
 }
 
-function buildWorkItems(): WorkItem[] {
-    const items = PROJECTS.map(fromProject);
-
-    for (const artifact of ARTIFACTS) {
-        // Some artifacts are double-listed in PROJECTS — collapse into one
-        // item, keep the richer project entry, adopt the artifact slug/kind.
-        const existing = items.find(
-            (item) => item.title === artifact.title || item.slug === artifact.page
-        );
-        if (existing) {
-            existing.kind = 'artifact';
-            existing.slug = artifact.page;
-            existing.tool = TOOLS[artifact.page];
-            if (!existing.tags.includes('Artifact')) existing.tags = [...existing.tags, 'Artifact'];
-            continue;
-        }
-        items.push({
-            slug: artifact.page,
-            kind: 'artifact',
-            title: artifact.title,
-            description: artifact.description,
-            technologies: artifact.technologies,
-            tags: ['Artifact'],
-            image: artifact.image || undefined,
-            featured: false,
-            links: {},
-            tool: TOOLS[artifact.page]
-        });
-    }
-    return items;
-}
-
-export const WORK_ITEMS: WorkItem[] = buildWorkItems();
+export const WORK_ITEMS: WorkItem[] = PROJECTS.map(fromProject);
 
 /**
  * Card destination for an item. Items whose app lives under a dedicated

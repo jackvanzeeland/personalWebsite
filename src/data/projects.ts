@@ -209,7 +209,7 @@ export const PROJECTS: Project[] = [
     description:
       "A bilingual (EN/ES) QR code generator supporting URLs, plain text, and contact vCards. Generate, download, and copy QR codes instantly.",
     technologies: ["HTML5", "JavaScript", "QRious"],
-    tags: ["Tools", "Interactive", "JavaScript"],
+    tags: ["Tools", "Interactive", "JavaScript", "Artifact"],
     github_link: "",
     image: "professional-qr-code-contact.png",
     page: "qr-code-generator",
@@ -224,7 +224,7 @@ export const PROJECTS: Project[] = [
     description:
       "Upload UiPath Orchestrator queue CSV exports, flatten DynamicProperties JSON columns, select desired fields, and download a clean CSV.",
     technologies: ["HTML5", "JavaScript", "Papa Parse"],
-    tags: ["Automation", "Tools", "JavaScript"],
+    tags: ["Automation", "Tools", "JavaScript", "Artifact"],
     github_link: "",
     image: "uipath_logo.jpeg",
     page: "uipath-queue-processor",
@@ -239,7 +239,7 @@ export const PROJECTS: Project[] = [
     description:
       "An interactive showcase of 18 underused HTML features and attributes that reduce JavaScript bloat and improve accessibility, with live examples.",
     technologies: ["HTML5", "CSS3", "Web Standards"],
-    tags: ["Creative", "Interactive", "JavaScript"],
+    tags: ["Creative", "Interactive", "JavaScript", "Artifact"],
     github_link: "",
     image: "ai_generated_html.png",
     page: "html-gems",

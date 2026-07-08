@@ -60,11 +60,3 @@ export interface Theme {
         accent: string;
     };
 }
-
-export interface Artifact {
-    title: string;
-    description: string;
-    technologies: string[];
-    page: string;
-    image: string;
-}
