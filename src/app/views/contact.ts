@@ -47,7 +47,7 @@ const view: View = {
 
         const avatar = el('div', 'contact-avatar');
         avatar.appendChild(
-            createOptimizedPicture('/assets/images/profile.jpg', {
+            createOptimizedPicture('/images/profile.jpg', {
                 alt: 'Jack Van Zeeland',
                 sizes: '140px',
                 loading: 'eager'
