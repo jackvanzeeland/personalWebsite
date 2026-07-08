@@ -1,19 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { WORK_ITEMS, getWorkItem, allWorkTags, workItemHref } from '../src/data/workItems';
 import { PROJECTS } from '../src/data/projects';
-import { ARTIFACTS } from '../src/data/artifacts';
 
 describe('WORK_ITEMS adapter', () => {
-    it('absorbs every project and every artifact (deduped by identity)', () => {
-        // Artifacts also listed in PROJECTS collapse into one item
+    it('maps every project to a work item, tagging artifacts by their "Artifact" tag', () => {
         for (const project of PROJECTS) {
             expect(WORK_ITEMS.some((i) => i.title === project.title)).toBe(true);
         }
-        for (const artifact of ARTIFACTS) {
-            expect(WORK_ITEMS.some((i) => i.title === artifact.title)).toBe(true);
-        }
-        expect(WORK_ITEMS.filter((i) => i.kind === 'artifact').length).toBe(ARTIFACTS.length);
-        expect(WORK_ITEMS.length).toBeLessThanOrEqual(PROJECTS.length + ARTIFACTS.length);
+        const artifactProjects = PROJECTS.filter((p) => p.tags.includes('Artifact'));
+        expect(WORK_ITEMS.filter((i) => i.kind === 'artifact').length).toBe(artifactProjects.length);
+        expect(WORK_ITEMS.length).toBe(PROJECTS.length);
     });
 
     it('every item has a unique, non-empty, url-safe slug', () => {
