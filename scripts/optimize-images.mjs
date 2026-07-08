@@ -13,7 +13,8 @@
  * Idempotent: a manifest of source mtimes (public/images/opt/.cache.json)
  * skips already-processed files, so dev/CI builds stay fast.
  *
- * Runs before `vite build`; output is copied to dist/ by vite-plugin-static-copy.
+ * Runs before `vite build`; output ships to dist/ automatically since it lives
+ * under public/, which Vite copies natively.
  */
 
 import { promises as fs } from 'node:fs';

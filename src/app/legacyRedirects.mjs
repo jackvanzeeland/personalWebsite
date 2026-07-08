@@ -20,5 +20,7 @@ export const LEGACY_MAP = {
     '/pages/projects/basketball-optimization': '/projects/basketball-optimization',
     '/pages/artifacts/qr-code-generator': '/projects/qr-code-generator',
     '/pages/artifacts/uipath-queue-processor': '/projects/uipath-queue-processor',
-    '/pages/artifacts/html-gems': '/projects/html-gems'
+    '/pages/artifacts/html-gems': '/projects/html-gems',
+    '/assets/images/JVZLogo.png': '/images/JVZLogo.png',
+    '/assets/files/resume.pdf': '/files/resume.pdf'
 };
