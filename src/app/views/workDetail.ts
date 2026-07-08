@@ -197,7 +197,12 @@ const view: View = {
       const summary = el("summary", "detail-story-summary");
       summary.appendChild(el("span", "detail-story-label", "The origin story"));
       summary.appendChild(el("span", "detail-story-chevron", "›"));
-      story.append(summary, el("p", "detail-story-text", item.originStory));
+      story.appendChild(summary);
+      item.originStory
+        .split("\n\n")
+        .forEach((paragraph) =>
+          story.appendChild(el("p", "detail-story-text", paragraph)),
+        );
       main.appendChild(story);
     }
 
