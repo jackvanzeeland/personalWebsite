@@ -7,7 +7,7 @@
 import type { View } from './types';
 import { requestFormation } from '../../scene/stage';
 import { nebulaBuilder } from '../../scene/formations/nebula';
-import { BEYOND_MARKUP } from './beyondMarkup';
+import { buildBeyondContent } from './beyondContent';
 import { PhotoGallery } from '../../components/PhotoGallery';
 import { InstagramGallery } from '../../components/InstagramGallery';
 import { MediaAccordion } from '../../components/MediaAccordion';
@@ -19,8 +19,7 @@ const view: View = {
 
         const section = document.createElement('section');
         section.className = 'beyond container-x';
-        // Trusted compile-time constant extracted from our own repo markup
-        section.innerHTML = BEYOND_MARKUP;
+        section.appendChild(buildBeyondContent());
         section.querySelectorAll('.sport-card, .media-accordion, .photo-container')
             .forEach((el) => el.setAttribute('data-reveal', ''));
         root.appendChild(section);
