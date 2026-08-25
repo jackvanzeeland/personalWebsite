@@ -2,6 +2,7 @@
   "name": "portfolio-website",
   "version": "1.0.0",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "node scripts/optimize-images.mjs && node scripts/generate-redirects.mjs && node scripts/generate-sitemap.mjs && tsc && vite build",
