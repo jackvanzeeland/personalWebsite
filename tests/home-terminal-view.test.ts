@@ -54,6 +54,7 @@ describe('home terminal view', () => {
         expect(t.q('.home-term-body').getAttribute('role')).toBe('log');
         expect(t.q('.home-term-body').getAttribute('aria-live')).toBe('polite');
         expect(t.input().getAttribute('aria-label')).toBe('Terminal: type a command');
+        expect(t.q('.home-term-title').textContent).toBe('guest@jvz: ~'); // title bar reads guest
         expect(t.el.classList.contains('is-ready')).toBe(true);
         t.destroy();
     });
@@ -116,7 +117,7 @@ describe('home terminal view', () => {
         t.input().value = 'cd journey';
         press(t.input(), 'Enter');
         expect(t.input().value).toBe('');
-        expect(t.output()).toContain('jack@jvz:~$ cd journey');
+        expect(t.output()).toContain('guest@jvz:~$ cd journey');
         expect(navigate).not.toHaveBeenCalled();
         vi.advanceTimersByTime(250);
         expect(navigate).toHaveBeenCalledWith('/journey');

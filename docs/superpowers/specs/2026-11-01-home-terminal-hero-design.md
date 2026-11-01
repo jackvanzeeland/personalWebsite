@@ -53,7 +53,7 @@ Same hero grid and avatar positioning as today (`home.css`). In `.home-hero-text
 1. Eyebrow `// SOFTWARE ENGINEER — CHICAGO` (unchanged)
 2. `h1` name (unchanged)
 3. **Terminal window**, replacing `.home-sub` and `.home-ctas`:
-   - Title bar: three dots plus `jack@jvz: ~`
+   - Title bar: three dots plus `guest@jvz: ~`
    - Scrollable body with a fixed height (about 240px desktop, smaller on mobile) that auto-scrolls to the bottom
    - Chip row: `help`, `ls`, `cd projects`, `cd journey`, `contact`
 4. **Experience odometer**, replacing `.home-stats`, directly under the terminal.

@@ -48,7 +48,7 @@ export function bootLines(ctx: CommandContext, today: Date): Line[] {
 }
 
 export function promptLine(input: string): Line {
-    return [seg('jack@jvz', 'prompt'), seg(':'), seg('~', 'ok'), seg(`$ ${input}`)];
+    return [seg('guest@jvz', 'prompt'), seg(':'), seg('~', 'ok'), seg(`$ ${input}`)];
 }
 
 const HELP: [string, string][] = [

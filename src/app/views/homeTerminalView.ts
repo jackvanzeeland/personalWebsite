@@ -108,7 +108,7 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
     // ── structure ──
     const el = node('div', 'home-term');
     const bar = node('div', 'home-term-bar');
-    bar.append(node('i'), node('i'), node('i'), node('span', 'home-term-title', 'jack@jvz: ~'));
+    bar.append(node('i'), node('i'), node('i'), node('span', 'home-term-title', 'guest@jvz: ~'));
 
     const body = node('div', 'home-term-body');
     body.setAttribute('role', 'log');

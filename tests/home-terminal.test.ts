@@ -109,7 +109,7 @@ describe('home terminal commands', () => {
 
     it('echo of html input stays literal', () => {
         const evil = '<img src=x onerror=alert(1)>';
-        expect(lineText(promptLine(evil))).toBe(`jack@jvz:~$ ${evil}`);
+        expect(lineText(promptLine(evil))).toBe(`guest@jvz:~$ ${evil}`);
         expect(text(runCommand(evil, ctx))).toContain('command not found: <img');
     });
 
