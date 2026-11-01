@@ -34,6 +34,13 @@ const TYPE_CHARS = 2;
 const TYPE_TICK_MS = 18;
 const NAVIGATE_DELAY_MS = 250;
 const RESUME_FILENAME = 'Jack-Van-Zeeland-Resume.pdf';
+const PROGRESS_FRAME_MS = 50;
+const PROGRESS_WIDTH = 40;
+
+function progressText(fraction: number): string {
+    const f = Math.min(1, Math.max(0, fraction));
+    return `${'#'.repeat(Math.round(f * PROGRESS_WIDTH)).padEnd(PROGRESS_WIDTH, ' ')} ${(f * 100).toFixed(1)}%`;
+}
 
 const PROJECT_ENTRIES: ProjectEntry[] = WORK_ITEMS.map((item) => {
     const { href, external } = workItemHref(item);
@@ -114,6 +121,7 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
 
     const timers = new Set<ReturnType<typeof setTimeout>>();
     const bootTimers = new Set<ReturnType<typeof setTimeout>>();
+    const stageTimers = new Set<ReturnType<typeof setTimeout>>();
     const later = (fn: () => void, ms: number, set = timers) => {
         const id = setTimeout(() => {
             set.delete(id);
@@ -221,14 +229,52 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
         later(replay, BOOT_START_MS, bootTimers);
     }
 
+    // ── paced output (e.g. brew coffee) ──
+    let flushStage: (() => void) | null = null;
+
+    function playStaged(lines: Line[], pace: number[], progressLine?: number): void {
+        let i = 0;
+        let bar: HTMLElement | null = null;
+        const show = () => {
+            const row = renderLine(lines[i]);
+            output.appendChild(row);
+            if (i === progressLine) {
+                bar = row.firstElementChild as HTMLElement | null;
+                const duration = pace[i + 1] ?? 0;
+                const started = Date.now();
+                const frame = () => {
+                    const f = duration ? (Date.now() - started) / duration : 1;
+                    if (bar) bar.textContent = progressText(f);
+                    if (f < 1) later(frame, PROGRESS_FRAME_MS, stageTimers);
+                };
+                frame();
+            }
+            body.scrollTop = body.scrollHeight;
+            i++;
+            if (i < lines.length) later(show, pace[i], stageTimers);
+            else flushStage = null;
+        };
+        flushStage = () => {
+            stageTimers.forEach(clearTimeout);
+            stageTimers.clear();
+            if (bar) bar.textContent = progressText(1);
+            for (; i < lines.length; i++) output.appendChild(renderLine(lines[i]));
+            flushStage = null;
+        };
+        if (pace[0]) later(show, pace[0], stageTimers);
+        else show();
+    }
+
     // ── commands ──
     function execute(cmd: string): void {
         finishBoot();
+        flushStage?.();
         if (cmd.trim()) history.push(cmd);
         output.appendChild(renderLine(promptLine(cmd)));
         const result = runCommand(cmd, ctx());
         if (result.clear) output.replaceChildren();
-        for (const line of result.lines) output.appendChild(renderLine(line));
+        if (result.pace) playStaged(result.lines, result.pace, result.progressLine);
+        else for (const line of result.lines) output.appendChild(renderLine(line));
         body.scrollTop = body.scrollHeight;
         // New tabs and downloads run synchronously so they keep the
         // keypress/click's user activation (popup blockers need it).
@@ -282,6 +328,8 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
         destroy() {
             timers.forEach(clearTimeout);
             bootTimers.forEach(clearTimeout);
+            stageTimers.forEach(clearTimeout);
+            stageTimers.clear();
             timers.clear();
             bootTimers.clear();
         }

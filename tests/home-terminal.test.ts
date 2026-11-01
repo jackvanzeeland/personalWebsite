@@ -203,6 +203,13 @@ describe('home terminal commands', () => {
             expect(text(runCommand('brew', full))).toContain('usage: brew coffee');
         });
 
+        it('brew coffee is paced, with a filling progress bar', () => {
+            const r = runCommand('brew coffee', full);
+            expect(r.pace).toHaveLength(r.lines.length);
+            expect(r.pace!.reduce((a, b) => a + b, 0)).toBeGreaterThanOrEqual(2500);
+            expect(r.progressLine).toBe(1);
+        });
+
         it('tab completes project slugs and new commands', () => {
             const slugs = projects.map((p) => p.slug);
             expect(complete('cd projects/wor', slugs)).toBe('cd projects/wordle-solver');

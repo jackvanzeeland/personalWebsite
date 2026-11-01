@@ -37,6 +37,10 @@ export interface CommandResult {
     openUrl?: string;
     /** Download this file. */
     download?: string;
+    /** Milliseconds to wait before showing each line (same length as lines). */
+    pace?: number[];
+    /** Index of a progress-bar line that fills during the wait before the next line. */
+    progressLine?: number;
     clear?: boolean;
 }
 
@@ -160,7 +164,9 @@ const COMMANDS: Record<string, Handler> = {
                 [seg('######################################## 100.0%', 'dim')],
                 [seg('==> ', 'ok'), seg('Pouring coffee--2.0.chicago.bottle.tar.gz')],
                 [seg('  loading coffee ............... '), seg('ok', 'ok'), seg('  ☕ refilled', 'dim')]
-            ]
+            ],
+            pace: [0, 350, 1700, 900],
+            progressLine: 1
         };
     },
     contact: () => ({ lines: [[seg('opening '), { text: '/contact', tone: 'ok', href: '/contact' }, seg(' …')]], navigateTo: '/contact' }),

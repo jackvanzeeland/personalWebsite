@@ -249,4 +249,45 @@ describe('home terminal view', () => {
         expect(t.output()).toContain('2  whoami');
         t.destroy();
     });
+
+    it('brew coffee plays out over time with a filling bar', () => {
+        const t = mountTerminal({ animate: false });
+        t.input().value = 'brew coffee';
+        press(t.input(), 'Enter');
+        expect(t.output()).toContain('==> Downloading');
+        expect(t.output()).not.toContain('Pouring');
+        vi.advanceTimersByTime(700);
+        expect(t.output()).toMatch(/#+\s*\d+(\.\d)?%/);
+        expect(t.output()).not.toContain('100.0%');
+        vi.advanceTimersByTime(5000);
+        expect(t.output()).toContain('100.0%');
+        expect(t.output()).toContain('Pouring');
+        expect(t.output()).toContain('refilled');
+        t.destroy();
+    });
+
+    it('a new command mid-brew flushes the rest first', () => {
+        const t = mountTerminal({ animate: false });
+        t.input().value = 'brew coffee';
+        press(t.input(), 'Enter');
+        vi.advanceTimersByTime(300);
+        t.input().value = 'ls';
+        press(t.input(), 'Enter');
+        const out = t.output();
+        expect(out.indexOf('refilled')).toBeGreaterThan(-1);
+        expect(out.indexOf('refilled')).toBeLessThan(out.indexOf('guest@jvz:~$ ls'));
+        expect(out).toContain('100.0%');
+        vi.advanceTimersByTime(5000);
+        expect(t.output().match(/refilled/g)).toHaveLength(1);
+        t.destroy();
+    });
+
+    it('destroy mid-brew clears its timers', () => {
+        const t = mountTerminal({ animate: false });
+        t.input().value = 'brew coffee';
+        press(t.input(), 'Enter');
+        vi.advanceTimersByTime(300);
+        t.destroy();
+        expect(vi.getTimerCount()).toBe(0);
+    });
 });
