@@ -58,9 +58,9 @@
   ],
   "skills": {
     "programming": ["Python", "JavaScript", "TypeScript", "SQL", "VB.NET", "R", "HTML", "CSS"],
-    "automation": ["UiPath", "Power Automate", "Copilot Studio", "Claude", "Process Optimization"],
-    "data": ["Data Analysis", "Machine Learning", "Statistics", "Excel", "Tableau", "Pandas", "NumPy"],
-    "cloud": ["Azure Function Apps", "AWS S3", "AWS API Gateway", "AWS Lambda", "AWS Step Functions"],
+    "automation": ["UiPath", "Power Automate", "Copilot Studio", "Claude", "Excel", "Tableau", "Azure Function Apps", "AWS S3", "AWS API Gateway", "AWS Lambda", "AWS Step Functions", "Process Optimization"],
+    "data": ["Data Analysis", "Machine Learning", "Statistics", "Pandas", "NumPy"],
+    "cloud": [],
     "tools": ["Git", "Docker", "Agile", "JIRA", "Confluence", "Visual Studio Code"]
   },
   "certifications": [

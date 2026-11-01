@@ -27,7 +27,6 @@ function el<K extends keyof HTMLElementTagNameMap>(
 const SKILL_SECTIONS: [string, string][] = [
   ["programming-skills", "Programming"],
   ["automation-skills", "Automation & Tools"],
-  ["data-skills", "Data & Cloud"],
 ];
 
 function sectionHead(
@@ -56,7 +55,6 @@ async function loadSkills(): Promise<void> {
   };
   populate("programming-skills", skills.programming);
   populate("automation-skills", skills.automation);
-  populate("data-skills", [...(skills.data ?? []), ...(skills.cloud ?? [])]);
 }
 
 const view: View = {

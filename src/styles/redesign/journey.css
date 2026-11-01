@@ -47,7 +47,7 @@
 
 .journey-skills {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 26px;
   padding: 26px 30px;
   margin-bottom: 56px;
