@@ -21,7 +21,7 @@ const view: View = {
         const section = document.createElement('section');
         section.className = 'beyond container-x';
         section.appendChild(buildBeyondContent());
-        section.querySelectorAll('.sport-card, .media-accordion, .photo-gallery')
+        section.querySelectorAll('.sport-row, .media-accordion, .photo-gallery')
             .forEach((el) => el.setAttribute('data-reveal', ''));
         root.appendChild(section);
 

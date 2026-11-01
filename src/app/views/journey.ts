@@ -34,10 +34,10 @@ function sectionHead(
   meta: string,
   metaId?: string,
 ): HTMLElement {
-  const head = el("div", "journey-section-head");
-  const metaEl = el("p", "journey-section-meta", meta);
+  const head = el("div", "section-head");
+  const metaEl = el("p", "section-head-meta", meta);
   if (metaId) metaEl.id = metaId;
-  head.append(el("h2", "journey-section-title", title), metaEl);
+  head.append(el("h2", "section-head-title", title), metaEl);
   return head;
 }
 

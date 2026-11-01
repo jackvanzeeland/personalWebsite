@@ -13,7 +13,10 @@ import {
   WorkItem,
   workItemHref,
 } from "../../data/workItems";
-import { createOptimizedPicture, resolveImageSrc } from "../../utils/optimizedImage";
+import {
+  createOptimizedPicture,
+  resolveImageSrc,
+} from "../../utils/optimizedImage";
 import "../../styles/redesign/work.css";
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -28,8 +31,8 @@ function el<K extends keyof HTMLElementTagNameMap>(
 }
 
 function sectionHead(title: string, meta: HTMLElement): HTMLElement {
-  const head = el("div", "work-section-head");
-  head.append(el("h2", "work-section-title", title), meta);
+  const head = el("div", "section-head");
+  head.append(el("h2", "section-head-title", title), meta);
   return head;
 }
 
@@ -48,7 +51,10 @@ function renderAppTile(item: WorkItem): HTMLElement {
   const icon = el("div", "work-app-icon");
   if (item.image) {
     icon.appendChild(
-      createOptimizedPicture(resolveImageSrc(item.image), { alt: "", sizes: "72px" }),
+      createOptimizedPicture(resolveImageSrc(item.image), {
+        alt: "",
+        sizes: "72px",
+      }),
     );
   }
 
@@ -57,7 +63,8 @@ function renderAppTile(item: WorkItem): HTMLElement {
     el("h3", "work-app-name", item.title),
     el("p", "work-app-pitch", item.app?.pitch ?? item.description),
   );
-  if (item.app?.proof) body.appendChild(el("p", "work-app-proof", item.app.proof));
+  if (item.app?.proof)
+    body.appendChild(el("p", "work-app-proof", item.app.proof));
 
   const links = el("div", "work-app-links");
   const openHref = item.links.external;
@@ -111,7 +118,10 @@ function renderRow(item: WorkItem): HTMLAnchorElement {
 }
 
 /** Decorative preview panel; screen readers get the same info from the rows. */
-function renderPreview(): { aside: HTMLElement; show: (item: WorkItem) => void } {
+function renderPreview(): {
+  aside: HTMLElement;
+  show: (item: WorkItem) => void;
+} {
   const aside = el("aside", "work-preview panel");
   aside.setAttribute("aria-hidden", "true");
   const media = el("div", "work-preview-media");
@@ -150,14 +160,18 @@ const view: View = {
       el(
         "p",
         "work-sub",
-        `Side projects, experiments, and tools from my free time — built because I wanted them to exist. ${APP_ITEMS.length} of them are real apps that people use every week.`,
+        `Side projects, experiments, and tools from my free time — built because I wanted them to exist. ${APP_ITEMS.length} of them are real progressive web apps that I use weekly.`,
       ),
     );
 
     // Apps shelf
     const apps = el("section", "work-apps");
     apps.setAttribute("aria-labelledby", "work-apps-title");
-    const liveMeta = el("p", "work-section-meta work-section-meta-live", `● ${APP_ITEMS.length} LIVE · IN USE`);
+    const liveMeta = el(
+      "p",
+      "section-head-meta work-section-meta-live",
+      `● ${APP_ITEMS.length} LIVE · IN USE`,
+    );
     const appsHead = sectionHead("Apps", liveMeta);
     appsHead.querySelector("h2")!.id = "work-apps-title";
     const shelf = el("div", "work-app-grid");
@@ -200,7 +214,9 @@ const view: View = {
     layout.append(list, preview.aside);
 
     const onRowEnter = (e: Event): void => {
-      const row = (e.target as Element).closest("a.work-row") as HTMLElement | null;
+      const row = (e.target as Element).closest(
+        "a.work-row",
+      ) as HTMLElement | null;
       const item = row?.dataset.slug ? bySlug.get(row.dataset.slug) : undefined;
       if (item) preview.show(item);
     };

@@ -18,26 +18,27 @@ function el<K extends keyof HTMLElementTagNameMap>(
 
 /* ── Hero ──────────────────────────────────────────────────────────── */
 
-/** Same eyebrow → h1 → lede header every other view uses. */
-function buildHero(): HTMLElement {
-    const header = el('header', 'page-head');
-    header.append(
-        el('p', 'eyebrow', '// LIFE OUTSIDE THE TERMINAL'),
-        el('h1', undefined, 'Beyond the Code'),
+/** Eyebrow names the page, h1 speaks — same header rhythm as /projects and /journey. */
+function buildHero(): DocumentFragment {
+    const hero = document.createDocumentFragment();
+    hero.append(
+        el('p', 'eyebrow', '// BEYOND THE CODE'),
+        el('h1', undefined, 'Off the clock'),
         el(
             'p',
-            'page-lede',
+            'beyond-sub',
             "Running, sports, podcasts, and the photos in between — what keeps me busy when I'm not automating something."
         )
     );
-    return header;
+    return hero;
 }
 
-/** A titled block of the page, styled like /journey's "Timeline" section. */
-function buildBlock(title: string, note?: string): HTMLElement {
+/** A titled block: shared .section-head (title left, mono meta right). */
+function buildBlock(title: string, meta: string): HTMLElement {
     const block = el('section', 'beyond-block');
-    block.appendChild(el('h2', 'section-heading', title));
-    if (note) block.appendChild(el('p', 'beyond-note', note));
+    const head = el('div', 'section-head');
+    head.append(el('h2', 'section-head-title', title), el('p', 'section-head-meta', meta));
+    block.appendChild(head);
     return block;
 }
 
@@ -54,43 +55,43 @@ const SPORT_CARDS: SportCard[] = [
         title: 'Intramural Sports',
         description:
             'You can often find me on the field or court playing intramural softball, basketball, and volleyball. Sports have always been a huge part of my life, shaping my competitive spirit and love for teamwork.',
-        details: 'Softball • Basketball • Volleyball'
+        details: 'Softball · Basketball · Volleyball'
     },
     {
         title: 'Golf',
         description:
             "I enjoy hitting the links whenever I can, whether it's a casual round with friends or a more competitive outing. Golf is a great way to relax and enjoy the outdoors while challenging myself.",
-        details: 'Weekend warrior • Course explorer'
+        details: 'Weekend warrior · Course explorer'
     },
     {
         title: 'Running',
         description:
             "I started running in 2023, completing my first half-marathon that year. It's become one of my favorite ways to stay active and clear my head.",
-        details: 'Active runner • Half-marathon finisher'
+        details: 'Active runner · Half-marathon finisher'
     },
     {
         title: 'Weight Training',
         description:
             "When I'm not running, I'm in the gym focusing on strength training. Building physical strength complements mental discipline from programming.",
-        details: 'Strength training • Consistency focus'
+        details: 'Strength training · Consistency focus'
     }
 ];
 
-function buildSportCard(card: SportCard): HTMLElement {
-    const wrap = el('article', 'sport-card panel');
-    wrap.append(
-        el('p', 'sport-details', card.details),
-        el('h4', undefined, card.title),
-        el('p', 'sport-desc', card.description)
+function buildSportRow(card: SportCard): HTMLElement {
+    const row = el('li', 'sport-row');
+    row.append(
+        el('span', 'sport-row-title', card.title),
+        el('span', 'sport-row-desc', card.description),
+        el('span', 'sport-row-kind', card.details.toUpperCase())
     );
-    return wrap;
+    return row;
 }
 
 function buildSportsSection(): HTMLElement {
-    const block = buildBlock('Sports & fitness');
-    const grid = el('div', 'sport-grid');
-    SPORT_CARDS.forEach((card) => grid.appendChild(buildSportCard(card)));
-    block.appendChild(grid);
+    const block = buildBlock('Sports & fitness', `${SPORT_CARDS.length} · ACTIVE`);
+    const list = el('ul', 'sport-index');
+    SPORT_CARDS.forEach((card) => list.appendChild(buildSportRow(card)));
+    block.appendChild(list);
     return block;
 }
 
@@ -204,7 +205,8 @@ const CHEVRON_SVG =
 
 function buildAccordionShell(
     title: string,
-    panelId: string
+    panelId: string,
+    count: string
 ): { item: HTMLElement; panel: HTMLElement } {
     const item = el('div', 'accordion-item');
     const header = el('button', 'accordion-header');
@@ -212,6 +214,7 @@ function buildAccordionShell(
     header.setAttribute('aria-expanded', 'false');
     header.setAttribute('aria-controls', panelId);
     header.appendChild(el('span', 'accordion-title', title));
+    header.appendChild(el('span', 'accordion-count', count));
     // Rotated by CSS off aria-expanded (no <i>, so MediaAccordion leaves it alone)
     const chevron = el('span', 'accordion-chevron');
     chevron.innerHTML = CHEVRON_SVG;
@@ -227,8 +230,13 @@ function buildAccordionShell(
     return { item, panel };
 }
 
-function buildEmbedAccordionItem(title: string, panelId: string, embedsHTML: string): HTMLElement {
-    const { item, panel } = buildAccordionShell(title, panelId);
+function buildEmbedAccordionItem(
+    title: string,
+    panelId: string,
+    count: string,
+    embedsHTML: string
+): HTMLElement {
+    const { item, panel } = buildAccordionShell(title, panelId, count);
     panel.innerHTML = embedsHTML;
     return item;
 }
@@ -250,7 +258,11 @@ const AUDIOBOOKS: Audiobook[] = [
 ];
 
 function buildAudiobooksAccordionItem(): HTMLElement {
-    const { item, panel } = buildAccordionShell('Audiobooks', 'audiobooks-panel');
+    const { item, panel } = buildAccordionShell(
+        'Audiobooks',
+        'audiobooks-panel',
+        `${AUDIOBOOKS.length} BOOKS`
+    );
     const listWrap = el('div', 'audiobooks-list');
     const ol = el('ol', 'list-group');
     AUDIOBOOKS.forEach((book) => {
@@ -265,15 +277,12 @@ function buildAudiobooksAccordionItem(): HTMLElement {
 }
 
 function buildMediaSection(): HTMLElement {
-    const block = buildBlock(
-        'Recommendations',
-        "Movies, podcasts, episodes, and books I keep coming back to."
-    );
+    const block = buildBlock('Recommendations', 'MOVIES · PODCASTS · BOOKS');
     const accordion = el('div', 'media-accordion panel');
     accordion.append(
-        buildEmbedAccordionItem('Movies', 'movies-panel', MOVIES_EMBEDS),
-        buildEmbedAccordionItem('Podcasts', 'podcasts-panel', PODCASTS_EMBEDS),
-        buildEmbedAccordionItem('Podcast episodes', 'episodes-panel', EPISODES_EMBEDS),
+        buildEmbedAccordionItem('Movies', 'movies-panel', '3 FILMS', MOVIES_EMBEDS),
+        buildEmbedAccordionItem('Podcasts', 'podcasts-panel', '3 SHOWS', PODCASTS_EMBEDS),
+        buildEmbedAccordionItem('Podcast episodes', 'episodes-panel', '3 EPISODES', EPISODES_EMBEDS),
         buildAudiobooksAccordionItem()
     );
     block.appendChild(accordion);
@@ -293,7 +302,7 @@ function buildGalleryButton(id: string, label: string, text: string): HTMLButton
 }
 
 function buildLifeMomentsSection(): HTMLElement {
-    const block = buildBlock('Life moments', 'Races, games, and good days away from the screen.');
+    const block = buildBlock('Life moments', 'PHOTOS · @JACK.VANZEELAND');
 
     const gallery = el('div', 'photo-gallery');
     gallery.id = 'photo-gallery';

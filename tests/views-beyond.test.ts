@@ -9,17 +9,34 @@ describe('beyond view', () => {
     it('renders the hero', async () => {
         const root = document.getElementById('view-root')!;
         await beyondView.mount(root, {});
-        expect(root.querySelector('h1')?.textContent).toBe('Beyond the Code');
+        expect(root.querySelector('.eyebrow')?.textContent).toBe('// BEYOND THE CODE');
+        expect(root.querySelector('h1')?.textContent).toBe('Off the clock');
+        expect(root.querySelector('.page-head')).toBeNull();
         beyondView.unmount();
     });
 
-    it('renders 4 sport cards', async () => {
+    it('uses the shared section head for each block', async () => {
         const root = document.getElementById('view-root')!;
         await beyondView.mount(root, {});
-        const cards = root.querySelectorAll('.sport-card');
-        expect(cards.length).toBe(4);
-        const titles = [...cards].map((c) => c.querySelector('h4')?.textContent);
+        const titles = [...root.querySelectorAll('.section-head .section-head-title')].map(
+            (h) => h.textContent
+        );
+        expect(titles).toEqual(['Sports & fitness', 'Recommendations', 'Life moments']);
+        expect(root.querySelectorAll('.section-head .section-head-meta').length).toBe(3);
+        beyondView.unmount();
+    });
+
+    it('renders 4 sport rows', async () => {
+        const root = document.getElementById('view-root')!;
+        await beyondView.mount(root, {});
+        const rows = root.querySelectorAll('ul.sport-index > li.sport-row');
+        expect(rows.length).toBe(4);
+        const titles = [...rows].map((r) => r.querySelector('.sport-row-title')?.textContent);
         expect(titles).toEqual(['Intramural Sports', 'Golf', 'Running', 'Weight Training']);
+        expect(rows[0].querySelector('.sport-row-kind')?.textContent).toBe(
+            'SOFTBALL · BASKETBALL · VOLLEYBALL'
+        );
+        expect(root.querySelector('.sport-card, h4')).toBeNull();
         beyondView.unmount();
     });
 
@@ -32,6 +49,9 @@ describe('beyond view', () => {
         const headers = root.querySelectorAll('.accordion-header');
         const panelIds = [...headers].map((h) => h.getAttribute('aria-controls'));
         expect(panelIds).toEqual(['movies-panel', 'podcasts-panel', 'episodes-panel', 'audiobooks-panel']);
+
+        const counts = [...headers].map((h) => h.querySelector('.accordion-count')?.textContent);
+        expect(counts).toEqual(['3 FILMS', '3 SHOWS', '3 EPISODES', '5 BOOKS']);
 
         panelIds.forEach((id) => {
             expect(root.querySelector(`#${id}`)).toBeTruthy();

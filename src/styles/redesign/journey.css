@@ -80,30 +80,10 @@
   padding: 4px 9px;
 }
 
-/* Section heads — same rhythm as /projects (.work-section-head) */
+/* Section heads use the shared .section-head (base.css); a touch more air here */
 
-.journey-section-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px 24px;
-  padding-bottom: 14px;
+.journey .section-head {
   margin-bottom: 28px;
-  border-bottom: 1px solid var(--line);
-}
-
-.journey-section-title {
-  font-size: var(--fs-h2);
-  margin: 0;
-}
-
-.journey-section-meta {
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  letter-spacing: 0.1em;
-  color: var(--text-dim);
-  margin: 0;
 }
 
 .journey-timeline {
