@@ -20,6 +20,7 @@ export interface WorkItem {
     kind: 'project' | 'artifact';
     title: string;
     description: string;
+    seoDescription?: string;
     originStory?: string;
     technologies: string[];
     tags: string[];
@@ -63,6 +64,7 @@ function fromProject(project: Project): WorkItem {
         kind: project.tags.includes('Artifact') ? 'artifact' : 'project',
         title: project.title,
         description: project.description,
+        seoDescription: project.seoDescription,
         originStory: project.originStory || undefined,
         technologies: project.technologies,
         tags: project.tags,

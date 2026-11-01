@@ -1,6 +1,8 @@
 export interface Project {
     title: string;
     description: string;
+    /** Search-snippet copy (≤160 chars). Falls back to the description's first sentence(s). */
+    seoDescription?: string;
     originStory?: string;
     technologies: string[];
     tags: string[];

@@ -11,24 +11,13 @@ import "../styles/redesign/scene.css";
 import "../styles/redesign/footer.css";
 import "../styles/redesign/reveal.css";
 
-import { startRouter, RouteName, RouteMatch } from "./router";
+import { startRouter, RouteMatch } from "./router";
 import { renderNav } from "./nav";
 import { renderFooter } from "./footer";
 import type { View } from "./views/types";
+import { viewLoaders } from "./views/registry";
 import { initReveals } from "../utils/reveal";
 import { scheduleScene } from "../scene/stage";
-
-const viewLoaders: Record<
-  Exclude<RouteName, "notFound">,
-  () => Promise<{ default: View }>
-> = {
-  home: () => import("./views/home"),
-  work: () => import("./views/projects"),
-  workDetail: () => import("./views/workDetail"),
-  journey: () => import("./views/journey"),
-  beyond: () => import("./views/beyond"),
-  contact: () => import("./views/contact"),
-};
 
 let currentView: View | null = null;
 let mountToken = 0;

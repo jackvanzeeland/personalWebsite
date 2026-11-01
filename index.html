@@ -3,18 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- SEO head: defaults for the dev server. Every built page gets its own
+         values baked in by scripts/prerender.ts, and the router keeps them in
+         sync on client navigation (both via src/app/seo.ts). -->
     <meta
       name="description"
-      content="Jack Van Zeeland - Software Engineer Portfolio showcasing interactive projects, automation solutions, AI applications, and technical expertise"
-    />
-    <meta
-      name="keywords"
-      content="Jack Van Zeeland, portfolio, software engineer, automation, AI, machine learning, Python, TypeScript, web development, projects, developer, jackvanzeeland.com"
+      content="Jack Van Zeeland is a Chicago software engineer building automation, AI tooling, and side projects — 22 automations shipped, 48K+ hours saved."
     />
     <meta name="author" content="Jack Van Zeeland" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#04070f" />
     <link rel="canonical" href="https://jackvanzeeland.com/" />
+
+    <!-- Reveal animations only hide content once JS is known to be running -->
+    <script>document.documentElement.classList.add('js')</script>
 
     <!-- Security Headers -->
     <meta
@@ -24,52 +26,27 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <!-- Open Graph / X -->
+    <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://jackvanzeeland.com/" />
-    <meta property="og:title" content="Jack Van Zeeland - Software Engineer Portfolio" />
-    <meta property="og:description" content="Interactive portfolio showcasing technical projects, automation solutions, AI applications, and software engineering expertise" />
-    <meta property="og:image" content="https://jackvanzeeland.com/images/JVZLogo.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:site_name" content="Jack Van Zeeland Portfolio" />
+    <meta property="og:title" content="Jack Van Zeeland — Software Engineer" />
+    <meta property="og:description" content="Jack Van Zeeland is a Chicago software engineer building automation, AI tooling, and side projects — 22 automations shipped, 48K+ hours saved." />
+    <meta property="og:image" content="https://jackvanzeeland.com/og/default.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Jack Van Zeeland — Software Engineer, Chicago" />
+    <meta property="og:site_name" content="Jack Van Zeeland" />
     <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:url" content="https://jackvanzeeland.com/" />
-    <meta name="twitter:title" content="Jack Van Zeeland - Software Engineer Portfolio" />
-    <meta name="twitter:description" content="Interactive portfolio showcasing technical projects, automation solutions, AI applications, and software engineering expertise" />
-    <meta name="twitter:image" content="https://jackvanzeeland.com/images/JVZLogo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Jack Van Zeeland — Software Engineer" />
+    <meta name="twitter:description" content="Jack Van Zeeland is a Chicago software engineer building automation, AI tooling, and side projects — 22 automations shipped, 48K+ hours saved." />
+    <meta name="twitter:image" content="https://jackvanzeeland.com/og/default.jpg" />
+    <meta name="twitter:image:alt" content="Jack Van Zeeland — Software Engineer, Chicago" />
 
     <title>Jack Van Zeeland — Software Engineer</title>
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Jack Van Zeeland",
-        "url": "https://jackvanzeeland.com",
-        "sameAs": [
-          "https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/",
-          "https://github.com/jackvanzeeland"
-        ],
-        "jobTitle": "Software Engineer",
-        "description": "Software Engineer specializing in automation, AI applications, and interactive web development",
-        "knowsAbout": [
-          "Software Engineering",
-          "Automation",
-          "Artificial Intelligence",
-          "Python",
-          "TypeScript",
-          "Web Development",
-          "Data Science",
-          "Process Optimization"
-        ],
-        "image": "https://jackvanzeeland.com/images/JVZLogo.png"
-      }
-    </script>
+    <!-- schema.org graph, written by src/app/seo.ts -->
+    <script type="application/ld+json" id="structured-data"></script>
 
     <!-- Favicon & Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />

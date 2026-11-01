@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import projectsView, { isIconImage } from '../src/app/views/projects';
+import projectsView from '../src/app/views/projects';
+import { isIconImage } from '../src/utils/iconImage';
 import { allWorkTags } from '../src/data/workItems';
 
 describe('projects view', () => {

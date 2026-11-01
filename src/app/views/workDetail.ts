@@ -8,6 +8,7 @@
  * pauses the ambient scene while open (it has its own canvas show).
  */
 
+import { applySeo, projectSeo, routeSeo } from "../seo";
 import type { View } from "./types";
 import { requestFormation, pauseScene, resumeScene } from "../../scene/stage";
 import { latticeBuilder } from "../../scene/formations/lattice";
@@ -161,6 +162,7 @@ const view: View = {
 
     const item = getWorkItem(params.slug ?? "");
     if (!item) {
+      applySeo(document, routeSeo("notFound", `/projects/${params.slug ?? ""}`));
       section.append(
         el("p", "eyebrow", "// 404"),
         el("h1", undefined, "No such project"),
@@ -174,7 +176,7 @@ const view: View = {
       return;
     }
 
-    document.title = `${item.title} — Jack Van Zeeland`;
+    applySeo(document, projectSeo(item));
 
     const kindRow = el("div", "work-card-kind");
     kindRow.appendChild(

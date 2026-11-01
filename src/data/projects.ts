@@ -145,6 +145,8 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "Secret Santa Matching",
+    seoDescription:
+      "A Python Secret Santa matcher that never pairs anyone with themselves and lets each person privately reveal their match. Try it in the browser.",
     description:
       "Developed a Secret Santa partner-matching program in Python that ensures no one selects themselves and provides a private interface for users to view their match. This streamlined process for holiday gift exchanges while maintaining confidentiality.",
     originStory:
@@ -196,6 +198,8 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "Basketball Lineup Optimization",
+    seoDescription:
+      "An R tool built for a basketball coach: it tracks points scored and allowed per lineup, then ranks 2- to 5-player combinations to find the most effective ones.",
     description:
       "Developed a process for a friend that is a basketball coach that analyzes basketball game data by tracking points scored and allowed for each lineup throughout game. The tool then groups combinations of size 2, 3, 4, and 5 to identify the most effective lineups, helping optimize team performance.",
     originStory:
@@ -214,6 +218,8 @@ export const PROJECTS: Project[] = [
 
   {
     title: "Reddit Stories",
+    seoDescription:
+      "An automated Python bot that turned top Reddit stories into narrated, subtitled videos over Minecraft footage and uploaded them — 50,000+ views before retiring.",
     description:
       "Developed an automated social media bot in Python that retrieved top daily Reddit stories, converted them to speech, and paired audio with engaging Minecraft speed-run footage. The system generated subtitles from audio, compiled both full-length and short-form videos, and uploaded them automatically. The project gained over 20 subscribers and 50,000 views before decommissioning.",
     originStory:

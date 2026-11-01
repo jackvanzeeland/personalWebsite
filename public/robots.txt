@@ -9,6 +9,3 @@ Disallow: /_*
 Disallow: /admin/
 Disallow: /api/
 Disallow: /.well-known/
-
-# Crawl delay (optional)
-Crawl-delay: 1

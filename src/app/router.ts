@@ -10,14 +10,10 @@
  * and a sync test keeps them identical.
  */
 
-export type RouteName =
-    | 'home'
-    | 'work'
-    | 'workDetail'
-    | 'journey'
-    | 'beyond'
-    | 'contact'
-    | 'notFound';
+import { routeMeta, type RouteName } from './routeMeta';
+import { applySeo, routeSeo } from './seo';
+
+export { routeMeta, type RouteName };
 
 export interface RouteMatch {
     name: RouteName;
@@ -39,44 +35,6 @@ const ROUTES: RouteDef[] = [
     { name: 'beyond', pattern: /^\/beyond$/ },
     { name: 'contact', pattern: /^\/contact$/ }
 ];
-
-export const routeMeta: Record<RouteName, { title: string; description: string; accent: string }> = {
-    home: {
-        title: 'Jack Van Zeeland — Software Engineer',
-        description: 'Software engineer focused on automation, AI tooling, and building things that are actually useful.',
-        accent: '#38bdf8'
-    },
-    work: {
-        title: 'Projects — Jack Van Zeeland',
-        description: 'Projects, artifacts, and interactive tools: automation, algorithms, and AI applications.',
-        accent: '#818cf8'
-    },
-    workDetail: {
-        title: 'Projects — Jack Van Zeeland',
-        description: 'Project detail — Jack Van Zeeland.',
-        accent: '#818cf8'
-    },
-    journey: {
-        title: 'Journey — Jack Van Zeeland',
-        description: 'Career timeline, skills, and background of automation engineer Jack Van Zeeland.',
-        accent: '#34d399'
-    },
-    beyond: {
-        title: 'Beyond the Code — Jack Van Zeeland',
-        description: 'Photos and life beyond the code.',
-        accent: '#fbbf24'
-    },
-    contact: {
-        title: 'Contact — Jack Van Zeeland',
-        description: 'Get in touch: email, LinkedIn, GitHub, resume.',
-        accent: '#38bdf8'
-    },
-    notFound: {
-        title: 'Not found — Jack Van Zeeland',
-        description: 'Page not found.',
-        accent: '#38bdf8'
-    }
-};
 
 import { LEGACY_MAP } from './legacyRedirects.mjs';
 
@@ -110,23 +68,9 @@ export function matchRoute(path: string): RouteMatch {
 }
 
 function applyMeta(match: RouteMatch): void {
-    const meta = routeMeta[match.name];
-    document.title = meta.title;
-
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute('content', meta.description);
-
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', `https://jackvanzeeland.com${match.path === '/' ? '/' : match.path}`);
-
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', meta.title);
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) ogDesc.setAttribute('content', meta.description);
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', `https://jackvanzeeland.com${match.path}`);
-
-    document.documentElement.style.setProperty('--accent', meta.accent);
+    // Project pages refine this once their item resolves (workDetail view)
+    applySeo(document, routeSeo(match.name, match.path));
+    document.documentElement.style.setProperty('--accent', routeMeta[match.name].accent);
 }
 
 type RouteHandler = (match: RouteMatch) => void;

@@ -82,7 +82,7 @@ Open the local URL Vite prints (defaults to `http://localhost:3000`).
 | Command | Description |
 | --- | --- |
 | `npm run dev` | Start the Vite dev server |
-| `npm run build` | Image pipeline + redirect/sitemap generators + `tsc` + `vite build` |
+| `npm run build` | Image pipeline + redirect generator + `tsc` + `vite build` + prerender (static HTML per page + sitemap) |
 | `npm run preview` | Preview the production build |
 | `npm test` | Run the Vitest suite |
 | `npm run test:watch` | Vitest in watch mode |
@@ -99,7 +99,7 @@ src/scene/                  SceneDirector, formations, capability facade
 src/components/             ported tools (WordleSolver, SecretSanta, galleries, Timeline)
 src/data/                   projects/artifacts sources + workItems adapter
 src/styles/redesign/        design tokens + per-view CSS (dark only)
-scripts/                    image pipeline, redirect + sitemap generators
+scripts/                    image pipeline, redirect generator, prerender, OG images
 infrastructure.yaml         S3 + CloudFront (SPA routing function, legacy 301s)
 public/data/timeline.json   career timeline (drives /journey and its constellation)
 ```

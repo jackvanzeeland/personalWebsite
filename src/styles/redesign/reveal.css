@@ -1,13 +1,14 @@
-/* Scroll reveals — motion-gated */
+/* Scroll reveals — motion-gated, and only once JS is running (index.html
+   adds .js), so prerendered HTML stays readable without JavaScript. */
 
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
+  .js [data-reveal] {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
-  [data-reveal].in {
+  .js [data-reveal].in {
     opacity: 1;
     transform: none;
   }

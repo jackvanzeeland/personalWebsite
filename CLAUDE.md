@@ -10,11 +10,12 @@ for which agent to use for which kind of change.
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Vite dev server (port 3000) |
-| `npm run build` | image pipeline → redirect gen → sitemap gen → `tsc` → `vite build` |
+| `npm run build` | image pipeline → redirect gen → `tsc` → `vite build` → prerender (per-page HTML + `sitemap.xml`) |
 | `npm test` | `vitest run` (happy-dom, `tests/**/*.test.ts`) |
 | `npm run test:watch` | vitest watch mode |
 | `npm run lint` | `eslint . --max-warnings 0` |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm run og:images` | regenerate the committed 1200×630 share images in `public/og/` (run after changing a project's title/thumbnail) |
 | `npm run optimize:images` | rebuild `public/images/opt/` AVIF/WebP variants (gitignored, not run by `dev`) |
 | `npm run deploy` / `deploy:prod` | `./deploy.sh` |
 
@@ -43,6 +44,18 @@ Run `lint` + `typecheck` + `test` before calling anything done — none of them 
 - **Everything must degrade gracefully**: reduced-motion, save-data, and no-WebGL
   visitors get the static site with no three.js download (`src/utils/capabilities.ts`
   gates this). Check that gate before adding anything scene-related.
+- **Every page is prerendered at build time**: `scripts/prerender.ts` (vite-node +
+  happy-dom) mounts each route from `src/site/routes.ts` and writes
+  `dist/<route>/index.html` plus `dist/sitemap.xml`. All head tags (title,
+  description, canonical, OG/X, JSON-LD) come from `src/app/seo.ts`, the same module
+  the router and `workDetail` use on client navigation, so they can't drift. Page
+  copy lives in `src/app/routeMeta.ts`, and a project's `seoDescription` in
+  `src/data/projects.ts`. New routes or projects get picked up automatically;
+  `tests/seo.test.ts` checks length limits, uniqueness, and that each page's
+  `public/og/` image exists.
+- **Reveal animations are gated on `.js`** (an inline script in `index.html`) so
+  prerendered content stays visible without JavaScript. Keep any new hide-until-JS
+  CSS behind `.js`.
 - **Image variants are build-generated, not source**: `public/images/opt/` and
   `src/generated/imageManifest.ts` come from `scripts/optimize-images.mjs`. A fresh
   checkout shows broken `<picture>` sources until you run `npm run optimize:images`.
@@ -53,6 +66,9 @@ Run `lint` + `typecheck` + `test` before calling anything done — none of them 
 
 - Don't hand-edit the CloudFront function block in `infrastructure.yaml` — regenerate
   it from `legacyRedirects.mjs` via `scripts/generate-redirects.mjs`.
+- Don't apply the CloudFront function before the prerendered pages are deployed:
+  it serves `/<path>/index.html`, which only exists after a site deploy. Deploy the
+  site first, then update the stack.
 - Don't assume CI applies infrastructure changes: **GitHub Actions only syncs
   `dist/` to S3 and invalidates CloudFront** — a changed `infrastructure.yaml` needs
   a manual CloudFormation stack update before its redirects take effect.

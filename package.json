@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/optimize-images.mjs && node scripts/generate-redirects.mjs && node scripts/generate-sitemap.mjs && tsc && vite build",
+    "build": "node scripts/optimize-images.mjs && node scripts/generate-redirects.mjs && tsc && vite build && vite-node scripts/prerender.ts",
     "optimize:images": "node scripts/optimize-images.mjs",
     "preview": "vite preview",
     "test": "vitest run --passWithNoTests",
@@ -13,7 +13,8 @@
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "deploy": "./deploy.sh",
-    "deploy:prod": "./deploy.sh production"
+    "deploy:prod": "./deploy.sh production",
+    "og:images": "vite-node scripts/generate-og-images.ts"
   },
   "dependencies": {
     "papaparse": "^5.5.4",

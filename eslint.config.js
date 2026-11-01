@@ -17,6 +17,21 @@ export default [
     }
   },
   {
+    // Build scripts run by vite-node (prerender, OG images); not in tsconfig
+    files: ['scripts/**/*.ts'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: { ecmaVersion: 2022, sourceType: 'module' },
+      globals: { ...globals.node, ...globals.browser }
+    },
+    plugins: { '@typescript-eslint': typescript },
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-undef': 'off'
+    }
+  },
+  {
     files: ['src/**/*.ts'],
     languageOptions: {
       parser: typescriptParser,

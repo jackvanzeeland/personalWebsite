@@ -28,4 +28,14 @@ describe('redirect map sync', () => {
             expect(yaml).toContain(`"${from}": "${to}"`);
         }
     });
+
+    it('infrastructure.yaml embeds the generated function verbatim', () => {
+        const fn = readFileSync(FN_PATH, 'utf8').trimEnd();
+        const yaml = readFileSync(resolve(__dirname, '../infrastructure.yaml'), 'utf8');
+        const indented = fn
+            .split('\n')
+            .map((l) => (l ? `        ${l}` : ''))
+            .join('\n');
+        expect(yaml).toContain(indented);
+    });
 });

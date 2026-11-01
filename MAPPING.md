@@ -16,6 +16,13 @@ one persistent three.js particle formation (`src/scene/stage.ts`).
 | `/contact` | `contact` | `src/app/views/contact.ts` | `signalWave` | `#38bdf8` blue |
 | anything else | `notFound` | inline 404 markup in `main.ts` | — | — |
 
+Each route ships as its own prerendered file (`dist/<route>/index.html`, from
+`scripts/prerender.ts`). The CloudFront function serves that file, 301s trailing
+slashes to the canonical URL, and lets unknown paths fall through to a real 404
+(`404.html`). Project paths that CloudFront routes to separate apps (Woku, Super Bowl,
+Mortgage Simulator, Budget Tracker; see `infrastructure.yaml` cache behaviors) are
+excluded from prerendering and from the sitemap.
+
 Legacy URLs (old `.html` paths, old `/assets/...` paths) 301-redirect via
 `src/app/legacyRedirects.mjs` — the single source of truth, generated into
 `infrastructure/spa-router-function.js` for the CloudFront Function
@@ -55,6 +62,8 @@ scene/stage.ts → scheduleScene()   (mounted once by main.ts, outlives route ch
 | `src/data/projects.ts` | `/projects`, `/projects/:slug` | project copy, tags, `tool`/`page` keys that select an embedded artifact |
 | `src/data/workItems.ts` | `/projects` filtering | tag → tool/page lookup tables |
 | `public/data/timeline.json` | `/journey` | career timeline; drives both the Timeline component and the constellation formation |
+| `src/app/routeMeta.ts` + `src/app/seo.ts` | every page's `<head>` | titles/descriptions, canonical, OG/X cards, JSON-LD (Person, WebSite, CreativeWork/SoftwareApplication, BreadcrumbList) |
+| `public/og/` | link previews | committed 1200×630 share images from `npm run og:images` |
 | `src/generated/imageManifest.ts` | `optimizedImage.ts` | build-generated AVIF/WebP variant map from `scripts/optimize-images.mjs` |
 
 ## View module contract
