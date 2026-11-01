@@ -56,7 +56,7 @@ async function loadSkills(): Promise<void> {
   };
   populate("programming-skills", skills.programming);
   populate("automation-skills", skills.automation);
-  populate("data-skills", skills.data);
+  populate("data-skills", [...(skills.data ?? []), ...(skills.cloud ?? [])]);
 }
 
 const view: View = {
