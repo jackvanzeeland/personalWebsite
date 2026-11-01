@@ -119,7 +119,7 @@ export class PhotoGallery {
 
     // Create photo container
     const photoContainer = document.createElement("div");
-    photoContainer.className = "photo-container position-relative";
+    photoContainer.className = "photo-container";
 
     // Create current photo display
     const photoDisplay = document.createElement("div");
@@ -144,7 +144,7 @@ export class PhotoGallery {
             <div class="photo-wrapper">
                 ${optimizedPictureHTML(photo.image, {
                   alt: photo.title,
-                  className: "photo-image img-fluid rounded shadow-lg",
+                  className: "photo-image",
                   sizes: "(min-width: 768px) 720px, 100vw",
                 })}
                 <div class="photo-overlay">
@@ -159,7 +159,7 @@ export class PhotoGallery {
             <div class="photo-details">
                 <h5 class="photo-title">${photo.title}</h5>
                 <p class="photo-description">${photo.description}</p>
-                <small class="photo-date text-muted">${new Date(photo.date).toLocaleDateString()}</small>
+                <small class="photo-date">${new Date(photo.date).toLocaleDateString()}</small>
             </div>
         `;
   }
@@ -178,13 +178,24 @@ export class PhotoGallery {
   }
 
   setupKeyboardNavigation() {
-    document.addEventListener("keydown", (e) => {
+    // Stored so destroy() can remove it: the view remounts on every visit,
+    // and a leaked listener per visit made one arrow press skip photos.
+    this.onKeydown = (e) => {
+      const target = e.target;
+      if (target instanceof HTMLElement && target.closest("input, textarea, select, [contenteditable]")) return;
       if (e.key === "ArrowLeft") {
         this.previousPhoto();
       } else if (e.key === "ArrowRight") {
         this.nextPhoto();
       }
-    });
+    };
+    document.addEventListener("keydown", this.onKeydown);
+  }
+
+  destroy() {
+    if (this.onKeydown) document.removeEventListener("keydown", this.onKeydown);
+    this.onKeydown = null;
+    this.galleryElement = null;
   }
 
   setupTouchGestures() {
@@ -267,103 +278,3 @@ export class PhotoGallery {
 
 // Initialize the photo gallery
 // SPA: instantiated by the beyond view after its DOM mounts
-
-// Add custom styles for the gallery
-const galleryStyles = document.createElement("style");
-galleryStyles.textContent = `
-    .photo-gallery {
-        position: relative;
-        max-width: 800px;
-        margin: 0 auto;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .photo-container {
-        position: relative;
-        background: var(--bg-secondary);
-    }
-
-    .photo-display {
-        transition: opacity 0.3s ease;
-    }
-
-    .photo-wrapper {
-        position: relative;
-    }
-
-    .photo-image {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
-
-    .photo-overlay {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.9rem;
-    }
-
-    .photo-info {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        color: white;
-        padding: 2rem 1.5rem 1.5rem;
-    }
-
-    .photo-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-
-    .photo-description {
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
-        line-height: 1.4;
-    }
-
-    .gallery-controls {
-        margin-top: 1rem;
-    }
-
-    .photo-gallery-loading {
-        min-height: 400px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    @media (max-width: 768px) {
-        .photo-info {
-            padding: 1.5rem 1rem 1rem;
-        }
-        
-        .photo-title {
-            font-size: 1.1rem;
-        }
-        
-        .photo-description {
-            font-size: 0.9rem;
-        }
-        
-        .photo-overlay {
-            top: 0.5rem;
-            right: 0.5rem;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.8rem;
-        }
-    }
-`;
-
-document.head.appendChild(galleryStyles);

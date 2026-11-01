@@ -28,27 +28,6 @@ export interface TimelineItem {
     badgeColor?: string;
 }
 
-export interface JourneyData {
-    home?: boolean;
-    beyondTheCode?: boolean;
-    journey?: boolean;
-    projects_page?: boolean;
-    contact?: boolean;
-    projects?: string[];
-    achievements?: string[];
-    lastVisited?: string;
-    progress?: number;
-}
-
-export interface Achievement {
-    id: string;
-    title: string;
-    description: string;
-    icon: string;
-    unlocked: boolean;
-    unlockedAt?: string;
-}
-
 
 
 export interface Theme {

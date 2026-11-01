@@ -61,16 +61,31 @@ describe('beyond view', () => {
         beyondView.unmount();
     });
 
-    it('renders the photo gallery skeleton and Instagram embed', async () => {
+    it('renders the photo gallery skeleton and a static Instagram link', async () => {
         const root = document.getElementById('view-root')!;
         await beyondView.mount(root, {});
         expect(root.querySelector('#photo-gallery')).toBeTruthy();
         expect(root.querySelector('#photo-counter')).toBeTruthy();
         expect(root.querySelector('#prev-photo')).toBeTruthy();
         expect(root.querySelector('#next-photo')).toBeTruthy();
-        expect(
-            root.querySelector('blockquote.instagram-media')?.getAttribute('data-instgrm-permalink')
-        ).toBe('https://www.instagram.com/jack.vanzeeland/');
+        const insta = root.querySelector<HTMLAnchorElement>('a.gallery-insta');
+        expect(insta?.getAttribute('href')).toBe('https://www.instagram.com/jack.vanzeeland/');
+        expect(insta?.rel).toContain('noopener');
+        // No third-party embed script
+        expect(root.querySelector('script, blockquote.instagram-media')).toBeNull();
+        beyondView.unmount();
+    });
+
+    it('removes the gallery arrow-key listener on unmount', async () => {
+        const root = document.getElementById('view-root')!;
+        await beyondView.mount(root, {});
+        beyondView.unmount();
+        root.innerHTML = '';
+        await beyondView.mount(root, {});
+        const counter = root.querySelector('#photo-counter')!;
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+        // One listener → advances exactly one photo, not one per past visit
+        expect(counter.textContent).toMatch(/^2 \//);
         beyondView.unmount();
     });
 });

@@ -151,11 +151,11 @@ function renderYearEvents(items: TimelineItem[], today: Date): string {
                     <div class="d-flex gap-3 gap-md-4">
                         <div class="date-column" style="min-width: 100px;">
                             <time class="d-block fw-bold small">${formatMonthYear(monthKey)}</time>
-                            ${hasOverlap ? `<small class="text-warning fw-bold">⚡ ${monthItems.length} items</small>` : ''}
+                            ${hasOverlap ? `<small class="month-count">${monthItems.length} items</small>` : ''}
                         </div>
 
                         <div class="flex-grow-1 ${hasOverlap ? 'overlap-container' : ''}">
-                            ${monthItems.map((item) => renderEventCard(item, today)).join('')}
+                            ${renderMonthCards(monthItems, today)}
                         </div>
                     </div>
                 </div>
@@ -163,6 +163,50 @@ function renderYearEvents(items: TimelineItem[], today: Date): string {
         });
 
     return html;
+}
+
+/**
+ * Jobs and degrees first, then certifications. Several certs from one issuer
+ * in the same month collapse into a single card so a burst of short courses
+ * doesn't bury the actual roles.
+ */
+function renderMonthCards(items: TimelineItem[], today: Date): string {
+    const primary = items.filter((item) => item.type !== 'certification');
+    const certsByOrg = new Map<string, TimelineItem[]>();
+    items
+        .filter((item) => item.type === 'certification')
+        .forEach((item) => {
+            const group = certsByOrg.get(item.organization) ?? [];
+            group.push(item);
+            certsByOrg.set(item.organization, group);
+        });
+
+    const certCards = [...certsByOrg.values()].map((group) =>
+        group.length > 1 ? renderCertGroupCard(group) : renderEventCard(group[0], today)
+    );
+    return [...primary.map((item) => renderEventCard(item, today)), ...certCards].join('');
+}
+
+function renderCertGroupCard(items: TimelineItem[]): string {
+    const typeInfo = getTypeInfo('certification');
+    const org = items[0].organization;
+    return `
+        <div class="timeline-event-card cert-group card border-2 border-${typeInfo.colorClass} mb-3"
+             data-type="certification"
+             data-event-id="${escapeHtml(items.map((i) => i.id).join(' '))}">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge bg-${typeInfo.colorClass}">${typeInfo.label}</span>
+                </div>
+                <h5 class="card-title mb-2 fw-bold">${items.length} ${escapeHtml(org)} courses</h5>
+                <ul class="cert-list">
+                    ${items
+                        .map((i) => `<li title="${escapeHtml(i.description)}">${escapeHtml(i.title)}</li>`)
+                        .join('')}
+                </ul>
+            </div>
+        </div>
+    `;
 }
 
 function renderEventCard(item: TimelineItem, today: Date): string {
@@ -177,7 +221,7 @@ function renderEventCard(item: TimelineItem, today: Date): string {
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <span class="badge bg-${typeInfo.colorClass} ${isOngoing ? 'pulse-badge' : ''}">
-                        ${typeInfo.icon} ${typeInfo.label}${isOngoing ? ' • ONGOING' : ''}
+                        ${typeInfo.label}${isOngoing ? ' • ONGOING' : ''}
                     </span>
                     <small class="text-muted fw-semibold">${escapeHtml(duration)}</small>
                 </div>
@@ -190,7 +234,6 @@ function renderEventCard(item: TimelineItem, today: Date): string {
                     : ''}
 
                 <small class="text-muted d-block mt-2">
-                    <i class="far fa-calendar"></i>
                     ${formatDate(item.startDate)} → ${item.isPresent ? 'Present' : formatDate(item.endDate)}
                 </small>
             </div>
@@ -228,11 +271,11 @@ function calculateDuration(startDate: string, endDate: string, isPresent: boolea
     return `${years} year${years !== 1 ? 's' : ''}, ${remainingMonths} month${remainingMonths !== 1 ? 's' : ''}`;
 }
 
-function getTypeInfo(type: TimelineItem['type']): { icon: string; label: string; colorClass: string } {
+function getTypeInfo(type: TimelineItem['type']): { label: string; colorClass: string } {
     const types = {
-        education: { icon: '🎓', label: 'EDUCATION', colorClass: 'primary' },
-        work: { icon: '💼', label: 'WORK', colorClass: 'success' },
-        certification: { icon: '🏆', label: 'CERTIFICATION', colorClass: 'warning' }
+        education: { label: 'EDUCATION', colorClass: 'primary' },
+        work: { label: 'WORK', colorClass: 'success' },
+        certification: { label: 'CERTIFICATION', colorClass: 'warning' }
     };
     return types[type] || types.work;
 }

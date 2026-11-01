@@ -10,7 +10,7 @@
 }
 
 .work h1 {
-  font-size: clamp(34px, 5vw, 52px);
+  font-size: var(--fs-h1);
 }
 
 .work-sub {
@@ -28,7 +28,7 @@
 
 .work-chip {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.12em;
   color: var(--text-dim);
   background: transparent;
@@ -74,10 +74,64 @@
   display: none;
 }
 
+.work-card-img {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-raise);
+  border-bottom: 1px solid var(--line);
+}
+
 .work-card-img img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  display: block;
+  /* One grade for every thumbnail so AI art, photos, and logos read as a set */
+  filter: saturate(0.8) brightness(0.82);
+  transition: filter 0.3s ease, transform 0.4s ease;
+}
+
+/* Fade the image into the card body */
+.work-card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 55%, rgba(4, 7, 15, 0.55));
+  pointer-events: none;
+}
+
+.work-card:hover .work-card-img img {
+  filter: none;
+  transform: scale(1.03);
+}
+
+/* App icons / logos: contained on the panel, not cropped full-bleed */
+.work-card-img-icon {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 55%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
+    var(--bg-raise);
+}
+
+.work-card-img-icon picture {
+  display: contents;
+}
+
+.work-card-img-icon img {
+  width: auto;
+  height: 46%;
+  max-width: 60%;
+  aspect-ratio: auto;
+  object-fit: contain;
+  border-radius: 18%;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+.work-card:hover .work-card-img-icon img {
+  transform: scale(1.06);
 }
 
 .work-card-img-empty {
@@ -90,7 +144,7 @@
 
 .work-card-glyph {
   font-family: var(--font-mono);
-  font-size: 28px;
+  font-size: var(--fs-h2);
   color: var(--text-faint);
 }
 
@@ -109,7 +163,7 @@
 
 .work-kind {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.2em;
 }
 
@@ -126,12 +180,12 @@
 }
 
 .work-card-title {
-  font-size: 18px;
+  font-size: var(--fs-h3);
   margin: 0;
 }
 
 .work-card-desc {
-  font-size: 13px;
+  font-size: var(--fs-small);
   color: var(--text-dim);
   line-height: 1.55;
   display: -webkit-box;
@@ -139,10 +193,13 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0;
-  flex: 1;
+  /* No flex-grow here: stretching the clamped box let a 4th line peek out */
+  max-height: calc(1.55em * 3);
 }
 
 .work-card-tech {
+  margin-top: auto;
+  padding-top: 4px;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
@@ -150,7 +207,7 @@
 
 .work-tag {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.08em;
   color: var(--accent-cyan);
   border: 1px solid rgba(56, 189, 248, 0.3);
@@ -160,7 +217,7 @@
 
 .work-count {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   color: var(--text-faint);
   margin-top: 22px;
 }

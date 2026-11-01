@@ -18,7 +18,7 @@
 
 .site-nav-brand {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--fs-body-sm);
   letter-spacing: 0.2em;
   color: var(--accent-cyan);
   font-weight: 600;
@@ -33,7 +33,7 @@
   display: flex;
   gap: 28px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0.15em;
 }
 
@@ -98,7 +98,7 @@
 
   .site-nav-links a {
     padding: 12px 24px;
-    font-size: 13px;
+    font-size: var(--fs-small);
   }
 
   .site-nav.open .site-nav-toggle span:first-child {

@@ -62,5 +62,9 @@ describe('WORK_ITEMS adapter', () => {
         expect(new Set(tags).size).toBe(tags.length);
         expect([...tags].sort()).toEqual(tags);
         expect(tags.length).toBeGreaterThan(0);
+        // Kind marker, not a filter topic
+        expect(tags).not.toContain('Artifact');
+        // Filter row stays scannable
+        expect(tags.length).toBeLessThanOrEqual(8);
     });
 });

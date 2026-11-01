@@ -12,7 +12,6 @@ import {
   workItemHref,
 } from "../../data/workItems";
 import { createOptimizedPicture, resolveImageSrc } from "../../utils/optimizedImage";
-import { unlockAchievement } from "../../utils/journey";
 import "../../styles/redesign/work.css";
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -26,6 +25,14 @@ function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
+/**
+ * App icons / logos look broken when cropped to 16:9 with object-fit: cover,
+ * so they get a contained, centered treatment instead of a full-bleed photo.
+ */
+export function isIconImage(src: string): boolean {
+  return /(apple-touch-icon|icon-\d+|[/_-]logo)/i.test(src);
+}
+
 function renderCard(item: WorkItem): HTMLAnchorElement {
   const card = el("a", "work-card panel");
   const dest = workItemHref(item);
@@ -35,6 +42,9 @@ function renderCard(item: WorkItem): HTMLAnchorElement {
   card.setAttribute("data-reveal", "");
 
   const imgWrap = el("div", "work-card-img");
+  if (item.image && isIconImage(item.image)) {
+    imgWrap.classList.add("work-card-img-icon");
+  }
   if (item.image) {
     imgWrap.appendChild(
       createOptimizedPicture(resolveImageSrc(item.image), {
@@ -129,7 +139,6 @@ const view: View = {
       if (!chip) return;
       chips.forEach((c) => c.classList.toggle("active", c === chip));
       applyFilter(chip.dataset.tag ?? null);
-      unlockAchievement("filter_user");
     });
 
     root.appendChild(section);

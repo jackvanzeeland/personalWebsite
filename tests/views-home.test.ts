@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import homeView from '../src/app/views/home';
+import { PROJECTS } from '../src/data/projects';
+import homeView, { STATS } from '../src/app/views/home';
 
 describe('home view', () => {
     beforeEach(() => {
@@ -19,5 +20,10 @@ describe('home view', () => {
         expect(ctas).toContain('/journey');
 
         homeView.unmount();
+    });
+
+    it('side-project stat matches the real project count', () => {
+        const stat = STATS.find(([, label]) => label === 'SIDE PROJECTS');
+        expect(stat?.[0]).toBe(String(PROJECTS.length));
     });
 });

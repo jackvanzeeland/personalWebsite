@@ -25,9 +25,9 @@ function el<K extends keyof HTMLElementTagNameMap>(
 
 const FILTERS: [string, string][] = [
     ['all', 'ALL'],
-    ['education', '🎓 EDUCATION'],
-    ['work', '💼 WORK'],
-    ['certification', '🏆 CERTS']
+    ['education', 'EDUCATION'],
+    ['work', 'WORK'],
+    ['certification', 'CERTS']
 ];
 
 const SKILL_SECTIONS: [string, string][] = [

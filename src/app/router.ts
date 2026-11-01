@@ -42,17 +42,17 @@ const ROUTES: RouteDef[] = [
 
 export const routeMeta: Record<RouteName, { title: string; description: string; accent: string }> = {
     home: {
-        title: 'Jack Van Zeeland — Automation Engineer',
+        title: 'Jack Van Zeeland — Software Engineer',
         description: 'Software engineer focused on automation, AI tooling, and building things that are actually useful.',
         accent: '#38bdf8'
     },
     work: {
-        title: 'Work — Jack Van Zeeland',
+        title: 'Projects — Jack Van Zeeland',
         description: 'Projects, artifacts, and interactive tools: automation, algorithms, and AI applications.',
         accent: '#818cf8'
     },
     workDetail: {
-        title: 'Work — Jack Van Zeeland',
+        title: 'Projects — Jack Van Zeeland',
         description: 'Project detail — Jack Van Zeeland.',
         accent: '#818cf8'
     },

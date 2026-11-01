@@ -31,7 +31,7 @@
 
 .contact-sub {
   color: var(--text-dim);
-  font-size: 16px;
+  font-size: var(--fs-body);
   max-width: 480px;
   margin: 0 auto 36px;
 }
@@ -45,7 +45,7 @@
 
 .contact-location {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.25em;
   color: var(--text-faint);
   margin-top: 48px;

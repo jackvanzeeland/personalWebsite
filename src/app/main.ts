@@ -14,9 +14,7 @@ import "../styles/redesign/reveal.css";
 import { startRouter, RouteName, RouteMatch } from "./router";
 import { renderNav } from "./nav";
 import { renderFooter } from "./footer";
-import { initAchievementTracker } from "./achievementTracker";
 import type { View } from "./views/types";
-import { markPageAsVisited } from "../utils/journey";
 import { initReveals } from "../utils/reveal";
 import { scheduleScene } from "../scene/stage";
 
@@ -76,7 +74,6 @@ async function showRoute(match: RouteMatch): Promise<void> {
     currentView = module.default;
     await currentView.mount(viewRoot, match.params);
     initReveals(viewRoot);
-    markPageAsVisited();
   } catch (err) {
     console.error("View failed to load:", err);
   }
@@ -88,5 +85,4 @@ document.addEventListener("DOMContentLoaded", () => {
     void showRoute(match);
   });
   scheduleScene();
-  initAchievementTracker();
 });

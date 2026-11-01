@@ -98,6 +98,11 @@ export function getWorkItem(slug: string): WorkItem | undefined {
     return WORK_ITEMS.find((item) => item.slug === slug);
 }
 
+/** "Artifact" marks kind (shown on every card), not a topic to filter by. */
+const NON_FILTER_TAGS = new Set(['Artifact']);
+
 export function allWorkTags(): string[] {
-    return [...new Set(WORK_ITEMS.flatMap((item) => item.tags))].sort();
+    return [...new Set(WORK_ITEMS.flatMap((item) => item.tags))]
+        .filter((tag) => !NON_FILTER_TAGS.has(tag))
+        .sort();
 }

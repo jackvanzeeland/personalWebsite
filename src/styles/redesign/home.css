@@ -28,6 +28,8 @@
   object-fit: cover;
   border-radius: 50%;
   border: 1px solid var(--line);
+  /* Calm the busy stone backdrop so the portrait sits in the dark palette */
+  filter: saturate(0.82) brightness(0.9) contrast(1.04);
   box-shadow:
     0 0 0 6px rgba(10, 16, 32, 0.6),
     0 0 60px color-mix(in srgb, var(--accent) 22%, transparent);
@@ -45,7 +47,7 @@
 
 .home-sub {
   margin-top: 20px;
-  font-size: 16px;
+  font-size: var(--fs-body);
   color: var(--text-dim);
   max-width: 440px;
 }
@@ -67,6 +69,17 @@
 
 .home-stat {
   text-align: center;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.home-stat:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.home-stat:hover .home-stat-label {
+  color: var(--text-dim);
 }
 
 .home-stat-num {
@@ -83,7 +96,7 @@
 }
 
 .home-stat-label {
-  font-size: 9px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.2em;
   color: var(--text-faint);
   margin-top: 4px;
@@ -91,7 +104,7 @@
 
 .home-tag {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.08em;
   color: var(--accent-cyan);
   border: 1px solid rgba(56, 189, 248, 0.3);

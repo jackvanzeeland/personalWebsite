@@ -59,4 +59,30 @@ describe('timeline render', () => {
         expect(container.textContent).toContain('Feb 2024');
         expect(container.textContent).not.toContain('Jan 2024');
     });
+
+    it('groups same-month certifications from one issuer into a single card', async () => {
+        const cert = (id: string, title: string) => ({
+            id, title, organization: 'Anthropic', type: 'certification',
+            startDate: '2026-06-01', endDate: '2026-06-29', isPresent: false, description: 'x'
+        });
+        vi.stubGlobal('fetch', vi.fn(async () => ({
+            json: async () => ({
+                timelineItems: [
+                    FIXTURE.timelineItems[0],
+                    cert('a', 'Claude 101'),
+                    cert('b', 'Claude Code 101'),
+                    cert('c', 'Claude Code in Action')
+                ]
+            })
+        })));
+        await initializeTimeline();
+        const container = document.getElementById('timeline-container')!;
+        const certCards = container.querySelectorAll('.timeline-event-card[data-type="certification"]');
+        expect(certCards.length).toBe(1);
+        expect(certCards[0].textContent).toContain('3 Anthropic courses');
+        expect(certCards[0].querySelectorAll('li').length).toBe(3);
+        expect(container.querySelectorAll('.timeline-event-card[data-type="work"]').length).toBe(1);
+        // Badges are plain labels, no emoji
+        expect(container.textContent).not.toMatch(/[🏆🎓💼⚡]/u);
+    });
 });

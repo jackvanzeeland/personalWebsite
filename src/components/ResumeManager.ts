@@ -83,7 +83,7 @@ export class ResumeManager {
         return {
             personalInfo: {
                 name: "Jack Van Zeeland",
-                title: "Software Engineer & Automation Specialist",
+                title: "Software Engineer",
                 contact: {
                     email: "jack.vanzeeland@outlook.com",
                     phone: "920.883.0243",

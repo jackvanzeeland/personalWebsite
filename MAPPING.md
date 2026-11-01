@@ -62,4 +62,4 @@ scene/stage.ts → scheduleScene()   (mounted once by main.ts, outlives route ch
 Every entry in `main.ts`'s `viewLoaders` default-exports a `View`
 (`src/app/views/types.ts`): `mount(root: HTMLElement, params) => void | Promise<void>`
 and `unmount() => void`. `main.ts` awaits `mount`, calls `initReveals(viewRoot)` for
-scroll-reveal animation, then `markPageAsVisited()`.
+scroll-reveal animation.

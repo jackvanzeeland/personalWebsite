@@ -21,10 +21,11 @@ function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
-const STATS: [string, string][] = [
-  ["22", "AUTOMATIONS"],
-  ["48K+", "HOURS SAVED"],
-  ["16", "PERSONAL PROJECTS"],
+/** [number, label, where the number comes from] */
+export const STATS: [string, string, string][] = [
+  ["22", "AUTOMATIONS AT WORK", "/journey"],
+  ["48K+", "HOURS SAVED", "/journey"],
+  ["16", "SIDE PROJECTS", "/projects"],
 ];
 
 const view: View = {
@@ -44,15 +45,16 @@ const view: View = {
     );
 
     const ctas = el("div", "home-ctas");
-    const work = el("a", "btn-glow", "Explore the projects →");
+    const work = el("a", "btn-glow", "See the side projects →");
     work.href = "/projects";
     const journey = el("a", "btn-ghost", "The journey");
     journey.href = "/journey";
     ctas.append(work, journey);
 
     const stats = el("div", "home-stats");
-    for (const [num, label] of STATS) {
-      const stat = el("div", "home-stat");
+    for (const [num, label, href] of STATS) {
+      const stat = el("a", "home-stat");
+      stat.href = href;
       stat.append(
         el("div", "home-stat-num", num),
         el("div", "home-stat-label", label),

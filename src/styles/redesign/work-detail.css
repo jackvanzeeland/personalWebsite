@@ -9,7 +9,7 @@
 .detail-back {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0.15em;
   color: var(--text-dim);
   margin-bottom: 28px;
@@ -21,7 +21,7 @@
 }
 
 .detail h1 {
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: var(--fs-h1);
   margin-top: 10px;
 }
 
@@ -49,7 +49,7 @@
 
 .detail-desc {
   color: var(--text-dim);
-  font-size: 16px;
+  font-size: var(--fs-body);
 }
 
 .detail-story {
@@ -84,7 +84,7 @@
 
 .detail-story-chevron {
   font-family: var(--font-mono);
-  font-size: 18px;
+  font-size: var(--fs-h3);
   color: var(--accent-teal);
   transition: transform 0.2s ease;
 }
@@ -95,7 +95,7 @@
 
 .detail-story-text {
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: var(--fs-body-sm);
   line-height: 1.6;
   padding: 0 18px 20px;
   margin: 0;
@@ -108,7 +108,7 @@
 
 .work-kind {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.2em;
 }
 
@@ -133,7 +133,7 @@
 
 .work-tag {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.08em;
   color: var(--accent-cyan);
   border: 1px solid rgba(56, 189, 248, 0.3);
@@ -173,7 +173,7 @@
 
 .detail-demo-desc {
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: var(--fs-body-sm);
   margin-bottom: 22px;
 }
 
