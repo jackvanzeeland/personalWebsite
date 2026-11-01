@@ -290,4 +290,46 @@ describe('home terminal view', () => {
         t.destroy();
         expect(vi.getTimerCount()).toBe(0);
     });
+
+    describe('startAfter gate', () => {
+        it('waits for the gate instead of the fixed delay', async () => {
+            let open!: () => void;
+            const gate = new Promise<void>((r) => (open = r));
+            const t = createTerminal({ animate: true, startAfter: gate, now: NOW });
+            document.body.appendChild(t.el);
+            await vi.advanceTimersByTimeAsync(2000);
+            expect(t.el.classList.contains('is-ready')).toBe(false);
+            open();
+            await vi.advanceTimersByTimeAsync(0);
+            expect(t.el.classList.contains('is-ready')).toBe(true);
+            await vi.advanceTimersByTimeAsync(10_000);
+            expect(t.el.querySelector('.home-term-statement')?.textContent).toBe(HOME_STATEMENT);
+            t.destroy();
+        });
+
+        it('destroy before the gate opens means no replay and no errors', async () => {
+            let open!: () => void;
+            const gate = new Promise<void>((r) => (open = r));
+            const t = createTerminal({ animate: true, startAfter: gate, now: NOW });
+            t.destroy();
+            open();
+            await vi.advanceTimersByTimeAsync(0);
+            expect(vi.getTimerCount()).toBe(0);
+            expect(t.el.classList.contains('is-ready')).toBe(false);
+        });
+
+        it('a click while waiting shows the finished state; the gate then does nothing', async () => {
+            let open!: () => void;
+            const gate = new Promise<void>((r) => (open = r));
+            const t = createTerminal({ animate: true, startAfter: gate, now: NOW });
+            document.body.appendChild(t.el);
+            click(t.el.querySelector('button[data-cmd="ls"]')!);
+            expect(t.el.classList.contains('is-ready')).toBe(true);
+            open();
+            await vi.advanceTimersByTimeAsync(5000);
+            expect(t.el.querySelector('.home-term-statement')?.textContent).toBe(HOME_STATEMENT);
+            expect(t.el.querySelector('.home-term-output')?.textContent).toContain('projects/');
+            t.destroy();
+        });
+    });
 });

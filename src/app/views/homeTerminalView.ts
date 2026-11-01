@@ -53,6 +53,8 @@ interface TerminalOptions {
     navigate?: (path: string) => void;
     /** Full page load, for projects served by a separate app. */
     assign?: (url: string) => void;
+    /** Start the boot replay when this settles instead of after the fixed delay (phone monogram intro). */
+    startAfter?: Promise<unknown>;
     now?: () => Date;
 }
 
@@ -83,6 +85,11 @@ function renderLine(line: Line): HTMLDivElement {
     return row;
 }
 
+/** Has this session already seen the boot sequence? */
+export function hasBooted(): boolean {
+    return readFlag();
+}
+
 function readFlag(): boolean {
     try {
         return sessionStorage.getItem(BOOT_FLAG) === '1';
@@ -99,7 +106,8 @@ function writeFlag(): void {
     }
 }
 
-function isCompact(): boolean {
+/** Stacked phone/portrait layout (same cutoff as monogram.ts). */
+export function isCompact(): boolean {
     try {
         return window.matchMedia(COMPACT_QUERY).matches;
     } catch {
@@ -180,6 +188,7 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
 
     // ── boot replay ──
     let booting = false;
+    let destroyed = false;
 
     function finishBoot(): void {
         if (!booting) return;
@@ -226,7 +235,14 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
         writeFlag();
         booting = true;
         el.classList.remove('is-ready');
-        later(replay, BOOT_START_MS, bootTimers);
+        if (opts.startAfter) {
+            const begin = () => {
+                if (booting && !destroyed) replay();
+            };
+            opts.startAfter.then(begin, begin);
+        } else {
+            later(replay, BOOT_START_MS, bootTimers);
+        }
     }
 
     // ── paced output (e.g. brew coffee) ──
@@ -326,6 +342,7 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
     return {
         el,
         destroy() {
+            destroyed = true;
             timers.forEach(clearTimeout);
             bootTimers.forEach(clearTimeout);
             stageTimers.forEach(clearTimeout);

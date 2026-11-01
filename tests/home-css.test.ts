@@ -27,4 +27,10 @@ describe('home terminal CSS', () => {
         const alpha = term.match(/background:\s*rgba\([^)]*,\s*([0-9.]+)\)/)?.[1];
         expect(Number(alpha)).toBeLessThanOrEqual(0.3);
     });
+
+    it('the whole phone terminal waits out the monogram intro, then fades in', () => {
+        const compact = css.match(/@media \(max-aspect-ratio: 11\/10\) \{([\s\S]*?)\n\}/)?.[1] ?? '';
+        expect(compact).toMatch(/\.js \.home-term:not\(\.is-ready\) \{[^}]*opacity:\s*0/);
+        expect(compact).toMatch(/\.home-term \{[^}]*transition:[^}]*opacity/);
+    });
 });

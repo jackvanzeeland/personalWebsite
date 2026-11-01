@@ -311,6 +311,12 @@ a.tone-ok {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     box-shadow: none;
+    transition: opacity 600ms ease, border-color 0.15s ease;
+  }
+
+  /* Whole terminal stays out of the way while the monogram forms */
+  .js .home-term:not(.is-ready) {
+    opacity: 0;
   }
 
   .home-term-body,
@@ -326,5 +332,23 @@ a.tone-ok {
     height: auto;
     max-height: 168px;
     padding: 10px 12px;
+  }
+}
+
+/* Phone monogram intro: the particles form "JVZ" first, then dim behind the
+   hero (home.ts toggles the class on <html>; removed when leaving home). */
+#scene-root {
+  transition: opacity 900ms ease;
+}
+
+@media (max-aspect-ratio: 11/10) {
+  html.home-scene-dim #scene-root {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #scene-root {
+    transition: none;
   }
 }

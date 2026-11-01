@@ -217,3 +217,13 @@ Keep the terminal logic in a pure, unit-testable module (e.g. `src/app/views/hom
 links in `dist/index.html`; and a manual check in `npm run dev` confirms the first-visit boot, the instant render on
 reload in the same tab, reduced motion, `cd projects` morphing the particles, and no overlap with the avatar at
 mobile, tablet and desktop widths.
+
+## Addendum (2026-11-01): phone monogram intro
+
+Approved by Jack after testing. On the compact (phone/portrait) layout the monogram has no empty zone, so:
+
+- The home view calls `loadSceneNow()` (`src/scene/stage.ts`), which skips the low tier's wait for a first tap/scroll. That's about 125KB of three.js per phone homepage visit. Reduced motion, save-data and no-WebGL visitors are unchanged.
+- **First visit in a session:** the whole terminal stays hidden while "JVZ" forms (`sceneReady()` + 1.9s, capped at 2.5s after mount, with no wait if particles will never load). Then `html.home-scene-dim` fades `#scene-root` to 30% and the terminal fades in and boots.
+- **Later visits:** dimmed immediately, with the finished terminal.
+- Leaving home removes the dim class. Desktop is unaffected.
+- On phones the terminal is see-through (25% background, no blur, text shadow).

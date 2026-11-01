@@ -6,11 +6,11 @@
  */
 
 import type { View } from "./types";
-import { requestFormation } from "../../scene/stage";
+import { loadSceneNow, requestFormation, sceneReady } from "../../scene/stage";
 import { monogramBuilder } from "../../scene/formations/monogram";
 import { createOptimizedPicture } from "../../utils/optimizedImage";
 import { prefersReducedMotion } from "../../utils/capabilities";
-import { createTerminal } from "./homeTerminalView";
+import { createTerminal, hasBooted, isCompact } from "./homeTerminalView";
 import { createOdometer } from "./homeOdometer";
 import "../../styles/redesign/home.css";
 
@@ -25,8 +25,43 @@ function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
+/** On <html> while the phone monogram is dimmed behind the hero. */
+export const SCENE_DIM_CLASS = "home-scene-dim";
+/** Particle morph (1600ms in SceneDirector) plus a beat to read it. */
+const MONOGRAM_FORM_MS = 1900;
+/** Never hold the terminal back longer than this. */
+const INTRO_CAP_MS = 2500;
+
 let terminal: { destroy(): void } | null = null;
 let odometer: { destroy(): void } | null = null;
+let introTimers: ReturnType<typeof setTimeout>[] = [];
+let mounted = false;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    introTimers.push(setTimeout(resolve, ms));
+  });
+}
+
+function dimScene(): void {
+  if (mounted) document.documentElement.classList.add(SCENE_DIM_CLASS);
+}
+
+/**
+ * Phones stack the hero over the monogram, so there's no empty zone for it.
+ * Load the particles right away (skipping the low tier's first-tap wait),
+ * let "JVZ" form in the open on the first visit, then dim it to a backdrop
+ * and start the terminal. Returns the gate the terminal boot waits on.
+ */
+function phoneIntro(firstVisit: boolean): Promise<void> | undefined {
+  loadSceneNow();
+  if (!firstVisit) {
+    dimScene();
+    return undefined;
+  }
+  const formed = sceneReady().then((ok) => (ok ? sleep(MONOGRAM_FORM_MS) : undefined));
+  return Promise.race([formed, sleep(INTRO_CAP_MS)]).then(dimScene);
+}
 
 const view: View = {
   mount(root) {
@@ -38,8 +73,11 @@ const view: View = {
     const eyebrow = el("p", "eyebrow", "// SOFTWARE ENGINEER — CHICAGO");
     const h1 = el("h1", "home-name");
     h1.append("Jack ", el("br"), "Van Zeeland");
+    mounted = true;
     const reducedMotion = prefersReducedMotion();
-    const term = createTerminal({ animate: !reducedMotion });
+    const animate = !reducedMotion;
+    const startAfter = isCompact() ? phoneIntro(animate && !hasBooted()) : undefined;
+    const term = createTerminal({ animate, startAfter });
     const odo = createOdometer({ reducedMotion });
     terminal = term;
     odometer = odo;
@@ -62,6 +100,10 @@ const view: View = {
 
   unmount() {
     // DOM is cleared by the shell; only timers need stopping
+    mounted = false;
+    introTimers.forEach(clearTimeout);
+    introTimers = [];
+    document.documentElement.classList.remove(SCENE_DIM_CLASS);
     terminal?.destroy();
     odometer?.destroy();
     terminal = null;
