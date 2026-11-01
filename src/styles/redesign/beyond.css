@@ -33,11 +33,12 @@
   padding: 0;
 }
 
+/* Fixed title column → descriptions line up on every row */
 .sport-row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
   align-items: baseline;
-  gap: 6px 24px;
+  gap: 8px 32px;
   padding: 16px 12px;
   border-bottom: 1px solid var(--line);
   border-radius: 8px;
@@ -48,34 +49,38 @@
   background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
 
-.sport-row-title {
-  flex: 1 1 200px;
+.sport-row-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   min-width: 0;
+}
+
+.sport-row-title {
   font-family: var(--font-display);
   font-size: var(--fs-h3);
   font-weight: 500;
   color: var(--text-bright);
 }
 
+.sport-row-kind {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  color: var(--accent);
+}
+
 .sport-row-desc {
-  flex: 2 1 320px;
   min-width: 0;
   font-size: var(--fs-small);
   line-height: 1.5;
   color: var(--text-dim);
 }
 
-.sport-row-kind {
-  flex: 0 0 220px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.08em;
-  color: var(--accent);
-}
-
 @media (max-width: 720px) {
-  .sport-row-kind {
-    flex: 0 0 auto;
+  .sport-row {
+    grid-template-columns: 1fr;
   }
 }
 

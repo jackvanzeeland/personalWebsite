@@ -78,13 +78,14 @@ const SPORT_CARDS: SportCard[] = [
 
 function buildSportRow(card: SportCard): HTMLElement {
   const row = el("li", "sport-row");
-  row.append(
-    el("span", "sport-row-title", card.title),
-    el("span", "sport-row-desc", card.description),
-  );
+  // Title column holds the optional tag underneath, so every description
+  // starts at the same x regardless of whether the row has a tag.
+  const head = el("div", "sport-row-head");
+  head.appendChild(el("span", "sport-row-title", card.title));
   if (card.details) {
-    row.appendChild(el("span", "sport-row-kind", card.details.toUpperCase()));
+    head.appendChild(el("span", "sport-row-kind", card.details.toUpperCase()));
   }
+  row.append(head, el("span", "sport-row-desc", card.description));
   return row;
 }
 
