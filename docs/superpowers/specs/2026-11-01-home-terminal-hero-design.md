@@ -62,6 +62,18 @@ Width: the terminal fills `.home-hero-text` (max ~600px). It must not overlap th
 avatar is pinned at 69vw (`home.css`), so between about 900px and 1150px a 600px terminal would collide with it.
 Narrow the terminal at those widths, and leave the breakpoint and avatar alone.
 
+**Narrow screens (Jack's decision).** At the narrow layout (aspect ≤ 1.1, where `monogramBuilder` puts the monogram
+lower-center, full width, and where `home.css`'s `max-width: 900px` block applies), the terminal goes **compact** so
+the monogram stays visible below it:
+- No boot lines, on any visit. The body shows only the statement (typed on a first visit, instant otherwise) and the
+  hint.
+- The typing area is small: a single-line prompt, with the body capped at about 3–4 lines of output and scrolling
+  inside itself.
+- The chips are the main way in; typing still works.
+- The odometer stays under the terminal.
+- Don't move the monogram or change `stage.ts` formations. Verify on a phone-sized and a portrait-tablet viewport
+  that most of the monogram is visible below the hero content.
+
 Styling: dark-only and token-driven (`tokens.css`: `--bg-raise`/`--panel`, `--line`, `--accent`, `--accent-teal` for
 the prompt, `--accent-warm` for warnings, `--font-mono`). The statement line renders in the body font, not mono, so it
 reads as prose. The prototype's look is approved; match it.
@@ -194,7 +206,9 @@ Keep the terminal logic in a pure, unit-testable module (e.g. `src/app/views/hom
 
 - Exact file split, class names and CSS structure (one stylesheet per view rule still applies: `home.css`).
 - Exact boot timings and typing speed, within the feel of the prototype.
-- Mobile terminal height and whether the chip row wraps or scrolls horizontally.
+- Exact compact-terminal height (within "monogram mostly visible") and whether the chip row wraps or scrolls
+  horizontally.
+- Whether the compact mode is triggered by a CSS media query, a JS aspect check matching `monogram.ts`, or both.
 - Whether `ls projects` / `cd projects/<slug>` is supported (nice to have, not required).
 
 ## Done when
