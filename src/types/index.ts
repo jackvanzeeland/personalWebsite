@@ -1,5 +1,12 @@
 export type ImageStyle = 'icon' | 'cover';
 
+export interface ProjectApp {
+    /** One-line pitch shown on the shelf tile. */
+    pitch: string;
+    /** Short, factual proof-of-use line (rendered uppercase). */
+    proof: string;
+}
+
 export interface Project {
     title: string;
     description: string;
@@ -22,6 +29,11 @@ export interface Project {
     imageStyle: ImageStyle;
     status?: string;
     featured?: boolean;
+    /**
+     * Set on live, in-use apps: they get a tile on the /projects "Apps" shelf
+     * instead of a row in the project index.
+     */
+    app?: ProjectApp;
     live_demo?: string;
     webpage_link?: string;
 }

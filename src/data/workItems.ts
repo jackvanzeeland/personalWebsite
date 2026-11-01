@@ -5,7 +5,7 @@
  */
 
 import { PROJECTS } from './projects';
-import type { ImageStyle, Project } from '../types';
+import type { ImageStyle, Project, ProjectApp } from '../types';
 
 export type WorkTool =
     | 'wordle-solver'
@@ -27,6 +27,8 @@ export interface WorkItem {
     image?: string;
     imageStyle: ImageStyle;
     featured: boolean;
+    /** Live, in-use app: shown on the /projects shelf, not in the index. */
+    app?: ProjectApp;
     links: {
         github?: string;
         youtube?: string;
@@ -72,6 +74,7 @@ function fromProject(project: Project): WorkItem {
         image: project.image || undefined,
         imageStyle: project.imageStyle,
         featured: Boolean(project.featured),
+        app: project.app,
         links: {
             github: project.github_link || undefined,
             youtube: project.youtube_link || undefined,
@@ -84,6 +87,12 @@ function fromProject(project: Project): WorkItem {
 }
 
 export const WORK_ITEMS: WorkItem[] = PROJECTS.map(fromProject);
+
+/** Live apps, shown as tiles on the /projects "Apps" shelf. */
+export const APP_ITEMS: WorkItem[] = WORK_ITEMS.filter((item) => item.app);
+
+/** Everything else, shown in the filterable /projects index. */
+export const INDEX_ITEMS: WorkItem[] = WORK_ITEMS.filter((item) => !item.app);
 
 /**
  * Card destination for an item. Items whose app lives under a dedicated
@@ -105,8 +114,17 @@ export function getWorkItem(slug: string): WorkItem | undefined {
 /** "Artifact" marks kind (shown on every card), not a topic to filter by. */
 const NON_FILTER_TAGS = new Set(['Artifact']);
 
-export function allWorkTags(): string[] {
-    return [...new Set(WORK_ITEMS.flatMap((item) => item.tags))]
+function topicTags(items: WorkItem[]): string[] {
+    return [...new Set(items.flatMap((item) => item.tags))]
         .filter((tag) => !NON_FILTER_TAGS.has(tag))
         .sort();
+}
+
+export function allWorkTags(): string[] {
+    return topicTags(WORK_ITEMS);
+}
+
+/** Filter chips for the /projects index (the app shelf isn't filtered). */
+export function indexWorkTags(): string[] {
+    return topicTags(INDEX_ITEMS);
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { WORK_ITEMS, getWorkItem, allWorkTags, workItemHref } from '../src/data/workItems';
+import { WORK_ITEMS, APP_ITEMS, INDEX_ITEMS, getWorkItem, allWorkTags, indexWorkTags, workItemHref } from '../src/data/workItems';
 import { PROJECTS } from '../src/data/projects';
 
 describe('WORK_ITEMS adapter', () => {
@@ -55,6 +55,26 @@ describe('WORK_ITEMS adapter', () => {
         // detail page (which links out), same as the other subdomain apps.
         const woku = WORK_ITEMS.find((i) => i.title === 'Woku')!;
         expect(workItemHref(woku)).toEqual({ href: '/projects/woku', external: false });
+    });
+
+    it('APP_ITEMS and INDEX_ITEMS partition the catalog', () => {
+        expect(APP_ITEMS.length + INDEX_ITEMS.length).toBe(WORK_ITEMS.length);
+        for (const item of APP_ITEMS) {
+            expect(INDEX_ITEMS).not.toContain(item);
+            expect(item.app?.pitch.trim(), item.title).toBeTruthy();
+            expect(item.app?.proof.trim(), item.title).toBeTruthy();
+            expect(item.links.external, item.title).toBeTruthy();
+        }
+        for (const item of INDEX_ITEMS) expect(item.app).toBeUndefined();
+    });
+
+    it('indexWorkTags only offers topics present in the index', () => {
+        const tags = indexWorkTags();
+        expect([...tags].sort()).toEqual(tags);
+        expect(tags).not.toContain('Artifact');
+        for (const tag of tags) {
+            expect(INDEX_ITEMS.some((i) => i.tags.includes(tag)), tag).toBe(true);
+        }
     });
 
     it('allWorkTags is deduped and sorted', () => {
