@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
     imageStyle: "icon",
     app: {
       pitch: "Contacts organized by venue, sorted by how close you are.",
-      proof: "Built for a friend in bar sales",
+      proof: "Location-based contacts tool",
     },
     page: "",
     is_interactive: true,
