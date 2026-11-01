@@ -61,7 +61,8 @@
   }
 
   /* Stacked flow: centered portrait above the content; the monogram
-     forms lower-center (mid-viewport), behind the compact terminal. */
+     forms lower-center (mid-viewport), showing through the see-through
+     compact terminal. */
   .home-avatar {
     position: static;
     transform: none;
@@ -304,6 +305,19 @@ a.tone-ok {
 /* Compact terminal on the stacked layout (same cutoff as monogram.ts) so
    the monogram stays visible below the hero */
 @media (max-aspect-ratio: 11/10) {
+  /* See-through on phones: the monogram forms right behind the terminal */
+  .home-term {
+    background: rgba(4, 7, 15, 0.25);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .home-term-body,
+  .home-term-chips {
+    text-shadow: 0 1px 3px var(--bg), 0 0 8px var(--bg);
+  }
+
   .home-term-boot {
     display: none;
   }

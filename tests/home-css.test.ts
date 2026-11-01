@@ -19,4 +19,12 @@ describe('home terminal CSS', () => {
     it('gives the focused terminal a visible accent cue', () => {
         expect(topLevelRule('.home-term:focus-within') ?? '').toMatch(/var\(--accent\)/);
     });
+
+    it('the compact (phone) terminal is see-through so the monogram shows', () => {
+        const compact = css.match(/@media \(max-aspect-ratio: 11\/10\) \{([\s\S]*?)\n\}/)?.[1] ?? '';
+        const term = compact.match(/\.home-term \{([^}]*)\}/)?.[1] ?? '';
+        expect(term).toMatch(/backdrop-filter:\s*none/);
+        const alpha = term.match(/background:\s*rgba\([^)]*,\s*([0-9.]+)\)/)?.[1];
+        expect(Number(alpha)).toBeLessThanOrEqual(0.3);
+    });
 });
