@@ -60,3 +60,26 @@ describe('constellation specifics', () => {
         expect(xB).toBeLessThan(xC);
     });
 });
+
+describe('monogram placement', () => {
+    const HALF_H = 28.6;
+    // 1000×800 … 21:9 — every wide layout (aspect > 1.1)
+    const WIDE_ASPECTS = [1.2, 1.25, 1.33, 1.5, 1.6, 16 / 9, 2.0, 2.4];
+
+    it.each(WIDE_ASPECTS)('at aspect %s the glyphs stay right of the hero column (≥60% of screen width) and on screen', (aspect) => {
+        const count = 1200;
+        const f = monogramBuilder(count, aspect);
+        const halfW = HALF_H * aspect;
+        const glyphs = Math.floor(count * 0.85);
+        let minScreenX = Infinity, maxScreenX = -Infinity, minY = Infinity;
+        for (let i = 0; i < glyphs; i++) {
+            const sx = 0.5 + f.targets[i * 3] / (2 * halfW);
+            minScreenX = Math.min(minScreenX, sx);
+            maxScreenX = Math.max(maxScreenX, sx);
+            minY = Math.min(minY, f.targets[i * 3 + 1]);
+        }
+        expect(minScreenX).toBeGreaterThanOrEqual(0.6);
+        expect(maxScreenX).toBeLessThanOrEqual(0.93);
+        expect(minY).toBeGreaterThan(-HALF_H * 0.95);
+    });
+});

@@ -86,15 +86,17 @@ export function monogramBuilder(count: number, aspect: number): Formation {
     const halfH = VIEW_HALF_H;
     const halfW = halfH * aspect;
 
-    // Hero zones: desktop puts text upper-left and the portrait upper-right,
-    // leaving the lower-right quadrant free — the monogram owns it. On
-    // narrow screens the content stacks down the middle, so the monogram
-    // sits lower-center behind the CTAs/stats, full width.
+    // Hero zones: desktop puts text (incl. the up-to-600px home terminal,
+    // whose right edge reaches ~57% of the screen) upper-left and the
+    // portrait upper-right, leaving the lower-right free — the monogram owns
+    // it, kept right of 60% screen width. On narrow screens the content
+    // stacks down the middle, so the monogram sits lower-center, full width
+    // (home.ts lets it form first, then dims it behind the hero).
     let cx: number, cy: number, fitW: number, fitH: number;
     if (aspect > 1.1) {
-        cx = halfW * 0.38;
+        cx = halfW * 0.56;
         cy = -halfH * 0.42;
-        fitW = halfW * 0.78;
+        fitW = halfW * 0.58;
         fitH = halfH * 0.62;
     } else {
         cx = 0;
