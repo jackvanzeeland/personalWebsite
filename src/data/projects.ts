@@ -14,7 +14,7 @@ export const PROJECTS: Project[] = [
     imageStyle: "icon",
     app: {
       pitch: "Spending by category, monthly trends and vendor breakdowns.",
-      proof: "Friends & family have accounts",
+      proof: "My customized budgeting tool",
     },
     page: "",
     is_interactive: true,
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
     imageStyle: "icon",
     app: {
       pitch: "Contacts organized by venue, sorted by how close you are.",
-      proof: "Used by a bar-industry sales team",
+      proof: "Built for a friend in bar sales",
     },
     page: "",
     is_interactive: true,
