@@ -27,6 +27,16 @@ describe('CloudFront SPA router function', () => {
         expect(res.headers.location.value).toBe('/projects?ref=li');
     });
 
+    it('never redirects off-site via protocol-relative paths', () => {
+        for (const uri of ['//evil/', '///evil/', '/\\evil/', '/\\/evil/']) {
+            const res = request(uri);
+            expect(res.statusCode, uri).toBe(301);
+            const location: string = res.headers.location.value;
+            expect(location, uri).toMatch(/^\/[^/\\]/);
+            expect(location, uri).toBe('/evil');
+        }
+    });
+
     it('still 301s legacy URLs', () => {
         const res = request('/pages/about.html');
         expect(res.statusCode).toBe(301);

@@ -64,9 +64,13 @@ function handler(event) {
     return request;
   }
 
-  // One URL per page: /projects/ → /projects (matches the canonical tag)
+  // One URL per page: /projects/ → /projects (matches the canonical tag).
+  // Collapse leading slashes/backslashes so the Location is always a
+  // same-site path: "//evil.com/" must not become a protocol-relative
+  // redirect to another host (browsers treat "\\" like "/").
   if (normalized !== uri) {
-    return redirect(normalized + querystring(request));
+    var safePath = '/' + normalized.replace(/^[\\/\\\\]+/, '');
+    return redirect(safePath + querystring(request));
   }
 
   // Each page is a prerendered file: /projects/x → /projects/x/index.html.
