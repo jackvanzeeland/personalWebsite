@@ -48,33 +48,31 @@ function buildBlock(title: string, meta?: string): HTMLElement {
 interface SportCard {
   title: string;
   description: string;
-  details: string;
+  /** Optional mono tag; only rows that need the extra detail carry one. */
+  details?: string;
 }
 
 const SPORT_CARDS: SportCard[] = [
   {
     title: "Intramural Sports",
     description:
-      "You can often find me on the field or court playing intramural softball, basketball, and volleyball. Sports have always been a huge part of my life, shaping my competitive spirit and love for teamwork.",
-    details: "Softball · Basketball · Volleyball",
+      "You can often find me on the field or court playing intramural softball, basketball, volleyball, and soccer. Sports have always been a huge part of my life, shaping my competitive spirit and love for teamwork.",
+    details: "Softball · Basketball · Volleyball · Soccer",
   },
   {
     title: "Golf",
     description:
       "I enjoy hitting the links whenever I can, whether it's a casual round with friends or a more competitive outing. Golf is a great way to relax and enjoy the outdoors while challenging myself.",
-    details: "Weekend warrior · Course explorer",
   },
   {
     title: "Running",
     description:
       "I started running in 2023, completing my first half-marathon that year. It's become one of my favorite ways to stay active and clear my head.",
-    details: "Active runner · Half-marathon finisher",
   },
   {
     title: "Weight Training",
     description:
       "When I'm not running, I'm in the gym focusing on strength training. Building physical strength complements mental discipline from programming.",
-    details: "Strength training · Consistency focus",
   },
 ];
 
@@ -83,8 +81,10 @@ function buildSportRow(card: SportCard): HTMLElement {
   row.append(
     el("span", "sport-row-title", card.title),
     el("span", "sport-row-desc", card.description),
-    el("span", "sport-row-kind", card.details.toUpperCase()),
   );
+  if (card.details) {
+    row.appendChild(el("span", "sport-row-kind", card.details.toUpperCase()));
+  }
   return row;
 }
 

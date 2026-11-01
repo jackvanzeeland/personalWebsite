@@ -34,8 +34,10 @@ describe('beyond view', () => {
         const titles = [...rows].map((r) => r.querySelector('.sport-row-title')?.textContent);
         expect(titles).toEqual(['Intramural Sports', 'Golf', 'Running', 'Weight Training']);
         expect(rows[0].querySelector('.sport-row-kind')?.textContent).toBe(
-            'SOFTBALL · BASKETBALL · VOLLEYBALL'
+            'SOFTBALL · BASKETBALL · VOLLEYBALL · SOCCER'
         );
+        // Only intramural sports carries a tag
+        expect(root.querySelectorAll('.sport-row-kind').length).toBe(1);
         expect(root.querySelector('.sport-card, h4')).toBeNull();
         beyondView.unmount();
     });
