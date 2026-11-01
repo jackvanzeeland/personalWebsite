@@ -105,7 +105,7 @@
   transform: scale(1.03);
 }
 
-/* App icons / logos: contained on the panel, not cropped full-bleed */
+/* imageStyle: "icon" (src/data/projects.ts) — contained on the panel, not cropped */
 .work-card-img-icon {
   aspect-ratio: 16 / 9;
   display: flex;
@@ -126,7 +126,7 @@
   max-width: 60%;
   aspect-ratio: auto;
   object-fit: contain;
-  border-radius: 18%;
+  border-radius: 14px; /* fixed, so wide logos (Wordle) keep round corners too */
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
 }
 

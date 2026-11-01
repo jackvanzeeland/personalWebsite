@@ -12,7 +12,6 @@ import {
   workItemHref,
 } from "../../data/workItems";
 import { createOptimizedPicture, resolveImageSrc } from "../../utils/optimizedImage";
-import { isIconImage } from "../../utils/iconImage";
 import "../../styles/redesign/work.css";
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -35,7 +34,7 @@ function renderCard(item: WorkItem): HTMLAnchorElement {
   card.setAttribute("data-reveal", "");
 
   const imgWrap = el("div", "work-card-img");
-  if (item.image && isIconImage(item.image)) {
+  if (item.image && item.imageStyle === "icon") {
     imgWrap.classList.add("work-card-img-icon");
   }
   if (item.image) {

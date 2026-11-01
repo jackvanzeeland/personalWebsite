@@ -5,7 +5,7 @@
  */
 
 import { PROJECTS } from './projects';
-import type { Project } from '../types';
+import type { ImageStyle, Project } from '../types';
 
 export type WorkTool =
     | 'wordle-solver'
@@ -25,6 +25,7 @@ export interface WorkItem {
     technologies: string[];
     tags: string[];
     image?: string;
+    imageStyle: ImageStyle;
     featured: boolean;
     links: {
         github?: string;
@@ -69,6 +70,7 @@ function fromProject(project: Project): WorkItem {
         technologies: project.technologies,
         tags: project.tags,
         image: project.image || undefined,
+        imageStyle: project.imageStyle,
         featured: Boolean(project.featured),
         links: {
             github: project.github_link || undefined,

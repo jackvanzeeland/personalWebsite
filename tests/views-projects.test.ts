@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import projectsView from '../src/app/views/projects';
-import { isIconImage } from '../src/utils/iconImage';
+import { PROJECTS } from '../src/data/projects';
 import { allWorkTags } from '../src/data/workItems';
 
 describe('projects view', () => {
@@ -24,15 +24,24 @@ describe('projects view', () => {
     });
 });
 
-describe('isIconImage', () => {
-    it('flags app icons and logos', () => {
-        expect(isIconImage('https://journal.jackvanzeeland.com/apple-touch-icon.png')).toBe(true);
-        expect(isIconImage('https://lists.jackvanzeeland.com/icons/icon-192.png')).toBe(true);
-        expect(isIconImage('uipath_logo.jpeg')).toBe(true);
+describe('thumbnail framing', () => {
+    it('every project declares an explicit imageStyle', () => {
+        for (const p of PROJECTS) {
+            expect(['icon', 'cover'], p.title).toContain(p.imageStyle);
+        }
     });
 
-    it('leaves photos and artwork full-bleed', () => {
-        expect(isIconImage('wordleMain.png')).toBe(false);
-        expect(isIconImage('partnerMatchingMain.jpeg')).toBe(false);
+    it('cards follow the declared style, not the file name', async () => {
+        document.body.innerHTML = '<main id="view-root"></main>';
+        const root = document.getElementById('view-root')!;
+        await projectsView.mount(root, {});
+        const iconTitles = [...root.querySelectorAll('.work-card')]
+            .filter((c) => c.querySelector('.work-card-img-icon'))
+            .map((c) => c.querySelector('.work-card-title')?.textContent);
+        const expected = PROJECTS.filter((p) => p.imageStyle === 'icon').map((p) => p.title);
+        expect(iconTitles.sort()).toEqual(expected.sort());
+        // Wordle's file name never matched the old heuristic; it's explicit now
+        expect(iconTitles).toContain('Wordle Algorithm Solver');
+        projectsView.unmount();
     });
 });

@@ -53,6 +53,10 @@ Run `lint` + `typecheck` + `test` before calling anything done — none of them 
   `src/data/projects.ts`. New routes or projects get picked up automatically;
   `tests/seo.test.ts` checks length limits, uniqueness, and that each page's
   `public/og/` image exists.
+- **Every project declares `imageStyle`** (`"icon"` for logos and app tiles shown
+  contained, `"cover"` for photos and artwork cropped full-bleed) in
+  `src/data/projects.ts`. Cards and share images both read it, and TypeScript
+  requires it. After changing it, rerun `npm run og:images`.
 - **Reveal animations are gated on `.js`** (an inline script in `index.html`) so
   prerendered content stays visible without JavaScript. Keep any new hide-until-JS
   CSS behind `.js`.

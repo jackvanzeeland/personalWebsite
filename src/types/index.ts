@@ -1,3 +1,5 @@
+export type ImageStyle = 'icon' | 'cover';
+
 export interface Project {
     title: string;
     description: string;
@@ -12,6 +14,12 @@ export interface Project {
     tiktok_link: string;
     page: string;
     image: string;
+    /**
+     * How the thumbnail is framed on cards and share images:
+     * "icon"  — logo / app tile, shown contained and centered on the dark panel
+     * "cover" — photo or artwork, cropped full-bleed
+     */
+    imageStyle: ImageStyle;
     status?: string;
     featured?: boolean;
     live_demo?: string;

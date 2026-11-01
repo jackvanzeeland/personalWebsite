@@ -17,7 +17,6 @@ import sharp from 'sharp';
 import { WORK_ITEMS, type WorkItem } from '../src/data/workItems';
 import { prerenderRoutes, cdnOwnedProjectPaths } from '../src/site/routes';
 import { resolveImageSrc } from '../src/utils/optimizedImage';
-import { isIconImage } from '../src/utils/iconImage';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'public/og');
@@ -121,20 +120,31 @@ async function projectCard(item: WorkItem): Promise<Buffer> {
     if (item.image) {
         const src = resolveImageSrc(item.image);
         const img = await loadImage(src);
-        if (isIconImage(src)) {
-            // App icon: contained and rounded on the dark panel, like the cards
-            const icon = 220;
-            const rounded = await sharp(img)
-                .resize(icon, icon, { fit: 'contain', background: C.raise })
+        if (item.imageStyle === 'icon') {
+            // imageStyle "icon": contained and rounded on the dark panel, like the
+            // cards. Keeps the image's own aspect (square app tiles and wide logos
+            // like Wordle's both work) within a 340×220 box.
+            const fitted = await sharp(img)
+                .resize(340, 220, { fit: 'inside', withoutEnlargement: false })
+                .png()
+                .toBuffer({ resolveWithObject: true });
+            const { width: iw, height: ih } = fitted.info;
+            const radius = Math.round(Math.min(iw, ih) * 0.18);
+            const rounded = await sharp(fitted.data)
+                .ensureAlpha()
                 .composite([
                     {
-                        input: Buffer.from(`<svg width="${icon}" height="${icon}"><rect width="${icon}" height="${icon}" rx="40"/></svg>`),
+                        input: Buffer.from(`<svg width="${iw}" height="${ih}"><rect width="${iw}" height="${ih}" rx="${radius}"/></svg>`),
                         blend: 'dest-in'
                     }
                 ])
                 .png()
                 .toBuffer();
-            layers.push({ input: rounded, left: panelX + (panelW - icon) / 2, top: (H - icon) / 2 });
+            layers.push({
+                input: rounded,
+                left: Math.round(panelX + (panelW - iw) / 2),
+                top: Math.round((H - ih) / 2)
+            });
         } else {
             // Photo/artwork: full-bleed on the right, graded like the cards, and
             // alpha-faded at its left edge so it melts into the background
