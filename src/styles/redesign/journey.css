@@ -47,7 +47,8 @@
 
 .journey-skills {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* Automation & Tools carries more chips than Programming, so it gets more room. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
   gap: 26px;
   padding: 26px 30px;
   margin-bottom: 56px;
