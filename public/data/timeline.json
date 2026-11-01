@@ -107,7 +107,7 @@
       "startDate": "2025-06-01",
       "endDate": "2025-12-31",
       "isPresent": true,
-      "description": "Promoted from intern to engineer. Built 8 automation solutions saving ~13,000 hours and $400K annually, shipped a Copilot agent that cut support ticket response time by 40%, and mentored two interns.",
+      "description": "Promoted from intern to engineer. Built 8 automation solutions saving ~13,000 hours and $400K annually, and mentored two interns. My two biggest projects, load tracking and invoice review resolution, run on an ETL pipeline I built that sends data to a third-party AI solution and pipes the results back into our systems.",
       "badgeColor": "bg-info"
     },
     {
