@@ -74,7 +74,7 @@ const view: View = {
       el(
         "p",
         "journey-bio",
-        "I’ve always been analytically minded, which led me to a degree in finance and data science at UW–Madison. During college I heard about an RPA role at Echo Global Logistics, applied, and got it. I’ve grown with that team ever since and expanded my role into what it is today. Outside of work, I sharpen my craft by building projects that go beyond automation.",
+        "I’ve always thought analytically, which is why I studied finance and data science at UW–Madison. While still in school, I heard about an RPA role at Echo Global Logistics, applied, and got it. I’ve grown alongside the team ever since, and my role has grown with me. Away from work, I sharpen my craft by building projects that aren’t about automation at all.",
       ),
     );
     const resume = el("a", "btn-ghost journey-resume", "Download resume ↓");
