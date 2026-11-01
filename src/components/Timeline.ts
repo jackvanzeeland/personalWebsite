@@ -1,21 +1,15 @@
 /**
- * Career timeline for the About page.
- * Extracted from the former ~450-line inline script in pages/about.html —
- * same rendering and filtering behavior, now typed and bundled.
+ * Career timeline for /journey, in two tiers:
+ *   - the path: work + education on the year/dot timeline (#timeline-container)
+ *   - certifications: a compact index of rows (#cert-index), so a burst of
+ *     short courses doesn't bury the actual roles.
  *
- * Emits CustomEvents on document for the optional cinematic layer:
- *   'timeline:rendered' — after the timeline HTML is (re)built
- *   'timeline:filtered' — after a filter changes card visibility
+ * Emits 'timeline:rendered' on document after both are built.
  */
 
 import { TimelineItem } from '../types';
 import { parseLocalDate } from '../utils/dates';
 import { escapeHtml } from '../utils/escapeHtml';
-
-type FilterType = 'all' | TimelineItem['type'];
-
-let currentFilter: FilterType = 'all';
-const filterListeners = new Map<Element, EventListener>();
 
 export async function initializeTimeline(): Promise<void> {
     const container = document.getElementById('timeline-container');
@@ -40,18 +34,13 @@ export async function initializeTimeline(): Promise<void> {
             throw new Error('No valid timeline items found');
         }
 
-        renderTemporalTimeline(validItems, container);
-        setupFilters();
-        updateCounts(validItems);
+        const certs = validItems.filter((item) => item.type === 'certification');
+        renderTemporalTimeline(validItems.filter((item) => item.type !== 'certification'), container);
 
-        if (currentFilter !== 'all') {
-            filterTimeline(currentFilter);
-            document.querySelectorAll('.filter-btn').forEach((btn) => {
-                if (btn.getAttribute('data-filter') === currentFilter) {
-                    btn.classList.add('active');
-                }
-            });
-        }
+        const certIndex = document.getElementById('cert-index');
+        if (certIndex) renderCertIndex(certs, certIndex);
+        const certCount = document.getElementById('cert-count');
+        if (certCount) certCount.textContent = `${certs.length} COURSES`;
 
         document.dispatchEvent(new CustomEvent('timeline:rendered'));
     } catch (error) {
@@ -59,29 +48,29 @@ export async function initializeTimeline(): Promise<void> {
         const message = error instanceof Error ? error.message : 'Unknown error occurred';
         container.innerHTML = `
             <div class="alert alert-danger" role="alert">
-                <i class="fas fa-exclamation-triangle"></i>
                 <strong>Unable to load timeline.</strong><br>
                 <small>Error: ${escapeHtml(message)}</small><br>
-                <button class="btn btn-sm btn-outline-danger mt-2" onclick="location.reload()">
-                    <i class="fas fa-redo"></i> Retry
-                </button>
+                <button class="btn btn-sm btn-outline-danger mt-2" onclick="location.reload()">Retry</button>
             </div>
         `;
     }
 }
 
-function updateCounts(items: TimelineItem[]): void {
-    const counts: Record<FilterType, number> = {
-        all: items.length,
-        education: items.filter((i) => i.type === 'education').length,
-        work: items.filter((i) => i.type === 'work').length,
-        certification: items.filter((i) => i.type === 'certification').length
-    };
-
-    (Object.keys(counts) as FilterType[]).forEach((key) => {
-        const badge = document.getElementById(`count-${key}`);
-        if (badge) badge.textContent = String(counts[key]);
-    });
+/** Newest first: one row per course — title, issuer, month. */
+function renderCertIndex(certs: TimelineItem[], target: HTMLElement): void {
+    const sorted = [...certs].sort(
+        (a, b) => parseLocalDate(b.startDate).getTime() - parseLocalDate(a.startDate).getTime()
+    );
+    target.innerHTML = sorted
+        .map(
+            (item) => `
+            <li class="cert-row" data-event-id="${escapeHtml(item.id)}" title="${escapeHtml(item.description)}">
+                <span class="cert-row-title">${escapeHtml(item.title)}</span>
+                <span class="cert-row-org">${escapeHtml(item.organization)}</span>
+                <time class="cert-row-date" datetime="${escapeHtml(item.startDate.substring(0, 7))}">${formatMonthYear(item.startDate.substring(0, 7))}</time>
+            </li>`
+        )
+        .join('');
 }
 
 function renderTemporalTimeline(items: TimelineItem[], container: HTMLElement): void {
@@ -102,20 +91,11 @@ function renderTemporalTimeline(items: TimelineItem[], container: HTMLElement): 
     let timelineHTML = '<div class="temporal-timeline-wrapper">';
     years.forEach((year) => {
         const yearItems = itemsByYear[year];
-        const isCurrentYear = Number(year) === today.getFullYear();
 
         timelineHTML += `
             <div class="year-section mb-5" data-year="${year}">
                 <div class="year-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h3 class="mb-0 h4 fw-bold">${year}</h3>
-                            <small>${isCurrentYear ? 'Current Year' : ''}</small>
-                        </div>
-                        <div class="text-end">
-                            <small>${yearItems.length} event${yearItems.length !== 1 ? 's' : ''}</small>
-                        </div>
-                    </div>
+                    <h3 class="mb-0 h4 fw-bold">${year}</h3>
                 </div>
 
                 <div class="year-events ps-3 ps-md-4 border-start border-3 border-secondary">
@@ -165,48 +145,8 @@ function renderYearEvents(items: TimelineItem[], today: Date): string {
     return html;
 }
 
-/**
- * Jobs and degrees first, then certifications. Several certs from one issuer
- * in the same month collapse into a single card so a burst of short courses
- * doesn't bury the actual roles.
- */
 function renderMonthCards(items: TimelineItem[], today: Date): string {
-    const primary = items.filter((item) => item.type !== 'certification');
-    const certsByOrg = new Map<string, TimelineItem[]>();
-    items
-        .filter((item) => item.type === 'certification')
-        .forEach((item) => {
-            const group = certsByOrg.get(item.organization) ?? [];
-            group.push(item);
-            certsByOrg.set(item.organization, group);
-        });
-
-    const certCards = [...certsByOrg.values()].map((group) =>
-        group.length > 1 ? renderCertGroupCard(group) : renderEventCard(group[0], today)
-    );
-    return [...primary.map((item) => renderEventCard(item, today)), ...certCards].join('');
-}
-
-function renderCertGroupCard(items: TimelineItem[]): string {
-    const typeInfo = getTypeInfo('certification');
-    const org = items[0].organization;
-    return `
-        <div class="timeline-event-card cert-group card border-2 border-${typeInfo.colorClass} mb-3"
-             data-type="certification"
-             data-event-id="${escapeHtml(items.map((i) => i.id).join(' '))}">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="badge bg-${typeInfo.colorClass}">${typeInfo.label}</span>
-                </div>
-                <h5 class="card-title mb-2 fw-bold">${items.length} ${escapeHtml(org)} courses</h5>
-                <ul class="cert-list">
-                    ${items
-                        .map((i) => `<li title="${escapeHtml(i.description)}">${escapeHtml(i.title)}</li>`)
-                        .join('')}
-                </ul>
-            </div>
-        </div>
-    `;
+    return items.map((item) => renderEventCard(item, today)).join('');
 }
 
 function renderEventCard(item: TimelineItem, today: Date): string {
@@ -305,65 +245,4 @@ function formatDate(dateString: string): string {
         return 'Invalid date';
     }
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-}
-
-function setupFilters(): void {
-    const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-
-    filterListeners.forEach((listener, button) => {
-        button.removeEventListener('click', listener);
-    });
-    filterListeners.clear();
-
-    filterButtons.forEach((button) => {
-        const listener = (): void => {
-            filterButtons.forEach((btn) => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            const filterType = (button.getAttribute('data-filter') ?? 'all') as FilterType;
-            currentFilter = filterType;
-            filterTimeline(filterType);
-        };
-
-        button.addEventListener('click', listener);
-        filterListeners.set(button, listener);
-    });
-}
-
-function filterTimeline(type: FilterType): void {
-    const eventCards = document.querySelectorAll<HTMLElement>('.timeline-event-card');
-    const yearSections = document.querySelectorAll<HTMLElement>('.year-section');
-
-    eventCards.forEach((card) => {
-        const eventType = card.getAttribute('data-type');
-        card.classList.toggle('timeline-hidden', !(type === 'all' || eventType === type));
-    });
-
-    let visibleCount = 0;
-    yearSections.forEach((section) => {
-        const allCards = section.querySelectorAll('.timeline-event-card');
-        const visibleCards = Array.from(allCards).filter(
-            (card) => !card.classList.contains('timeline-hidden')
-        );
-        section.style.display = visibleCards.length > 0 ? 'block' : 'none';
-        visibleCount += visibleCards.length;
-    });
-
-    announceFilterChange(type, visibleCount);
-    document.dispatchEvent(new CustomEvent('timeline:filtered'));
-}
-
-function announceFilterChange(type: FilterType, count: number): void {
-    const announcement = `Showing ${count} ${type === 'all' ? 'total' : type} event${count !== 1 ? 's' : ''}`;
-
-    let announcer = document.getElementById('sr-announcer');
-    if (!announcer) {
-        announcer = document.createElement('div');
-        announcer.id = 'sr-announcer';
-        announcer.className = 'visually-hidden';
-        announcer.setAttribute('aria-live', 'polite');
-        announcer.setAttribute('aria-atomic', 'true');
-        document.body.appendChild(announcer);
-    }
-    announcer.textContent = announcement;
 }
