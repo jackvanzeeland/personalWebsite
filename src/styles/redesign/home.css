@@ -45,63 +45,6 @@
   font-weight: 700;
 }
 
-.home-sub {
-  margin-top: 20px;
-  font-size: var(--fs-body);
-  color: var(--text-dim);
-  max-width: 440px;
-}
-
-.home-ctas {
-  display: flex;
-  gap: 14px;
-  margin-top: 34px;
-  flex-wrap: wrap;
-}
-
-.home-stats {
-  display: flex;
-  gap: 40px;
-  margin-top: 56px;
-  font-family: var(--font-mono);
-  flex-wrap: wrap;
-}
-
-.home-stat {
-  text-align: center;
-  color: inherit;
-  transition: transform 0.2s ease;
-}
-
-.home-stat:hover {
-  text-decoration: none;
-  transform: translateY(-2px);
-}
-
-.home-stat:hover .home-stat-label {
-  color: var(--text-dim);
-}
-
-.home-stat-num {
-  font-size: 24px;
-  color: var(--accent-cyan);
-}
-
-.home-stat:nth-child(2) .home-stat-num {
-  color: var(--accent-teal);
-}
-
-.home-stat:nth-child(3) .home-stat-num {
-  color: var(--accent-indigo);
-}
-
-.home-stat-label {
-  font-size: var(--fs-micro);
-  letter-spacing: 0.2em;
-  color: var(--text-faint);
-  margin-top: 4px;
-}
-
 .home-tag {
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
@@ -118,7 +61,7 @@
   }
 
   /* Stacked flow: centered portrait above the content; the monogram
-     forms lower-center behind the CTAs on narrow screens. */
+     forms lower-center below the compact terminal on narrow screens. */
   .home-avatar {
     position: static;
     transform: none;
@@ -131,5 +74,224 @@
   .home-avatar img {
     width: 140px;
     height: 140px;
+  }
+}
+
+/* Experience odometer — digits roll via translateY on a 0–9 strip */
+.home-odo {
+  margin-top: 26px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+}
+
+.home-odo-label,
+.home-odo-unit {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: var(--text-faint);
+}
+
+.home-odo-unit {
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.home-odo-value {
+  display: inline-flex;
+  font-family: var(--font-mono);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+}
+
+.home-odo-digit {
+  position: relative;
+  height: 1em;
+  width: 0.62em;
+  overflow: hidden;
+}
+
+.home-odo-strip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.home-odo-strip > span {
+  height: 1em;
+  text-align: center;
+}
+
+.home-odo-digit:nth-last-child(-n + 3) .home-odo-strip {
+  transition-duration: 120ms;
+  color: var(--accent);
+}
+
+.home-odo-sep {
+  width: 0.4em;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-odo-strip {
+    transition: none;
+  }
+}
+
+/* Terminal — replaces the old subhead + CTAs */
+.home-term {
+  margin-top: 24px;
+  max-width: 600px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+/* Stay clear of the 69vw-pinned avatar on the wide layout */
+@media (min-width: 901px) {
+  .home-term {
+    width: min(600px, calc(60vw - (100vw - min(1120px, 100vw - 48px)) / 2 - 32px));
+  }
+}
+
+.home-term-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--text-faint);
+}
+
+.home-term-bar i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.home-term-title {
+  margin-left: 8px;
+}
+
+.home-term-body {
+  height: 264px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  cursor: text;
+}
+
+/* Prerendered/no-JS HTML has no .js, so it stays readable; with JS the
+   text waits for the component (instant render or boot replay). */
+.js .home-term:not(.is-ready) .home-term-body {
+  visibility: hidden;
+}
+
+.home-term-line {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.home-term-statement {
+  margin: 6px 0 8px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.home-term-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.home-term-input .home-term-line {
+  flex-shrink: 0;
+}
+
+.home-term-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  caret-color: var(--accent);
+}
+
+.home-term:focus-within {
+  border-color: var(--line-strong);
+}
+
+.tone-plain { color: inherit; }
+.tone-dim { color: var(--text-faint); }
+.tone-ok { color: var(--accent); }
+.tone-warn { color: var(--accent-warm); }
+.tone-prompt { color: var(--accent-teal); }
+.tone-bright { color: var(--text); }
+
+a.tone-ok {
+  text-decoration: underline;
+}
+
+.home-term-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--line);
+}
+
+.home-term-chip {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.home-term-chip:hover,
+.home-term-chip:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* Compact terminal on the stacked layout (same cutoff as monogram.ts) so
+   the monogram stays visible below the hero */
+@media (max-aspect-ratio: 11/10) {
+  .home-term-boot {
+    display: none;
+  }
+
+  .home-term-body {
+    height: auto;
+    max-height: 168px;
+    padding: 10px 12px;
   }
 }

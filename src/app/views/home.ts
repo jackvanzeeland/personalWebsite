@@ -2,12 +2,16 @@
  * Home view — the 3-second impression.
  * Layout follows the approved mockup:
  * docs/superpowers/specs/2026-07-03-dark-cinematic-redesign-mockup.html
+ * Terminal + odometer hero: docs/superpowers/specs/2026-11-01-home-terminal-hero-design.md
  */
 
 import type { View } from "./types";
 import { requestFormation } from "../../scene/stage";
 import { monogramBuilder } from "../../scene/formations/monogram";
 import { createOptimizedPicture } from "../../utils/optimizedImage";
+import { prefersReducedMotion } from "../../utils/capabilities";
+import { createTerminal } from "./homeTerminalView";
+import { createOdometer } from "./homeOdometer";
 import "../../styles/redesign/home.css";
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -21,12 +25,8 @@ function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
-/** [number, label, where the number comes from] */
-export const STATS: [string, string, string][] = [
-  ["22", "AUTOMATIONS AT WORK", "/journey"],
-  ["48K+", "HOURS SAVED", "/journey"],
-  ["16", "SIDE PROJECTS", "/projects"],
-];
+let terminal: { destroy(): void } | null = null;
+let odometer: { destroy(): void } | null = null;
 
 const view: View = {
   mount(root) {
@@ -38,31 +38,13 @@ const view: View = {
     const eyebrow = el("p", "eyebrow", "// SOFTWARE ENGINEER — CHICAGO");
     const h1 = el("h1", "home-name");
     h1.append("Jack ", el("br"), "Van Zeeland");
-    const sub = el(
-      "p",
-      "home-sub",
-      "I automate the repetitive — at work, at home, and everywhere in between. This site is where the useful ones live.",
-    );
+    const reducedMotion = prefersReducedMotion();
+    const term = createTerminal({ animate: !reducedMotion });
+    const odo = createOdometer({ reducedMotion });
+    terminal = term;
+    odometer = odo;
 
-    const ctas = el("div", "home-ctas");
-    const work = el("a", "btn-glow", "See the side projects →");
-    work.href = "/projects";
-    const journey = el("a", "btn-ghost", "The journey");
-    journey.href = "/journey";
-    ctas.append(work, journey);
-
-    const stats = el("div", "home-stats");
-    for (const [num, label, href] of STATS) {
-      const stat = el("a", "home-stat");
-      stat.href = href;
-      stat.append(
-        el("div", "home-stat-num", num),
-        el("div", "home-stat-label", label),
-      );
-      stats.appendChild(stat);
-    }
-
-    heroText.append(eyebrow, h1, sub, ctas, stats);
+    heroText.append(eyebrow, h1, term.el, odo.el);
 
     const avatarWrap = el("div", "home-avatar");
     avatarWrap.appendChild(
@@ -79,7 +61,11 @@ const view: View = {
   },
 
   unmount() {
-    /* DOM is cleared by the shell; no listeners to remove */
+    // DOM is cleared by the shell; only timers need stopping
+    terminal?.destroy();
+    odometer?.destroy();
+    terminal = null;
+    odometer = null;
   },
 };
 

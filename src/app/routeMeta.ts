@@ -26,7 +26,7 @@ export const routeMeta: Record<RouteName, RouteMeta> = {
     home: {
         title: 'Jack Van Zeeland — Software Engineer',
         description:
-            'Jack Van Zeeland is a Chicago software engineer building automation, AI tooling, and side projects — 22 automations shipped, 48K+ hours saved.',
+            'Jack Van Zeeland is a Chicago software engineer who loves building things — AI tooling, automation, and a growing pile of side projects you can try.',
         accent: '#38bdf8'
     },
     work: {
