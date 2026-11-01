@@ -63,10 +63,6 @@
   font-size: var(--fs-small);
   line-height: 1.5;
   color: var(--text-dim);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .sport-row-kind {
@@ -80,10 +76,6 @@
 @media (max-width: 720px) {
   .sport-row-kind {
     flex: 0 0 auto;
-  }
-
-  .sport-row-desc {
-    -webkit-line-clamp: unset;
   }
 }
 

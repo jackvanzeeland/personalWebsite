@@ -10,7 +10,7 @@ describe('beyond view', () => {
         const root = document.getElementById('view-root')!;
         await beyondView.mount(root, {});
         expect(root.querySelector('.eyebrow')?.textContent).toBe('// BEYOND THE CODE');
-        expect(root.querySelector('h1')?.textContent).toBe('Off the clock');
+        expect(root.querySelector('h1')?.textContent).toBe('Life outside the terminal');
         expect(root.querySelector('.page-head')).toBeNull();
         beyondView.unmount();
     });
@@ -22,7 +22,7 @@ describe('beyond view', () => {
             (h) => h.textContent
         );
         expect(titles).toEqual(['Sports & fitness', 'Recommendations', 'Life moments']);
-        expect(root.querySelectorAll('.section-head .section-head-meta').length).toBe(3);
+        expect(root.querySelectorAll('.section-head .section-head-meta').length).toBe(2);
         beyondView.unmount();
     });
 
