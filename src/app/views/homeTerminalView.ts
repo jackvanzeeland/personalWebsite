@@ -10,6 +10,7 @@
  */
 
 import { PROJECTS } from '../../data/projects';
+import { WORK_ITEMS, workItemHref } from '../../data/workItems';
 import { navigate as routerNavigate } from '../router';
 import {
     CommandHistory,
@@ -19,7 +20,8 @@ import {
     promptLine,
     runCommand,
     type CommandContext,
-    type Line
+    type Line,
+    type ProjectEntry
 } from './homeTerminal';
 
 export const BOOT_FLAG = 'jvz:terminalBooted';
@@ -31,10 +33,19 @@ const BOOT_GAPS_MS = [120, 260, 220, 220, 300, 380];
 const TYPE_CHARS = 2;
 const TYPE_TICK_MS = 18;
 const NAVIGATE_DELAY_MS = 250;
+const RESUME_FILENAME = 'Jack-Van-Zeeland-Resume.pdf';
+
+const PROJECT_ENTRIES: ProjectEntry[] = WORK_ITEMS.map((item) => {
+    const { href, external } = workItemHref(item);
+    return { slug: item.slug, title: item.title, href, external };
+});
+const PROJECT_SLUGS = PROJECT_ENTRIES.map((p) => p.slug);
 
 interface TerminalOptions {
     animate: boolean;
     navigate?: (path: string) => void;
+    /** Full page load, for projects served by a separate app. */
+    assign?: (url: string) => void;
     now?: () => Date;
 }
 
@@ -92,8 +103,14 @@ function isCompact(): boolean {
 export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destroy(): void } {
     const now = opts.now ?? (() => new Date());
     const go = opts.navigate ?? routerNavigate;
-    const ctx = (): CommandContext => ({ projectCount: PROJECTS.length, now: now() });
+    const assign = opts.assign ?? ((url: string) => window.location.assign(url));
     const history = new CommandHistory();
+    const ctx = (): CommandContext => ({
+        projectCount: PROJECTS.length,
+        now: now(),
+        projects: PROJECT_ENTRIES,
+        history: history.entries()
+    });
 
     const timers = new Set<ReturnType<typeof setTimeout>>();
     const bootTimers = new Set<ReturnType<typeof setTimeout>>();
@@ -213,8 +230,17 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
         if (result.clear) output.replaceChildren();
         for (const line of result.lines) output.appendChild(renderLine(line));
         body.scrollTop = body.scrollHeight;
+        // New tabs and downloads run synchronously so they keep the
+        // keypress/click's user activation (popup blockers need it).
+        if (result.openUrl) window.open(result.openUrl, '_blank', 'noopener');
+        if (result.download) {
+            const a = node('a');
+            a.href = result.download;
+            a.setAttribute('download', RESUME_FILENAME);
+            a.click();
+        }
         const target = result.navigateTo;
-        if (target) later(() => go(target), NAVIGATE_DELAY_MS);
+        if (target) later(() => (result.external ? assign(target) : go(target)), NAVIGATE_DELAY_MS);
     }
 
     input.addEventListener('keydown', (e) => {
@@ -232,7 +258,7 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
             input.value = history.next();
         } else if (e.key === 'Tab' && input.value) {
             e.preventDefault();
-            input.value = complete(input.value);
+            input.value = complete(input.value, PROJECT_SLUGS);
         }
     });
 

@@ -203,4 +203,50 @@ describe('home terminal view', () => {
         expect(document.activeElement).toBe(t.input());
         t.destroy();
     });
+
+    it('github opens a new tab immediately (keeps the click/keypress activation)', () => {
+        const open = vi.spyOn(window, 'open').mockReturnValue(null);
+        const t = mountTerminal({ animate: false });
+        t.input().value = 'github';
+        press(t.input(), 'Enter');
+        expect(open).toHaveBeenCalledWith('https://github.com/jackvanzeeland', '_blank', 'noopener');
+        t.destroy();
+    });
+
+    it('resume triggers a download of the pdf', () => {
+        const clicks: { href: string | null; download: string | null }[] = [];
+        vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function (this: HTMLAnchorElement) {
+            clicks.push({ href: this.getAttribute('href'), download: this.getAttribute('download') });
+        });
+        const t = mountTerminal({ animate: false });
+        t.input().value = 'resume';
+        press(t.input(), 'Enter');
+        expect(clicks).toEqual([{ href: '/files/resume.pdf', download: 'Jack-Van-Zeeland-Resume.pdf' }]);
+        t.destroy();
+    });
+
+    it('separately hosted projects use a full page load instead of the router', () => {
+        const navigate = vi.fn();
+        const assign = vi.fn();
+        const t = createTerminal({ animate: false, navigate, assign, now: NOW });
+        document.body.appendChild(t.el);
+        const input = t.el.querySelector<HTMLInputElement>('.home-term-input input')!;
+        input.value = 'open super-bowl-competition';
+        press(input, 'Enter');
+        vi.advanceTimersByTime(250);
+        expect(assign).toHaveBeenCalledWith('/projects/superbowl/');
+        expect(navigate).not.toHaveBeenCalled();
+        t.destroy();
+    });
+
+    it('history shows what was typed', () => {
+        const t = mountTerminal({ animate: false });
+        for (const cmd of ['ls', 'whoami', 'history']) {
+            t.input().value = cmd;
+            press(t.input(), 'Enter');
+        }
+        expect(t.output()).toContain('1  ls');
+        expect(t.output()).toContain('2  whoami');
+        t.destroy();
+    });
 });

@@ -136,4 +136,80 @@ describe('home terminal commands', () => {
         expect(h.prev()).toBeUndefined();
         expect(h.next()).toBe('');
     });
+
+    describe('projects, links, resume, history', () => {
+        const projects = [
+            { slug: 'wordle-solver', title: 'Wordle Algorithm Solver', href: '/projects/wordle-solver', external: false },
+            { slug: 'woku', title: 'Woku', href: '/projects/woku', external: true },
+            { slug: 'secret-santa', title: 'Secret Santa Matching', href: '/projects/secret-santa', external: false }
+        ];
+        const full = { ...ctx, projects, history: ['ls', 'help'] };
+
+        it('ls projects lists project slugs', () => {
+            for (const input of ['ls projects', 'ls projects/', 'ls /projects']) {
+                const out = text(runCommand(input, full));
+                expect(out, input).toContain('wordle-solver/');
+                expect(out, input).toContain('woku/');
+                expect(out, input).toContain('secret-santa/');
+            }
+        });
+
+        it('ls of an unknown dir', () => {
+            expect(text(runCommand('ls nope', full))).toContain('ls: nope: no such directory');
+        });
+
+        it('cd projects/<slug> and open <slug> navigate to the project', () => {
+            expect(runCommand('cd projects/wordle-solver', full)).toMatchObject({ navigateTo: '/projects/wordle-solver' });
+            expect(runCommand('cd /projects/secret-santa/', full)).toMatchObject({ navigateTo: '/projects/secret-santa' });
+            expect(runCommand('open wordle-solver', full)).toMatchObject({ navigateTo: '/projects/wordle-solver' });
+            expect(runCommand('cd projects/wordle-solver', full).external).toBeFalsy();
+        });
+
+        it('separately hosted projects are marked external (full page load)', () => {
+            expect(runCommand('open woku', full)).toMatchObject({ navigateTo: '/projects/woku', external: true });
+        });
+
+        it('unknown projects', () => {
+            expect(text(runCommand('cd projects/nope', full))).toContain('cd: no such project: nope');
+            expect(text(runCommand('open nope', full))).toContain('open: no such project: nope');
+            expect(text(runCommand('open', full))).toContain('usage: open <project>');
+        });
+
+        it('github and linkedin open profiles', () => {
+            expect(runCommand('github', full).openUrl).toBe('https://github.com/jackvanzeeland');
+            expect(runCommand('linkedin', full).openUrl).toBe('https://www.linkedin.com/in/jack-van-zeeland-aab0a7221/');
+        });
+
+        it('resume downloads the pdf', () => {
+            expect(runCommand('resume', full).download).toBe('/files/resume.pdf');
+        });
+
+        it('history lists numbered commands', () => {
+            expect(text(runCommand('history', full))).toBe('    1  ls\n    2  help');
+            expect(text(runCommand('history', { ...full, history: [] }))).toBe('');
+        });
+
+        it('help lists the new commands but not the easter eggs', () => {
+            const out = text(runCommand('help', full));
+            for (const c of ['ls projects', 'open <project>', 'github', 'linkedin', 'resume', 'history']) expect(out).toContain(c);
+            expect(out).not.toContain('brew');
+        });
+
+        it('brew coffee refills the coffee', () => {
+            const out = text(runCommand('brew coffee', full));
+            expect(out).toContain('==> Pouring coffee');
+            expect(out).toMatch(/coffee .*ok/);
+            expect(text(runCommand('brew install coffee', full))).toContain('==> Pouring coffee');
+            expect(text(runCommand('brew', full))).toContain('usage: brew coffee');
+        });
+
+        it('tab completes project slugs and new commands', () => {
+            const slugs = projects.map((p) => p.slug);
+            expect(complete('cd projects/wor', slugs)).toBe('cd projects/wordle-solver');
+            expect(complete('open se', slugs)).toBe('open secret-santa');
+            expect(complete('li', slugs)).toBe('linkedin');
+            expect(complete('res', slugs)).toBe('resume');
+            expect(complete('cd projects/zz', slugs)).toBe('cd projects/zz');
+        });
+    });
 });
