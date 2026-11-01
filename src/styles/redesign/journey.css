@@ -3,7 +3,6 @@
 .journey {
   padding-top: clamp(110px, 16vh, 160px);
   padding-bottom: 96px;
-  max-width: 880px;
 }
 
 .journey .eyebrow {
@@ -80,49 +79,90 @@
   padding: 4px 9px;
 }
 
-/* Timeline chrome */
+/* Section heads — same rhythm as /projects (.work-section-head) */
 
-.journey-timeline-heading {
-  font-size: var(--fs-h2);
-  margin-bottom: 18px;
-}
-
-.journey-filters {
+.journey-section-head {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
 }
 
-.journey-count {
-  font-family: var(--font-mono);
-  opacity: 0.7;
-  margin-left: 6px;
+.journey-section-title {
+  font-size: var(--fs-h2);
+  margin: 0;
 }
 
-.journey-filters .filter-btn {
-  display: inline-flex;
-  align-items: center;
+.journey-section-meta {
   font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.12em;
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
   color: var(--text-dim);
-  background: transparent;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 7px 14px;
-  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  margin: 0;
 }
 
-.journey-filters .filter-btn:hover {
+.journey-timeline {
+  margin-bottom: 72px;
+}
+
+/* Certifications index — compact rows, like the /projects index */
+
+.cert-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cert-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 24px;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--line);
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.cert-row:hover {
+  background: color-mix(in srgb, var(--accent-warm) 6%, transparent);
+}
+
+.cert-row-title {
+  flex: 1 1 260px;
+  min-width: 0;
   color: var(--text-bright);
-  border-color: rgba(148, 163, 184, 0.4);
+  font-size: var(--fs-body);
 }
 
-.journey-filters .filter-btn.active {
-  color: var(--accent);
-  border-color: var(--accent);
-  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 25%, transparent);
+.cert-row-org {
+  flex: 0 0 180px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  color: var(--accent-warm);
+}
+
+.cert-row-date {
+  flex: 0 0 auto;
+  min-width: 80px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--text-faint);
+}
+
+@media (max-width: 720px) {
+  .cert-row-org,
+  .cert-row-date {
+    flex: 0 0 auto;
+    min-width: 0;
+    text-align: left;
+  }
 }
 
 /* ── Scoped styling for the markup Timeline.ts emits ─────────────────
@@ -259,35 +299,13 @@
   font-weight: 700;
 }
 
-/* Certifications are supporting detail: outlined badge, so the solid
-   WORK / EDUCATION badges carry the timeline. */
-.journey-timeline .badge.bg-warning {
-  background: transparent;
-  color: var(--accent-warm);
-  box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.45);
-}
-
-.journey-timeline .border-warning {
-  border-color: var(--line);
-}
-
-.journey-timeline .cert-list {
-  margin: 6px 0 0;
-  padding-left: 18px;
-  font-size: var(--fs-small);
-  color: var(--text-dim);
-}
-
-.journey-timeline .cert-list li + li {
-  margin-top: 3px;
-}
-
 .journey-timeline .card-title {
   font-size: var(--fs-body);
   margin: 10px 0 2px;
 }
 
 .journey-timeline .card-text {
+  max-width: 68ch;
   margin: 0 0 4px;
   font-size: var(--fs-small);
 }
@@ -304,10 +322,6 @@
 .journey-timeline .mb-2 { margin-bottom: 8px; }
 .journey-timeline .mb-3 { margin-bottom: 12px; }
 .journey-timeline .mt-2 { margin-top: 8px; }
-
-.journey-timeline .timeline-hidden {
-  display: none;
-}
 
 .journey-timeline .pulse-badge,
 .journey-timeline .dot-pulse {

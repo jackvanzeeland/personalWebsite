@@ -29,9 +29,9 @@ const FIXTURE = {
 describe('timeline render', () => {
     beforeEach(() => {
         document.body.innerHTML = `
-            <button class="filter-btn" data-filter="all">All <span id="count-all"></span></button>
-            <button class="filter-btn" data-filter="work">Work <span id="count-work"></span></button>
             <div id="timeline-container"></div>
+            <p id="cert-count"></p>
+            <ul id="cert-index"></ul>
         `;
         vi.stubGlobal('fetch', vi.fn(async () => ({
             json: async () => FIXTURE
@@ -42,15 +42,22 @@ describe('timeline render', () => {
         vi.unstubAllGlobals();
     });
 
-    it('renders both items with year sections newest-first', async () => {
+    it('puts work/education on the timeline and certifications in the index', async () => {
         await initializeTimeline();
         const container = document.getElementById('timeline-container')!;
         expect(container.textContent).toContain('RPA Developer Intern');
-        expect(container.textContent).toContain('AI Fluency');
+        expect(container.textContent).not.toContain('AI Fluency');
         const years = [...container.querySelectorAll('.year-section')].map(
             (s) => s.getAttribute('data-year')
         );
-        expect(years).toEqual(['2026', '2024']);
+        expect(years).toEqual(['2024']);
+
+        const rows = document.querySelectorAll('#cert-index .cert-row');
+        expect(rows.length).toBe(1);
+        expect(rows[0].textContent).toContain('AI Fluency');
+        expect(rows[0].textContent).toContain('Anthropic');
+        expect(rows[0].textContent).toContain('Jun 2026');
+        expect(document.getElementById('cert-count')!.textContent).toBe('1 COURSES');
     });
 
     it('renders start months in local time (Feb stays Feb — the tz bug)', async () => {
@@ -60,29 +67,26 @@ describe('timeline render', () => {
         expect(container.textContent).not.toContain('Jan 2024');
     });
 
-    it('groups same-month certifications from one issuer into a single card', async () => {
-        const cert = (id: string, title: string) => ({
+    it('lists certifications newest-first with no duration or year labels', async () => {
+        const cert = (id: string, title: string, startDate: string) => ({
             id, title, organization: 'Anthropic', type: 'certification',
-            startDate: '2026-06-01', endDate: '2026-06-29', isPresent: false, description: 'x'
+            startDate, endDate: startDate, isPresent: false, description: 'x'
         });
         vi.stubGlobal('fetch', vi.fn(async () => ({
             json: async () => ({
                 timelineItems: [
                     FIXTURE.timelineItems[0],
-                    cert('a', 'Claude 101'),
-                    cert('b', 'Claude Code 101'),
-                    cert('c', 'Claude Code in Action')
+                    cert('a', 'Older Course', '2024-03-01'),
+                    cert('b', 'Newer Course', '2026-06-01')
                 ]
             })
         })));
         await initializeTimeline();
-        const container = document.getElementById('timeline-container')!;
-        const certCards = container.querySelectorAll('.timeline-event-card[data-type="certification"]');
-        expect(certCards.length).toBe(1);
-        expect(certCards[0].textContent).toContain('3 Anthropic courses');
-        expect(certCards[0].querySelectorAll('li').length).toBe(3);
-        expect(container.querySelectorAll('.timeline-event-card[data-type="work"]').length).toBe(1);
-        // Badges are plain labels, no emoji
-        expect(container.textContent).not.toMatch(/[🏆🎓💼⚡]/u);
+        const titles = [...document.querySelectorAll('#cert-index .cert-row-title')].map((t) => t.textContent);
+        expect(titles).toEqual(['Newer Course', 'Older Course']);
+        expect(document.getElementById('cert-count')!.textContent).toBe('2 COURSES');
+        expect(document.body.textContent).not.toContain('Less than 1 month');
+        expect(document.body.textContent).not.toContain('Current Year');
+        expect(document.body.textContent).not.toMatch(/[🏆🎓💼⚡]/u);
     });
 });

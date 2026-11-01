@@ -1,5 +1,6 @@
 /**
- * /journey — bio, skills, resume, and the career timeline.
+ * /journey — bio, skills, resume, the work/education timeline, and a
+ * compact certifications index.
  * The particle constellation is built from the same timeline.json the
  * timeline renders, so the scene literally is the career data.
  */
@@ -23,18 +24,19 @@ function el<K extends keyof HTMLElementTagNameMap>(
     return node;
 }
 
-const FILTERS: [string, string][] = [
-    ['all', 'ALL'],
-    ['education', 'EDUCATION'],
-    ['work', 'WORK'],
-    ['certification', 'CERTS']
-];
-
 const SKILL_SECTIONS: [string, string][] = [
     ['programming-skills', 'Programming'],
     ['automation-skills', 'Automation & Tools'],
     ['data-skills', 'Data & Cloud']
 ];
+
+function sectionHead(title: string, meta: string, metaId?: string): HTMLElement {
+    const head = el('div', 'journey-section-head');
+    const metaEl = el('p', 'journey-section-meta', meta);
+    if (metaId) metaEl.id = metaId;
+    head.append(el('h2', 'journey-section-title', title), metaEl);
+    return head;
+}
 
 let resumeManager: ResumeManager | null = null;
 
@@ -70,7 +72,7 @@ const view: View = {
             el(
                 'p',
                 'journey-bio',
-                'I’m a software engineer focused on automation, data analysis, and building intelligent solutions that make everyday tasks easier and more efficient. Data science and finance degree from UW–Madison; automation engineering at Echo Global Logistics in Chicago.'
+                'I like building things that solve real problems. At work that’s automation at Echo Global Logistics in Chicago, where I started as an intern and stayed on as an engineer. Outside of work it’s the apps on the Projects page. A data science and finance degree from UW–Madison got me here.'
             )
         );
         const resume = el('a', 'btn-ghost journey-resume', 'Download resume ↓');
@@ -92,27 +94,23 @@ const view: View = {
         }
         section.appendChild(skillsPanel);
 
-        // Timeline: filters + container (ids are Timeline.ts's DOM contract)
+        // The path: work + education timeline (ids are Timeline.ts's DOM contract)
         const timelineWrap = el('div', 'journey-timeline');
-        timelineWrap.appendChild(el('h2', 'journey-timeline-heading', 'Timeline'));
-        const filterRow = el('div', 'journey-filters');
-        for (const [key, label] of FILTERS) {
-            const btn = el('button', 'filter-btn', label + ' ');
-            btn.setAttribute('data-filter', key);
-            if (key === 'all') btn.classList.add('active');
-            const badge = el('span', 'journey-count');
-            badge.id = `count-${key}`;
-            badge.textContent = '0';
-            btn.appendChild(badge);
-            filterRow.appendChild(btn);
-        }
+        timelineWrap.appendChild(sectionHead('The path', 'WORK · EDUCATION'));
         const container = el('div');
         container.id = 'timeline-container';
         container.setAttribute('role', 'region');
-        container.setAttribute('aria-label', 'Professional timeline');
-        container.setAttribute('aria-live', 'polite');
-        timelineWrap.append(filterRow, container);
+        container.setAttribute('aria-label', 'Work and education timeline');
+        timelineWrap.appendChild(container);
         section.appendChild(timelineWrap);
+
+        // Certifications: compact index, filled by Timeline.ts
+        const certs = el('div', 'journey-certs');
+        const certHead = sectionHead('Certifications', '', 'cert-count');
+        const certList = el('ul', 'cert-index');
+        certList.id = 'cert-index';
+        certs.append(certHead, certList);
+        section.appendChild(certs);
 
         root.appendChild(section);
 
@@ -131,7 +129,7 @@ const view: View = {
     },
 
     unmount() {
-        /* filter listeners live on removed nodes */
+        /* nothing to tear down: the page holds no listeners */
     }
 };
 
