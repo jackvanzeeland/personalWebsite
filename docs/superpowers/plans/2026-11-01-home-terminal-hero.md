@@ -87,7 +87,7 @@ it('aria label rounds to 2 places', () =>
   export const HOME_STATEMENT: string;            // verbatim copy from Global Constraints
   export const PAGES: readonly ['projects', 'journey', 'beyond', 'contact'];
   export function bootLines(ctx: CommandContext, today: Date): Line[];
-  export function promptLine(input: string): Line;  // `jack@jvz:~$ <input>`, prompt tone on `jack@jvz`
+  export function promptLine(input: string): Line;  // `guest@jvz:~$ <input>`, prompt tone on `guest@jvz`
   export function runCommand(input: string, ctx: CommandContext): CommandResult;
   export function complete(input: string): string;  // returns the completed input, or the input unchanged
   export class CommandHistory { push(cmd: string): void; prev(): string | undefined; next(): string }
@@ -199,7 +199,7 @@ it('reduced motion ticks once per second', () => { /* advance 999ms → no extra
 
 **Structure** (class names fixed so CSS and tests agree):
 - `div.home-term`, containing:
-  - `div.home-term-bar` (three dots + `jack@jvz: ~`)
+  - `div.home-term-bar` (three dots + `guest@jvz: ~`)
   - `div.home-term-body[role="log"]`, which holds `div.home-term-boot` (the boot lines), `p.home-term-statement` (`HOME_STATEMENT`), `div.home-term-hint`, the output lines, and `div.home-term-input` (prompt + `input[aria-label="Terminal: type a command"]`, with spellcheck/autocomplete off)
   - `nav.home-term-chips`: `<button data-cmd="help">`, `<button data-cmd="ls">`, `<a href="/projects" data-cmd="cd projects">`, `<a href="/journey" data-cmd="cd journey">`, `<a href="/contact" data-cmd="contact">`
 - Render each `Segment` as a `span.tone-<tone>` with `textContent`. When `href` is set, render an `<a href>` instead. Never use `innerHTML` with dynamic data.
