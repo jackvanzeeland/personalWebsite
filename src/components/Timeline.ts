@@ -95,12 +95,7 @@ function renderTemporalTimeline(items: TimelineItem[], container: HTMLElement): 
         timelineHTML += `
             <div class="year-section mb-5" data-year="${year}">
                 <div class="year-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0 h4 fw-bold">${year}</h3>
-                        <div class="text-end">
-                            <small>${yearItems.length} event${yearItems.length !== 1 ? 's' : ''}</small>
-                        </div>
-                    </div>
+                    <h3 class="mb-0 h4 fw-bold">${year}</h3>
                 </div>
 
                 <div class="year-events ps-3 ps-md-4 border-start border-3 border-secondary">
