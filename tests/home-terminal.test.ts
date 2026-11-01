@@ -27,6 +27,17 @@ describe('home terminal commands', () => {
         expect(runCommand('cd beyond', ctx).navigateTo).toBe('/beyond');
     });
 
+    it('cd accepts absolute and home-relative page paths', () => {
+        expect(runCommand('cd /projects', ctx).navigateTo).toBe('/projects');
+        expect(runCommand('cd ~/journey', ctx).navigateTo).toBe('/journey');
+    });
+
+    it('cd .. is treated as home', () => {
+        const r = runCommand('cd ..', ctx);
+        expect(r.navigateTo).toBeUndefined();
+        expect(text(r)).not.toContain('no such page');
+    });
+
     it('cd home targets do not navigate', () => {
         for (const t of ['cd', 'cd ~', 'cd /']) expect(runCommand(t, ctx).navigateTo, t).toBeUndefined();
         expect(text(runCommand('cd ~', ctx))).not.toBe('');
@@ -75,6 +86,11 @@ describe('home terminal commands', () => {
 
     it('uptime uses calendar parts', () => {
         expect(text(runCommand('uptime', ctx))).toContain('up 2 years, 9 months, 0 days');
+    });
+
+    it('uptime pluralises correctly', () => {
+        const one = { projectCount: 16, now: new Date('2025-03-02T09:00:00-06:00') };
+        expect(text(runCommand('uptime', one))).toContain('up 1 year, 1 month, 1 day.');
     });
 
     it('clear', () => {

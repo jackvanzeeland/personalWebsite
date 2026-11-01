@@ -71,8 +71,11 @@ const COMMANDS: Record<string, Handler> = {
     }),
     ls: () => one(seg(PAGES.map((p) => `${p}/`).join('  '), 'ok')),
     cd: (args) => {
-        const target = (args[0] ?? '~').toLowerCase().replace(/\/+$/, '') || '/';
-        if (target === '~' || target === '/') return one(seg("you're already home.", 'dim'));
+        const raw = (args[0] ?? '~').toLowerCase();
+        const target = raw === '/' ? '/' : raw.replace(/^~?\/+/, '').replace(/\/+$/, '') || '~';
+        if (target === '~' || target === '/' || target === '..' || target === '.') {
+            return one(seg("you're already home.", 'dim'));
+        }
         if ((PAGES as readonly string[]).includes(target)) {
             return { lines: [[seg(`cd ${target} … `), seg('loading', 'dim')]], navigateTo: `/${target}` };
         }
@@ -86,8 +89,9 @@ const COMMANDS: Record<string, Handler> = {
         ),
     uptime: (_args, ctx) => {
         const { years, months, days } = ageParts(ctx.now);
+        const n = (count: number, unit: string) => `${count} ${unit}${count === 1 ? '' : 's'}`;
         return one(
-            seg(`up ${years} years, ${months} months, ${days} days. `),
+            seg(`up ${n(years, 'year')}, ${n(months, 'month')}, ${n(days, 'day')}. `),
             seg('load average: high, mostly side projects', 'dim')
         );
     },

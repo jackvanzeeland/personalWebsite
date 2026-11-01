@@ -33,10 +33,14 @@ export function createOdometer(opts: OdometerOptions): { el: HTMLElement; destro
 
     let shape = '';
     let strips: HTMLElement[] = [];
+    // Plain-text copy of the value for crawlers/reader mode; the strips' digits
+    // come from CSS content so the markup never reads as "0123456789…".
+    const plain = document.createElement('span');
+    plain.className = 'home-odo-text';
     let lastAria = -Infinity;
 
     function build(str: string): void {
-        value.replaceChildren();
+        value.replaceChildren(plain);
         strips = [];
         for (const ch of str) {
             if (/\d/.test(ch)) {
@@ -44,11 +48,6 @@ export function createOdometer(opts: OdometerOptions): { el: HTMLElement; destro
                 cell.className = 'home-odo-digit';
                 const strip = document.createElement('span');
                 strip.className = 'home-odo-strip';
-                for (let n = 0; n < 10; n++) {
-                    const d = document.createElement('span');
-                    d.textContent = String(n);
-                    strip.appendChild(d);
-                }
                 cell.appendChild(strip);
                 value.appendChild(cell);
                 strips.push(strip);
@@ -69,6 +68,7 @@ export function createOdometer(opts: OdometerOptions): { el: HTMLElement; destro
             build(str);
             shape = nextShape;
         }
+        plain.textContent = str;
         let i = 0;
         for (const ch of str) {
             if (/\d/.test(ch)) strips[i++].style.transform = `translateY(-${ch}em)`;

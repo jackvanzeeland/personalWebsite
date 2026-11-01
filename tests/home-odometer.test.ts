@@ -23,6 +23,13 @@ describe('home odometer', () => {
         o.destroy();
     });
 
+    it('markup reads as plain text, not digit strips, for crawlers and reader mode', () => {
+        const o = createOdometer({ reducedMotion: false, now: () => FIXED });
+        expect(o.el.textContent).not.toContain('0123456789');
+        expect(o.el.querySelector('.home-odo-text')?.textContent).toBe('2.7488586');
+        o.destroy();
+    });
+
     it('ticks every 100ms and stops after destroy', () => {
         vi.useFakeTimers();
         const now = vi.fn(() => FIXED);

@@ -65,7 +65,7 @@ describe('home terminal view', () => {
         vi.advanceTimersByTime(700);
         expect(first.el.classList.contains('is-ready')).toBe(true);
         expect(first.statement().length).toBeLessThan(HOME_STATEMENT.length);
-        expect(first.q('.home-term-body').getAttribute('aria-live')).toBeNull();
+        expect(first.q('.home-term-body').getAttribute('aria-live')).toBe('off');
         vi.advanceTimersByTime(10_000);
         expect(first.statement()).toBe(HOME_STATEMENT);
         expect(first.q('.home-term-body').getAttribute('aria-live')).toBe('polite');
@@ -183,6 +183,14 @@ describe('home terminal view', () => {
             document.dispatchEvent(ev);
             expect(ev.defaultPrevented, key).toBe(false);
         }
+        t.destroy();
+    });
+
+    it('a click that ends a text selection does not steal it', () => {
+        const t = mountTerminal({ animate: false });
+        vi.spyOn(window, 'getSelection').mockReturnValue({ toString: () => 'building' } as Selection);
+        click(t.q('.home-term-statement'));
+        expect(document.activeElement).not.toBe(t.input());
         t.destroy();
     });
 

@@ -168,7 +168,8 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
         boot.replaceChildren();
         statement.textContent = '';
         hint.replaceChildren();
-        body.removeAttribute('aria-live');
+        // role=log is implicitly polite; silence it while the boot types out
+        body.setAttribute('aria-live', 'off');
         el.classList.add('is-ready');
 
         const lines = bootLines(ctx(), now());
@@ -237,6 +238,7 @@ export function createTerminal(opts: TerminalOptions): { el: HTMLElement; destro
 
     body.addEventListener('click', (e) => {
         if ((e.target as Element).closest?.('a')) return; // let output links navigate
+        if (window.getSelection?.()?.toString()) return; // don't eat a text selection
         finishBoot();
         input.focus({ preventScroll: true });
     });
