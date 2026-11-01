@@ -40,8 +40,10 @@ describe('thumbnail framing', () => {
             .map((c) => c.querySelector('.work-card-title')?.textContent);
         const expected = PROJECTS.filter((p) => p.imageStyle === 'icon').map((p) => p.title);
         expect(iconTitles.sort()).toEqual(expected.sort());
-        // Wordle's file name never matched the old heuristic; it's explicit now
-        expect(iconTitles).toContain('Wordle Algorithm Solver');
+        // Only the standalone apps use their real app icons
+        expect(iconTitles.sort()).toEqual(
+            ['Budget Tracker', 'Journal', 'Lists', 'Mortgage Simulator', 'NameKeep', 'Woku'].sort()
+        );
         projectsView.unmount();
     });
 });
