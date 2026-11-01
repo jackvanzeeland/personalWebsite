@@ -73,9 +73,10 @@ Run `lint` + `typecheck` + `test` before calling anything done — none of them 
 - Don't apply the CloudFront function before the prerendered pages are deployed:
   it serves `/<path>/index.html`, which only exists after a site deploy. Deploy the
   site first, then update the stack.
-- Don't assume CI applies infrastructure changes: **GitHub Actions only syncs
-  `dist/` to S3 and invalidates CloudFront** — a changed `infrastructure.yaml` needs
-  a manual CloudFormation stack update before its redirects take effect.
+- Don't assume CI deploys anything: **GitHub Actions (`ci.yml`) only builds and
+  tests**. Site deploys are manual via `npm run deploy` (`./deploy.sh`, always
+  production) from `main`, and a changed `infrastructure.yaml` needs a manual
+  CloudFormation stack update before its redirects take effect.
 - Don't add committed build artifacts. This repo previously carried an orphaned
   `__pycache__/*.pyc` from an earlier Flask/Gunicorn iteration (now removed) — the
   `.gitignore`'s Python/Gunicorn/`wsgi.py` rules are vestiges of that era, kept in

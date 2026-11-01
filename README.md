@@ -106,8 +106,9 @@ public/data/timeline.json   career timeline (drives /journey and its constellati
 
 ## Deploy
 
-GitHub Actions (`.github/workflows/deploy.yml`) builds and syncs `dist/` to S3, then
-invalidates CloudFront. SPA deep links and legacy-URL 301s are handled by a
+Deploys are manual: `npm run deploy` (`./deploy.sh`) from `main` builds, tests, syncs
+`dist/` to S3 and invalidates CloudFront (it always targets production). GitHub Actions
+(`.github/workflows/ci.yml`) only builds and tests on pushes and PRs to `main`. SPA deep links and legacy-URL 301s are handled by a
 CloudFront Function generated from `src/app/legacyRedirects.mjs`
 (`scripts/generate-redirects.mjs` keeps `infrastructure.yaml` in sync;
 `tests/redirects-sync.test.ts` enforces it). Infrastructure changes are applied via
