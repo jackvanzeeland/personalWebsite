@@ -58,8 +58,9 @@ Same hero grid and avatar positioning as today (`home.css`). In `.home-hero-text
    - Chip row: `help`, `ls`, `cd projects`, `cd journey`, `contact`
 4. **Experience odometer**, replacing `.home-stats`, directly under the terminal.
 
-Width: the terminal fills `.home-hero-text` (max ~600px). It must not overlap the avatar/monogram column at any
-breakpoint. Check against the existing 69vw avatar math in `home.css`.
+Width: the terminal fills `.home-hero-text` (max ~600px). It must not overlap the avatar at any breakpoint. The
+avatar is pinned at 69vw (`home.css`), so between about 900px and 1150px a 600px terminal would collide with it.
+Narrow the terminal at those widths, and leave the breakpoint and avatar alone.
 
 Styling: dark-only and token-driven (`tokens.css`: `--bg-raise`/`--panel`, `--line`, `--accent`, `--accent-teal` for
 the prompt, `--accent-warm` for warnings, `--font-mono`). The statement line renders in the body font, not mono, so it
@@ -131,9 +132,12 @@ before the router navigates. `help` and `ls` are `<button>`s that run the comman
 ### Prerendered / no-JS markup
 
 The prerendered HTML must contain the full finished state as real elements: boot lines, the statement as a `<p>`,
-the hint, and the chip links. JS hydrates by attaching the input row and listeners. On a first-visit boot it clears
-and replays the sequence. The `.js`-gated reveal pattern from `CLAUDE.md` applies: any hide-until-animated CSS goes
-behind `.js`.
+the hint, and the chip links. There is no hydration: `src/app/main.ts` calls `viewRoot.replaceChildren()` and
+remounts every view on load. So `mount()` always builds the finished state; on a first-visit boot it then clears
+and replays the sequence. To avoid the statement flashing, vanishing and retyping for first-time visitors, hide the
+terminal body's text behind `.js` until the boot (or the instant render) takes over. This is the `.js`-gated reveal
+pattern from `CLAUDE.md`. Prerender takes its snapshot about 100ms after mount, before the 600ms boot delay, so
+`dist/index.html` gets the finished state.
 
 ### Accessibility
 
@@ -150,8 +154,9 @@ behind `.js`.
 - Value: `(now − 2024-02-01T09:00:00-06:00) / (365.2425 days)`, formatted to **7 decimals** (e.g. `2.7503829`).
   Put the start date in one exported constant.
 - Each digit is a vertical 0–9 strip in an overflow-hidden 1em cell, positioned with `translateY(-n em)`. The last
-  three digits use a short transition (~120ms) so they visibly spin, and the rest ease (~450ms) so they click over
-  like an odometer.
+  three digits use a short transition (~120ms) and the rest ease (~450ms) so they click over like an odometer. At 7
+  decimals the last digit rolls about every 3.2 seconds. That's the prototype's behavior and what Jack approved;
+  match it.
 - Update interval: ~100ms while visible. Pause on `document.hidden` and use an `IntersectionObserver` so it stops when
   scrolled away. Clear all timers and observers in `unmount()`.
 - Reduced motion: no transition; digits update in place once per second.
@@ -167,7 +172,9 @@ behind `.js`.
   growing pile of side projects you can try."* It must pass `tests/seo.test.ts` length limits.
 - Remove the `STATS` export and its CSS (`.home-stats`, `.home-stat*`). Update `tests/views-home.test.ts`
   accordingly.
-- Check for and delete any other "48K"/"22 automations" copy (`grep -rn "48K\|22 automations" src public`).
+- Root `index.html` carries the same claim in its `description`, `og:description` and `twitter:description` meta
+  tags. Update all three to the new description.
+- Check for and delete any other "48K"/"22 automations" copy (`grep -rn "48K\|22 automations" src public index.html`).
 
 ## Tests (vitest + happy-dom)
 
