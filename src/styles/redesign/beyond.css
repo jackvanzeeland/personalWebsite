@@ -200,9 +200,11 @@
 
 /* ── Photo gallery ── */
 
-/* Capped so the 3:2 stage stays a sensible size; left-aligned under the head */
+/* Capped so the 3:2 stage stays a sensible size; centered as the
+   section's single focal object under the full-width head */
 .beyond .photo-gallery {
   max-width: 880px;
+  margin-inline: auto;
 }
 
 .photo-skeleton {
@@ -246,14 +248,14 @@
   display: block;
 }
 
+/* Prev · n / N · Next centered under the photo, Instagram link below */
 .gallery-controls {
   max-width: 880px;
-  margin-top: 16px;
+  margin: 16px auto 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 14px;
 }
 
 .gallery-nav {
