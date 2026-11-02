@@ -126,13 +126,8 @@ export class PhotoGallery {
     photoDisplay.className = "photo-display";
     photoDisplay.innerHTML = this.createPhotoHTML(this.photos[0]);
 
-    // Create photo info overlay
-    const photoInfo = document.createElement("div");
-    photoInfo.className = "photo-info";
-    photoInfo.innerHTML = this.createPhotoInfoHTML(this.photos[0]);
-
+    // No caption block: the photos speak for themselves (title stays as alt text)
     photoContainer.appendChild(photoDisplay);
-    photoContainer.appendChild(photoInfo);
     this.galleryElement.appendChild(photoContainer);
 
     // Update counter
@@ -150,16 +145,6 @@ export class PhotoGallery {
                 <div class="photo-overlay">
                     <div class="photo-category">${photo.category}</div>
                 </div>
-            </div>
-        `;
-  }
-
-  createPhotoInfoHTML(photo) {
-    return `
-            <div class="photo-details">
-                <h5 class="photo-title">${photo.title}</h5>
-                <p class="photo-description">${photo.description}</p>
-                <small class="photo-date">${new Date(photo.date).toLocaleDateString()}</small>
             </div>
         `;
   }
@@ -241,7 +226,6 @@ export class PhotoGallery {
 
     const currentPhoto = this.photos[this.currentPhotoIndex];
     const photoDisplay = this.galleryElement.querySelector(".photo-display");
-    const photoInfo = this.galleryElement.querySelector(".photo-info");
 
     if (photoDisplay) {
       // Add fade effect
@@ -251,10 +235,6 @@ export class PhotoGallery {
         photoDisplay.innerHTML = this.createPhotoHTML(currentPhoto);
         photoDisplay.style.opacity = "1";
       }, 300);
-    }
-
-    if (photoInfo) {
-      photoInfo.innerHTML = this.createPhotoInfoHTML(currentPhoto);
     }
 
     this.updateCounter();

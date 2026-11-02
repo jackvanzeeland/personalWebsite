@@ -261,30 +261,6 @@
   padding: 5px 12px;
 }
 
-/* Caption sits under the photo, not over it */
-.beyond .photo-details {
-  padding: 16px 22px 18px;
-  border-top: 1px solid var(--line);
-}
-
-.beyond .photo-title {
-  font-size: var(--fs-h3);
-  margin-bottom: 4px;
-}
-
-.beyond .photo-description {
-  color: var(--text-dim);
-  font-size: var(--fs-body-sm);
-  margin-bottom: 6px;
-}
-
-.beyond .photo-date {
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.12em;
-  color: var(--text-faint);
-}
-
 .gallery-controls {
   max-width: 880px;
   margin-top: 16px;
