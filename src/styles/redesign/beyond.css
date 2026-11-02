@@ -246,21 +246,6 @@
   display: block;
 }
 
-.beyond .photo-overlay {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text);
-  background: rgba(4, 7, 15, 0.72);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 5px 12px;
-}
-
 .gallery-controls {
   max-width: 880px;
   margin-top: 16px;

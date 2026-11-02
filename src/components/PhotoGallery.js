@@ -142,9 +142,6 @@ export class PhotoGallery {
                   className: "photo-image",
                   sizes: "(min-width: 768px) 720px, 100vw",
                 })}
-                <div class="photo-overlay">
-                    <div class="photo-category">${photo.category}</div>
-                </div>
             </div>
         `;
   }
