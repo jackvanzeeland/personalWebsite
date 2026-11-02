@@ -1,8 +1,7 @@
 /**
  * Beyond-the-Code content — DOM builder for the /beyond page's <main> body.
- * Structural/dynamic pieces are built with el(); third-party iframe/embed
- * markup stays as readable template-literal HTML assigned via innerHTML,
- * matching qrMarkup.ts/uipathMarkup.ts and workDetail.ts's tool-demo blocks.
+ * Everything is built with el(); media embeds come from plain URL lists
+ * (MOVIES / PODCASTS / EPISODES) so every iframe shares one size and config.
  */
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -99,130 +98,81 @@ function buildSportsSection(): HTMLElement {
 
 /* ── Media Recommendations accordion ─────────────────────────────── */
 
-const MOVIES_EMBEDS = `
-  <div class="media-grid">
-    <div class="media-item">
-      <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item"
-          src="https://www.youtube.com/embed/ReIJ1lbL-Q8?si=x2nwOC3OkT-7AbZ9"
-          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-          loading="lazy"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-    </div>
-    <div class="media-item">
-      <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item"
-          src="https://www.youtube.com/embed/zSWdZVtXT7E?si=SeQnq2PpwhvqZLSO"
-          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-          loading="lazy"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-    </div>
-    <div class="media-item">
-      <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item"
-          src="https://www.youtube.com/embed/bx46tthKXmc?si=-GXgTJB5hjbk3uko"
-          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-          loading="lazy"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-    </div>
-    <div class="media-item">
-    <div class="embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item"
-        src="https://www.youtube.com/embed/1NJO0jxBtMo?si=Ygkkb2M2KwYYHnGh"
-        sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-        loading="lazy"
-        title="YouTube video player" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-  </div>
-  <div class="media-item">
-  <div class="embed-responsive embed-responsive-16by9">
-    <iframe class="embed-responsive-item"
-      src="https://www.youtube.com/embed/BjJcYdEOI0k?si=BJKtwbIptcKnFO2v"
-      sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-      loading="lazy"
-      title="YouTube video player" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-  </div>
-</div>
-  </div>
-`;
+/*
+ * To add a pick, paste its embed URL into the matching list. Each list becomes
+ * a row of iframes with the same settings and size, and the accordion count
+ * ("5 FILMS") comes from the list length.
+ */
 
-const PODCASTS_EMBEDS = `
-  <div class="media-grid">
-    <div class="media-item">
-      <div class="embed-responsive spotify-embed-tall">
-        <iframe class="embed-responsive-item" style="border-radius:12px"
-          src="https://open.spotify.com/embed/show/0XrOqvxlqQI6bmdYHuIVnr/video?utm_source=generator"
-          sandbox="allow-scripts allow-same-origin allow-popups"
-          frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="media-item">
-      <div class="embed-responsive spotify-embed-short">
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/7nc7OQdPTekErtFSRxOBKh?utm_source=generator" width="100%" height="352" sandbox="allow-scripts allow-same-origin allow-popups" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="media-item">
-      <div class="embed-responsive spotify-embed-tall">
-        <iframe class="embed-responsive-item" style="border-radius:12px"
-          src="https://open.spotify.com/embed/show/6bSPqenYtlBc7AU6H5sjca?utm_source=generator"
-          sandbox="allow-scripts allow-same-origin allow-popups"
-          frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-`;
+/** YouTube embed URLs (Share → Embed → the iframe's src). */
+const MOVIES: string[] = [
+  "https://www.youtube.com/embed/ReIJ1lbL-Q8?si=x2nwOC3OkT-7AbZ9",
+  "https://www.youtube.com/embed/zSWdZVtXT7E?si=SeQnq2PpwhvqZLSO",
+  "https://www.youtube.com/embed/bx46tthKXmc?si=-GXgTJB5hjbk3uko",
+  "https://www.youtube.com/embed/1NJO0jxBtMo?si=Ygkkb2M2KwYYHnGh",
+  "https://www.youtube.com/embed/BjJcYdEOI0k?si=BJKtwbIptcKnFO2v",
+];
 
-const EPISODES_EMBEDS = `
-  <div class="media-grid">
-    <div class="media-item">
-      <div class="embed-responsive spotify-embed-tall">
-        <iframe class="embed-responsive-item" style="border-radius:12px"
-          src="https://open.spotify.com/embed/episode/2KyMXeMQS0djxazcFJZaSb/video?utm_source=generator"
-          sandbox="allow-scripts allow-same-origin allow-popups"
-          frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="media-item">
-      <div class="embed-responsive spotify-embed-tall">
-        <iframe class="embed-responsive-item" style="border-radius:12px"
-          src="https://open.spotify.com/embed/episode/7DCZh0UySNrMkd2E373rso/video?utm_source=generator"
-          sandbox="allow-scripts allow-same-origin allow-popups"
-          frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="media-item">
-      <div class="embed-responsive spotify-embed-tall">
-        <iframe class="embed-responsive-item" style="border-radius:12px"
-          src="https://open.spotify.com/embed/episode/6tjNyF02d4F4ux9RBeFUxG?utm_source=generator"
-          sandbox="allow-scripts allow-same-origin allow-popups"
-          frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-`;
+/** Spotify show embed URLs (Share → Embed show → the iframe's src). */
+const PODCASTS: string[] = [
+  "https://open.spotify.com/embed/show/0XrOqvxlqQI6bmdYHuIVnr/video?utm_source=generator",
+  "https://open.spotify.com/embed/show/7nc7OQdPTekErtFSRxOBKh?utm_source=generator",
+  "https://open.spotify.com/embed/show/4rOoJ6Egrf8K2IrywzwOMk/video?utm_source=generator&si=100da53fe98e479a",
+  "https://open.spotify.com/embed/show/2HGcJRYrjGnpce6bRp8UXm?utm_source=generator&si=7c76dd9301074bad",
+  "https://open.spotify.com/embed/show/3ssx09faxpyVTRMHWKMdW0?utm_source=generator&si=7f85b0e7912449d9",
+];
+
+/** Spotify episode embed URLs (Share → Embed episode → the iframe's src). */
+const EPISODES: string[] = [
+  "https://open.spotify.com/embed/episode/2KyMXeMQS0djxazcFJZaSb/video?utm_source=generator",
+  "https://open.spotify.com/embed/episode/7DCZh0UySNrMkd2E373rso/video?utm_source=generator",
+  "https://open.spotify.com/embed/episode/6tjNyF02d4F4ux9RBeFUxG?utm_source=generator",
+];
+
+const YOUTUBE_ALLOW =
+  "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+const SPOTIFY_ALLOW =
+  "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+
+function youtubeFrame(src: string): HTMLIFrameElement {
+  const frame = el("iframe", "media-frame media-frame-video");
+  frame.src = src;
+  frame.title = "YouTube video player";
+  frame.allow = YOUTUBE_ALLOW;
+  frame.allowFullscreen = true;
+  frame.referrerPolicy = "strict-origin-when-cross-origin";
+  frame.setAttribute(
+    "sandbox",
+    "allow-scripts allow-same-origin allow-presentation allow-popups",
+  );
+  frame.loading = "lazy";
+  return frame;
+}
+
+/**
+ * Spotify's compact 80px player. The "/video" variant is dropped: squeezed to
+ * this height it renders as a cramped thumbnail, and at full height it doesn't
+ * match the audio-only shows next to it.
+ */
+function spotifyFrame(src: string): HTMLIFrameElement {
+  const frame = el("iframe", "media-frame media-frame-audio");
+  frame.src = src.replace(/\/video(?=\?|$)/, "");
+  frame.title = "Spotify player";
+  frame.allow = SPOTIFY_ALLOW;
+  frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups");
+  frame.loading = "lazy";
+  return frame;
+}
+
+function buildMediaGrid(frames: HTMLIFrameElement[]): HTMLElement {
+  const grid = el("div", "media-grid");
+  for (const frame of frames) {
+    const item = el("div", "media-item");
+    item.appendChild(frame);
+    grid.appendChild(item);
+  }
+  return grid;
+}
 
 const CHEVRON_SVG =
   '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
@@ -254,20 +204,18 @@ function buildAccordionShell(
   return { item, panel };
 }
 
-/** The count label ("5 FILMS") is derived from the embeds, so adding one can't leave it stale. */
 function buildEmbedAccordionItem(
   title: string,
   panelId: string,
   unit: string,
-  embedsHTML: string,
+  frames: HTMLIFrameElement[],
 ): HTMLElement {
-  const count = (embedsHTML.match(/<iframe\b/g) ?? []).length;
   const { item, panel } = buildAccordionShell(
     title,
     panelId,
-    `${count} ${unit}`,
+    `${frames.length} ${unit}`,
   );
-  panel.innerHTML = embedsHTML;
+  panel.appendChild(buildMediaGrid(frames));
   return item;
 }
 
@@ -313,18 +261,23 @@ function buildMediaSection(): HTMLElement {
   const block = buildBlock("Recommendations", "MOVIES · PODCASTS · BOOKS");
   const accordion = el("div", "media-accordion panel");
   accordion.append(
-    buildEmbedAccordionItem("Movies", "movies-panel", "FILMS", MOVIES_EMBEDS),
+    buildEmbedAccordionItem(
+      "Movies",
+      "movies-panel",
+      "FILMS",
+      MOVIES.map(youtubeFrame),
+    ),
     buildEmbedAccordionItem(
       "Podcasts",
       "podcasts-panel",
       "SHOWS",
-      PODCASTS_EMBEDS,
+      PODCASTS.map(spotifyFrame),
     ),
     buildEmbedAccordionItem(
       "Podcast episodes",
       "episodes-panel",
       "EPISODES",
-      EPISODES_EMBEDS,
+      EPISODES.map(spotifyFrame),
     ),
     buildAudiobooksAccordionItem(),
   );

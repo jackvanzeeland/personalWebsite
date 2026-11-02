@@ -53,7 +53,7 @@ describe('beyond view', () => {
         expect(panelIds).toEqual(['movies-panel', 'podcasts-panel', 'episodes-panel', 'audiobooks-panel']);
 
         const counts = [...headers].map((h) => h.querySelector('.accordion-count')?.textContent);
-        expect(counts).toEqual(['5 FILMS', '3 SHOWS', '3 EPISODES', '5 BOOKS']);
+        expect(counts).toEqual(['5 FILMS', '5 SHOWS', '3 EPISODES', '5 BOOKS']);
 
         panelIds.forEach((id) => {
             expect(root.querySelector(`#${id}`)).toBeTruthy();
@@ -65,11 +65,30 @@ describe('beyond view', () => {
         const root = document.getElementById('view-root')!;
         await beyondView.mount(root, {});
         expect(root.querySelectorAll('#movies-panel iframe').length).toBe(5);
-        expect(root.querySelectorAll('#podcasts-panel iframe').length).toBe(3);
+        expect(root.querySelectorAll('#podcasts-panel iframe').length).toBe(5);
         expect(root.querySelectorAll('#episodes-panel iframe').length).toBe(3);
         expect(root.querySelector('#movies-panel iframe')?.getAttribute('src')).toBe(
             'https://www.youtube.com/embed/ReIJ1lbL-Q8?si=x2nwOC3OkT-7AbZ9'
         );
+        beyondView.unmount();
+    });
+
+    it('renders Spotify embeds as uniform compact players', async () => {
+        const root = document.getElementById('view-root')!;
+        await beyondView.mount(root, {});
+        const frames = root.querySelectorAll<HTMLIFrameElement>(
+            '#podcasts-panel iframe, #episodes-panel iframe'
+        );
+        expect(frames.length).toBe(8);
+        frames.forEach((f) => {
+            expect(f.classList.contains('media-frame-audio')).toBe(true);
+            expect(f.getAttribute('src')).toMatch(/^https:\/\/open\.spotify\.com\/embed\//);
+            expect(f.getAttribute('src')).not.toContain('/video');
+            expect(f.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin allow-popups');
+        });
+        root.querySelectorAll('#movies-panel iframe').forEach((f) => {
+            expect(f.classList.contains('media-frame-video')).toBe(true);
+        });
         beyondView.unmount();
     });
 
