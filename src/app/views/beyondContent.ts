@@ -56,23 +56,23 @@ const SPORT_CARDS: SportCard[] = [
   {
     title: "Intramural Sports",
     description:
-      "You can often find me on the field or court playing intramural softball, basketball, volleyball, and soccer. Sports have always been a huge part of my life, shaping my competitive spirit and love for teamwork.",
+      "You can often find me on the field or court playing intramural softball, basketball, volleyball, and soccer. Sports have always been a huge part of my life, managing my competitive spirit and building relationships.",
     details: "Softball · Basketball · Volleyball · Soccer",
   },
   {
     title: "Golf",
     description:
-      "I enjoy hitting the links whenever I can, whether it's a casual round with friends or a more competitive outing. Golf is a great way to relax and enjoy the outdoors while challenging myself.",
+      "I've played golf ever since I was a kid with my family.  Unfortunately, the skill doesn't show in my game, but I still enjoy hitting the links whenever I can.",
   },
   {
     title: "Running",
     description:
-      "I started running in 2023, completing my first half-marathon that year. It's become one of my favorite ways to stay active and clear my head.",
+      "I started running in 2023, completing my first half-marathon that year. Since then, it's become one of my favorite ways to stay active and clear my head.",
   },
   {
     title: "Weight Training",
     description:
-      "When I'm not running, I'm in the gym focusing on strength training. Building physical strength complements mental discipline from programming.",
+      "Growing up playing sports, weight training was always a part of my routine. I continue to lift weights to maintain strength and overall fitness.",
   },
 ];
 
@@ -115,7 +115,7 @@ const MOVIES_EMBEDS = `
     <div class="media-item">
       <div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item"
-          src="https://www.youtube.com/embed/EodWwczRIe4?si=nE_mXU8mk090h3Gs"
+          src="https://www.youtube.com/embed/zSWdZVtXT7E?si=SeQnq2PpwhvqZLSO"
           sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
           loading="lazy"
           title="YouTube video player" frameborder="0"
@@ -134,6 +134,28 @@ const MOVIES_EMBEDS = `
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
+    <div class="media-item">
+    <div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item"
+        src="https://www.youtube.com/embed/1NJO0jxBtMo?si=Ygkkb2M2KwYYHnGh"
+        sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+        loading="lazy"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+  <div class="media-item">
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item"
+      src="https://www.youtube.com/embed/BjJcYdEOI0k?si=BJKtwbIptcKnFO2v"
+      sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+      loading="lazy"
+      title="YouTube video player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+</div>
   </div>
 `;
 
@@ -232,13 +254,19 @@ function buildAccordionShell(
   return { item, panel };
 }
 
+/** The count label ("5 FILMS") is derived from the embeds, so adding one can't leave it stale. */
 function buildEmbedAccordionItem(
   title: string,
   panelId: string,
-  count: string,
+  unit: string,
   embedsHTML: string,
 ): HTMLElement {
-  const { item, panel } = buildAccordionShell(title, panelId, count);
+  const count = (embedsHTML.match(/<iframe\b/g) ?? []).length;
+  const { item, panel } = buildAccordionShell(
+    title,
+    panelId,
+    `${count} ${unit}`,
+  );
   panel.innerHTML = embedsHTML;
   return item;
 }
@@ -285,17 +313,17 @@ function buildMediaSection(): HTMLElement {
   const block = buildBlock("Recommendations", "MOVIES · PODCASTS · BOOKS");
   const accordion = el("div", "media-accordion panel");
   accordion.append(
-    buildEmbedAccordionItem("Movies", "movies-panel", "3 FILMS", MOVIES_EMBEDS),
+    buildEmbedAccordionItem("Movies", "movies-panel", "FILMS", MOVIES_EMBEDS),
     buildEmbedAccordionItem(
       "Podcasts",
       "podcasts-panel",
-      "3 SHOWS",
+      "SHOWS",
       PODCASTS_EMBEDS,
     ),
     buildEmbedAccordionItem(
       "Podcast episodes",
       "episodes-panel",
-      "3 EPISODES",
+      "EPISODES",
       EPISODES_EMBEDS,
     ),
     buildAudiobooksAccordionItem(),

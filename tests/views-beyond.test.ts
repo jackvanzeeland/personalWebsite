@@ -53,7 +53,7 @@ describe('beyond view', () => {
         expect(panelIds).toEqual(['movies-panel', 'podcasts-panel', 'episodes-panel', 'audiobooks-panel']);
 
         const counts = [...headers].map((h) => h.querySelector('.accordion-count')?.textContent);
-        expect(counts).toEqual(['3 FILMS', '3 SHOWS', '3 EPISODES', '5 BOOKS']);
+        expect(counts).toEqual(['5 FILMS', '3 SHOWS', '3 EPISODES', '5 BOOKS']);
 
         panelIds.forEach((id) => {
             expect(root.querySelector(`#${id}`)).toBeTruthy();
@@ -64,7 +64,7 @@ describe('beyond view', () => {
     it('renders movie, podcast, and episode iframes', async () => {
         const root = document.getElementById('view-root')!;
         await beyondView.mount(root, {});
-        expect(root.querySelectorAll('#movies-panel iframe').length).toBe(3);
+        expect(root.querySelectorAll('#movies-panel iframe').length).toBe(5);
         expect(root.querySelectorAll('#podcasts-panel iframe').length).toBe(3);
         expect(root.querySelectorAll('#episodes-panel iframe').length).toBe(3);
         expect(root.querySelector('#movies-panel iframe')?.getAttribute('src')).toBe(
