@@ -302,7 +302,7 @@ function buildGalleryButton(
 }
 
 function buildLifeMomentsSection(): HTMLElement {
-  const block = buildBlock("Life moments", "PHOTOS · @JACK.VANZEELAND");
+  const block = buildBlock("Life moments", "PHOTOS");
 
   const gallery = el("div", "photo-gallery");
   gallery.id = "photo-gallery";
