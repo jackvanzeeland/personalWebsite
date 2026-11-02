@@ -22,7 +22,7 @@ describe('beyond view', () => {
             (h) => h.textContent
         );
         expect(titles).toEqual(['Sports & fitness', 'Recommendations', 'Life moments']);
-        expect(root.querySelectorAll('.section-head .section-head-meta').length).toBe(1);
+        expect(root.querySelectorAll('.section-head .section-head-meta').length).toBe(0);
         beyondView.unmount();
     });
 

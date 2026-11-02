@@ -258,7 +258,7 @@ function buildAudiobooksAccordionItem(): HTMLElement {
 }
 
 function buildMediaSection(): HTMLElement {
-  const block = buildBlock("Recommendations", "MOVIES · PODCASTS · BOOKS");
+  const block = buildBlock("Recommendations");
   const accordion = el("div", "media-accordion panel");
   accordion.append(
     buildEmbedAccordionItem(
