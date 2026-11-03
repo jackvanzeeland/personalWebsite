@@ -2,124 +2,21 @@
 
 import { optimizedPictureHTML } from "../utils/optimizedImage";
 
-// Type definitions
-class Photo {
-  constructor(id, title, description, category, image, date) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.category = category;
-    this.image = image;
-    this.date = date;
-  }
-}
-
-// Real photos from beyondTheCodePhotos directory
+// Gallery photos (title is used as alt text only; no captions are rendered)
 const REAL_PHOTOS = [
-  new Photo(
-    1,
-    "1st Half Marathon",
-    "Celebrating my first half marathon.",
-    "Achievement",
-    "/images/beyondTheCodePhotos/IMG_2178.JPG",
-    "2023-07-13",
-  ),
-  new Photo(
-    2,
-    "Cabin Weekend",
-    "Relaxing weekend getaway at the cabin.",
-    "Nature",
-    "/images/beyondTheCodePhotos/IMG_4961.HEIC.jpg",
-    "2024-07-21",
-  ),
-  new Photo(
-    3,
-    "College Graduation",
-    "My last jump around at Camp Randall.",
-    "Achievement",
-    "/images/beyondTheCodePhotos/IMG_8128.HEIC.jpg",
-    "2025-05-10",
-  ),
-  new Photo(
-    4,
-    "Spring Break 2025 - Cabo",
-    "Booze cruise with good friends.",
-    "Good Times",
-    "/images/beyondTheCodePhotos/IMG_3741.JPG",
-    "2025-03-22",
-  ),
-  new Photo(
-    5,
-    "Banff Road Trip",
-    "Spontaneous adventure in the mountains.",
-    "Adventure",
-    "/images/beyondTheCodePhotos/IMG_1118.JPG",
-    "2023-07-14",
-  ),
-  new Photo(
-    6,
-    "Regional Champions",
-    "Winning the regional championship.",
-    "Achievement",
-    "/images/beyondTheCodePhotos/26E3874A-57D3-49E4-8A02-6B55724F9348.HEIC.jpg",
-    "2020-03-07",
-  ),
-  new Photo(
-    7,
-    "Packer Game Day",
-    "I don't wanna work. I just wanna bang on the drum all day.",
-    "Good Times",
-    "/images/beyondTheCodePhotos/IMG_9057.HEIC.jpg",
-    "2024-07-21",
-  ),
-  new Photo(
-    8,
-    "Sunset by the Ocean",
-    "Golden hour by the infinity pool.",
-    "Good Times",
-    "/images/beyondTheCodePhotos/IMG_5270.HEIC.jpg",
-    "2026-04-03",
-  ),
-  new Photo(
-    9,
-    "Sunset by the Ocean, Take Two",
-    "One more for good measure.",
-    "Good Times",
-    "/images/beyondTheCodePhotos/IMG_5271.HEIC.jpg",
-    "2026-04-03",
-  ),
-  new Photo(
-    10,
-    "Golf on the Coast",
-    "A round on the cliffs above the sea.",
-    "Adventure",
-    "/images/beyondTheCodePhotos/IMG_3062.HEIC.jpg",
-    "2026-08-12",
-  ),
-  new Photo(
-    11,
-    "Beach Volleyball at North Ave",
-    "Sunset games with the Chicago skyline behind us.",
-    "Good Times",
-    "/images/beyondTheCodePhotos/IMG_3758.JPEG",
-    "2026-08-17",
-  ),
-  new Photo(
-    12,
-    "Badgers Game Day",
-    "Back in Madison for a Saturday in red.",
-    "Good Times",
-    "/images/beyondTheCodePhotos/cpm35-2026-10-03.JPG",
-    "2026-10-03",
-  ),
-  new Photo(
-    13,
-    "Boat Day on Lake Michigan",
-    "Shot on film off the Chicago shoreline.",
-    "Good Times",
-    "/images/beyondTheCodePhotos/IMG_4510.JPEG",
-    "2026-10-09",
-  ),
+  { title: "1st Half Marathon", image: "/images/beyondTheCodePhotos/IMG_2178.JPG" },
+  { title: "Cabin Weekend", image: "/images/beyondTheCodePhotos/IMG_4961.HEIC.jpg" },
+  { title: "College Graduation", image: "/images/beyondTheCodePhotos/IMG_8128.HEIC.jpg" },
+  { title: "Spring Break 2025 - Cabo", image: "/images/beyondTheCodePhotos/IMG_3741.JPG" },
+  { title: "Banff Road Trip", image: "/images/beyondTheCodePhotos/IMG_1118.JPG" },
+  { title: "Regional Champions", image: "/images/beyondTheCodePhotos/26E3874A-57D3-49E4-8A02-6B55724F9348.HEIC.jpg" },
+  { title: "Packer Game Day", image: "/images/beyondTheCodePhotos/IMG_9057.HEIC.jpg" },
+  { title: "Sunset by the Ocean", image: "/images/beyondTheCodePhotos/IMG_5270.HEIC.jpg" },
+  { title: "Sunset by the Ocean, Take Two", image: "/images/beyondTheCodePhotos/IMG_5271.HEIC.jpg" },
+  { title: "Golf on the Coast", image: "/images/beyondTheCodePhotos/IMG_3062.HEIC.jpg" },
+  { title: "Beach Volleyball at North Ave", image: "/images/beyondTheCodePhotos/IMG_3758.JPEG" },
+  { title: "Badgers Game Day", image: "/images/beyondTheCodePhotos/cpm35-2026-10-03.JPG" },
+  { title: "Boat Day on Lake Michigan", image: "/images/beyondTheCodePhotos/IMG_4510.JPEG" },
 ];
 
 export class PhotoGallery {
