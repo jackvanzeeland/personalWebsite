@@ -12,7 +12,6 @@ const REAL_PHOTOS = [
   { title: "Regional Champions", image: "/images/beyondTheCodePhotos/26E3874A-57D3-49E4-8A02-6B55724F9348.HEIC.jpg" },
   { title: "Packer Game Day", image: "/images/beyondTheCodePhotos/IMG_9057.HEIC.jpg" },
   { title: "Sunset by the Ocean", image: "/images/beyondTheCodePhotos/IMG_5270.HEIC.jpg" },
-  { title: "Sunset by the Ocean, Take Two", image: "/images/beyondTheCodePhotos/IMG_5271.HEIC.jpg" },
   { title: "Golf on the Coast", image: "/images/beyondTheCodePhotos/IMG_3062.HEIC.jpg" },
   { title: "Beach Volleyball at North Ave", image: "/images/beyondTheCodePhotos/IMG_3758.JPEG" },
   { title: "Badgers Game Day", image: "/images/beyondTheCodePhotos/cpm35-2026-10-03.JPG" },
