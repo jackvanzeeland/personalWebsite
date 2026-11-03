@@ -70,6 +70,15 @@ export const imageManifest: Record<string, OptimizedImageEntry> = {
     "width": 1345,
     "height": 1793
   },
+  "/images/beyondTheCodePhotos/IMG_3062.HEIC.jpg": {
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "width": 4032,
+    "height": 3024
+  },
   "/images/beyondTheCodePhotos/IMG_3741.JPG": {
     "widths": [
       480,
@@ -79,6 +88,24 @@ export const imageManifest: Record<string, OptimizedImageEntry> = {
     "width": 2208,
     "height": 1472
   },
+  "/images/beyondTheCodePhotos/IMG_3758.JPEG": {
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "width": 3672,
+    "height": 4896
+  },
+  "/images/beyondTheCodePhotos/IMG_4510.JPEG": {
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "width": 3089,
+    "height": 2048
+  },
   "/images/beyondTheCodePhotos/IMG_4961.HEIC.jpg": {
     "widths": [
       480,
@@ -87,6 +114,24 @@ export const imageManifest: Record<string, OptimizedImageEntry> = {
     ],
     "width": 5712,
     "height": 4284
+  },
+  "/images/beyondTheCodePhotos/IMG_5270.HEIC.jpg": {
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "width": 3672,
+    "height": 4896
+  },
+  "/images/beyondTheCodePhotos/IMG_5271.HEIC.jpg": {
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "width": 3672,
+    "height": 4896
   },
   "/images/beyondTheCodePhotos/IMG_8128.HEIC.jpg": {
     "widths": [
@@ -105,6 +150,15 @@ export const imageManifest: Record<string, OptimizedImageEntry> = {
     ],
     "width": 4032,
     "height": 3024
+  },
+  "/images/beyondTheCodePhotos/cpm35-2026-10-03.JPG": {
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "width": 2688,
+    "height": 3584
   },
   "/images/budgetTracker.png": {
     "widths": [
