@@ -49,7 +49,7 @@ export const LINKEDIN_URL = 'https://www.linkedin.com/in/jack-van-zeeland-aab0a7
 export const RESUME_PATH = '/files/resume.pdf';
 
 export const HOME_STATEMENT =
-    "I like building things and figuring things out. Give me a problem and I'll find a way through it, and probably have fun doing it.";
+    "I like building things and figuring things out. Give me a problem and I'll find a way through it.";
 
 export const PAGES = ['projects', 'journey', 'beyond', 'contact'] as const;
 

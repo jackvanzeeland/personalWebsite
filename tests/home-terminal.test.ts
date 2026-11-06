@@ -17,7 +17,7 @@ const text = (r: CommandResult) => r.lines.map(lineText).join('\n');
 describe('home terminal commands', () => {
     it('keeps the approved statement verbatim', () => {
         expect(HOME_STATEMENT).toBe(
-            "I like building things and figuring things out. Give me a problem and I'll find a way through it, and probably have fun doing it."
+            "I like building things and figuring things out. Give me a problem and I'll find a way through it."
         );
     });
 
