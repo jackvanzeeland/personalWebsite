@@ -67,6 +67,25 @@ describe('timeline render', () => {
         expect(container.textContent).not.toContain('Jan 2024');
     });
 
+    it('counts the end month inclusively (Feb 1 → May 31 of next year is 1 year, 4 months)', async () => {
+        await initializeTimeline();
+        const container = document.getElementById('timeline-container')!;
+        expect(container.textContent).toContain('1 year, 4 months');
+    });
+
+    it('counts a single-summer internship (May 1 → Aug 31) as 4 months', async () => {
+        vi.stubGlobal('fetch', vi.fn(async () => ({
+            json: async () => ({
+                timelineItems: [{
+                    id: 'orbis', title: 'Quality Intern', organization: 'Orbis', type: 'work',
+                    startDate: '2023-05-01', endDate: '2023-08-31', isPresent: false, description: 'x'
+                }]
+            })
+        })));
+        await initializeTimeline();
+        expect(document.getElementById('timeline-container')!.textContent).toContain('4 months');
+    });
+
     it('lists certifications newest-first with no duration or year labels', async () => {
         const cert = (id: string, title: string, startDate: string) => ({
             id, title, organization: 'Anthropic', type: 'certification',

@@ -194,9 +194,12 @@ function calculateDuration(startDate: string, endDate: string, isPresent: boolea
         return 'Invalid date range';
     }
 
-    let months = (end.getFullYear() - start.getFullYear()) * 12;
-    months += end.getMonth() - start.getMonth();
-    if (end.getDate() < start.getDate()) months--;
+    // End dates are inclusive (a role ending May 31 covers all of May), so
+    // measure to the day after: Feb 1 → May 31 is 4 months, not 3.
+    const until = new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1);
+    let months = (until.getFullYear() - start.getFullYear()) * 12;
+    months += until.getMonth() - start.getMonth();
+    if (until.getDate() < start.getDate()) months--;
     if (months < 0) months = 0;
 
     if (months < 1) return 'Less than 1 month';
