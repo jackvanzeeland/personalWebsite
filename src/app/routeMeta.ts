@@ -24,9 +24,9 @@ export interface RouteMeta {
 
 export const routeMeta: Record<RouteName, RouteMeta> = {
     home: {
-        title: 'Jack Van Zeeland — Software Engineer',
+        title: 'Jack Van Zeeland — Automation Technical Architect',
         description:
-            'Jack Van Zeeland is a Chicago software engineer who loves building things — AI tooling, automation, and a growing pile of side projects you can try.',
+            'Jack Van Zeeland is a Chicago automation technical architect who loves building things — AI tooling, data pipelines, and side projects you can try.',
         accent: '#38bdf8'
     },
     work: {
@@ -38,13 +38,13 @@ export const routeMeta: Record<RouteName, RouteMeta> = {
     workDetail: {
         // Placeholder until the project resolves; seo.projectSeo() replaces it
         title: 'Projects — Jack Van Zeeland',
-        description: 'A side project by Chicago software engineer Jack Van Zeeland.',
+        description: 'A side project by Jack Van Zeeland, an automation technical architect in Chicago.',
         accent: '#818cf8'
     },
     journey: {
         title: 'Journey — Jack Van Zeeland',
         description:
-            'Career timeline of software engineer Jack Van Zeeland: UW–Madison data science and finance, business automation at Echo Global Logistics, and certifications.',
+            'Career timeline of Jack Van Zeeland: UW–Madison data science and finance, intern to Automation Technical Architect at Echo Global Logistics, and certifications.',
         accent: '#34d399'
     },
     beyond: {
@@ -56,7 +56,7 @@ export const routeMeta: Record<RouteName, RouteMeta> = {
     contact: {
         title: 'Contact — Jack Van Zeeland',
         description:
-            'Get in touch with Jack Van Zeeland, a Chicago software engineer — email, LinkedIn, GitHub, or download the resume.',
+            'Get in touch with Jack Van Zeeland, an automation technical architect in Chicago — email, LinkedIn, GitHub, or download the resume.',
         accent: '#38bdf8'
     },
     notFound: {

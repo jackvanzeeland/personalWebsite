@@ -105,8 +105,8 @@
       "organization": "Echo Global Logistics",
       "type": "work",
       "startDate": "2025-06-01",
-      "endDate": "2025-12-31",
-      "isPresent": true,
+      "endDate": "2026-10-31",
+      "isPresent": false,
       "description": "Promoted from intern to engineer. My two biggest projects are load tracking and invoice review resolution. Both run on an ETL pipeline I built that sends data to a third-party AI solution and pipes its results back into our systems. Across 8 automation solutions, I've saved ~13,000 hours and $400K annually, and along the way I've also trained two interns.",
       "badgeColor": "bg-info"
     },
@@ -186,6 +186,17 @@
       "isPresent": false,
       "description": "Anthropic's AI Fluency for Students: a practical framework for working effectively with AI in academic and research contexts.",
       "badgeColor": "bg-warning"
+    },
+    {
+      "id": "echo_architect",
+      "title": "Automation Technical Architect",
+      "organization": "Echo Global Logistics",
+      "type": "work",
+      "startDate": "2026-11-01",
+      "endDate": "2026-12-31",
+      "isPresent": true,
+      "description": "Promoted to Automation Technical Architect, where I now help shape how automation solutions are designed and built across the team.",
+      "badgeColor": "bg-info"
     }
   ]
 }

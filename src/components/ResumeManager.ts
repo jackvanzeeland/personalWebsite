@@ -83,7 +83,7 @@ export class ResumeManager {
         return {
             personalInfo: {
                 name: "Jack Van Zeeland",
-                title: "Software Engineer",
+                title: "Automation Technical Architect",
                 contact: {
                     email: "jack.vanzeeland@outlook.com",
                     phone: "920.883.0243",
@@ -103,8 +103,15 @@ export class ResumeManager {
             experience: [
                 {
                     company: "Echo Global Logistics",
+                    position: "Automation Technical Architect",
+                    duration: "November 2026 - Present",
+                    responsibilities: [],
+                    technologies: []
+                },
+                {
+                    company: "Echo Global Logistics",
                     position: "Business Automation Engineer",
-                    duration: "June 2025 - Present",
+                    duration: "June 2025 - October 2026",
                     responsibilities: [
                         "Developed 8 automation solutions saving ~13,000 hours of work and $400,000 annually",
                         "Built Copilot agent reducing support ticket response time by 40%",

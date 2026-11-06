@@ -98,7 +98,7 @@ async function defaultCard(): Promise<Buffer> {
     const svg = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
       ${bg(C.cyan)}
       <circle cx="905" cy="315" r="${size / 2 + 10}" fill="none" stroke="${C.cyan}" stroke-opacity="0.35" stroke-width="2"/>
-      <text x="80" y="170" font-family="${MONO}" font-size="24" letter-spacing="5" fill="${C.teal}">// SOFTWARE ENGINEER — CHICAGO</text>
+      <text x="80" y="170" font-family="${MONO}" font-size="22" letter-spacing="4" fill="${C.teal}">// AUTOMATION TECHNICAL ARCHITECT</text>
       <text x="80" y="275" font-family="${SANS}" font-weight="700" font-size="92" fill="${C.text}">Jack</text>
       <text x="80" y="375" font-family="${SANS}" font-weight="700" font-size="92" fill="${C.text}">Van Zeeland</text>
       <text x="80" y="445" font-family="${SANS}" font-size="30" fill="${C.dim}">Automation, AI tooling, and useful side projects.</text>

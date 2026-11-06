@@ -136,7 +136,7 @@ const COMMANDS: Record<string, Handler> = {
     whoami: (_args, ctx) =>
         one(
             seg(
-                `Jack Van Zeeland: software engineer in Chicago. UW–Madison, Data Science & Finance. Business Automation Engineer at Echo Global Logistics. ${ctx.projectCount} side projects and counting.`
+                `Jack Van Zeeland: automation technical architect in Chicago. UW–Madison, Data Science & Finance. Automation Technical Architect at Echo Global Logistics. ${ctx.projectCount} side projects and counting.`
             )
         ),
     uptime: (_args, ctx) => {

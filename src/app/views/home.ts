@@ -70,7 +70,7 @@ const view: View = {
     const hero = el("section", "home-hero container-x");
     const heroText = el("div", "home-hero-text");
 
-    const eyebrow = el("p", "eyebrow", "// SOFTWARE ENGINEER — CHICAGO");
+    const eyebrow = el("p", "eyebrow", "// AUTOMATION TECHNICAL ARCHITECT — CHICAGO");
     const h1 = el("h1", "home-name");
     h1.append("Jack ", el("br"), "Van Zeeland");
     mounted = true;

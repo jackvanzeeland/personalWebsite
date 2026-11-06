@@ -50,9 +50,9 @@ export const PERSON: JsonLd = {
     name: 'Jack Van Zeeland',
     url: `${SITE_URL}/`,
     image: absoluteUrl('/images/profile.jpg'),
-    jobTitle: 'Software Engineer',
+    jobTitle: 'Automation Technical Architect',
     description:
-        'Chicago software engineer specializing in automation, AI tooling, and interactive web development.',
+        'Chicago automation technical architect specializing in automation, AI tooling, and interactive web development.',
     worksFor: { '@type': 'Organization', name: 'Echo Global Logistics' },
     alumniOf: { '@type': 'CollegeOrUniversity', name: 'University of Wisconsin–Madison' },
     address: {
@@ -145,7 +145,7 @@ export function routeSeo(name: RouteName, path: string): PageSeo {
         title: meta.title,
         description: meta.description,
         image: DEFAULT_OG_IMAGE,
-        imageAlt: 'Jack Van Zeeland — Software Engineer, Chicago',
+        imageAlt: 'Jack Van Zeeland — Automation Technical Architect, Chicago',
         ogType: name === 'home' ? 'profile' : 'website',
         noindex: name === 'notFound',
         jsonLd
